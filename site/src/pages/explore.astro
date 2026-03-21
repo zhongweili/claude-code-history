@@ -1,0 +1,30 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ExploreApp from "../components/explore/ExploreApp";
+import exploreData from "../generated/explore-data.json";
+import type { ExploreData } from "../lib/data/schema";
+
+const data = exploreData as ExploreData;
+---
+
+<BaseLayout
+  title="Explore Claude Code Releases"
+  description="完整浏览 Claude Code 的版本、变更、社区信号和能力标签。"
+  currentPath="/explore"
+>
+  <section class="section-shell py-16 sm:py-20">
+    <div class="max-w-3xl">
+      <p class="section-kicker">Explore Releases</p>
+      <h1 class="mt-4 text-balance text-5xl font-semibold tracking-[-0.06em] text-[var(--page-ink)] sm:text-6xl">
+        用完整版本视角审视 Claude Code 的演进细节
+      </h1>
+      <p class="mt-6 max-w-2xl text-base leading-8 text-[var(--page-muted)] sm:text-lg">
+        这里承接 narrative 首页之后的全部证据层。你可以搜索每个版本、筛选能力标签，并用 URL 直接分享当前视图。
+      </p>
+    </div>
+
+    <div class="mt-10">
+      <ExploreApp client:only="react" data={data} />
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,181 @@
+---
+interface Epoch {
+  id: string;
+  name: string;
+  name_en: string;
+  period_start: string;
+  period_end: string;
+  summary: string;
+  key_events: string[];
+  milestone_count: number;
+}
+
+interface Milestone {
+  id: string;
+  date: string;
+  title: string;
+  summary: string;
+  why_it_matters: string;
+  epoch_id: string;
+  capabilities: { id: string; name: string }[];
+  personas: { id: string; name: string }[];
+  evidence: {
+    type: string;
+    title: string;
+    url?: string;
+    points?: number;
+  }[];
+  evidence_summary: {
+    official_sources: number;
+    community_sources: number;
+    release_sources: number;
+  };
+  asset_ids: string[];
+}
+
+interface Asset {
+  id: string;
+  brief: string;
+  status: string;
+}
+
+interface Props {
+  epochs: Epoch[];
+  milestones: Milestone[];
+  assets: {
+    items: Asset[];
+    coverage: {
+      missing_count: number;
+      total_count: number;
+    };
+  };
+}
+
+const { epochs, milestones } = Astro.props;
+
+const chapters = epochs
+  .map((epoch) => ({
+    ...epoch,
+    milestones: milestones.filter((milestone) => milestone.epoch_id === epoch.id),
+  }))
+  .filter((chapter) => chapter.milestones.length > 0);
+
+const accentMap: Record<string, string> = {
+  epoch1: "rgba(134,167,197,0.25)",
+  epoch2: "rgba(146,161,175,0.25)",
+  epoch3: "rgba(142,167,147,0.28)",
+  epoch4: "rgba(203,178,140,0.28)",
+  epoch5: "rgba(213,146,122,0.28)",
+};
+---
+
+<section id="milestones" class="section-shell pt-24 sm:pt-32">
+  <div class="reveal max-w-3xl">
+    <p class="section-kicker">Milestone Chapters</p>
+    <h2 class="section-title mt-4">不是版本树，而是一条逐渐成形的产品叙事线</h2>
+    <p class="section-copy mt-5">
+      首版首页只讲 16 个关键时刻。每个节点都对应清晰的产品转向、能力成熟，和来自官方或社区的证据。
+    </p>
+  </div>
+
+  <div class="reveal mt-6 flex flex-wrap items-center gap-4 text-sm text-[var(--page-muted)]" data-delay="1">
+    <span>5 个阶段章节</span>
+    <span class="h-1 w-1 rounded-full bg-[var(--page-line)]"></span>
+    <span>16 个关键时刻</span>
+  </div>
+
+  <div class="mt-10 space-y-10">
+    {chapters.map((chapter, chapterIndex) => (
+      <section
+        id={`epoch-${chapter.id}`}
+        data-epoch-section={chapter.id}
+        class="reveal surface-panel scroll-mt-28 px-6 py-8 sm:px-8 lg:px-10 lg:py-10"
+      >
+        <div class="grid gap-8 lg:grid-cols-[18rem_minmax(0,1fr)]">
+          <aside class="lg:sticky lg:top-28 lg:self-start">
+            <p class="section-kicker">Chapter 0{chapterIndex + 1}</p>
+            <h3 class="mt-4 text-3xl font-semibold tracking-[-0.05em] text-[var(--page-ink)]">
+              {chapter.name}
+            </h3>
+            <p class="mt-2 text-sm uppercase tracking-[0.22em] text-[var(--page-muted)]">
+              {chapter.name_en}
+            </p>
+            <p class="mt-5 text-sm leading-7 text-[var(--page-muted)]">{chapter.summary}</p>
+
+            <div class="mt-8 space-y-3">
+              {chapter.key_events.slice(0, 3).map((event) => (
+                <div class="rounded-2xl border border-[var(--page-line)] bg-white/55 px-4 py-3 text-sm text-[var(--page-ink)]">
+                  {event}
+                </div>
+              ))}
+            </div>
+          </aside>
+
+          <div class="grid gap-5 lg:grid-cols-2">
+            {chapter.milestones.map((milestone, milestoneIndex) => (
+              <article
+                class="reveal surface-card overflow-hidden p-5"
+                data-delay={String(Math.min(milestoneIndex + 1, 4))}
+              >
+                <div
+                  class="rounded-[1.25rem] border border-white/80 p-4"
+                  style={`background: linear-gradient(135deg, rgba(255,255,255,0.95), ${accentMap[chapter.id] || "rgba(134,167,197,0.18)"});`}
+                >
+                  <div class="flex items-start justify-between gap-4">
+                    <div>
+                      <p class="text-xs uppercase tracking-[0.22em] text-[var(--page-muted)]">
+                        {milestone.date}
+                      </p>
+                      <h4 class="mt-3 text-2xl font-semibold tracking-[-0.04em] text-[var(--page-ink)]">
+                        {milestone.title}
+                      </h4>
+                    </div>
+                    <div class="rounded-full border border-[var(--page-line)] bg-white/80 px-3 py-1 text-xs text-[var(--page-muted)]">
+                      {milestone.evidence_summary.official_sources} official
+                    </div>
+                  </div>
+                  <p class="mt-4 text-sm leading-7 text-[var(--page-muted)]">{milestone.summary}</p>
+                </div>
+
+                <div class="mt-5 space-y-4">
+                  <p class="text-sm leading-7 text-[var(--page-ink)]">{milestone.why_it_matters}</p>
+
+                  <div class="flex flex-wrap gap-2">
+                    {milestone.capabilities.slice(0, 3).map((capability) => (
+                      <span class="rounded-full bg-[rgba(134,167,197,0.12)] px-3 py-1 text-xs font-medium text-[var(--page-ink)]">
+                        {capability.name}
+                      </span>
+                    ))}
+                    {milestone.personas.slice(0, 2).map((persona) => (
+                      <span class="rounded-full bg-[rgba(142,167,147,0.12)] px-3 py-1 text-xs text-[var(--page-muted)]">
+                        {persona.name}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div class="hairline"></div>
+
+                  <div class="space-y-2">
+                    {milestone.evidence.slice(0, 3).map((item) => (
+                      <a
+                        href={item.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        class="flex items-center justify-between gap-4 rounded-2xl border border-[var(--page-line)] bg-white/60 px-4 py-3 text-sm transition hover:bg-white/90"
+                      >
+                        <span class="truncate">{item.title}</span>
+                        <span class="shrink-0 text-xs uppercase tracking-[0.18em] text-[var(--page-muted)]">
+                          {item.type === "community" && item.points ? `${item.points} pts` : item.type}
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    ))}
+  </div>
+</section>
