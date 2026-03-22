@@ -22,8 +22,12 @@ const EPOCHS_SEED = resolve(DATA, "epochs_seed.json");
 const OUTPUT = resolve(DATA, "auto_bundle.json");
 
 // ── config ─────────────────────────────────────────────────────────────────
-const OPENAI_MODEL = "gpt-5.4-mini";
-const OPENAI_API = "https://api.openai.com/v1/chat/completions";
+const LLM_MODEL = process.env.OPENROUTER_API_KEY
+  ? "openai/gpt-5.4-mini"
+  : "gpt-5.4-mini";
+const LLM_API = process.env.OPENROUTER_API_KEY
+  ? "https://openrouter.ai/api/v1/chat/completions"
+  : "https://api.openai.com/v1/chat/completions";
 const SAMPLE = (() => {
   const idx = process.argv.indexOf("--sample");
   return idx !== -1 ? Number(process.argv[idx + 1]) : 0;
@@ -117,11 +121,11 @@ async function fetchJson<T>(url: string, headers?: Record<string, string>): Prom
 async function sleep(ms: number) { return new Promise((r) => setTimeout(r, ms)); }
 
 async function llm(systemPrompt: string, userPrompt: string): Promise<string> {
-  const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) throw new Error("OPENAI_API_KEY not set");
+  const apiKey = process.env.OPENROUTER_API_KEY || process.env.OPENAI_API_KEY;
+  if (!apiKey) throw new Error("OPENROUTER_API_KEY or OPENAI_API_KEY must be set");
 
   const body = {
-    model: OPENAI_MODEL,
+    model: LLM_MODEL,
     temperature: 0.3,
     messages: [
       { role: "system", content: systemPrompt },
@@ -131,7 +135,7 @@ async function llm(systemPrompt: string, userPrompt: string): Promise<string> {
 
   for (let attempt = 0; attempt < 3; attempt++) {
     try {
-      const resp = await fetch(OPENAI_API, {
+      const resp = await fetch(LLM_API, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -635,7 +639,7 @@ function assembleBundle(
   return {
     meta: {
       generated_at: new Date().toISOString(),
-      agent_model: OPENAI_MODEL,
+      agent_model: LLM_MODEL,
       total_versions: releases.length,
       date_range: {
         start: releaseDates[0] ?? "2025-02-24",
