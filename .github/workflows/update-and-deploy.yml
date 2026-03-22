@@ -18,9 +18,14 @@ jobs:
   update-and-deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    concurrency:
+      group: update-deploy
+      cancel-in-progress: false
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: oven-sh/setup-bun@v2
         with:
@@ -44,15 +49,19 @@ jobs:
       - name: Build site
         run: cd site && bun install --frozen-lockfile && bun run build
 
-      # Commit updated data back to repo (if changed)
+      # Commit and push data changes (with rebase to handle concurrent pushes)
       - name: Commit data changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "auto: update claude code data [skip ci]"
-          file_pattern: |
-            data/auto_bundle.json
-            data/capabilities_seed.json
-            data/epochs_seed.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/auto_bundle.json data/capabilities_seed.json data/epochs_seed.json
+          if git diff --cached --quiet; then
+            echo "No data changes to commit"
+          else
+            git commit -m "auto: update claude code data [skip ci]"
+            git pull --rebase origin master
+            git push origin master
+          fi
 
       # Deploy to Cloudflare Workers (Static Assets)
       - name: Deploy to Cloudflare
