@@ -1,13 +1,9 @@
 ---
-interface Highlight {
-  label: string;
-  value: string | number;
-}
-
 interface EpochBrief {
   id: string;
   name: string;
   name_en: string;
+  color: string;
   releases: string[];
 }
 
@@ -15,13 +11,16 @@ interface Props {
   hero: {
     headline: string;
     subheadline: string;
-    highlights: Highlight[];
+    highlights: { label: string; value: string | number }[];
   };
   meta: {
     total_versions: number;
-    date_range: {
-      start: string;
-      end: string;
+    date_range: { start: string; end: string };
+    hn_signals_count: number;
+    blog_posts_count: number;
+    story: {
+      milestone_count: number;
+      capability_count: number;
     };
   };
   epochs: EpochBrief[];
@@ -29,95 +28,67 @@ interface Props {
 
 const { hero, meta, epochs } = Astro.props;
 
-const maxReleases = Math.max(...epochs.map((e) => e.releases.length));
-const toneColors = [
-  "var(--tone-blue)",
-  "var(--tone-steel)",
-  "var(--tone-sage)",
-  "var(--tone-champagne)",
-  "var(--tone-coral)",
+const statCards = [
+  { cn: "高光时刻", en: "HIGHLIGHTS", value: String(meta.story.milestone_count) },
+  { cn: "能力主线", en: "CAPABILITIES", value: String(meta.story.capability_count).padStart(2, "0") },
+  { cn: "版本总数", en: "RELEASES", value: String(meta.total_versions) },
+  { cn: "社区信号", en: "HN SIGNALS", value: String(meta.hn_signals_count) },
 ];
 
-const leadStats = [
-  {
-    label: "版本跨度",
-    value: `${meta.total_versions}+`,
-    caption: `${meta.date_range.start} → ${meta.date_range.end}`,
-  },
-  ...hero.highlights.map((item) => ({
-    label: item.label,
-    value: String(item.value),
-    caption: "Editorial story layer",
-  })),
-].slice(0, 4);
+const maxReleases = Math.max(...epochs.map((e) => e.releases.length));
 ---
 
-<section class="section-shell relative pt-16 sm:pt-24 lg:pt-28">
-  <div class="surface-panel grid gap-12 overflow-hidden px-6 py-8 sm:px-10 sm:py-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(18rem,0.85fr)] lg:px-14 lg:py-16">
-    <div class="reveal relative z-10">
-      <p class="section-kicker">Claude Code Evolution</p>
-      <h1 class="mt-6 max-w-4xl text-balance text-5xl font-semibold tracking-[-0.06em] text-[var(--page-ink)] sm:text-6xl lg:text-7xl">
-        {hero.headline}
-      </h1>
-      <p class="mt-6 max-w-2xl text-balance text-base leading-8 text-[var(--page-muted)] sm:text-lg">
-        {hero.subheadline}
-      </p>
+<section class="reveal grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
+  <div class="lg:col-span-7 space-y-6">
+    <span class="kicker text-secondary">
+      <span class="i18n-cn">演进纪事</span>
+      <span class="i18n-en">A Narrative Journal</span>
+    </span>
+    <h1 class="text-primary font-headline font-black leading-[1.15]" style="font-size: clamp(2.2rem, 5vw, 3.5rem);">
+      <span class="i18n-cn" style="letter-spacing: 0.01em;">Claude Code 演进史</span>
+      <span class="i18n-en" style="letter-spacing: -0.04em;">The Making of<br />an Agentic Platform</span>
+    </h1>
+    <p class="title-lg text-on-surface-variant max-w-xl" style="line-height: 1.8;">
+      <span class="i18n-cn">从命令行代码助手，到自主协作的代理平台——这是一段能力跃迁的完整记录。</span>
+      <span class="i18n-en">From CLI code helper to autonomous agentic platform — a complete record of capability leaps.</span>
+    </p>
+  </div>
 
-      <div class="mt-10 flex flex-col gap-3 sm:flex-row">
-        <a
-          href="#milestones"
-          class="inline-flex items-center justify-center rounded-full bg-[var(--page-ink)] px-6 py-3 text-sm font-medium text-white transition hover:translate-y-[-1px]"
-        >
-          进入时间叙事
-        </a>
-        <a
-          href="/explore"
-          class="inline-flex items-center justify-center rounded-full border border-[var(--page-line)] bg-white/75 px-6 py-3 text-sm font-medium text-[var(--page-ink)] transition hover:bg-white"
-        >
-          打开完整版本入口
-        </a>
+  <div class="lg:col-span-5 grid grid-cols-2 gap-4 reveal" data-delay="1">
+    {statCards.map((stat) => (
+      <div class="bg-surface-container-low p-6 rounded-xl flex flex-col justify-between h-32">
+        <span class="label-md opacity-60">
+          <span class="i18n-cn">{stat.cn}</span>
+          <span class="i18n-en">{stat.en}</span>
+        </span>
+        <span class="headline-md">{stat.value}</span>
       </div>
-    </div>
+    ))}
+  </div>
 
-    <div class="reveal relative min-h-[22rem] lg:min-h-[28rem]" data-delay="1">
-      <div class="absolute inset-0 rounded-[2rem] bg-[linear-gradient(145deg,rgba(255,255,255,0.96),rgba(255,255,255,0.45))]"></div>
-      <div class="absolute inset-x-5 top-5 h-px bg-[linear-gradient(90deg,transparent,rgba(42,48,56,0.18),transparent)]"></div>
-
-      <div class="relative flex flex-col gap-4 px-7 pt-8 lg:px-9 lg:pt-10">
-        <p class="text-[0.68rem] uppercase tracking-[0.3em] text-[var(--page-muted)]">
-          Release Density by Epoch
-        </p>
-        {epochs.map((epoch, i) => {
+  <div class="lg:col-span-12 mt-12 reveal" data-delay="2">
+    <div class="bg-surface-container-low p-8 rounded-xl relative overflow-hidden">
+      <div class="flex justify-between items-end h-40 gap-2">
+        {epochs.map((epoch) => {
           const count = epoch.releases.length;
-          const barWidth = Math.max(18, (count / maxReleases) * 100);
-          return (
-            <div>
-              <div class="flex items-baseline justify-between gap-3">
-                <span class="text-xs font-medium text-[var(--page-ink)]">{epoch.name}</span>
-                <span class="font-mono text-xs tabular-nums text-[var(--page-muted)]">{count}</span>
-              </div>
-              <div class="mt-1.5 h-2 overflow-hidden rounded-full bg-black/[0.04]">
-                <div
-                  class="h-full rounded-full"
-                  style={`width:${barWidth}%; background: ${toneColors[i] || toneColors[0]};`}
-                />
-              </div>
-            </div>
-          );
+          const bars = [
+            { opacity: 0.2, height: Math.max(20, (count / maxReleases) * 60) },
+            { opacity: 0.5, height: Math.max(30, (count / maxReleases) * 100) },
+          ];
+          return bars.map((bar) => (
+            <div
+              class="flex-1 rounded-sm transition-all hover:opacity-80"
+              style={`height: ${bar.height}%; background: ${epoch.color}; opacity: ${bar.opacity};`}
+            />
+          ));
         })}
       </div>
-
-      <div class="absolute inset-x-5 bottom-5 grid gap-3 sm:grid-cols-2">
-        {leadStats.map((item, index) => (
-          <div class="surface-card p-4">
-            <p class="text-[0.72rem] uppercase tracking-[0.24em] text-[var(--page-muted)]">
-              0{index + 1} · {item.label}
-            </p>
-            <p class="mt-3 text-3xl font-semibold tracking-[-0.05em] text-[var(--page-ink)]">
-              {item.value}
-            </p>
-            <p class="mt-2 text-sm text-[var(--page-muted)]">{item.caption}</p>
-          </div>
+      <div class="flex justify-between mt-4 label-md opacity-40">
+        {epochs.map((epoch) => (
+          <span>
+            <span class="i18n-cn">{epoch.name}</span>
+            <span class="i18n-en">{epoch.name_en}</span>
+          </span>
         ))}
       </div>
     </div>

@@ -14,6 +14,8 @@ import {
   type QueryState,
 } from "../../lib/query-state";
 import { cn } from "../../lib/utils";
+import { useLanguage } from "../../lib/i18n";
+import type { MessageKey } from "../../lib/i18n";
 
 const PAGE_SIZE = 24;
 
@@ -24,6 +26,22 @@ type Props = {
 type SegmentedOption = {
   label: string;
   value: string;
+};
+
+const epochColors: Record<string, string> = {
+  epoch1: "border-l-genesis",
+  epoch2: "border-l-toolification",
+  epoch3: "border-l-ecosystem",
+  epoch4: "border-l-platformization",
+  epoch5: "border-l-autonomization",
+};
+
+const epochTextColors: Record<string, string> = {
+  epoch1: "text-genesis",
+  epoch2: "text-toolification",
+  epoch3: "text-ecosystem",
+  epoch4: "text-platformization",
+  epoch5: "text-autonomization",
 };
 
 function FilterGroup({
@@ -39,9 +57,11 @@ function FilterGroup({
 }) {
   return (
     <div className="space-y-2">
-      <p className="text-xs uppercase tracking-[0.18em] text-[var(--page-muted)]">
-        {label}
-      </p>
+      {label ? (
+        <p className="font-label text-[10px] uppercase tracking-[0.2em] text-secondary">
+          {label}
+        </p>
+      ) : null}
       <div className="flex flex-wrap gap-2">
         {options.map((option) => {
           const active = value === option.value;
@@ -51,10 +71,10 @@ function FilterGroup({
               type="button"
               onClick={() => onChange(active ? "" : option.value)}
               className={cn(
-                "rounded-full border px-3 py-2 text-sm transition",
+                "rounded-full px-4 py-1.5 text-xs font-label transition",
                 active
-                  ? "border-transparent bg-[var(--page-ink)] text-white"
-                  : "border-[var(--page-line)] bg-white/70 text-[var(--page-muted)] hover:bg-white hover:text-[var(--page-ink)]"
+                  ? "bg-primary text-white"
+                  : "bg-surface-container-highest text-primary hover:bg-outline-variant/30"
               )}
             >
               {option.label}
@@ -71,19 +91,21 @@ function QuerySummary({
   total,
   queryState,
   capabilityName,
+  t,
 }: {
   count: number;
   total: number;
   queryState: QueryState;
   capabilityName?: string;
+  t: (key: MessageKey) => string;
 }) {
   const parts = [];
 
   if (queryState.q) {
-    parts.push(`搜索 “${queryState.q}”`);
+    parts.push(`${t("explore.search")} "${queryState.q}"`);
   }
   if (queryState.epoch) {
-    parts.push(queryState.epoch.replace("epoch", "阶段 "));
+    parts.push(queryState.epoch.replace("epoch", t("explore.epoch_prefix")));
   }
   if (capabilityName) {
     parts.push(capabilityName);
@@ -92,31 +114,31 @@ function QuerySummary({
     parts.push(queryState.category);
   }
   if (queryState.importance) {
-    parts.push(`重要度 ${queryState.importance}+`);
+    parts.push(`${t("explore.importance_suffix")} ${queryState.importance}+`);
   }
   if (queryState.source) {
     parts.push(queryState.source);
   }
   if (queryState.signal !== "all") {
-    parts.push(queryState.signal === "with-signal" ? "含社区信号" : "只看热点");
+    parts.push(queryState.signal === "with-signal" ? t("explore.signal.with") : t("explore.signal.hot"));
   }
 
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <p className="section-kicker">Result Summary</p>
-        <h2 className="mt-3 text-3xl font-semibold tracking-[-0.05em] text-[var(--page-ink)] sm:text-4xl">
-          {count} / {total} 个版本
+        <p className="kicker text-secondary">{t("explore.result_kicker")}</p>
+        <h2 className="mt-3 text-3xl font-bold font-headline tracking-tighter sm:text-4xl">
+          {count} / {total} {t("explore.results_unit")}
         </h2>
-        <p className="mt-3 text-sm leading-7 text-[var(--page-muted)]">
+        <p className="mt-3 text-sm leading-7 text-secondary">
           {parts.length
-            ? `当前筛选条件：${parts.join(" · ")}`
-            : "当前显示全部版本，按日期倒序排列。"}
+            ? `${t("explore.filter_summary")}${parts.join(" · ")}`
+            : t("explore.filter_none")}
         </p>
       </div>
 
-      <div className="rounded-[1.5rem] border border-[var(--page-line)] bg-white/65 px-4 py-3 text-sm text-[var(--page-muted)]">
-        {countActiveFilters(queryState)} active filters
+      <div className="bg-surface-container-low px-4 py-3 rounded-lg text-sm text-secondary">
+        {countActiveFilters(queryState)} {t("explore.active_filters")}
       </div>
     </div>
   );
@@ -125,137 +147,162 @@ function QuerySummary({
 function DetailPanel({
   release,
   onClose,
+  t,
+  localized,
 }: {
   release: ExploreRelease | null;
   onClose?: () => void;
+  t: (key: MessageKey) => string;
+  localized: <T>(cn: T, en: T | undefined | null) => T;
 }) {
   if (!release) {
     return (
-      <div className="surface-panel p-6">
-        <p className="section-kicker">Release Detail</p>
-        <h3 className="mt-3 text-2xl font-semibold tracking-[-0.04em] text-[var(--page-ink)]">
-          选择一个版本
+      <div className="bg-surface-container-low rounded-2xl p-10 border border-outline-variant/10">
+        <p className="kicker text-secondary">{t("detail.kicker")}</p>
+        <h3 className="mt-3 text-2xl font-bold font-headline tracking-tighter">
+          {t("detail.select_title")}
         </h3>
-        <p className="mt-4 text-sm leading-7 text-[var(--page-muted)]">
-          点击左侧版本卡片后，这里会展开完整 changes、社区信号、来源和阶段信息。
+        <p className="mt-4 text-sm leading-7 text-secondary">
+          {t("detail.select_desc")}
         </p>
       </div>
     );
   }
 
+  const rel = release as any;
+
   return (
-    <div className="surface-panel p-6">
-      <div className="flex items-start justify-between gap-4">
+    <div className="bg-surface-container-low rounded-2xl p-10 border border-outline-variant/10 custom-scrollbar">
+      <div className="mb-10 flex justify-between items-end border-b border-outline-variant/30 pb-8">
         <div>
-          <p className="text-xs uppercase tracking-[0.18em] text-[var(--page-muted)]">
-            {release.display_date}
-          </p>
-          <h3 className="mt-3 text-3xl font-semibold tracking-[-0.05em] text-[var(--page-ink)]">
-            v{release.version}
-          </h3>
-        </div>
-        {onClose ? (
-          <button
-            type="button"
-            onClick={onClose}
-            className="rounded-full border border-[var(--page-line)] bg-white/80 px-3 py-2 text-sm text-[var(--page-muted)]"
-          >
-            关闭
-          </button>
-        ) : null}
-      </div>
-
-      <p className="mt-4 text-sm leading-7 text-[var(--page-ink)]">{release.headline}</p>
-
-      <div className="mt-5 flex flex-wrap gap-2">
-        <span className="rounded-full border border-[var(--page-line)] bg-white/75 px-3 py-1 text-xs text-[var(--page-muted)]">
-          {release.epoch_name}
-        </span>
-        <span className="rounded-full border border-[var(--page-line)] bg-white/75 px-3 py-1 text-xs text-[var(--page-muted)]">
-          {release.source}
-        </span>
-        <span className="rounded-full border border-[var(--page-line)] bg-white/75 px-3 py-1 text-xs text-[var(--page-muted)]">
-          milestone {release.milestone_score}
-        </span>
-        {release.hot_signal ? (
-          <span className="rounded-full border border-transparent bg-[rgba(213,146,122,0.16)] px-3 py-1 text-xs text-[var(--page-ink)]">
-            hot signal
-          </span>
-        ) : null}
-      </div>
-
-      {release.capabilities.length ? (
-        <div className="mt-5 flex flex-wrap gap-2">
-          {release.capabilities.map((capability) => (
-            <span
-              key={capability.id}
-              className="rounded-full border border-[var(--page-line)] px-3 py-1 text-xs text-[var(--page-muted)]"
-            >
-              {capability.name}
+          <div className="flex items-center gap-3 mb-4">
+            <span className="font-mono text-xs bg-primary text-on-primary px-3 py-1 rounded-full tracking-wider">
+              v{release.version}
             </span>
-          ))}
-        </div>
-      ) : null}
-
-      <div className="mt-6 space-y-3">
-        {release.changes.map((change, index) => (
-          <div
-            key={`${release.version}-${index}-${change.raw}`}
-            className="rounded-[1.4rem] border border-[var(--page-line)] bg-white/62 p-4"
-          >
-            <div className="flex items-center justify-between gap-3">
-              <p className="text-xs uppercase tracking-[0.18em] text-[var(--page-muted)]">
-                0{index + 1} · {change.category}
-              </p>
-              <span className="rounded-full bg-white/80 px-2.5 py-1 text-xs text-[var(--page-muted)]">
-                importance {change.importance}
-              </span>
-            </div>
-            <p className="mt-3 text-sm font-medium text-[var(--page-ink)]">
-              {change.summary || change.raw}
-            </p>
-            {change.summary && change.summary !== change.raw ? (
-              <p className="mt-3 text-sm leading-7 text-[var(--page-muted)]">{change.raw}</p>
-            ) : null}
-            {change.why_matters ? (
-              <p className="mt-3 text-sm leading-7 text-[var(--page-muted)]">
-                {change.why_matters}
-              </p>
-            ) : null}
+            <span className={cn(
+              "font-label text-xs uppercase tracking-[0.2em] font-bold",
+              epochTextColors[release.epoch_id] || ""
+            )}>
+              {localized(release.epoch_name, rel.epoch_name_en)}
+            </span>
           </div>
-        ))}
+          <h2 className="text-3xl font-black font-headline tracking-tighter leading-tight max-w-lg">
+            {localized(release.headline, rel.headline_en)}
+          </h2>
+        </div>
+        <div className="text-right shrink-0 ml-4">
+          <div className="font-label text-[10px] uppercase tracking-[0.2em] text-secondary mb-1">Date</div>
+          <div className="font-mono text-lg font-medium">{localized(release.display_date, rel.display_date_en)}</div>
+          {onClose ? (
+            <button
+              type="button"
+              onClick={onClose}
+              className="mt-2 text-xs text-secondary hover:text-primary transition-colors"
+            >
+              {t("detail.close")}
+            </button>
+          ) : null}
+        </div>
       </div>
 
-      {release.signals.length ? (
-        <div className="mt-6">
-          <p className="text-xs uppercase tracking-[0.18em] text-[var(--page-muted)]">
-            Community signals
-          </p>
-          <div className="mt-3 space-y-3">
-            {release.signals.map((signal) => (
-              <a
-                key={signal.objectID || signal.url}
-                href={signal.url}
-                target="_blank"
-                rel="noreferrer"
-                className="block rounded-[1.4rem] border border-[var(--page-line)] bg-white/62 p-4 transition hover:bg-white/92"
+      <div className="space-y-12">
+        {release.capabilities.length ? (
+          <div className="flex flex-wrap gap-2">
+            {release.capabilities.map((capability) => (
+              <span
+                key={capability.id}
+                className="px-2 py-0.5 rounded bg-surface-container text-[10px] font-label"
               >
-                <div className="flex items-center justify-between gap-3">
-                  <p className="text-sm font-medium text-[var(--page-ink)]">{signal.title}</p>
-                  <span className="rounded-full bg-white/80 px-2.5 py-1 text-xs text-[var(--page-muted)]">
-                    {signal.points} pts
-                  </span>
-                </div>
-              </a>
+                {localized(capability.name, (capability as any).name_en)}
+              </span>
             ))}
+            <span className="px-2 py-0.5 rounded bg-surface-container text-[10px] font-label">
+              {release.source}
+            </span>
+            {release.hot_signal ? (
+              <span className="px-2 py-0.5 rounded bg-error/10 text-error text-[10px] font-label font-bold">
+                HOT SIGNAL
+              </span>
+            ) : null}
           </div>
-        </div>
-      ) : null}
+        ) : null}
+
+        <section>
+          <h4 className="font-label text-[10px] uppercase tracking-[0.2em] text-secondary mb-8">
+            {t("detail.changes_heading")}
+          </h4>
+          <div className="space-y-10">
+            {release.changes.map((change, index) => {
+              const ch = change as any;
+              return (
+                <div key={`${release.version}-${index}-${change.raw}`} className="group">
+                  <div className="flex items-center gap-3 mb-3">
+                    <span className="px-2 py-0.5 bg-secondary/10 text-secondary text-[10px] font-bold rounded">
+                      {change.category.toUpperCase()}
+                    </span>
+                    <div className="flex gap-0.5">
+                      {Array.from({ length: change.importance }, (_, i) => (
+                        <span
+                          key={i}
+                          className="material-symbols-outlined text-xs text-secondary"
+                          style={{ fontVariationSettings: "'FILL' 1" }}
+                        >
+                          star
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <p className="text-sm font-bold font-headline mb-2">
+                    {localized(change.summary, ch.summary_en) || change.raw}
+                  </p>
+                  {change.summary && change.summary !== change.raw ? (
+                    <p className="text-secondary font-body text-sm mb-2">{change.raw}</p>
+                  ) : null}
+                  {(change.why_matters || ch.why_matters_en) ? (
+                    <p className="text-secondary font-body text-sm">
+                      {localized(change.why_matters, ch.why_matters_en)}
+                    </p>
+                  ) : null}
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        {release.signals.length ? (
+          <section className="bg-surface-container p-6 rounded-xl">
+            <h4 className="font-label text-[10px] uppercase tracking-[0.2em] text-secondary mb-4 flex items-center gap-2">
+              <span className="material-symbols-outlined text-sm">trending_up</span>
+              Hacker News Signals
+            </h4>
+            <div className="space-y-4">
+              {release.signals.map((signal) => (
+                <a
+                  key={signal.objectID || signal.url}
+                  href={signal.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex gap-4 group block"
+                >
+                  <div className="flex flex-col items-center">
+                    <span className="material-symbols-outlined text-secondary text-sm">arrow_drop_up</span>
+                    <span className="font-mono text-xs font-bold">{signal.points}</span>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm font-body group-hover:text-secondary transition-colors">{signal.title}</p>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </section>
+        ) : null}
+      </div>
     </div>
   );
 }
 
 export default function ExploreApp({ data }: Props) {
+  const { lang, t, localized } = useLanguage();
   const [queryState, setQueryState] = useState<QueryState>(() =>
     typeof window === "undefined"
       ? DEFAULT_QUERY_STATE
@@ -370,9 +417,13 @@ export default function ExploreApp({ data }: Props) {
   const selectedRelease =
     filteredReleases.find((release) => release.version === queryState.release) ?? null;
 
-  const capabilityName = data.filters.capabilities.find(
-    (capability) => capability.id === queryState.capability
-  )?.name;
+  const capabilityName = (() => {
+    const cap = data.filters.capabilities.find(
+      (capability) => capability.id === queryState.capability
+    );
+    if (!cap) return undefined;
+    return localized(cap.name, (cap as any).name_en);
+  })();
 
   const visibleReleases = filteredReleases.slice(0, visibleCount);
 
@@ -390,182 +441,148 @@ export default function ExploreApp({ data }: Props) {
   };
 
   return (
-    <div className="space-y-8">
-      <section className="surface-panel px-6 py-8 sm:px-8 lg:px-10">
+    <div className="space-y-12">
+      {/* Filter Panel */}
+      <section className="bg-surface-container-low rounded-xl p-8 space-y-8">
         <QuerySummary
           count={filteredReleases.length}
           total={data.meta.total_versions}
           queryState={queryState}
           capabilityName={capabilityName}
+          t={t}
         />
 
-        <div className="mt-8 grid gap-5 xl:grid-cols-[minmax(0,1.35fr)_minmax(18rem,0.65fr)]">
-          <div className="space-y-5">
-            <label className="block">
-              <span className="text-xs uppercase tracking-[0.18em] text-[var(--page-muted)]">
-                Search
-              </span>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pt-4 border-t border-outline-variant/20">
+          <div className="md:col-span-2">
+            <label className="block font-label text-[10px] uppercase tracking-[0.2em] mb-3 text-secondary">
+              {t("filter.search_label")}
+            </label>
+            <div className="relative">
+              <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
               <input
                 type="search"
                 value={searchInput}
                 onChange={(event) => setSearchInput(event.target.value)}
-                placeholder="搜索版本号、变更摘要或 why matters"
-                className="mt-3 w-full rounded-[1.2rem] border border-[var(--page-line)] bg-white/72 px-4 py-3 text-sm text-[var(--page-ink)] outline-none ring-0 transition placeholder:text-[var(--page-muted)] focus:border-[rgba(31,38,46,0.2)]"
+                placeholder={t("filter.search_placeholder")}
+                className="w-full bg-surface-container-lowest border-none rounded-lg py-4 pl-12 pr-4 focus:ring-2 focus:ring-primary text-sm font-body"
               />
-            </label>
-
-            <div className="grid gap-4">
-              <FilterGroup
-                label="Epoch"
-                value={queryState.epoch}
-                options={data.filters.epochs.map((epoch) => ({
-                  label: epoch.name,
-                  value: epoch.id,
-                }))}
-                onChange={(epoch) =>
-                  updateState((current) => ({
-                    ...current,
-                    epoch: epoch as QueryState["epoch"],
-                    release: "",
-                  }))
-                }
-              />
-
-              <FilterGroup
-                label="Capability"
-                value={queryState.capability}
-                options={data.filters.capabilities.map((capability) => ({
-                  label: capability.name,
-                  value: capability.id,
-                }))}
-                onChange={(capability) =>
-                  updateState((current) => ({
-                    ...current,
-                    capability,
-                    release: "",
-                  }))
-                }
-              />
-
-              <div className="grid gap-4 md:grid-cols-2">
-                <FilterGroup
-                  label="Category"
-                  value={queryState.category}
-                options={data.filters.categories.map((category) => ({
-                  label: category,
-                  value: category,
-                }))}
-                onChange={(category) =>
-                  updateState((current) => ({
-                    ...current,
-                    category: category as QueryState["category"],
-                    release: "",
-                  }))
-                }
-              />
-
-                <FilterGroup
-                  label="Source"
-                  value={queryState.source}
-                options={data.filters.sources.map((source) => ({
-                  label: source,
-                  value: source,
-                }))}
-                onChange={(source) =>
-                  updateState((current) => ({
-                    ...current,
-                    source: source as QueryState["source"],
-                    release: "",
-                  }))
-                }
-              />
-
-                <FilterGroup
-                  label="Importance"
-                  value={queryState.importance}
-                options={data.filters.importance_values.map((importance) => ({
-                  label: `${importance}+`,
-                  value: importance,
-                }))}
-                onChange={(importance) =>
-                  updateState((current) => ({
-                    ...current,
-                    importance: importance as QueryState["importance"],
-                    release: "",
-                  }))
-                }
-              />
-
-                <FilterGroup
-                  label="Signal"
-                  value={queryState.signal}
-                  options={[
-                    { label: "全部", value: "all" },
-                    { label: "含信号", value: "with-signal" },
-                    { label: `热点 >= ${HOT_SIGNAL_THRESHOLD}`, value: "hot-only" },
-                  ]}
-                  onChange={(signal) =>
-                    updateState((current) => ({
-                      ...current,
-                      signal: (signal || "all") as QueryState["signal"],
-                      release: "",
-                    }))
-                  }
-                />
-              </div>
             </div>
           </div>
 
-          <div className="surface-card p-5">
-            <p className="text-xs uppercase tracking-[0.18em] text-[var(--page-muted)]">
-              Shareable state
-            </p>
-            <p className="mt-4 text-sm leading-7 text-[var(--page-muted)]">
-              全部过滤状态都绑定在 query string 上。刷新、复制链接、回退前进都会保留当前上下文。
-            </p>
+          <FilterGroup
+            label={t("filter.epoch_label")}
+            value={queryState.epoch}
+            options={data.filters.epochs.map((epoch) => ({
+              label: localized(epoch.name, (epoch as any).name_en),
+              value: epoch.id,
+            }))}
+            onChange={(epoch) =>
+              updateState((current) => ({
+                ...current,
+                epoch: epoch as QueryState["epoch"],
+                release: "",
+              }))
+            }
+          />
 
-            <div className="mt-5 space-y-3 rounded-[1.2rem] border border-[var(--page-line)] bg-white/62 p-4 text-sm text-[var(--page-ink)]">
-              <div className="flex items-center justify-between gap-4">
-                <span>已匹配版本</span>
-                <span>{filteredReleases.length}</span>
-              </div>
-              <div className="flex items-center justify-between gap-4">
-                <span>当前页尺寸</span>
-                <span>{data.meta.page_size}</span>
-              </div>
-              <div className="flex items-center justify-between gap-4">
-                <span>热点阈值</span>
-                <span>{data.meta.hot_signal_threshold} pts</span>
-              </div>
-            </div>
+          <FilterGroup
+            label={t("filter.importance_label")}
+            value={queryState.importance}
+            options={data.filters.importance_values.map((importance) => ({
+              label: `${importance}+`,
+              value: importance,
+            }))}
+            onChange={(importance) =>
+              updateState((current) => ({
+                ...current,
+                importance: importance as QueryState["importance"],
+                release: "",
+              }))
+            }
+          />
+        </div>
 
+        <div className="flex flex-wrap gap-3 items-center pt-4 border-t border-outline-variant/20">
+          <span className="font-label text-[10px] uppercase tracking-[0.2em] text-secondary mr-4">
+            {t("filter.capabilities_label")}
+          </span>
+          {data.filters.capabilities.map((capability) => {
+            const active = queryState.capability === capability.id;
+            return (
+              <button
+                key={capability.id}
+                type="button"
+                onClick={() =>
+                  updateState((current) => ({
+                    ...current,
+                    capability: active ? "" : capability.id,
+                    release: "",
+                  }))
+                }
+                className={cn(
+                  "px-4 py-1.5 rounded-full text-xs font-label transition",
+                  active
+                    ? "bg-primary text-white"
+                    : "bg-surface-container-highest text-primary hover:bg-outline-variant/30"
+                )}
+              >
+                {localized(capability.name, (capability as any).name_en)}
+              </button>
+            );
+          })}
+
+          <div className="ml-auto flex items-center gap-4">
+            <FilterGroup
+              label=""
+              value={queryState.signal}
+              options={[
+                { label: t("filter.signal_all"), value: "all" },
+                { label: t("filter.signal_with"), value: "with-signal" },
+                { label: `${t("filter.signal_hot_prefix")} ${HOT_SIGNAL_THRESHOLD}`, value: "hot-only" },
+              ]}
+              onChange={(signal) =>
+                updateState((current) => ({
+                  ...current,
+                  signal: (signal || "all") as QueryState["signal"],
+                  release: "",
+                }))
+              }
+            />
             <button
               type="button"
               onClick={clearAll}
-              className="mt-5 inline-flex items-center justify-center rounded-full border border-[var(--page-line)] bg-white/72 px-4 py-2 text-sm text-[var(--page-ink)] transition hover:bg-white"
+              className="px-4 py-1.5 rounded-full text-xs font-label bg-surface-container-highest text-secondary hover:text-primary transition-colors"
             >
-              清空全部筛选
+              {t("filter.clear")}
             </button>
           </div>
         </div>
       </section>
 
+      {/* Mobile Detail Panel */}
       <div className="lg:hidden">
-        <DetailPanel
-          release={selectedRelease}
-          onClose={() =>
-            updateState((current) => ({
-              ...current,
-              release: "",
-            }))
-          }
-        />
+        {selectedRelease ? (
+          <DetailPanel
+            release={selectedRelease}
+            t={t}
+            localized={localized}
+            onClose={() =>
+              updateState((current) => ({
+                ...current,
+                release: "",
+              }))
+            }
+          />
+        ) : null}
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_24rem]">
-        <section className="space-y-4">
+      {/* Main Content Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        {/* Left: Release Card List */}
+        <div className="lg:col-span-5 space-y-6">
           {visibleReleases.map((release) => {
             const selected = queryState.release === release.version;
+            const rel = release as any;
             return (
               <button
                 key={release.version}
@@ -577,98 +594,92 @@ export default function ExploreApp({ data }: Props) {
                   }))
                 }
                 className={cn(
-                  "surface-card block w-full p-5 text-left transition",
+                  "group relative w-full text-left p-6 rounded-xl border-l-4 cursor-pointer transition-all duration-300",
+                  epochColors[release.epoch_id] || "border-l-primary",
                   selected
-                    ? "border-transparent bg-[linear-gradient(145deg,rgba(255,255,255,0.92),rgba(255,255,255,0.7))] shadow-[0_40px_90px_-58px_rgba(31,38,46,0.65)]"
-                    : "hover:bg-white/92"
+                    ? "bg-surface-container-lowest shadow-[0_20px_40px_rgba(31,38,46,0.02)] -translate-y-1"
+                    : "bg-surface-container-low opacity-80 hover:opacity-100"
                 )}
               >
-                <div className="flex flex-wrap items-start justify-between gap-4">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.18em] text-[var(--page-muted)]">
-                      {release.display_date}
-                    </p>
-                    <h3 className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-[var(--page-ink)]">
+                <div className="flex justify-between items-start mb-4">
+                  <div className="space-y-1">
+                    <span className="font-mono text-[10px] text-secondary bg-secondary/10 px-2 py-0.5 rounded">
                       v{release.version}
-                    </h3>
+                    </span>
+                    <div className={cn(
+                      "font-label text-[10px] uppercase tracking-[0.2em]",
+                      epochTextColors[release.epoch_id] || ""
+                    )}>
+                      {localized(release.epoch_name, rel.epoch_name_en)}
+                    </div>
                   </div>
+                  <span className="text-[10px] font-mono text-outline">
+                    {localized(release.display_date, rel.display_date_en)}
+                  </span>
+                </div>
 
-                  <div className="flex flex-wrap justify-end gap-2">
-                    <span className="rounded-full border border-[var(--page-line)] bg-white/78 px-3 py-1 text-xs text-[var(--page-muted)]">
-                      {release.epoch_name}
+                <h3 className="text-lg font-bold font-headline mb-3 leading-snug">
+                  {localized(release.headline, rel.headline_en)}
+                </h3>
+
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {release.capabilities.slice(0, 3).map((capability) => (
+                    <span
+                      key={capability.id}
+                      className="px-2 py-0.5 rounded bg-surface-container text-[10px] font-label"
+                    >
+                      {localized(capability.name, (capability as any).name_en)}
                     </span>
-                    <span className="rounded-full border border-[var(--page-line)] bg-white/78 px-3 py-1 text-xs text-[var(--page-muted)]">
-                      {release.source}
-                    </span>
+                  ))}
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3 text-[10px] font-label text-outline">
+                    <span>{release.change_count} changes</span>
                     {release.hot_signal ? (
-                      <span className="rounded-full border border-transparent bg-[rgba(213,146,122,0.14)] px-3 py-1 text-xs text-[var(--page-ink)]">
-                        {release.signal_max_points} pts
+                      <span className="flex items-center gap-1 text-error font-bold uppercase tracking-wider">
+                        <span
+                          className="material-symbols-outlined text-sm"
+                          style={{ fontVariationSettings: "'FILL' 1" }}
+                        >
+                          local_fire_department
+                        </span>
+                        Hot Signal
                       </span>
                     ) : null}
                   </div>
-                </div>
-
-                <p className="mt-4 text-base font-medium leading-7 text-[var(--page-ink)]">
-                  {release.headline}
-                </p>
-
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {release.capabilities.slice(0, 4).map((capability) => (
-                    <span
-                      key={capability.id}
-                      className="rounded-full border border-[var(--page-line)] px-3 py-1 text-xs text-[var(--page-muted)]"
-                    >
-                      {capability.name}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="mt-5 grid gap-3 sm:grid-cols-3">
-                  {release.highlights.map((highlight) => (
-                    <div
-                      key={`${release.version}-${highlight}`}
-                      className="rounded-[1.2rem] border border-[var(--page-line)] bg-white/62 px-4 py-3 text-sm text-[var(--page-muted)]"
-                    >
-                      {highlight}
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mt-5 flex flex-wrap items-center gap-4 text-sm text-[var(--page-muted)]">
-                  <span>{release.change_count} changes</span>
-                  <span className="h-1 w-1 rounded-full bg-[var(--page-line)]"></span>
-                  <span>importance {release.max_importance}</span>
-                  <span className="h-1 w-1 rounded-full bg-[var(--page-line)]"></span>
-                  <span>{release.signal_count} signals</span>
+                  <span className="material-symbols-outlined text-outline group-hover:text-primary transition-colors">
+                    arrow_forward_ios
+                  </span>
                 </div>
               </button>
             );
           })}
 
           {!visibleReleases.length ? (
-            <div className="surface-panel p-8">
-              <p className="text-sm leading-7 text-[var(--page-muted)]">
-                没有匹配结果。可以放宽 epoch、capability 或 importance 条件后再试。
+            <div className="bg-surface-container-low p-8 rounded-xl">
+              <p className="text-sm leading-7 text-secondary">
+                {t("explore.no_results")}
               </p>
             </div>
           ) : null}
 
           {visibleCount < filteredReleases.length ? (
-            <div className="flex justify-center pt-2">
-              <button
-                type="button"
-                onClick={() => setVisibleCount((current) => current + PAGE_SIZE)}
-                className="inline-flex items-center justify-center rounded-full border border-[var(--page-line)] bg-white/75 px-5 py-3 text-sm font-medium text-[var(--page-ink)] transition hover:bg-white"
-              >
-                Load more 24
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={() => setVisibleCount((current) => current + PAGE_SIZE)}
+              className="w-full py-4 border-2 border-dashed border-outline-variant rounded-xl font-label text-xs uppercase tracking-[0.2em] text-secondary hover:bg-surface-container-low transition-colors flex items-center justify-center gap-2"
+            >
+              <span className="material-symbols-outlined text-sm">expand_more</span>
+              Load More Archives
+            </button>
           ) : null}
-        </section>
+        </div>
 
-        <aside className="hidden lg:block lg:sticky lg:top-24 lg:self-start">
-          <DetailPanel release={selectedRelease} />
-        </aside>
+        {/* Right: DetailPanel (Sticky) */}
+        <div className="hidden lg:block lg:col-span-7 lg:sticky lg:top-24 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto">
+          <DetailPanel release={selectedRelease} t={t} localized={localized} />
+        </div>
       </div>
     </div>
   );

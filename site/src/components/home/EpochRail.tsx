@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { cn } from "../../lib/utils";
+import { useLanguage } from "../../lib/i18n";
 
 type Epoch = {
   id: string;
   name: string;
+  name_en?: string;
   summary: string;
+  summary_en?: string;
   milestone_count: number;
   capability_count: number;
 };
@@ -14,6 +17,7 @@ type Props = {
 };
 
 export default function EpochRail({ epochs }: Props) {
+  const { t, localized } = useLanguage();
   const [activeEpoch, setActiveEpoch] = useState<string>(epochs[0]?.id ?? "");
 
   useEffect(() => {
@@ -65,7 +69,7 @@ export default function EpochRail({ epochs }: Props) {
                   : "border-[var(--page-line)] bg-white/60 text-[var(--page-ink)]"
               )}
             >
-              {epoch.name}
+              {localized(epoch.name, epoch.name_en)}
             </a>
           );
         })}
@@ -76,7 +80,7 @@ export default function EpochRail({ epochs }: Props) {
         <div>
           <p className="section-kicker">Epoch Rail</p>
           <p className="mt-2 text-sm text-[var(--page-muted)]">
-            5 个阶段，覆盖从研究预览到自主运行的完整演进。
+            {t("epochrail.desc")}
           </p>
         </div>
         <div className="flex min-w-0 flex-1 items-center justify-end gap-2 overflow-x-auto pb-1">
@@ -97,7 +101,9 @@ export default function EpochRail({ epochs }: Props) {
                   <span className="text-xs uppercase tracking-[0.22em] opacity-70">
                     0{index + 1}
                   </span>
-                  <span className="text-sm font-medium">{epoch.name}</span>
+                  <span className="text-sm font-medium">
+                    {localized(epoch.name, epoch.name_en)}
+                  </span>
                 </div>
                 <div className="mt-2 flex items-center justify-between text-xs opacity-80">
                   <span>{epoch.milestone_count} milestones</span>
