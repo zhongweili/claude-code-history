@@ -3,8 +3,9 @@
  * Fully automated Claude Code History pipeline.
  *
  * Usage:
- *   OPENAI_API_KEY=sk-... bun agent/update.ts              # full run
- *   OPENAI_API_KEY=sk-... bun agent/update.ts --sample 10   # test with 10 latest versions
+ *   OPENAI_API_KEY=sk-... bun agent/update.ts                # full run
+ *   OPENAI_API_KEY=sk-... bun agent/update.ts --incremental  # only enrich new versions
+ *   OPENAI_API_KEY=sk-... bun agent/update.ts --sample 10    # test with 10 latest versions
  *
  * Requires: bun, OPENAI_API_KEY env var
  */
@@ -27,6 +28,7 @@ const SAMPLE = (() => {
   const idx = process.argv.indexOf("--sample");
   return idx !== -1 ? Number(process.argv[idx + 1]) : 0;
 })();
+const INCREMENTAL = process.argv.includes("--incremental");
 
 // ── types ──────────────────────────────────────────────────────────────────
 interface CapSeed {
@@ -557,6 +559,149 @@ function buildCapabilityStats(
   });
 }
 
+// ── Incremental helpers ─────────────────────────────────────────────────────
+function tryLoadExistingBundle(): any | null {
+  try {
+    return JSON.parse(readFileSync(OUTPUT, "utf8"));
+  } catch {
+    return null;
+  }
+}
+
+function assembleRelease(
+  ver: ParsedVersion,
+  changes: EnrichedChange[],
+  caps: CapSeed[],
+  epochs: EpochSeed[],
+  hnSignals: { title: string; points: number; url: string; created_at: string }[],
+  blogPosts: { title: string; slug: string; date: string; url: string }[],
+): Release {
+  for (const ch of changes) {
+    if (!Array.isArray(ch.capability_ids)) ch.capability_ids = [];
+    if (!ch.summary_en) ch.summary_en = ch.raw.slice(0, 60);
+    if (!ch.why_matters_en) ch.why_matters_en = "";
+    const kwMatches = matchCapabilities(ch.raw, caps);
+    for (const id of kwMatches) {
+      if (!ch.capability_ids.includes(id)) ch.capability_ids.push(id);
+    }
+  }
+  const epochId = assignEpoch(ver.date, epochs);
+  const signals = matchHnSignals(ver.date, hnSignals);
+  const blog = matchBlogPost(ver.date, blogPosts);
+  const rel: Release = {
+    version: ver.version,
+    date: ver.date,
+    epoch_id: epochId,
+    source: "changelog",
+    changes,
+    signals,
+    highlight_score: 0,
+  };
+  rel.highlight_score = calcHighlightScore(rel, blog);
+  return rel;
+}
+
+function assembleBundle(
+  releases: Release[],
+  highlights: Highlight[],
+  caps: CapSeed[],
+  epochs: EpochSeed[],
+  hnSignals: { title: string; points: number; url: string; created_at: string }[],
+  blogPosts: { title: string; slug: string; date: string; url: string }[],
+) {
+  const capStats = buildCapabilityStats(caps, releases, epochs);
+  const hnTop = hnSignals.filter((s) => s.points >= 100).slice(0, 18).map((s) => ({
+    title: s.title,
+    points: s.points,
+    url: s.url,
+    date: s.created_at.slice(0, 10),
+  }));
+  const epochStats = epochs.map((ep) => {
+    const epReleases = releases.filter((r) => r.epoch_id === ep.id);
+    return {
+      ...ep,
+      release_count: epReleases.length,
+      highlight_count: highlights.filter((h) => h.epoch_id === ep.id).length,
+    };
+  });
+  const latestDate = releases.filter((r) => r.date).map((r) => r.date!).sort().pop();
+  if (latestDate) {
+    const lastEpoch = epochStats[epochStats.length - 1];
+    if (latestDate > lastEpoch.period_end && lastEpoch.period_end !== "2099-12-31") {
+      lastEpoch.period_end = "2099-12-31";
+    }
+  }
+  const releaseDates = releases.filter((r) => r.date).map((r) => r.date!).sort();
+  return {
+    meta: {
+      generated_at: new Date().toISOString(),
+      agent_model: OPENAI_MODEL,
+      total_versions: releases.length,
+      date_range: {
+        start: releaseDates[0] ?? "2025-02-24",
+        end: releaseDates[releaseDates.length - 1] ?? "2026-03-22",
+      },
+      highlight_count: highlights.length,
+      capability_count: capStats.length,
+      hn_signal_count: hnTop.length,
+      blog_post_count: blogPosts.length,
+    },
+    epochs: epochStats,
+    releases,
+    highlights,
+    capabilities: capStats,
+    social_proof: { hn_top: hnTop, blog_posts: blogPosts },
+  };
+}
+
+const HIGHLIGHT_THRESHOLD = 55;
+
+async function generateHighlights(
+  releases: Release[],
+  existingHighlights: Highlight[],
+  blogPosts: { title: string; slug: string; date: string; url: string }[],
+  onlyNewVersions?: Set<string>,
+): Promise<Highlight[]> {
+  const existingVersions = new Set(existingHighlights.map((h) => h.version));
+  const candidates = releases.filter((r) => r.highlight_score >= HIGHLIGHT_THRESHOLD && r.date);
+  const highlights: Highlight[] = [];
+
+  for (const rel of candidates) {
+    // Reuse existing highlight if not a new version
+    if (existingVersions.has(rel.version) && (!onlyNewVersions || !onlyNewVersions.has(rel.version))) {
+      const existing = existingHighlights.find((h) => h.version === rel.version)!;
+      highlights.push(existing);
+      continue;
+    }
+
+    const topChanges = [...rel.changes].sort((a, b) => b.importance - a.importance).slice(0, 5);
+    const blog = matchBlogPost(rel.date, blogPosts);
+    const narrative = await writeHighlightNarrative(rel.version, rel.date!, topChanges, rel.signals);
+    log("highlight", `v${rel.version} (score=${rel.highlight_score}): ${narrative.highlight_title}`);
+
+    highlights.push({
+      version: rel.version,
+      date: rel.date!,
+      epoch_id: rel.epoch_id,
+      highlight_score: rel.highlight_score,
+      ...narrative,
+      capability_ids: [...new Set(rel.changes.flatMap((c) => c.capability_ids))],
+      evidence: {
+        hn_signals: rel.signals,
+        blog_post: blog,
+        top_changes: topChanges.slice(0, 3).map((c) => ({
+          raw: c.raw,
+          summary: c.summary,
+          importance: c.importance,
+        })),
+      },
+    });
+  }
+
+  highlights.sort((a, b) => a.date.localeCompare(b.date));
+  return highlights;
+}
+
 // ── Main ───────────────────────────────────────────────────────────────────
 async function main() {
   const startTime = Date.now();
@@ -575,159 +720,96 @@ async function main() {
   let versions = parseChangelog(changelogRaw);
   log("parse", `Parsed ${versions.length} versions from CHANGELOG`);
 
-  // Merge npm dates
   for (const ver of versions) {
     if (!ver.date && npmTimes[ver.version]) {
       ver.date = npmTimes[ver.version];
     }
   }
 
-  // Sample mode
   if (SAMPLE > 0) {
     versions = versions.slice(-SAMPLE);
     log("sample", `Using last ${versions.length} versions only`);
   }
 
-  // Phase 3: LLM Enrich
+  // ── Incremental mode ──────────────────────────────────────────────────
+  if (INCREMENTAL) {
+    const existing = tryLoadExistingBundle();
+    if (!existing) {
+      log("incremental", "No existing bundle found, falling back to full run");
+    } else {
+      const existingVersions = new Set<string>(existing.releases.map((r: any) => r.version));
+      const newVersions = versions.filter((v) => !existingVersions.has(v.version));
+
+      if (newVersions.length === 0) {
+        log("incremental", "No new versions found. Updating HN signals and social proof only.");
+        // Still refresh HN signals + social proof (free API), then rewrite bundle
+        const releases: Release[] = existing.releases.map((rel: any) => {
+          const signals = matchHnSignals(rel.date, hnSignals);
+          const blog = matchBlogPost(rel.date, blogPosts);
+          return { ...rel, signals, highlight_score: calcHighlightScore({ ...rel, signals }, blog) };
+        });
+        const highlights = await generateHighlights(releases, existing.highlights, blogPosts);
+        const bundle = assembleBundle(releases, highlights, caps, epochs, hnSignals, blogPosts);
+        mkdirSync(DATA, { recursive: true });
+        writeFileSync(OUTPUT, JSON.stringify(bundle, null, 2), "utf8");
+        const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+        log("done", `No new versions. Refreshed signals. ${elapsed}s`);
+        return;
+      }
+
+      log("incremental", `Found ${newVersions.length} new version(s): ${newVersions.map((v) => v.version).join(", ")}`);
+
+      // Only enrich new versions via LLM
+      const newEnriched = await enrichAllVersions(newVersions);
+      const newVersionSet = new Set(newVersions.map((v) => v.version));
+
+      // Build releases: reuse existing enriched changes, add new ones
+      const existingReleaseMap = new Map<string, any>(existing.releases.map((r: any) => [r.version, r]));
+      const releases: Release[] = versions.map((ver) => {
+        if (existingReleaseMap.has(ver.version) && !newVersionSet.has(ver.version)) {
+          // Reuse existing release, but refresh signals
+          const rel = existingReleaseMap.get(ver.version)!;
+          const signals = matchHnSignals(ver.date, hnSignals);
+          const blog = matchBlogPost(ver.date, blogPosts);
+          return { ...rel, signals, highlight_score: calcHighlightScore({ ...rel, signals }, blog) };
+        }
+        const changes = newEnriched.get(ver.version) ?? [];
+        return assembleRelease(ver, changes, caps, epochs, hnSignals, blogPosts);
+      });
+
+      const highlights = await generateHighlights(releases, existing.highlights, blogPosts, newVersionSet);
+      const bundle = assembleBundle(releases, highlights, caps, epochs, hnSignals, blogPosts);
+      mkdirSync(DATA, { recursive: true });
+      writeFileSync(OUTPUT, JSON.stringify(bundle, null, 2), "utf8");
+
+      const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+      log("done", `Incremental: ${newVersions.length} new, ${releases.length} total, ${highlights.length} highlights. ${elapsed}s`);
+      return;
+    }
+  }
+
+  // ── Full mode ─────────────────────────────────────────────────────────
   const enriched = await enrichAllVersions(versions);
 
-  // Phase 4: Assemble releases
   const releases: Release[] = versions.map((ver) => {
     const changes = enriched.get(ver.version) ?? [];
-    // Supplement capability_ids with keyword matching
-    for (const ch of changes) {
-      if (!Array.isArray(ch.capability_ids)) ch.capability_ids = [];
-      if (!ch.summary_en) ch.summary_en = ch.raw.slice(0, 60);
-      if (!ch.why_matters_en) ch.why_matters_en = "";
-      const kwMatches = matchCapabilities(ch.raw, caps);
-      for (const id of kwMatches) {
-        if (!ch.capability_ids.includes(id)) ch.capability_ids.push(id);
-      }
-    }
-
-    const epochId = assignEpoch(ver.date, epochs);
-    const signals = matchHnSignals(ver.date, hnSignals);
-    const blog = matchBlogPost(ver.date, blogPosts);
-
-    const rel: Release = {
-      version: ver.version,
-      date: ver.date,
-      epoch_id: epochId,
-      source: "changelog",
-      changes,
-      signals,
-      highlight_score: 0,
-    };
-    rel.highlight_score = calcHighlightScore(rel, blog);
-    return rel;
+    return assembleRelease(ver, changes, caps, epochs, hnSignals, blogPosts);
   });
 
   log("assemble", `${releases.length} releases, ${releases.filter((r) => r.highlight_score >= 40).length} highlight candidates`);
 
-  // Phase 5: Write highlight narratives
-  const HIGHLIGHT_THRESHOLD = 55;
-  const highlightReleases = releases.filter((r) => r.highlight_score >= HIGHLIGHT_THRESHOLD && r.date);
-  const highlights: Highlight[] = [];
+  const highlights = await generateHighlights(releases, [], blogPosts);
 
-  for (const rel of highlightReleases) {
-    const topChanges = [...rel.changes].sort((a, b) => b.importance - a.importance).slice(0, 5);
-    const blog = matchBlogPost(rel.date, blogPosts);
-    const narrative = await writeHighlightNarrative(
-      rel.version,
-      rel.date!,
-      topChanges,
-      rel.signals,
-    );
-    log("highlight", `v${rel.version} (score=${rel.highlight_score}): ${narrative.highlight_title}`);
+  const bundle = assembleBundle(releases, highlights, caps, epochs, hnSignals, blogPosts);
 
-    const allCapIds = [...new Set(rel.changes.flatMap((c) => c.capability_ids))];
-    highlights.push({
-      version: rel.version,
-      date: rel.date!,
-      epoch_id: rel.epoch_id,
-      highlight_score: rel.highlight_score,
-      ...narrative,
-      capability_ids: allCapIds,
-      evidence: {
-        hn_signals: rel.signals,
-        blog_post: blog,
-        top_changes: topChanges.slice(0, 3).map((c) => ({
-          raw: c.raw,
-          summary: c.summary,
-          importance: c.importance,
-        })),
-      },
-    });
-  }
-
-  highlights.sort((a, b) => a.date.localeCompare(b.date));
-
-  // Phase 6: Capability stats
-  const capStats = buildCapabilityStats(caps, releases, epochs);
-
-  // Phase 7: Social proof
-  const hnTop = hnSignals.filter((s) => s.points >= 100).slice(0, 18).map((s) => ({
-    title: s.title,
-    points: s.points,
-    url: s.url,
-    date: s.created_at.slice(0, 10),
-  }));
-
-  // Build epoch stats
-  const epochStats = epochs.map((ep) => {
-    const epReleases = releases.filter((r) => r.epoch_id === ep.id);
-    return {
-      ...ep,
-      release_count: epReleases.length,
-      highlight_count: highlights.filter((h) => h.epoch_id === ep.id).length,
-    };
-  });
-
-  // Extend last epoch if needed
-  const latestDate = releases.filter((r) => r.date).map((r) => r.date!).sort().pop();
-  if (latestDate) {
-    const lastEpoch = epochStats[epochStats.length - 1];
-    if (latestDate > lastEpoch.period_end && lastEpoch.period_end !== "2099-12-31") {
-      lastEpoch.period_end = "2099-12-31";
-    }
-  }
-
-  // Assemble bundle
-  const releaseDates = releases.filter((r) => r.date).map((r) => r.date!).sort();
-  const bundle = {
-    meta: {
-      generated_at: new Date().toISOString(),
-      agent_model: OPENAI_MODEL,
-      total_versions: releases.length,
-      date_range: {
-        start: releaseDates[0] ?? "2025-02-24",
-        end: releaseDates[releaseDates.length - 1] ?? "2026-03-21",
-      },
-      highlight_count: highlights.length,
-      capability_count: capStats.length,
-      hn_signal_count: hnTop.length,
-      blog_post_count: blogPosts.length,
-    },
-    epochs: epochStats,
-    releases,
-    highlights,
-    capabilities: capStats,
-    social_proof: {
-      hn_top: hnTop,
-      blog_posts: blogPosts,
-    },
-  };
-
-  // Write
   mkdirSync(DATA, { recursive: true });
   writeFileSync(OUTPUT, JSON.stringify(bundle, null, 2), "utf8");
 
   const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
   log("done", `Wrote ${OUTPUT}`);
-  log("done", `${releases.length} releases, ${highlights.length} highlights, ${capStats.length} capabilities`);
+  log("done", `${releases.length} releases, ${highlights.length} highlights, ${bundle.capabilities.length} capabilities`);
   log("done", `Elapsed: ${elapsed}s`);
 
-  // Print highlight summary for review
   console.log("\n── Highlight Releases ──");
   for (const h of highlights) {
     console.log(`  ${h.date} v${h.version} (score=${h.highlight_score})`);

@@ -1,0 +1,61 @@
+name: Update Data & Deploy
+
+on:
+  schedule:
+    # UTC 01:00 = Beijing 09:00, daily
+    - cron: "0 1 * * *"
+  workflow_dispatch:
+    inputs:
+      full_run:
+        description: "Run full pipeline (not incremental)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  update-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      # Incremental update (or full if triggered manually)
+      - name: Update data
+        run: |
+          if [ "${{ inputs.full_run }}" = "true" ]; then
+            echo "Running full pipeline..."
+            bun agent/update.ts
+          else
+            echo "Running incremental pipeline..."
+            bun agent/update.ts --incremental
+          fi
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+      # Install site dependencies and build
+      - name: Build site
+        run: cd site && bun install --frozen-lockfile && bun run build
+
+      # Commit updated data back to repo (if changed)
+      - name: Commit data changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "auto: update claude code data [skip ci]"
+          file_pattern: |
+            data/auto_bundle.json
+            data/capabilities_seed.json
+            data/epochs_seed.json
+
+      # Deploy to Cloudflare Workers (Static Assets)
+      - name: Deploy to Cloudflare
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: deploy
