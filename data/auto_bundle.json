@@ -1,13 +1,13 @@
 {
   "meta": {
-    "generated_at": "2026-03-25T03:35:47.540Z",
+    "generated_at": "2026-03-26T03:46:40.994Z",
     "agent_model": "openai/gpt-5.4-mini",
-    "total_versions": 245,
+    "total_versions": 247,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-03-20"
+      "end": "2026-03-25"
     },
-    "highlight_count": 31,
+    "highlight_count": 32,
     "capability_count": 8,
     "hn_signal_count": 18,
     "blog_post_count": 7
@@ -70,11 +70,1560 @@
       "color": "#dc2626",
       "summary": "1M 上下文、安全扫描、无人值守运行能力",
       "summary_en": "1M context window, security scanning, and unattended operation capabilities",
-      "release_count": 29,
-      "highlight_count": 10
+      "release_count": 31,
+      "highlight_count": 11
     }
   ],
   "releases": [
+    {
+      "version": "2.1.84",
+      "date": "2026-03-25",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added PowerShell tool for Windows as an opt-in preview. Learn more at https://code.claude.com/docs/en/tools-reference#powershell-tool",
+          "category": "feat",
+          "importance": 4,
+          "summary": "新增 Windows PowerShell 预览工具",
+          "summary_en": "Add opt-in PowerShell tool on Windows",
+          "why_matters": "让 Windows 用户可以更稳定地使用 PowerShell 执行工具操作，提升 CLI 在 Windows 上的可用性。",
+          "why_matters_en": "This gives Windows users a more reliable way to run PowerShell-based tool actions in the CLI.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Added `ANTHROPIC_DEFAULT_{OPUS,SONNET,HAIKU}_MODEL_SUPPORTS` env vars to override effort/thinking capability detection for pinned default models for 3p (Bedrock, Vertex, Foundry), and `_MODEL_NAME`/`_DESCRIPTION` to customize the `/model` picker label",
+          "category": "feat",
+          "importance": 3,
+          "summary": "支持自定义默认模型能力标记",
+          "summary_en": "Override default model capability labels",
+          "why_matters": "第三方模型提供商可以更准确地显示默认模型的思考/努力能力，减少模型选择和能力判断错误。",
+          "why_matters_en": "Third-party providers can now present pinned default models with more accurate effort/thinking capability labeling.",
+          "capability_ids": [
+            "memory_context",
+            "reasoning_workflows",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Added `CLAUDE_STREAM_IDLE_TIMEOUT_MS` env var to configure the streaming idle watchdog threshold (default 90s)",
+          "category": "feat",
+          "importance": 2,
+          "summary": "可配置流式空闲超时阈值",
+          "summary_en": "Configure streaming idle timeout threshold",
+          "why_matters": "用户可按环境调整流式响应的空闲监控时间，降低误判超时或过早中断的风险。",
+          "why_matters_en": "Users can tune the streaming watchdog threshold to reduce false timeouts or premature interruptions.",
+          "capability_ids": [
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Added `TaskCreated` hook that fires when a task is created via `TaskCreate`",
+          "category": "feat",
+          "importance": 3,
+          "summary": "新增任务创建 Hook",
+          "summary_en": "Add TaskCreated hook on task creation",
+          "why_matters": "当任务被创建时可以触发自动化流程，便于审计、通知或联动外部工作流。",
+          "why_matters_en": "This enables automation, auditing, or notifications whenever a task is created.",
+          "capability_ids": [
+            "automation_autonomy",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Added `WorktreeCreate` hook support for `type: \"http\"` — return the created worktree path via `hookSpecificOutput.worktreePath` in the response JSON",
+          "category": "feat",
+          "importance": 3,
+          "summary": "HTTP Worktree 创建可回传路径",
+          "summary_en": "Return created worktree path for HTTP hooks",
+          "why_matters": "通过 HTTP hook 创建 worktree 后可直接拿到路径，方便后续自动化步骤继续处理。",
+          "why_matters_en": "HTTP hooks can now return the new worktree path, making follow-up automation much easier.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy",
+            "delegation_collaboration",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added `allowedChannelPlugins` managed setting for team/enterprise admins to define a channel plugin allowlist",
+          "category": "feat",
+          "importance": 4,
+          "summary": "团队可控频道插件白名单",
+          "summary_en": "Admin-managed allowlist for channel plugins",
+          "why_matters": "管理员可以限制可用插件来源，帮助团队统一治理并减少不受信任扩展带来的风险。",
+          "why_matters_en": "Admins can restrict plugin sources to improve governance and reduce risk from untrusted extensions.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added `x-client-request-id` header to API requests for debugging timeouts",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "请求增加超时排障 ID",
+          "summary_en": "Add request ID for timeout debugging",
+          "why_matters": "增加请求追踪标识后，排查 API 超时问题会更容易，提升支持和诊断效率。",
+          "why_matters_en": "A request identifier makes API timeout debugging and support investigations easier.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added idle-return prompt that nudges users returning after 75+ minutes to `/clear`, reducing unnecessary token re-caching on stale sessions",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "长时间离开后提示清理会话",
+          "summary_en": "Prompt users to clear stale sessions",
+          "why_matters": "减少回到旧会话时的不必要 token 重新缓存，能节省时间和上下文成本。",
+          "why_matters_en": "This reduces unnecessary token re-caching when users return to stale sessions, saving time and context cost.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Deep links (`claude-cli://`) now open in your preferred terminal instead of whichever terminal happens to be first in the detection list",
+          "category": "fix",
+          "importance": 2,
+          "summary": "CLI 深链优先打开默认终端",
+          "summary_en": "Open claude-cli links in preferred terminal",
+          "why_matters": "点击 claude-cli 深链接时会打开用户偏好的终端，提升跨终端体验一致性。",
+          "why_matters_en": "claude-cli deep links now open in the user's preferred terminal, improving consistency across terminal apps.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Rules and skills `paths:` frontmatter now accepts a YAML list of globs",
+          "category": "feat",
+          "importance": 2,
+          "summary": "规则与技能路径支持列表",
+          "summary_en": "Allow YAML list of globs in paths frontmatter",
+          "why_matters": "规则和技能可以更灵活地匹配多个文件路径，方便更精细的配置管理。",
+          "why_matters_en": "Rules and skills can now match multiple path globs more flexibly for finer-grained configuration.",
+          "capability_ids": [
+            "memory_context",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "MCP tool descriptions and server instructions are now capped at 2KB to prevent OpenAPI-generated servers from bloating context",
+          "category": "perf",
+          "importance": 3,
+          "summary": "限制 MCP 描述长度节省上下文",
+          "summary_en": "Cap MCP descriptions to save context",
+          "why_matters": "限制工具描述长度可以减少上下文膨胀，改善大规模 MCP 集成下的性能和稳定性。",
+          "why_matters_en": "Capping MCP descriptions reduces context bloat and improves performance and stability for large MCP setups.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "MCP servers configured both locally and via claude.ai connectors are now deduplicated — the local config wins",
+          "category": "fix",
+          "importance": 3,
+          "summary": "本地与云端 MCP 去重",
+          "summary_en": "Deduplicate local and connector MCP servers",
+          "why_matters": "避免同一 MCP 服务重复出现，减少冲突，并确保本地配置优先生效。",
+          "why_matters_en": "This prevents duplicate MCP entries, reduces conflicts, and ensures local config takes precedence.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Background bash tasks that appear stuck on an interactive prompt now surface a notification after ~45 seconds",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "后台卡住任务及时通知",
+          "summary_en": "Notify when background tasks seem stuck",
+          "why_matters": "当后台 bash 任务疑似卡在交互提示时，用户能更快发现并处理问题。",
+          "why_matters_en": "Users are alerted sooner when a background bash task appears stuck at an interactive prompt.",
+          "capability_ids": [
+            "automation_autonomy",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Token counts ≥1M now display as \"1.5m\" instead of \"1512.6k\"",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "百万级 token 显示更易读",
+          "summary_en": "Show million-scale token counts more clearly",
+          "why_matters": "更友好的数字格式提升了大上下文统计的可读性。",
+          "why_matters_en": "A clearer number format improves readability for large context token counts.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Global system-prompt caching now works when `ToolSearch` is enabled, including for users with MCP tools configured",
+          "category": "fix",
+          "importance": 4,
+          "summary": "ToolSearch 下系统缓存恢复可用",
+          "summary_en": "Restore global prompt caching with ToolSearch",
+          "why_matters": "启用 ToolSearch 且使用 MCP 工具时也能正常缓存系统提示，减少重复开销并提升响应效率。",
+          "why_matters_en": "Global system-prompt caching now works with ToolSearch and MCP tools, reducing repeated overhead and improving responsiveness.",
+          "capability_ids": [
+            "memory_context",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed voice push-to-talk: holding the voice key no longer leaks characters into the text input, and transcripts now insert at the correct position",
+          "category": "fix",
+          "importance": 3,
+          "summary": "语音输入不再串字并准位插入",
+          "summary_en": "Voice input no longer leaks chars; inserts correctly",
+          "why_matters": "这能避免语音转写污染输入框并确保内容插入到正确位置，提升语音输入可用性。",
+          "why_matters_en": "This prevents voice transcription from corrupting the input field and ensures text lands in the right place.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed up/down arrow keys being unresponsive when a footer item is focused",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复页脚焦点后方向键失效",
+          "summary_en": "Arrow keys work again when footer items are focused",
+          "why_matters": "这恢复了键盘导航能力，避免在页脚控件上卡住操作流程。",
+          "why_matters_en": "This restores keyboard navigation and avoids getting stuck on footer controls.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed `Ctrl+U` (kill-to-line-start) being a no-op at line boundaries in multiline input, so repeated `Ctrl+U` now clears across lines",
+          "category": "fix",
+          "importance": 2,
+          "summary": "Ctrl+U可跨行清空输入",
+          "summary_en": "Ctrl+U now clears across lines in multiline input",
+          "why_matters": "这修复了多行编辑中的基本删改操作，让键盘文本编辑更符合预期。",
+          "why_matters_en": "This fixes a core text-editing command so multiline editing behaves as expected.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed null-unbinding a default chord binding (e.g. `\"ctrl+x ctrl+k\": null`) still entering chord-wait mode instead of freeing the prefix key",
+          "category": "fix",
+          "importance": 2,
+          "summary": "解绑默认快捷键不再占位等待",
+          "summary_en": "Null-unbound chords now free the prefix key",
+          "why_matters": "这让快捷键配置真正生效，避免前缀键被错误占用而影响自定义绑定。",
+          "why_matters_en": "This makes keybinding overrides behave correctly and prevents prefix keys from being wrongly reserved.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed mouse events inserting literal \"mouse\" text into transcript search input",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复鼠标输入串入搜索框",
+          "summary_en": "Mouse events no longer type into search input",
+          "why_matters": "这避免了鼠标操作误触发文本输入，减少搜索框里的意外脏数据。",
+          "why_matters_en": "This prevents mouse interactions from injecting stray text into search inputs.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed workflow subagents failing with API 400 when the outer session uses `--json-schema` and the subagent also specifies a schema",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复子代理JSON Schema冲突",
+          "summary_en": "Subagents no longer fail when both sides use schemas",
+          "why_matters": "这恢复了工作流子代理在结构化输出场景下的正常调用，避免 API 400 中断任务。",
+          "why_matters_en": "This restores subagent calls in structured-output workflows and avoids API 400 failures.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed missing background color behind certain emoji in user message bubbles on some terminals",
+          "category": "fix",
+          "importance": 1,
+          "summary": "修复表情消息气泡背景缺失",
+          "summary_en": "Emoji message bubbles now render background properly",
+          "why_matters": "这改善了部分终端上的消息显示一致性，提升视觉可读性。",
+          "why_matters_en": "This improves rendering consistency and readability for message bubbles on some terminals.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed the \"allow Claude to edit its own settings for this session\" permission option not sticking for users with `Edit(.claude)` allow rules",
+          "category": "fix",
+          "importance": 3,
+          "summary": "会话内编辑设置权限可正常生效",
+          "summary_en": "Session settings edit permission now sticks correctly",
+          "why_matters": "这确保权限策略按预期执行，避免用户误以为已授权却无法持久生效。",
+          "why_matters_en": "This ensures permission rules persist as intended and avoids false assumptions about granted access.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed a hang when generating attachment snippets for large edited files",
+          "category": "fix",
+          "importance": 3,
+          "summary": "大文件附件摘要生成不卡死",
+          "summary_en": "Attachment snippet generation no longer hangs on large files",
+          "why_matters": "这提升了处理大编辑文件时的稳定性，避免附件摘要阶段阻塞工作流。",
+          "why_matters_en": "This improves stability when handling large edited files and prevents attachment snippet generation from blocking.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed MCP tool/resource cache leak on server reconnect",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复MCP重连缓存泄漏",
+          "summary_en": "MCP tool/resource cache no longer leaks on reconnect",
+          "why_matters": "这减少了服务器重连后的资源泄漏，提升长期运行稳定性。",
+          "why_matters_en": "This prevents resource leaks after server reconnects and improves long-running stability.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed a startup performance issue where partial clone repositories (Scalar/GVFS) triggered mass blob downloads",
+          "category": "perf",
+          "importance": 4,
+          "summary": "部分克隆仓库启动更快",
+          "summary_en": "Startup is faster for partial-clone repos",
+          "why_matters": "这避免部分克隆仓库在启动时触发大量 blob 下载，显著缩短冷启动时间。",
+          "why_matters_en": "This avoids mass blob downloads on startup and significantly improves cold-start time.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed native terminal cursor not tracking the text input caret, so IME composition (CJK input) now renders inline and screen readers can follow the input position",
+          "category": "fix",
+          "importance": 4,
+          "summary": "终端光标与输入光标同步",
+          "summary_en": "Native cursor now tracks the text caret",
+          "why_matters": "这让 CJK/IME 输入可正确联想并提升屏幕阅读器可访问性，改善关键输入体验。",
+          "why_matters_en": "This makes IME composition render inline and lets screen readers follow the caret for better accessibility.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed spurious \"Not logged in\" errors on macOS caused by transient keychain read failures",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复macOS误报未登录",
+          "summary_en": "macOS no longer shows false not-logged-in errors",
+          "why_matters": "这减少了由钥匙串瞬时读取失败导致的误导性报错，降低登录状态困惑。",
+          "why_matters_en": "This removes misleading login errors caused by transient keychain read failures.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed cold-start race where core tools could be deferred without their bypass active, causing Edit/Write to fail with InputValidationError on typed parameters",
+          "category": "fix",
+          "importance": 4,
+          "summary": "冷启动核心工具不再失效",
+          "summary_en": "Core tools no longer fail during cold-start deferral",
+          "why_matters": "这修复了启动竞争导致的工具调用失败，避免 Edit/Write 因参数校验报错。",
+          "why_matters_en": "This fixes a startup race that could break tool calls and cause Edit/Write validation errors.",
+          "capability_ids": [
+            "automation_autonomy",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Improved detection for dangerous removals of Windows drive roots (`C:\\`, `C:\\Windows`, etc.)",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "强化Windows危险删除保护",
+          "summary_en": "Improved detection for dangerous Windows root removals",
+          "why_matters": "这降低误删系统盘或关键目录的风险，增强文件操作安全性。",
+          "why_matters_en": "This reduces the risk of deleting critical Windows roots and improves file-operation safety.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Improved interactive startup by ~30ms by running `setup()` in parallel with slash command and agent loading",
+          "category": "perf",
+          "importance": 3,
+          "summary": "并行加载加快启动",
+          "summary_en": "Faster startup via parallel loading",
+          "why_matters": "减少交互启动等待时间，让用户更快开始使用 Claude Code。",
+          "why_matters_en": "It reduces interactive startup delay so users can begin working sooner.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Improved startup for `claude \"prompt\"` with MCP servers — the REPL now renders immediately instead of blocking until all servers connect",
+          "category": "perf",
+          "importance": 4,
+          "summary": "MCP下REPL立即显示",
+          "summary_en": "REPL renders immediately with MCP",
+          "why_matters": "避免在连接 MCP 服务器时卡住界面，提升启动体验。",
+          "why_matters_en": "It prevents the UI from blocking while MCP servers connect, improving startup experience.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Improved Remote Control to show a specific reason when blocked instead of a generic \"not yet enabled\" message",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "阻止原因更明确",
+          "summary_en": "Shows a clearer block reason",
+          "why_matters": "用户能直接知道 Remote Control 为什么不可用，减少排查成本。",
+          "why_matters_en": "Users can see why Remote Control is blocked, reducing confusion and troubleshooting time.",
+          "capability_ids": [
+            "governance_security",
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Improved p90 prompt cache rate",
+          "category": "perf",
+          "importance": 3,
+          "summary": "提升提示缓存命中率",
+          "summary_en": "Improved prompt cache hit rate",
+          "why_matters": "更高的缓存命中率可以减少重复计算并加快响应。",
+          "why_matters_en": "A better cache hit rate reduces repeated computation and speeds up responses.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Reduced scroll-to-top resets in long sessions by making the message window immune to compaction and grouping changes",
+          "category": "perf",
+          "importance": 3,
+          "summary": "长会话少回顶跳动",
+          "summary_en": "Fewer scroll-to-top jumps",
+          "why_matters": "长对话中界面更稳定，阅读和编辑上下文更顺畅。",
+          "why_matters_en": "The interface stays steadier in long sessions, making it easier to read and edit context.",
+          "capability_ids": [
+            "execution_workspace",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Reduced terminal flickering when animated tool progress scrolls above the viewport",
+          "category": "perf",
+          "importance": 2,
+          "summary": "减少进度动画闪烁",
+          "summary_en": "Reduced progress animation flicker",
+          "why_matters": "终端视觉更稳定，降低动画滚动带来的干扰。",
+          "why_matters_en": "The terminal looks steadier and the animated progress output is less distracting.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Changed issue/PR references to only become clickable links when written as `owner/repo#123` — bare `#123` is no longer auto-linked",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "仅完整引用可点击",
+          "summary_en": "Only full repo refs are linked",
+          "why_matters": "避免把裸 `#123` 误识别为链接，减少阅读歧义。",
+          "why_matters_en": "It avoids mislinking bare `#123` and reduces ambiguity in displayed text.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Slash commands unavailable for the current auth setup (`/voice`, `/mobile`, `/chrome`, `/upgrade`, etc.) are now hidden instead of shown",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "隐藏不可用斜杠命令",
+          "summary_en": "Hides unavailable slash commands",
+          "why_matters": "让用户只看到当前账号可用的命令，减少误点和困惑。",
+          "why_matters_en": "Users only see commands available to their auth setup, reducing confusion and misclicks.",
+          "capability_ids": [
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Added rate limit warning banner with usage percentage and reset time",
+          "category": "feat",
+          "importance": 2,
+          "summary": "VSCode显示限流提醒",
+          "summary_en": "VSCode rate limit warning banner",
+          "why_matters": "用户可以及时了解用量和重置时间，避免因限流而中断工作。",
+          "why_matters_en": "Users can see usage and reset timing early, helping them avoid work disruptions from rate limits.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Stats screenshot (Ctrl+S in /stats) now works in all builds and is 16× faster",
+          "category": "perf",
+          "importance": 3,
+          "summary": "统计截图更快更稳定",
+          "summary_en": "Stats screenshot is faster and works",
+          "why_matters": "截图功能在所有构建中可用且更快，方便分享和排查状态。",
+          "why_matters_en": "The screenshot feature works across builds and is much faster, making status sharing and debugging easier.",
+          "capability_ids": [
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Claude Code Cheat Sheet",
+          "points": 674,
+          "url": "https://cc.storyfox.cz"
+        },
+        {
+          "title": "Push events into a running session with channels",
+          "points": 399,
+          "url": "https://code.claude.com/docs/en/channels"
+        },
+        {
+          "title": "Cook: A simple CLI for orchestrating Claude Code",
+          "points": 304,
+          "url": "https://rjcorwin.github.io/cook/"
+        },
+        {
+          "title": "How I'm Productive with Claude Code",
+          "points": 268,
+          "url": "https://neilkakkar.com/productive-with-claude-code.html"
+        },
+        {
+          "title": "Show HN: Cq – Stack Overflow for AI coding agents",
+          "points": 217,
+          "url": "https://blog.mozilla.ai/cq-stack-overflow-for-agents/"
+        }
+      ],
+      "highlight_score": 50
+    },
+    {
+      "version": "2.1.83",
+      "date": "2026-03-24",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added `managed-settings.d/` drop-in directory alongside `managed-settings.json`, letting separate teams deploy independent policy fragments that merge alphabetically",
+          "category": "improvement",
+          "importance": 4,
+          "summary": "支持分层合并管理配置",
+          "summary_en": "Support layered managed settings",
+          "why_matters": "让不同团队能独立发布策略片段并按字母顺序合并，提升配置管理的可维护性和协作效率。",
+          "why_matters_en": "Lets separate teams ship independent policy fragments and merge them predictably, improving maintainability and team coordination.",
+          "capability_ids": [
+            "governance_security",
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Added `CwdChanged` and `FileChanged` hook events for reactive environment management (e.g., direnv)",
+          "category": "feat",
+          "importance": 4,
+          "summary": "新增文件变更响应钩子",
+          "summary_en": "Add CwdChanged and FileChanged hooks",
+          "why_matters": "可在目录或文件变化时自动触发环境管理，提升工具对工作区状态变化的响应能力。",
+          "why_matters_en": "Enables reactive environment management when directories or files change, making the tool more adaptive to workspace state.",
+          "capability_ids": [
+            "automation_autonomy",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Added `sandbox.failIfUnavailable` setting to exit with an error when sandbox is enabled but cannot start, instead of running unsandboxed",
+          "category": "security",
+          "importance": 5,
+          "summary": "沙箱失效时强制报错退出",
+          "summary_en": "Fail if sandbox cannot start",
+          "why_matters": "避免沙箱不可用时悄悄降级为非沙箱运行，减少在不受保护环境下执行命令的风险。",
+          "why_matters_en": "Prevents silent fallback to unsandboxed execution, reducing the risk of running commands without protection.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Added `disableDeepLinkRegistration` setting to prevent `claude-cli://` protocol handler registration",
+          "category": "security",
+          "importance": 4,
+          "summary": "可禁用深度链接注册",
+          "summary_en": "Allow disabling deep link registration",
+          "why_matters": "阻止注册 `claude-cli://` 协议处理器，降低被外部链接意外唤起或滥用的风险。",
+          "why_matters_en": "Prevents registration of the `claude-cli://` handler, reducing the risk of unwanted external invocation or abuse.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Added `CLAUDE_CODE_SUBPROCESS_ENV_SCRUB=1` to strip Anthropic and cloud provider credentials from subprocess environments (Bash tool, hooks, MCP stdio servers)",
+          "category": "security",
+          "importance": 5,
+          "summary": "子进程自动清理敏感环境变量",
+          "summary_en": "Scrub credentials from subprocess env",
+          "why_matters": "从子进程环境中移除云凭据和 Anthropic 凭据，降低密钥泄露到脚本、hooks 和 MCP 服务的风险。",
+          "why_matters_en": "Removes cloud and Anthropic credentials from subprocess environments, lowering the chance of secret leakage to scripts, hooks, and MCP servers.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Added transcript search — press `/` in transcript mode (`Ctrl+O`) to search, `n`/`N` to step through matches",
+          "category": "feat",
+          "importance": 3,
+          "summary": "支持会话内搜索对话记录",
+          "summary_en": "Add transcript search",
+          "why_matters": "可以快速定位历史内容并在匹配项之间跳转，提高长对话的可检索性和使用效率。",
+          "why_matters_en": "Makes long transcripts searchable and easy to navigate, improving retrieval and productivity.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Added `Ctrl+X Ctrl+E` as an alias for opening the external editor (readline-native binding; `Ctrl+G` still works)",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "新增外部编辑器快捷键",
+          "summary_en": "Add external editor shortcut",
+          "why_matters": "提供更顺手的按键绑定，减少切换到外部编辑器时的操作成本。",
+          "why_matters_en": "Offers a more convenient keybinding, reducing friction when opening an external editor.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Pasted images now insert an `[Image #N]` chip at the cursor so you can reference them positionally in your prompt",
+          "category": "feat",
+          "importance": 3,
+          "summary": "粘贴图片可直接引用编号",
+          "summary_en": "Insert numbered chips for pasted images",
+          "why_matters": "让用户能在提示词中按位置引用图片，提升多图输入时的表达清晰度。",
+          "why_matters_en": "Lets users reference pasted images by position in prompts, improving clarity when working with multiple images.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Agents can now declare `initialPrompt` in frontmatter to auto-submit a first turn",
+          "category": "feat",
+          "importance": 3,
+          "summary": "代理支持自动首轮提示词",
+          "summary_en": "Support initialPrompt for agents",
+          "why_matters": "代理可在创建后自动发送首轮内容，简化启动流程并提升自动化程度。",
+          "why_matters_en": "Agents can auto-submit an initial turn on creation, simplifying setup and improving automation.",
+          "capability_ids": [
+            "automation_autonomy",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "`chat:killAgents` and `chat:fastMode` are now rebindable via `~/.claude/keybindings.json`",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "快捷键可重新绑定代理动作",
+          "summary_en": "Make agent actions rebindable",
+          "why_matters": "用户可以按自己的工作流定制关键操作，提高快捷键使用的灵活性。",
+          "why_matters_en": "Users can customize key actions to fit their workflow, making shortcuts more flexible.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed mouse tracking escape sequences leaking to shell prompt after exit",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复鼠标跟踪残留到提示符",
+          "summary_en": "Fix mouse tracking leakage to prompt",
+          "why_matters": "避免退出后终端提示符出现异常转义序列，改善终端可用性和外观。",
+          "why_matters_en": "Prevents escape-sequence leakage into the shell prompt after exit, improving terminal cleanliness.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed Claude Code hanging on exit on macOS",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复 macOS 退出卡死",
+          "summary_en": "Fix exit hang on macOS",
+          "why_matters": "避免在 macOS 上退出时程序无响应，直接提升稳定性和可用性。",
+          "why_matters_en": "Prevents hangs on exit on macOS, directly improving reliability and usability.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed screen flashing blank after being idle for a few seconds",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复空闲后屏幕闪黑",
+          "summary_en": "Fix blank screen flash after idle",
+          "why_matters": "消除闲置后界面闪烁问题，提升视觉体验和使用舒适度。",
+          "why_matters_en": "Eliminates blank-screen flashing after idle, improving visual stability and comfort.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed a hang when diffing very large files with few common lines — diffs now time out after 5 seconds and fall back gracefully",
+          "category": "fix",
+          "importance": 3,
+          "summary": "大文件 diff 卡死改为超时回退",
+          "summary_en": "Timeout huge diffs and fall back gracefully",
+          "why_matters": "处理超大 diff 时不再长时间卡住，能更快恢复工作并避免界面冻结。",
+          "why_matters_en": "Prevents long hangs on huge diffs by timing out and falling back gracefully, keeping the UI responsive.",
+          "capability_ids": [
+            "execution_workspace",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed a 1–8 second UI freeze on startup when voice input was enabled, caused by eagerly loading the native audio module",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复语音输入导致启动卡顿",
+          "summary_en": "Fix startup freeze from voice input",
+          "why_matters": "减少启用语音输入时的启动延迟，让程序更快可用。",
+          "why_matters_en": "Removes startup lag when voice input is enabled, making the app ready sooner.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed a startup regression where Claude Code would wait ~3s for claude.ai MCP config fetch before proceeding",
+          "category": "fix",
+          "importance": 4,
+          "summary": "启动更快，免等MCP配置",
+          "summary_en": "Faster startup without MCP config wait",
+          "why_matters": "减少启动时的额外等待，让用户更快进入可用状态。",
+          "why_matters_en": "It removes unnecessary startup delay so users can get to work faster.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed `--mcp-config` CLI flag bypassing `allowedMcpServers`/`deniedMcpServers` managed policy enforcement",
+          "category": "security",
+          "importance": 5,
+          "summary": "修复MCP策略绕过漏洞",
+          "summary_en": "Fix MCP policy bypass via CLI flag",
+          "why_matters": "防止命令行参数绕过受管策略，避免未授权的MCP服务器被启用。",
+          "why_matters_en": "It prevents CLI flags from bypassing managed policy controls and enabling unauthorized MCP servers.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed claude.ai MCP connectors (Slack, Gmail, etc.) not being available in single-turn `--print` mode",
+          "category": "fix",
+          "importance": 4,
+          "summary": "单轮模式可用MCP连接器",
+          "summary_en": "MCP connectors now work in --print mode",
+          "why_matters": "让 Slack、Gmail 等连接器在单轮输出模式下也可用，提升自动化场景覆盖。",
+          "why_matters_en": "It makes connectors like Slack and Gmail available in single-turn mode for broader automation use.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed `caffeinate` process not properly terminating when Claude Code exits, preventing Mac from sleeping",
+          "category": "fix",
+          "importance": 3,
+          "summary": "退出时正确停用睡眠保持进程",
+          "summary_en": "Properly stop caffeinate on exit",
+          "why_matters": "避免退出后仍阻止 Mac 休眠，减少电池和系统资源浪费。",
+          "why_matters_en": "It prevents the app from blocking Mac sleep after exit, saving battery and system resources.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed bash mode not activating when tab-accepting `!`-prefixed command suggestions",
+          "category": "fix",
+          "importance": 2,
+          "summary": "Tab接收!命令时切换bash模式",
+          "summary_en": "Activate bash mode on ! command accept",
+          "why_matters": "让接受 shell 建议时的执行模式更一致，减少命令解释错误。",
+          "why_matters_en": "It keeps shell command handling consistent and reduces command parsing mistakes.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed stale slash command selection showing wrong highlighted command after navigating suggestions",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复斜杠命令高亮错位",
+          "summary_en": "Fix stale slash-command highlight",
+          "why_matters": "改善命令选择反馈，避免用户选错命令。",
+          "why_matters_en": "It improves command selection feedback and helps users avoid picking the wrong command.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed `/config` menu showing both the search cursor and list selection at the same time",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复/config菜单光标重叠",
+          "summary_en": "Fix cursor and selection overlap in /config",
+          "why_matters": "让配置菜单显示更清晰，降低误操作概率。",
+          "why_matters_en": "It makes the config menu clearer and reduces the chance of misselection.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed background subagents becoming invisible after context compaction, which could cause duplicate agents to be spawned",
+          "category": "fix",
+          "importance": 4,
+          "summary": "压缩后背景子代理不再消失",
+          "summary_en": "Keep background subagents visible after compaction",
+          "why_matters": "防止重复创建代理，保证后台任务状态可见且稳定。",
+          "why_matters_en": "It prevents duplicate agent spawning and keeps background task state visible and stable.",
+          "capability_ids": [
+            "automation_autonomy",
+            "delegation_collaboration",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed background agent tasks staying stuck in \"running\" state when git or API calls hang during cleanup",
+          "category": "fix",
+          "importance": 4,
+          "summary": "清理卡住时任务不再假运行",
+          "summary_en": "Avoid stuck running state on cleanup hangs",
+          "why_matters": "避免后台任务在 git 或 API 卡死时误显示为运行中，提升可靠性。",
+          "why_matters_en": "It prevents background tasks from falsely appearing as running when cleanup hangs on git or API calls.",
+          "capability_ids": [
+            "automation_autonomy",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed `--channels` showing \"Channels are not currently available\" on first launch after upgrade",
+          "category": "fix",
+          "importance": 3,
+          "summary": "升级后首启可用Channels",
+          "summary_en": "Channels available on first launch after upgrade",
+          "why_matters": "修复升级后的首次启动误报，让相关功能立即可用。",
+          "why_matters_en": "It fixes a misleading first-launch error after upgrade so the feature is immediately usable.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed uninstalled plugin hooks continuing to fire until the next session",
+          "category": "fix",
+          "importance": 3,
+          "summary": "卸载插件后钩子立即失效",
+          "summary_en": "Plugin hooks stop firing after uninstall",
+          "why_matters": "确保插件卸载后不会继续影响会话行为，减少残留副作用。",
+          "why_matters_en": "It ensures uninstalled plugins no longer affect session behavior and removes lingering side effects.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed queued commands flickering during streaming responses",
+          "category": "fix",
+          "importance": 2,
+          "summary": "队列命令流式时不闪烁",
+          "summary_en": "Reduce queued-command flicker أثناء streaming",
+          "why_matters": "提升流式输出期间的界面稳定性和可读性。",
+          "why_matters_en": "It improves UI stability and readability during streaming responses.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed slash commands being sent to the model as text when submitted while a message is processing",
+          "category": "fix",
+          "importance": 4,
+          "summary": "处理中提交斜杠命令不误发文本",
+          "summary_en": "Slash commands no longer sent as text",
+          "why_matters": "避免命令被模型当普通文本处理，防止执行意图丢失。",
+          "why_matters_en": "It prevents slash commands from being treated as plain text and losing their intended action.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed scrollback jumping when collapsed read/search groups finish after scrolling offscreen",
+          "category": "fix",
+          "importance": 2,
+          "summary": "滚动时不再跳动",
+          "summary_en": "Fix scrollback jump after collapsed groups",
+          "why_matters": "改善长对话浏览体验，避免列表内容突然位移。",
+          "why_matters_en": "It improves long-conversation browsing by preventing unexpected scroll jumps.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed scrollback jumping to top when the model starts or stops thinking",
+          "category": "fix",
+          "importance": 2,
+          "summary": "思考状态切换不再跳顶",
+          "summary_en": "Prevent scrollback jumping to top",
+          "why_matters": "让界面在模型思考状态变化时保持当前位置，减少阅读中断。",
+          "why_matters_en": "It keeps the view anchored when the model starts or stops thinking, reducing interruption.",
+          "capability_ids": [
+            "execution_workspace",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed SDK session history loss on resume caused by hook progress/attachment messages forking the parentUuid chain",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复恢复会话历史丢失",
+          "summary_en": "Fix session history loss on resume",
+          "why_matters": "避免恢复 SDK 会话时丢失上下文，保证连续使用体验。",
+          "why_matters_en": "Prevents lost context when resuming SDK sessions, preserving continuity.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed copy-on-select not firing when you release the mouse outside the terminal window",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复选中复制失灵",
+          "summary_en": "Fix copy-on-select outside terminal",
+          "why_matters": "提升终端复制操作的可靠性，减少误操作带来的困扰。",
+          "why_matters_en": "Improves reliability of terminal copy actions and reduces frustration.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed ghost characters appearing in height-constrained lists when items overflow",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复列表溢出乱码",
+          "summary_en": "Fix ghost characters in lists",
+          "why_matters": "防止列表显示异常，避免界面内容误读。",
+          "why_matters_en": "Prevents visual corruption in lists so content remains readable.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `Ctrl+B` interfering with readline backward-char at an idle prompt — it now only fires when a foreground task can be backgrounded",
+          "category": "fix",
+          "importance": 2,
+          "summary": "避免快捷键干扰输入",
+          "summary_en": "Fix Ctrl+B conflicting with readline",
+          "why_matters": "让空闲提示符下的按键行为更符合预期，减少输入中断。",
+          "why_matters_en": "Makes key behavior at an idle prompt more predictable and less disruptive.",
+          "capability_ids": [
+            "automation_autonomy",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed tool result files never being cleaned up, ignoring the `cleanupPeriodDays` setting",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复工具文件清理失效",
+          "summary_en": "Fix tool result file cleanup",
+          "why_matters": "避免临时文件长期堆积，减少磁盘占用和维护成本。",
+          "why_matters_en": "Prevents buildup of temporary files and reduces disk usage and maintenance.",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed space key being swallowed for up to 3 seconds after releasing voice hold-to-talk",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复语音后空格键延迟",
+          "summary_en": "Fix delayed space key after voice hold",
+          "why_matters": "提升语音输入后的键盘响应，减少输入卡顿感。",
+          "why_matters_en": "Improves keyboard responsiveness after voice input and reduces input lag.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed ALSA library errors corrupting the terminal UI when using voice mode on Linux without audio hardware (Docker, headless, WSL1)",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复语音模式终端乱码",
+          "summary_en": "Fix ALSA errors corrupting terminal UI",
+          "why_matters": "在无音频硬件环境下保持终端稳定可用，避免界面损坏。",
+          "why_matters_en": "Keeps the terminal stable in headless or audio-less setups and avoids UI corruption.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed voice mode SoX detection on Termux/Android where spawning `which` is kernel-restricted",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复 Termux 语音检测失败",
+          "summary_en": "Fix SoX detection on Termux/Android",
+          "why_matters": "让 Android/Termux 上的语音功能更容易正常启动。",
+          "why_matters_en": "Makes voice features work more reliably on Android/Termux.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed Remote Control sessions showing as Idle in the web session list while actively running",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复远控会话空闲误判",
+          "summary_en": "Fix remote session idle status",
+          "why_matters": "确保网页会话状态准确，方便用户判断当前任务是否在运行。",
+          "why_matters_en": "Keeps web session status accurate so users can tell whether work is still running.",
+          "capability_ids": [
+            "automation_autonomy",
+            "integrations_ecosystem",
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed footer navigation selecting an invisible Remote Control pill in config-driven mode",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复远控导航选到隐藏项",
+          "summary_en": "Fix invisible remote pill selection",
+          "why_matters": "避免配置驱动模式下的导航选中异常，提升可用性。",
+          "why_matters_en": "Prevents invalid navigation focus in config-driven mode and improves usability.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "integrations_ecosystem",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed memory leak in remote sessions where tool use IDs accumulate indefinitely",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复远程会话内存泄漏",
+          "summary_en": "Fix memory leak in remote sessions",
+          "why_matters": "避免远程会话长期运行时内存持续增长，提升稳定性。",
+          "why_matters_en": "Prevents memory growth during long-running remote sessions and improves stability.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy",
+            "integrations_ecosystem",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Improved Bedrock SDK cold-start latency by overlapping profile fetch with other boot work",
+          "category": "perf",
+          "importance": 3,
+          "summary": "提升 Bedrock 冷启动速度",
+          "summary_en": "Improve Bedrock SDK cold start latency",
+          "why_matters": "减少启动等待，让首次使用更快进入可工作状态。",
+          "why_matters_en": "Shortens startup wait time so users can begin working sooner.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Improved `--resume` memory usage and startup latency on large sessions",
+          "category": "perf",
+          "importance": 3,
+          "summary": "优化续会内存和启动",
+          "summary_en": "Improve resume memory use and startup",
+          "why_matters": "让大型会话恢复更轻量、更快，提升续用体验。",
+          "why_matters_en": "Makes large-session resume lighter and faster, improving the continuation experience.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Improved plugin startup — commands, skills, and agents now load from disk cache without re-fetching",
+          "category": "perf",
+          "importance": 3,
+          "summary": "加速插件启动加载",
+          "summary_en": "Speed up plugin startup from cache",
+          "why_matters": "减少插件启动时的网络依赖，让命令、技能、代理更快可用。",
+          "why_matters_en": "Reduces network dependence at startup so commands, skills, and agents are ready sooner.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Improved Remote Control session titles: AI-generated titles now appear within seconds of the first message",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "远控标题生成更快",
+          "summary_en": "Faster AI-generated remote titles",
+          "why_matters": "让会话列表更快显示有意义标题，便于快速识别任务。",
+          "why_matters_en": "Shows meaningful session titles sooner, making active tasks easier to पहचान.",
+          "capability_ids": [
+            "automation_autonomy",
+            "integrations_ecosystem",
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Improved `WebFetch` to identify as `Claude-User` so site operators can recognize and allowlist Claude Code traffic via `robots.txt`",
+          "category": "security",
+          "importance": 4,
+          "summary": "WebFetch标识为Claude-User",
+          "summary_en": "WebFetch identifies as Claude-User",
+          "why_matters": "让站点可通过robots.txt识别并允许Claude Code流量，减少被误拦截的可能。",
+          "why_matters_en": "This lets site operators recognize and allowlist Claude Code traffic via robots.txt, reducing accidental blocking.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Reduced `WebFetch` peak memory usage for large pages",
+          "category": "perf",
+          "importance": 3,
+          "summary": "降低WebFetch大页内存占用",
+          "summary_en": "Lower WebFetch memory on large pages",
+          "why_matters": "大页面抓取更省内存，能降低卡顿和资源压力。",
+          "why_matters_en": "Fetching large pages uses less memory, reducing lag and resource pressure.",
+          "capability_ids": [
+            "execution_workspace",
+            "memory_context",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Reduced scrollback resets in long sessions from once per turn to once per ~50 messages",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "长会话减少滚动回退重置",
+          "summary_en": "Fewer scrollback resets in long sessions",
+          "why_matters": "长时间对话里终端历史更稳定，便于回看上下文。",
+          "why_matters_en": "Terminal history stays more stable in long sessions, making context easier to review.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Faster `claude -p` startup with unauthenticated HTTP/SSE MCP servers (~600ms saved)",
+          "category": "perf",
+          "importance": 3,
+          "summary": "无认证MCP启动更快",
+          "summary_en": "Faster claude -p startup for MCP",
+          "why_matters": "缩短命令启动等待时间，提升批处理和自动化场景效率。",
+          "why_matters_en": "This reduces startup latency and improves efficiency for batch and automation workflows.",
+          "capability_ids": [
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Bash ghost-text suggestions now include just-submitted commands immediately",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "Bash建议即时包含新命令",
+          "summary_en": "Bash suggestions include submitted commands",
+          "why_matters": "刚执行过的命令会更快进入补全建议，提升连贯性。",
+          "why_matters_en": "Recently submitted commands appear in suggestions immediately, improving command-line continuity.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Increased non-streaming fallback token cap (21k → 64k) and timeout (120s → 300s local) so fallback requests are less likely to be truncated",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "提升回退请求上限与超时",
+          "summary_en": "Higher fallback token cap and timeout",
+          "why_matters": "降低流式失败后被截断的概率，让长回复更完整。",
+          "why_matters_en": "This makes fallback requests less likely to be truncated, preserving longer responses.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Interrupting a prompt before any response now automatically restores your input so you can edit and resubmit",
+          "category": "fix",
+          "importance": 3,
+          "summary": "中断前恢复输入可重编辑",
+          "summary_en": "Restore input after early interrupt",
+          "why_matters": "用户可直接修改未完成输入并重发，减少重复输入。",
+          "why_matters_en": "Users can edit and resubmit their input without retyping it, reducing friction.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "`/status` now works while Claude is responding, instead of being queued until the turn finishes",
+          "category": "fix",
+          "importance": 3,
+          "summary": "/status可在响应中查看",
+          "summary_en": "/status works while Claude is responding",
+          "why_matters": "无需等当前轮次结束就能查看状态，交互更顺畅。",
+          "why_matters_en": "You can check status without waiting for the current turn to finish, making interaction smoother.",
+          "capability_ids": [
+            "automation_autonomy",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Plugin MCP servers that duplicate an org-managed connector are now suppressed instead of running a second connection",
+          "category": "fix",
+          "importance": 2,
+          "summary": "重复组织连接器不再重复运行",
+          "summary_en": "Duplicate connector servers are suppressed",
+          "why_matters": "避免同一连接器启动两次，减少冲突和资源浪费。",
+          "why_matters_en": "This prevents duplicate connector startup, reducing conflicts and wasted resources.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Linux: respect `XDG_DATA_HOME` when registering the `claude-cli://` protocol handler",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "Linux尊重XDG_DATA_HOME",
+          "summary_en": "Linux respects XDG_DATA_HOME",
+          "why_matters": "协议处理器注册更符合Linux目录规范，便于系统管理。",
+          "why_matters_en": "Protocol handler registration now follows Linux directory conventions, improving system management.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Changed \"stop all background agents\" keybinding from `Ctrl+F` to `Ctrl+X Ctrl+K` to stop shadowing readline forward-char",
+          "category": "fix",
+          "importance": 2,
+          "summary": "停止后台代理快捷键改为组合键",
+          "summary_en": "Stop background agents uses a new keybinding",
+          "why_matters": "避免与readline前进字符冲突，降低误触和键位遮挡。",
+          "why_matters_en": "This avoids readline forward-char conflicts and reduces accidental keybinding clashes.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Deprecated `TaskOutput` tool in favor of using `Read` on the background task's output file path",
+          "category": "breaking",
+          "importance": 3,
+          "summary": "弃用TaskOutput工具",
+          "summary_en": "TaskOutput tool is deprecated",
+          "why_matters": "现有依赖该工具的工作流需要迁移到新的输出文件读取方式。",
+          "why_matters_en": "Workflows depending on this tool need to migrate to reading the background task output file path.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Added `CLAUDE_CODE_DISABLE_NONSTREAMING_FALLBACK` env var to disable the non-streaming fallback when streaming fails",
+          "category": "feat",
+          "importance": 2,
+          "summary": "可禁用非流式回退",
+          "summary_en": "Option to disable non-streaming fallback",
+          "why_matters": "提供更细的运行控制，便于按需选择更稳定或更严格的行为。",
+          "why_matters_en": "This adds finer runtime control so users can choose stricter or more predictable behavior.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Plugin options (`manifest.userConfig`) now available externally — plugins can prompt for configuration at enable time, with `sensitive: true` values stored in keychain (macOS) or protected credentials file (other platforms)",
+          "category": "feat",
+          "importance": 4,
+          "summary": "插件启用时可请求配置",
+          "summary_en": "Plugins can request config on enable",
+          "why_matters": "插件可在启用阶段收集所需配置，敏感信息还能安全存储。",
+          "why_matters_en": "Plugins can collect required settings during enablement, and sensitive values are stored securely.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Claude can now reference the on-disk path of clipboard-pasted images for file operations",
+          "category": "feat",
+          "importance": 2,
+          "summary": "可直接引用剪贴板图片路径",
+          "summary_en": "Can reference clipboard image file paths",
+          "why_matters": "让剪贴板图片更容易参与文件操作与后续处理。",
+          "why_matters_en": "Clipboard-pasted images can now be used more easily in file operations and follow-up workflows.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "`Ctrl+L` now clears the screen and forces a full redraw — use this to recover when Cmd+K leaves the UI partially blank. Use `Ctrl+U` or double-Esc to clear prompt input.",
+          "category": "fix",
+          "importance": 4,
+          "summary": "Ctrl+L强制重绘修复空白界面",
+          "summary_en": "Ctrl+L forces redraw to recover blank UI",
+          "why_matters": "用户可以快速从部分空白或渲染异常的界面恢复，提升可用性。",
+          "why_matters_en": "Users can quickly recover from a partially blank or broken UI, improving usability.",
+          "capability_ids": []
+        },
+        {
+          "raw": "`--bare -p` (SDK pattern) is ~14% faster to the API request",
+          "category": "perf",
+          "importance": 3,
+          "summary": "--bare -p请求更快",
+          "summary_en": "--bare -p makes API requests faster",
+          "why_matters": "SDK 常用调用路径的延迟降低，能改善交互响应和批量使用体验。",
+          "why_matters_en": "Lower latency on a common SDK path improves responsiveness and batch usage.",
+          "capability_ids": [
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Memory: `MEMORY.md` index now truncates at 25KB as well as 200 lines",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "Memory索引限制更小",
+          "summary_en": "MEMORY.md index size is further capped",
+          "why_matters": "通过限制索引大小，减少过长记忆文件带来的性能和上下文负担。",
+          "why_matters_en": "Capping the index reduces performance and context overhead from oversized memory files.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Disabled `AskUserQuestion` and plan-mode tools when `--channels` is active",
+          "category": "fix",
+          "importance": 4,
+          "summary": "启用--channels时禁用受限工具",
+          "summary_en": "Restrict tools when --channels is active",
+          "why_matters": "避免在特定通道模式下调用不应开放的工具，降低误操作和越权风险。",
+          "why_matters_en": "Prevents disallowed tool use in channel mode, reducing misuse and privilege risk.",
+          "capability_ids": [
+            "governance_security",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed API 400 error when a pasted image was queued during a failing tool call",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复失败调用中粘贴图像报错",
+          "summary_en": "Fix pasted image causing API 400 on failure",
+          "why_matters": "减少工具失败时的连带请求错误，避免打断用户的多模态工作流。",
+          "why_matters_en": "Prevents cascading request errors during tool failures, avoiding interruptions to multimodal workflows.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed MCP tool calls hanging indefinitely when an SSE connection drops mid-call and exhausts its reconnection attempts",
+          "category": "fix",
+          "importance": 5,
+          "summary": "MCP断线不再无限卡住",
+          "summary_en": "Fix MCP calls hanging after SSE disconnect",
+          "why_matters": "修复长时间挂起问题，避免集成工具调用在网络异常时彻底失去响应。",
+          "why_matters_en": "Fixes indefinite hangs so integrated tool calls keep making progress despite network issues.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed Remote Control session titles showing raw XML when a background agent completed before the first user message",
+          "category": "fix",
+          "importance": 2,
+          "summary": "远程控制标题不再显示XML",
+          "summary_en": "Fix raw XML shown in remote session titles",
+          "why_matters": "改善远程会话展示效果，让状态信息更易读、更可信。",
+          "why_matters_en": "Improves remote session display so status information is readable and trustworthy.",
+          "capability_ids": [
+            "automation_autonomy",
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed remote sessions forgetting conversation history after a container restart due to progress-message gaps in the resumed transcript chain",
+          "category": "fix",
+          "importance": 4,
+          "summary": "远程会话重启后保留历史",
+          "summary_en": "Remote sessions keep history after restart",
+          "why_matters": "防止容器重启后对话上下文丢失，保证远程协作不中断。",
+          "why_matters_en": "Prevents conversation history loss after container restarts, keeping remote collaboration continuous.",
+          "capability_ids": [
+            "memory_context",
+            "delegation_collaboration",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed remote sessions requiring re-login on transient auth errors instead of retrying automatically",
+          "category": "fix",
+          "importance": 4,
+          "summary": "远程会话自动重试登录",
+          "summary_en": "Remote sessions auto-retry transient auth",
+          "why_matters": "减少临时认证故障带来的反复登录，提升远程使用的稳定性。",
+          "why_matters_en": "Reduces repeated logins on transient auth failures, improving remote session reliability.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed `rg ... | wc -l` and similar piped commands hanging and returning `0` in sandbox mode on Linux",
+          "category": "fix",
+          "importance": 4,
+          "summary": "Linux沙箱管道命令不再卡住",
+          "summary_en": "Fix piped commands hanging in Linux sandbox",
+          "why_matters": "修复常见命令在沙箱中挂死的问题，避免影响脚本和统计流程。",
+          "why_matters_en": "Fixes a common sandbox hang that could break scripts and command-line pipelines.",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed voice input hold-to-talk not activating when a CJK IME inserts a full-width space",
+          "category": "fix",
+          "importance": 3,
+          "summary": "CJK输入法下语音按住说话正常",
+          "summary_en": "Fix hold-to-talk with CJK IME full-width space",
+          "why_matters": "让中文等输入法环境下的语音输入更可靠，减少操作中断。",
+          "why_matters_en": "Makes voice input more reliable for CJK IME users, reducing interaction friction.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `--worktree` hanging silently when the worktree name contained a forward slash",
+          "category": "fix",
+          "importance": 4,
+          "summary": "--worktree含斜杠不再卡死",
+          "summary_en": "Fix --worktree hanging on slash names",
+          "why_matters": "支持更多合法工作树名称，避免启动时无声挂起。",
+          "why_matters_en": "Supports more valid worktree names and prevents silent startup hangs.",
+          "capability_ids": [
+            "execution_workspace",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "[VSCode] Spinner now turns red with \"Not responding\" when the backend hasn't responded for 60 seconds",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "VSCode后台无响应显示红色",
+          "summary_en": "VSCode spinner turns red after 60s silence",
+          "why_matters": "帮助用户更快识别后端卡顿，减少等待中的不确定感。",
+          "why_matters_en": "Helps users spot backend stalls faster and reduces uncertainty while waiting.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed session history not loading correctly when reopening a session via URL or after restart",
+          "category": "fix",
+          "importance": 3,
+          "summary": "VSCode重开会话历史正常加载",
+          "summary_en": "VSCode reloads session history correctly",
+          "why_matters": "保证通过 URL 或重启恢复会话时，历史记录能正确回到工作流中。",
+          "why_matters_en": "Ensures session history is restored correctly when reopening via URL or after restart.",
+          "capability_ids": [
+            "memory_context",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "[VSCode] Added Esc-twice (or `/rewind`) to open a keyboard-navigable rewind picker",
+          "category": "feat",
+          "importance": 3,
+          "summary": "双击Esc打开可导航回退选择器",
+          "summary_en": "Double-Esc opens a navigable rewind picker",
+          "why_matters": "提供更方便的回退入口，帮助用户快速回到之前的状态。",
+          "why_matters_en": "Provides a more convenient way to rewind and return to a previous state.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed \"Fork conversation from here\" and rewind actions failing silently after the session cache goes stale",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复 VSCode 会话缓存失效后分叉与回退失败",
+          "summary_en": "Fix stale cache failures for fork/rewind",
+          "why_matters": "避免会话缓存过期后分叉对话和回退操作静默失败，提升编辑器内对话恢复可靠性。",
+          "why_matters_en": "Prevents silent failures when forking conversations or rewinding after cache staleness, improving in-editor recovery reliability.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Claude Code Cheat Sheet",
+          "points": 674,
+          "url": "https://cc.storyfox.cz"
+        },
+        {
+          "title": "Push events into a running session with channels",
+          "points": 399,
+          "url": "https://code.claude.com/docs/en/channels"
+        },
+        {
+          "title": "Cook: A simple CLI for orchestrating Claude Code",
+          "points": 304,
+          "url": "https://rjcorwin.github.io/cook/"
+        },
+        {
+          "title": "How I'm Productive with Claude Code",
+          "points": 268,
+          "url": "https://neilkakkar.com/productive-with-claude-code.html"
+        },
+        {
+          "title": "Show HN: Cq – Stack Overflow for AI coding agents",
+          "points": 217,
+          "url": "https://blog.mozilla.ai/cq-stack-overflow-for-agents/"
+        }
+      ],
+      "highlight_score": 55
+    },
     {
       "version": "2.1.81",
       "date": "2026-03-20",
@@ -441,7 +1990,7 @@
       "signals": [
         {
           "title": "Claude Code Cheat Sheet",
-          "points": 631,
+          "points": 674,
           "url": "https://cc.storyfox.cz"
         },
         {
@@ -456,12 +2005,12 @@
         },
         {
           "title": "Cook: A simple CLI for orchestrating Claude Code",
-          "points": 302,
+          "points": 304,
           "url": "https://rjcorwin.github.io/cook/"
         },
         {
           "title": "How I'm Productive with Claude Code",
-          "points": 261,
+          "points": 268,
           "url": "https://neilkakkar.com/productive-with-claude-code.html"
         }
       ],
@@ -693,7 +2242,7 @@
       "signals": [
         {
           "title": "Claude Code Cheat Sheet",
-          "points": 631,
+          "points": 674,
           "url": "https://cc.storyfox.cz"
         },
         {
@@ -708,12 +2257,12 @@
         },
         {
           "title": "Cook: A simple CLI for orchestrating Claude Code",
-          "points": 302,
+          "points": 304,
           "url": "https://rjcorwin.github.io/cook/"
         },
         {
           "title": "How I'm Productive with Claude Code",
-          "points": 261,
+          "points": 268,
           "url": "https://neilkakkar.com/productive-with-claude-code.html"
         }
       ],
@@ -960,7 +2509,7 @@
       "signals": [
         {
           "title": "Claude Code Cheat Sheet",
-          "points": 631,
+          "points": 674,
           "url": "https://cc.storyfox.cz"
         },
         {
@@ -975,12 +2524,12 @@
         },
         {
           "title": "Cook: A simple CLI for orchestrating Claude Code",
-          "points": 302,
+          "points": 304,
           "url": "https://rjcorwin.github.io/cook/"
         },
         {
           "title": "How I'm Productive with Claude Code",
-          "points": 261,
+          "points": 268,
           "url": "https://neilkakkar.com/productive-with-claude-code.html"
         }
       ],
@@ -1342,7 +2891,7 @@
       "signals": [
         {
           "title": "Claude Code Cheat Sheet",
-          "points": 631,
+          "points": 674,
           "url": "https://cc.storyfox.cz"
         },
         {
@@ -1362,7 +2911,7 @@
         },
         {
           "title": "Cook: A simple CLI for orchestrating Claude Code",
-          "points": 302,
+          "points": 304,
           "url": "https://rjcorwin.github.io/cook/"
         }
       ],
@@ -1944,7 +3493,7 @@
       "signals": [
         {
           "title": "Claude Code Cheat Sheet",
-          "points": 631,
+          "points": 674,
           "url": "https://cc.storyfox.cz"
         },
         {
@@ -32065,6 +33614,74 @@
           }
         ]
       }
+    },
+    {
+      "version": "2.1.83",
+      "date": "2026-03-24",
+      "epoch_id": "epoch5",
+      "highlight_score": 55,
+      "highlight_title": "把安全变成默认边界",
+      "highlight_title_en": "Making Security the Default Boundary",
+      "highlight_summary": "这次更新把 Claude Code 的运行边界收得更紧了。沙箱不可用时不再悄然降级，子进程环境也会主动清理敏感凭据，连管理策略的绕行口都被补上了。\n\n对用户来说，信任不再依赖约定，而是由产品直接守住。对平台来说，这标志着 Claude Code 正从“可用”走向“可控”。",
+      "highlight_summary_en": "This release tightens Claude Code’s operating boundaries. If the sandbox can’t start, it now fails closed, subprocess environments are scrubbed of sensitive credentials, and policy bypasses are sealed off.\n\nFor users, trust is no longer left to convention. For the platform, it marks a shift from merely usable to genuinely governed.",
+      "highlight_why": "真正的转折不是新增功能，而是 Claude Code 开始把安全与管控作为默认前提。",
+      "highlight_why_en": "The turning point is not the new features themselves, but Claude Code treating security and governance as the default starting point.",
+      "capability_ids": [
+        "governance_security",
+        "delegation_collaboration",
+        "multimodal_interfaces",
+        "automation_autonomy",
+        "execution_workspace",
+        "integrations_ecosystem",
+        "memory_context",
+        "reasoning_workflows"
+      ],
+      "evidence": {
+        "hn_signals": [
+          {
+            "title": "Claude Code Cheat Sheet",
+            "points": 674,
+            "url": "https://cc.storyfox.cz"
+          },
+          {
+            "title": "Push events into a running session with channels",
+            "points": 399,
+            "url": "https://code.claude.com/docs/en/channels"
+          },
+          {
+            "title": "Cook: A simple CLI for orchestrating Claude Code",
+            "points": 304,
+            "url": "https://rjcorwin.github.io/cook/"
+          },
+          {
+            "title": "How I'm Productive with Claude Code",
+            "points": 268,
+            "url": "https://neilkakkar.com/productive-with-claude-code.html"
+          },
+          {
+            "title": "Show HN: Cq – Stack Overflow for AI coding agents",
+            "points": 217,
+            "url": "https://blog.mozilla.ai/cq-stack-overflow-for-agents/"
+          }
+        ],
+        "top_changes": [
+          {
+            "raw": "Added `sandbox.failIfUnavailable` setting to exit with an error when sandbox is enabled but cannot start, instead of running unsandboxed",
+            "summary": "沙箱失效时强制报错退出",
+            "importance": 5
+          },
+          {
+            "raw": "Added `CLAUDE_CODE_SUBPROCESS_ENV_SCRUB=1` to strip Anthropic and cloud provider credentials from subprocess environments (Bash tool, hooks, MCP stdio servers)",
+            "summary": "子进程自动清理敏感环境变量",
+            "importance": 5
+          },
+          {
+            "raw": "Fixed `--mcp-config` CLI flag bypassing `allowedMcpServers`/`deniedMcpServers` managed policy enforcement",
+            "summary": "修复MCP策略绕过漏洞",
+            "importance": 5
+          }
+        ]
+      }
     }
   ],
   "capabilities": [
@@ -32084,9 +33701,9 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 242,
-      "release_count": 112,
-      "avg_importance": 3.12,
+      "change_count": 249,
+      "release_count": 114,
+      "avg_importance": 3.11,
       "maturity": {
         "score": 92,
         "level": "成熟"
@@ -32096,14 +33713,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-03-20",
-        "version": "2.1.81"
+        "date": "2026-03-25",
+        "version": "2.1.84"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 80
+          "change_count": 87
         },
         {
           "epoch_id": "epoch4",
@@ -32179,9 +33796,9 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 511,
-      "release_count": 151,
-      "avg_importance": 3.23,
+      "change_count": 566,
+      "release_count": 153,
+      "avg_importance": 3.2,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -32191,14 +33808,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-03-20",
-        "version": "2.1.81"
+        "date": "2026-03-25",
+        "version": "2.1.84"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 210
+          "change_count": 265
         },
         {
           "epoch_id": "epoch1",
@@ -32223,6 +33840,22 @@
       ],
       "samples": [
         {
+          "date": "2026-03-24",
+          "version": "2.1.83",
+          "raw": "Added `sandbox.failIfUnavailable` setting to exit with an error when sandbox is enabled but cannot start, instead of running unsandboxed",
+          "summary": "沙箱失效时强制报错退出",
+          "importance": 5,
+          "category": "security"
+        },
+        {
+          "date": "2026-03-24",
+          "version": "2.1.83",
+          "raw": "Fixed MCP tool calls hanging indefinitely when an SSE connection drops mid-call and exhausts its reconnection attempts",
+          "summary": "MCP断线不再无限卡住",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-03-20",
           "version": "2.1.81",
           "raw": "Added `--bare` flag for scripted `-p` calls — skips hooks, LSP, plugin sync, and skill directory walks; requires `ANTHROPIC_API_KEY` or an `apiKeyHelper` via `--settings` (OAuth and keychain auth disabled); auto-memory fully disabled",
@@ -32235,22 +33868,6 @@
           "version": "2.1.81",
           "raw": "Fixed a crash on Node.js 18",
           "summary": "修复 Node18 崩溃",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-03-17",
-          "version": "2.1.78",
-          "raw": "**Security:** Fixed silent sandbox disable when `sandbox.enabled: true` is set but dependencies are missing — now shows a visible startup warning",
-          "summary": "沙箱缺依赖时不再静默关闭",
-          "importance": 5,
-          "category": "security"
-        },
-        {
-          "date": "2026-03-17",
-          "version": "2.1.78",
-          "raw": "Fixed `.git`, `.claude`, and other protected directories being writable without a prompt in `bypassPermissions` mode",
-          "summary": "修复绕过权限下受保护目录可写",
           "importance": 5,
           "category": "fix"
         }
@@ -32274,8 +33891,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 326,
-      "release_count": 109,
+      "change_count": 346,
+      "release_count": 111,
       "avg_importance": 3.21,
       "maturity": {
         "score": 93,
@@ -32286,14 +33903,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-03-20",
-        "version": "2.1.81"
+        "date": "2026-03-25",
+        "version": "2.1.84"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 162
+          "change_count": 182
         },
         {
           "epoch_id": "epoch1",
@@ -32369,9 +33986,9 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 383,
-      "release_count": 158,
-      "avg_importance": 3.28,
+      "change_count": 407,
+      "release_count": 160,
+      "avg_importance": 3.27,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -32381,14 +33998,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-03-20",
-        "version": "2.1.81"
+        "date": "2026-03-25",
+        "version": "2.1.84"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 121
+          "change_count": 145
         },
         {
           "epoch_id": "epoch1",
@@ -32464,9 +34081,9 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 176,
-      "release_count": 80,
-      "avg_importance": 3.44,
+      "change_count": 190,
+      "release_count": 82,
+      "avg_importance": 3.42,
       "maturity": {
         "score": 94,
         "level": "成熟"
@@ -32476,14 +34093,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-03-20",
-        "version": "2.1.81"
+        "date": "2026-03-25",
+        "version": "2.1.84"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 85
+          "change_count": 99
         },
         {
           "epoch_id": "epoch1",
@@ -32559,8 +34176,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 592,
-      "release_count": 181,
+      "change_count": 628,
+      "release_count": 183,
       "avg_importance": 3.15,
       "maturity": {
         "score": 93,
@@ -32571,14 +34188,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-03-20",
-        "version": "2.1.81"
+        "date": "2026-03-25",
+        "version": "2.1.84"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 226
+          "change_count": 262
         },
         {
           "epoch_id": "epoch1",
@@ -32603,36 +34220,36 @@
       ],
       "samples": [
         {
+          "date": "2026-03-24",
+          "version": "2.1.83",
+          "raw": "Added `CLAUDE_CODE_SUBPROCESS_ENV_SCRUB=1` to strip Anthropic and cloud provider credentials from subprocess environments (Bash tool, hooks, MCP stdio servers)",
+          "summary": "子进程自动清理敏感环境变量",
+          "importance": 5,
+          "category": "security"
+        },
+        {
+          "date": "2026-03-24",
+          "version": "2.1.83",
+          "raw": "Fixed `--mcp-config` CLI flag bypassing `allowedMcpServers`/`deniedMcpServers` managed policy enforcement",
+          "summary": "修复MCP策略绕过漏洞",
+          "importance": 5,
+          "category": "security"
+        },
+        {
+          "date": "2026-03-24",
+          "version": "2.1.83",
+          "raw": "Fixed MCP tool calls hanging indefinitely when an SSE connection drops mid-call and exhausts its reconnection attempts",
+          "summary": "MCP断线不再无限卡住",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-03-20",
           "version": "2.1.81",
           "raw": "Added `--bare` flag for scripted `-p` calls — skips hooks, LSP, plugin sync, and skill directory walks; requires `ANTHROPIC_API_KEY` or an `apiKeyHelper` via `--settings` (OAuth and keychain auth disabled); auto-memory fully disabled",
           "summary": "新增脚本裸模式",
           "importance": 5,
           "category": "feat"
-        },
-        {
-          "date": "2026-03-17",
-          "version": "2.1.78",
-          "raw": "Fixed infinite loop when API errors triggered stop hooks that re-fed blocking errors to the model",
-          "summary": "修复停止钩子导致的死循环",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-03-17",
-          "version": "2.1.78",
-          "raw": "Fixed `deny: [\"mcp__servername\"]` permission rules not removing MCP server tools before sending to the model, allowing it to see and attempt blocked tools",
-          "summary": "权限拒绝规则现可屏蔽 MCP 工具",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-03-16",
-          "version": "2.1.77",
-          "raw": "Fixed PreToolUse hooks returning `\"allow\"` bypassing `deny` permission rules, including enterprise managed settings",
-          "summary": "修复钩子绕过拒绝规则",
-          "importance": 5,
-          "category": "fix"
         }
       ]
     },
@@ -32654,9 +34271,9 @@
         "Emacs",
         "web"
       ],
-      "change_count": 361,
-      "release_count": 128,
-      "avg_importance": 2.71,
+      "change_count": 387,
+      "release_count": 130,
+      "avg_importance": 2.72,
       "maturity": {
         "score": 91,
         "level": "成熟"
@@ -32666,14 +34283,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-03-20",
-        "version": "2.1.81"
+        "date": "2026-03-25",
+        "version": "2.1.84"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 152
+          "change_count": 178
         },
         {
           "epoch_id": "epoch4",
@@ -32698,6 +34315,14 @@
       ],
       "samples": [
         {
+          "date": "2026-03-24",
+          "version": "2.1.83",
+          "raw": "Added `CLAUDE_CODE_SUBPROCESS_ENV_SCRUB=1` to strip Anthropic and cloud provider credentials from subprocess environments (Bash tool, hooks, MCP stdio servers)",
+          "summary": "子进程自动清理敏感环境变量",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-03-16",
           "version": "2.1.77",
           "raw": "Fixed Claude Desktop sessions incorrectly using the terminal CLI's configured API key instead of OAuth",
@@ -32718,14 +34343,6 @@
           "version": "2.1.76",
           "raw": "Fixed bridge sessions failing to recover after extended WebSocket disconnects",
           "summary": "修复桥接会话断连后无法恢复",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-03-09",
-          "version": "2.1.72",
-          "raw": "Fixed session crashes in Desktop/SDK when Read returned files containing U+2028/U+2029 characters",
-          "summary": "修复含特殊字符文件导致崩溃",
           "importance": 5,
           "category": "fix"
         }
@@ -32749,9 +34366,9 @@
         "policy",
         "auditing"
       ],
-      "change_count": 361,
-      "release_count": 153,
-      "avg_importance": 3.29,
+      "change_count": 382,
+      "release_count": 155,
+      "avg_importance": 3.3,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -32761,14 +34378,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-03-20",
-        "version": "2.1.81"
+        "date": "2026-03-25",
+        "version": "2.1.84"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 125
+          "change_count": 146
         },
         {
           "epoch_id": "epoch4",
@@ -32793,34 +34410,34 @@
       ],
       "samples": [
         {
-          "date": "2026-03-17",
-          "version": "2.1.78",
-          "raw": "Fixed `deny: [\"mcp__servername\"]` permission rules not removing MCP server tools before sending to the model, allowing it to see and attempt blocked tools",
-          "summary": "权限拒绝规则现可屏蔽 MCP 工具",
+          "date": "2026-03-24",
+          "version": "2.1.83",
+          "raw": "Added `sandbox.failIfUnavailable` setting to exit with an error when sandbox is enabled but cannot start, instead of running unsandboxed",
+          "summary": "沙箱失效时强制报错退出",
           "importance": 5,
-          "category": "fix"
+          "category": "security"
         },
         {
-          "date": "2026-03-17",
-          "version": "2.1.78",
-          "raw": "**Security:** Fixed silent sandbox disable when `sandbox.enabled: true` is set but dependencies are missing — now shows a visible startup warning",
-          "summary": "沙箱缺依赖时不再静默关闭",
+          "date": "2026-03-24",
+          "version": "2.1.83",
+          "raw": "Added `CLAUDE_CODE_SUBPROCESS_ENV_SCRUB=1` to strip Anthropic and cloud provider credentials from subprocess environments (Bash tool, hooks, MCP stdio servers)",
+          "summary": "子进程自动清理敏感环境变量",
+          "importance": 5,
+          "category": "security"
+        },
+        {
+          "date": "2026-03-24",
+          "version": "2.1.83",
+          "raw": "Fixed `--mcp-config` CLI flag bypassing `allowedMcpServers`/`deniedMcpServers` managed policy enforcement",
+          "summary": "修复MCP策略绕过漏洞",
           "importance": 5,
           "category": "security"
         },
         {
           "date": "2026-03-17",
           "version": "2.1.78",
-          "raw": "Fixed `.git`, `.claude`, and other protected directories being writable without a prompt in `bypassPermissions` mode",
-          "summary": "修复绕过权限下受保护目录可写",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-03-16",
-          "version": "2.1.77",
-          "raw": "Fixed PreToolUse hooks returning `\"allow\"` bypassing `deny` permission rules, including enterprise managed settings",
-          "summary": "修复钩子绕过拒绝规则",
+          "raw": "Fixed `deny: [\"mcp__servername\"]` permission rules not removing MCP server tools before sending to the model, allowing it to see and attempt blocked tools",
+          "summary": "权限拒绝规则现可屏蔽 MCP 工具",
           "importance": 5,
           "category": "fix"
         }
@@ -32926,16 +34543,16 @@
         "date": "2025-09-03"
       },
       {
+        "title": "Claude Code Cheat Sheet",
+        "points": 674,
+        "url": "https://cc.storyfox.cz",
+        "date": "2026-03-23"
+      },
+      {
         "title": "Anthropic officially bans using subscription auth for third party use",
         "points": 655,
         "url": "https://code.claude.com/docs/en/legal-and-compliance",
         "date": "2026-02-19"
-      },
-      {
-        "title": "Claude Code Cheat Sheet",
-        "points": 631,
-        "url": "https://cc.storyfox.cz",
-        "date": "2026-03-23"
       }
     ],
     "blog_posts": [
