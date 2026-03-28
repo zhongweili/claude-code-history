@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-03-27T03:48:09.430Z",
+    "generated_at": "2026-03-28T03:34:16.833Z",
     "agent_model": "openai/gpt-5.4-mini",
-    "total_versions": 248,
+    "total_versions": 249,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-03-26"
+      "end": "2026-03-27"
     },
     "highlight_count": 32,
     "capability_count": 8,
@@ -70,11 +70,378 @@
       "color": "#dc2626",
       "summary": "1M 上下文、安全扫描、无人值守运行能力",
       "summary_en": "1M context window, security scanning, and unattended operation capabilities",
-      "release_count": 32,
+      "release_count": 33,
       "highlight_count": 11
     }
   ],
   "releases": [
+    {
+      "version": "2.1.86",
+      "date": "2026-03-27",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added `X-Claude-Code-Session-Id` header to API requests so proxies can aggregate requests by session without parsing the body",
+          "category": "feat",
+          "importance": 3,
+          "summary": "请求附带会话ID，便于代理聚合",
+          "summary_en": "Add session ID header for proxy grouping",
+          "why_matters": "代理和观测系统可以直接按会话归并请求，减少对请求体解析的依赖。",
+          "why_matters_en": "Proxies and observability tools can group requests by session without parsing bodies.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Added `.jj` and `.sl` to VCS directory exclusion lists so Grep and file autocomplete don't descend into Jujutsu or Sapling metadata",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "跳过Jujutsu/Sapling元数据目录",
+          "summary_en": "Exclude .jj and .sl from VCS traversal",
+          "why_matters": "可避免 Grep 和补全误扫版本库元数据，提升大仓库体验。",
+          "why_matters_en": "This avoids unnecessary traversal into VCS metadata and improves search/autocomplete performance.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed `--resume` failing with \"tool_use ids were found without tool_result blocks\" on sessions created before v2.1.85",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复旧会话resume失败",
+          "summary_en": "Fix --resume on pre-v2.1.85 sessions",
+          "why_matters": "用户可以继续恢复旧会话，而不会被旧格式数据阻断。",
+          "why_matters_en": "Users can resume older sessions without being blocked by a compatibility error.",
+          "capability_ids": [
+            "memory_context",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed Write/Edit/Read failing on files outside the project root (e.g., `~/.claude/CLAUDE.md`) when conditional skills or rules are configured",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复项目外文件读写失败",
+          "summary_en": "Fix file ops outside project root",
+          "why_matters": "允许在配置技能或规则时正常编辑家目录等项目外文件。",
+          "why_matters_en": "This restores editing of files outside the project root, such as global Claude config files.",
+          "capability_ids": [
+            "execution_workspace",
+            "memory_context",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed unnecessary config disk writes on every skill invocation that could cause performance issues and config corruption on Windows",
+          "category": "perf",
+          "importance": 4,
+          "summary": "减少技能调用的磁盘写入",
+          "summary_en": "Avoid disk writes on every skill use",
+          "why_matters": "既能提升性能，也能降低 Windows 上配置损坏风险。",
+          "why_matters_en": "This improves speed and reduces the risk of config corruption, especially on Windows.",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed potential out-of-memory crash when using `/feedback` on very long sessions with large transcript files",
+          "category": "fix",
+          "importance": 5,
+          "summary": "修复长会话反馈内存溢出",
+          "summary_en": "Fix OOM on /feedback for long sessions",
+          "why_matters": "防止在超长对话中使用反馈时崩溃，保护核心工作流稳定性。",
+          "why_matters_en": "This prevents crashes during /feedback on long conversations and keeps the tool stable.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed `--bare` mode dropping MCP tools in interactive sessions and silently discarding messages enqueued mid-turn",
+          "category": "fix",
+          "importance": 4,
+          "summary": "bare模式保留MCP工具与消息",
+          "summary_en": "Fix bare mode dropping MCP tools/messages",
+          "why_matters": "确保交互模式下工具能力和中途消息不会被静默丢失。",
+          "why_matters_en": "This preserves MCP tools and queued messages so interactive sessions behave correctly.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed the `c` shortcut copying only ~20 characters of the OAuth login URL instead of the full URL",
+          "category": "fix",
+          "importance": 3,
+          "summary": "复制完整OAuth登录链接",
+          "summary_en": "Copy full OAuth login URL",
+          "why_matters": "用户可以一次性复制并打开完整登录地址，减少登录失败。",
+          "why_matters_en": "Users can copy the full login URL correctly, making OAuth sign-in reliable.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed masked input (e.g., OAuth code paste) leaking the start of the token when wrapping across multiple lines on narrow terminals",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复窄终端令牌遮罩泄露",
+          "summary_en": "Fix masked token leak on wrapped input",
+          "why_matters": "避免敏感认证码在换行时泄露开头内容。",
+          "why_matters_en": "This prevents partial exposure of sensitive tokens on narrow terminals.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed official marketplace plugin scripts failing with \"Permission denied\" on macOS/Linux since v2.1.83",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复官方插件脚本无权限",
+          "summary_en": "Fix marketplace plugin script permissions",
+          "why_matters": "官方市场插件在 macOS 和 Linux 上可正常安装和运行。",
+          "why_matters_en": "This restores working installs for official marketplace plugins on macOS and Linux.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed statusline showing another session's model when running multiple Claude Code instances and using `/model` in one of them",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复多实例状态栏模型串扰",
+          "summary_en": "Fix statusline model mix-up across sessions",
+          "why_matters": "多个 Claude Code 实例同时运行时，状态栏会显示正确模型。",
+          "why_matters_en": "Statusline information stays accurate when multiple Claude Code instances are running.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed scroll not following new messages after wheel scroll or click-to-select at the bottom of a long conversation",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复滚动后新消息不跟随",
+          "summary_en": "Keep scroll following new messages",
+          "why_matters": "长对话中滚动体验更自然，不会错过最新回复。",
+          "why_matters_en": "This keeps long conversations easier to follow after manual scrolling.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `/plugin` uninstall dialog: pressing `n` now correctly uninstalls the plugin while preserving its data directory",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复卸载对话框误操作",
+          "summary_en": "Fix plugin uninstall dialog behavior",
+          "why_matters": "按键卸载插件时能按预期删除程序并保留数据目录。",
+          "why_matters_en": "This makes plugin uninstall actions behave correctly while preserving plugin data.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed a regression where pressing Enter after clicking could leave the transcript blank until the response arrived",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复点击后回车空白回显",
+          "summary_en": "Fix blank transcript after click+Enter",
+          "why_matters": "避免发送消息后界面短暂无内容，减少用户困惑。",
+          "why_matters_en": "This prevents a confusing blank transcript state after click-and-enter interactions.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `ultrathink` hint lingering after deleting the keyword",
+          "category": "fix",
+          "importance": 2,
+          "summary": "删除关键词后清除超思考提示",
+          "summary_en": "Clear ultrathink hint after deletion",
+          "why_matters": "界面提示会及时消失，避免误导当前输入状态。",
+          "why_matters_en": "This keeps UI hints in sync with the current prompt and avoids confusion.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed memory growth in long sessions from markdown/highlight render caches retaining full content strings",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复长会话内存增长",
+          "summary_en": "Fixed memory growth in long sessions",
+          "why_matters": "避免长时间使用时内存不断上涨，提升稳定性并减少卡顿或崩溃风险。",
+          "why_matters_en": "Prevents memory from growing over long sessions, improving stability and reducing lag or crashes.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Reduced startup event-loop stalls when many claude.ai MCP connectors are configured (macOS keychain cache extended from 5s to 30s)",
+          "category": "improvement",
+          "importance": 4,
+          "summary": "减少多连接启动卡顿",
+          "summary_en": "Reduced startup stalls with many connectors",
+          "why_matters": "在配置很多 MCP 连接器时启动更顺畅，减少等待时间。",
+          "why_matters_en": "Makes startup smoother when many MCP connectors are configured, reducing wait time.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Reduced token overhead when mentioning files with `@` — raw string content no longer JSON-escaped",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "降低@文件引用令牌开销",
+          "summary_en": "Reduced token overhead for @ file mentions",
+          "why_matters": "引用文件时更省上下文，能把 token 留给真正需要的代码和指令。",
+          "why_matters_en": "File mentions consume fewer tokens, leaving more context for actual code and instructions.",
+          "capability_ids": [
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Improved prompt cache hit rate for Bedrock, Vertex, and Foundry users by removing dynamic content from tool descriptions",
+          "category": "improvement",
+          "importance": 4,
+          "summary": "提升提示缓存命中率",
+          "summary_en": "Improved prompt cache hit rate",
+          "why_matters": "减少重复提示开销，能让云端模型调用更快也更省成本。",
+          "why_matters_en": "Reduces repeated prompt overhead, making cloud model calls faster and cheaper.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Memory filenames in the \"Saved N memories\" notice now highlight on hover and open on click",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "保存记忆名可悬停点击",
+          "summary_en": "Saved memory filenames are hoverable",
+          "why_matters": "让记忆项更容易查看和打开，提升列表可用性。",
+          "why_matters_en": "Makes memory items easier to inspect and open, improving list usability.",
+          "capability_ids": [
+            "memory_context",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Skill descriptions in the `/skills` listing are now capped at 250 characters to reduce context usage",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "缩短技能描述节省上下文",
+          "summary_en": "Capped skill descriptions to save context",
+          "why_matters": "减少 `/skills` 占用的上下文，让可用 token 更多留给任务本身。",
+          "why_matters_en": "Reduces `/skills` context usage so more tokens remain for the task itself.",
+          "capability_ids": [
+            "memory_context",
+            "reasoning_workflows",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Changed `/skills` menu to sort alphabetically for easier scanning",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "技能菜单按字母排序",
+          "summary_en": "Skills menu now sorts alphabetically",
+          "why_matters": "更容易快速扫视和定位技能，提升查找效率。",
+          "why_matters_en": "Makes skills easier to scan and find quickly, improving navigation efficiency.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Auto mode now shows \"unavailable for your plan\" when disabled by plan restrictions (was \"temporarily unavailable\")",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "停用时提示套餐限制",
+          "summary_en": "Shows plan restriction when Auto is unavailable",
+          "why_matters": "帮助用户区分是套餐限制而不是临时故障，减少误解和排查时间。",
+          "why_matters_en": "Helps users distinguish plan limits from temporary issues, reducing confusion and troubleshooting time.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed extension incorrectly showing \"Not responding\" during long-running operations",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复长任务误报未响应",
+          "summary_en": "Fixed false 'Not responding' during long ops",
+          "why_matters": "避免 VSCode 扩展在长任务中被误判异常，提升信任感。",
+          "why_matters_en": "Prevents the VSCode extension from being incorrectly flagged during long operations, improving trust.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed extension defaulting Max plan users to Sonnet after the OAuth token refreshes (8 hours after login)",
+          "category": "fix",
+          "importance": 5,
+          "summary": "修复刷新后误切Sonnet",
+          "summary_en": "Fixed Max plan users being switched to Sonnet",
+          "why_matters": "防止 OAuth 刷新后模型配置被错误改动，避免影响付费用户的使用体验和成本控制。",
+          "why_matters_en": "Prevents OAuth refresh from changing model settings incorrectly, protecting paid users' experience and cost control.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Read tool now uses compact line-number format and deduplicates unchanged re-reads, reducing token usage",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "Read工具更省令牌",
+          "summary_en": "Read tool now uses fewer tokens",
+          "why_matters": "读取文件时减少重复和冗余内容，提升长任务中的上下文利用率。",
+          "why_matters_en": "Reduces duplicate and redundant content when reading files, improving context efficiency in long tasks.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "execution_workspace"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Claude Code Cheat Sheet",
+          "points": 690,
+          "url": "https://cc.storyfox.cz"
+        },
+        {
+          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
+          "points": 463,
+          "url": "https://github.com/itigges22/ATLAS"
+        },
+        {
+          "title": "Push events into a running session with channels",
+          "points": 399,
+          "url": "https://code.claude.com/docs/en/channels"
+        },
+        {
+          "title": "Schedule tasks on the web",
+          "points": 284,
+          "url": "https://code.claude.com/docs/en/web-scheduled-tasks"
+        },
+        {
+          "title": "How I'm Productive with Claude Code",
+          "points": 278,
+          "url": "https://neilkakkar.com/productive-with-claude-code.html"
+        }
+      ],
+      "highlight_score": 50
+    },
     {
       "version": "2.1.85",
       "date": "2026-03-26",
@@ -468,8 +835,13 @@
       "signals": [
         {
           "title": "Claude Code Cheat Sheet",
-          "points": 686,
+          "points": 690,
           "url": "https://cc.storyfox.cz"
+        },
+        {
+          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
+          "points": 463,
+          "url": "https://github.com/itigges22/ATLAS"
         },
         {
           "title": "Push events into a running session with channels",
@@ -478,18 +850,13 @@
         },
         {
           "title": "Cook: A simple CLI for orchestrating Claude Code",
-          "points": 304,
+          "points": 306,
           "url": "https://rjcorwin.github.io/cook/"
         },
         {
-          "title": "How I'm Productive with Claude Code",
-          "points": 277,
-          "url": "https://neilkakkar.com/productive-with-claude-code.html"
-        },
-        {
-          "title": "Show HN: Cq – Stack Overflow for AI coding agents",
-          "points": 223,
-          "url": "https://blog.mozilla.ai/cq-stack-overflow-for-agents/"
+          "title": "Schedule tasks on the web",
+          "points": 284,
+          "url": "https://code.claude.com/docs/en/web-scheduled-tasks"
         }
       ],
       "highlight_score": 50
@@ -1004,8 +1371,13 @@
       "signals": [
         {
           "title": "Claude Code Cheat Sheet",
-          "points": 686,
+          "points": 690,
           "url": "https://cc.storyfox.cz"
+        },
+        {
+          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
+          "points": 463,
+          "url": "https://github.com/itigges22/ATLAS"
         },
         {
           "title": "Push events into a running session with channels",
@@ -1014,18 +1386,13 @@
         },
         {
           "title": "Cook: A simple CLI for orchestrating Claude Code",
-          "points": 304,
+          "points": 306,
           "url": "https://rjcorwin.github.io/cook/"
         },
         {
-          "title": "How I'm Productive with Claude Code",
-          "points": 277,
-          "url": "https://neilkakkar.com/productive-with-claude-code.html"
-        },
-        {
-          "title": "Show HN: Cq – Stack Overflow for AI coding agents",
-          "points": 223,
-          "url": "https://blog.mozilla.ai/cq-stack-overflow-for-agents/"
+          "title": "Schedule tasks on the web",
+          "points": 284,
+          "url": "https://code.claude.com/docs/en/web-scheduled-tasks"
         }
       ],
       "highlight_score": 50
@@ -2017,8 +2384,13 @@
       "signals": [
         {
           "title": "Claude Code Cheat Sheet",
-          "points": 686,
+          "points": 690,
           "url": "https://cc.storyfox.cz"
+        },
+        {
+          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
+          "points": 463,
+          "url": "https://github.com/itigges22/ATLAS"
         },
         {
           "title": "Push events into a running session with channels",
@@ -2027,18 +2399,13 @@
         },
         {
           "title": "Cook: A simple CLI for orchestrating Claude Code",
-          "points": 304,
+          "points": 306,
           "url": "https://rjcorwin.github.io/cook/"
         },
         {
-          "title": "How I'm Productive with Claude Code",
-          "points": 277,
-          "url": "https://neilkakkar.com/productive-with-claude-code.html"
-        },
-        {
-          "title": "Show HN: Cq – Stack Overflow for AI coding agents",
-          "points": 223,
-          "url": "https://blog.mozilla.ai/cq-stack-overflow-for-agents/"
+          "title": "Schedule tasks on the web",
+          "points": 284,
+          "url": "https://code.claude.com/docs/en/web-scheduled-tasks"
         }
       ],
       "highlight_score": 55
@@ -2409,8 +2776,13 @@
       "signals": [
         {
           "title": "Claude Code Cheat Sheet",
-          "points": 686,
+          "points": 690,
           "url": "https://cc.storyfox.cz"
+        },
+        {
+          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
+          "points": 463,
+          "url": "https://github.com/itigges22/ATLAS"
         },
         {
           "title": "Push events into a running session with channels",
@@ -2424,13 +2796,8 @@
         },
         {
           "title": "Cook: A simple CLI for orchestrating Claude Code",
-          "points": 304,
+          "points": 306,
           "url": "https://rjcorwin.github.io/cook/"
-        },
-        {
-          "title": "How I'm Productive with Claude Code",
-          "points": 277,
-          "url": "https://neilkakkar.com/productive-with-claude-code.html"
         }
       ],
       "highlight_score": 50
@@ -2661,8 +3028,13 @@
       "signals": [
         {
           "title": "Claude Code Cheat Sheet",
-          "points": 686,
+          "points": 690,
           "url": "https://cc.storyfox.cz"
+        },
+        {
+          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
+          "points": 463,
+          "url": "https://github.com/itigges22/ATLAS"
         },
         {
           "title": "Push events into a running session with channels",
@@ -2676,13 +3048,8 @@
         },
         {
           "title": "Cook: A simple CLI for orchestrating Claude Code",
-          "points": 304,
+          "points": 306,
           "url": "https://rjcorwin.github.io/cook/"
-        },
-        {
-          "title": "How I'm Productive with Claude Code",
-          "points": 277,
-          "url": "https://neilkakkar.com/productive-with-claude-code.html"
         }
       ],
       "highlight_score": 50
@@ -2928,7 +3295,7 @@
       "signals": [
         {
           "title": "Claude Code Cheat Sheet",
-          "points": 686,
+          "points": 690,
           "url": "https://cc.storyfox.cz"
         },
         {
@@ -2943,12 +3310,12 @@
         },
         {
           "title": "Cook: A simple CLI for orchestrating Claude Code",
-          "points": 304,
+          "points": 306,
           "url": "https://rjcorwin.github.io/cook/"
         },
         {
           "title": "How I'm Productive with Claude Code",
-          "points": 277,
+          "points": 278,
           "url": "https://neilkakkar.com/productive-with-claude-code.html"
         }
       ],
@@ -3310,7 +3677,7 @@
       "signals": [
         {
           "title": "Claude Code Cheat Sheet",
-          "points": 686,
+          "points": 690,
           "url": "https://cc.storyfox.cz"
         },
         {
@@ -3330,7 +3697,7 @@
         },
         {
           "title": "Cook: A simple CLI for orchestrating Claude Code",
-          "points": 304,
+          "points": 306,
           "url": "https://rjcorwin.github.io/cook/"
         }
       ],
@@ -3912,7 +4279,7 @@
       "signals": [
         {
           "title": "Claude Code Cheat Sheet",
-          "points": 686,
+          "points": 690,
           "url": "https://cc.storyfox.cz"
         },
         {
@@ -13097,11 +13464,6 @@
       ],
       "signals": [
         {
-          "title": "A few random notes from Claude coding quite a bit last few weeks",
-          "points": 913,
-          "url": "https://twitter.com/karpathy/status/2015883857489522876"
-        },
-        {
           "title": "Claude Code daily benchmarks for degradation tracking",
           "points": 760,
           "url": "https://marginlab.ai/trackers/claude-code/"
@@ -13120,6 +13482,11 @@
           "title": "Orchestrate teams of Claude Code sessions",
           "points": 396,
           "url": "https://code.claude.com/docs/en/agent-teams"
+        },
+        {
+          "title": "Claude Code: connect to a local model when your quota runs out",
+          "points": 386,
+          "url": "https://boxc.net/blog/2026/claude-code-connecting-to-local-models-when-your-quota-runs-out/"
         }
       ],
       "highlight_score": 30
@@ -13247,11 +13614,6 @@
       ],
       "signals": [
         {
-          "title": "A few random notes from Claude coding quite a bit last few weeks",
-          "points": 913,
-          "url": "https://twitter.com/karpathy/status/2015883857489522876"
-        },
-        {
           "title": "Claude Code daily benchmarks for degradation tracking",
           "points": 760,
           "url": "https://marginlab.ai/trackers/claude-code/"
@@ -13270,6 +13632,11 @@
           "title": "Orchestrate teams of Claude Code sessions",
           "points": 396,
           "url": "https://code.claude.com/docs/en/agent-teams"
+        },
+        {
+          "title": "Claude Code: connect to a local model when your quota runs out",
+          "points": 386,
+          "url": "https://boxc.net/blog/2026/claude-code-connecting-to-local-models-when-your-quota-runs-out/"
         }
       ],
       "highlight_score": 50
@@ -13296,11 +13663,6 @@
       ],
       "signals": [
         {
-          "title": "A few random notes from Claude coding quite a bit last few weeks",
-          "points": 913,
-          "url": "https://twitter.com/karpathy/status/2015883857489522876"
-        },
-        {
           "title": "Claude Code daily benchmarks for degradation tracking",
           "points": 760,
           "url": "https://marginlab.ai/trackers/claude-code/"
@@ -13319,6 +13681,11 @@
           "title": "Claude Code is suddenly everywhere inside Microsoft",
           "points": 409,
           "url": "https://www.theverge.com/tech/865689/microsoft-claude-code-anthropic-partnership-notepad"
+        },
+        {
+          "title": "Orchestrate teams of Claude Code sessions",
+          "points": 396,
+          "url": "https://code.claude.com/docs/en/agent-teams"
         }
       ],
       "highlight_score": 30
@@ -13470,11 +13837,6 @@
       ],
       "signals": [
         {
-          "title": "A few random notes from Claude coding quite a bit last few weeks",
-          "points": 913,
-          "url": "https://twitter.com/karpathy/status/2015883857489522876"
-        },
-        {
           "title": "Claude Code daily benchmarks for degradation tracking",
           "points": 760,
           "url": "https://marginlab.ai/trackers/claude-code/"
@@ -13493,6 +13855,11 @@
           "title": "Claude Code is suddenly everywhere inside Microsoft",
           "points": 409,
           "url": "https://www.theverge.com/tech/865689/microsoft-claude-code-anthropic-partnership-notepad"
+        },
+        {
+          "title": "Orchestrate teams of Claude Code sessions",
+          "points": 396,
+          "url": "https://code.claude.com/docs/en/agent-teams"
         }
       ],
       "highlight_score": 50
@@ -13519,11 +13886,6 @@
       ],
       "signals": [
         {
-          "title": "A few random notes from Claude coding quite a bit last few weeks",
-          "points": 913,
-          "url": "https://twitter.com/karpathy/status/2015883857489522876"
-        },
-        {
           "title": "Claude Code daily benchmarks for degradation tracking",
           "points": 760,
           "url": "https://marginlab.ai/trackers/claude-code/"
@@ -13542,6 +13904,11 @@
           "title": "Claude Code is suddenly everywhere inside Microsoft",
           "points": 409,
           "url": "https://www.theverge.com/tech/865689/microsoft-claude-code-anthropic-partnership-notepad"
+        },
+        {
+          "title": "Claude Code: connect to a local model when your quota runs out",
+          "points": 386,
+          "url": "https://boxc.net/blog/2026/claude-code-connecting-to-local-models-when-your-quota-runs-out/"
         }
       ],
       "highlight_score": 50
@@ -13681,11 +14048,6 @@
       ],
       "signals": [
         {
-          "title": "A few random notes from Claude coding quite a bit last few weeks",
-          "points": 913,
-          "url": "https://twitter.com/karpathy/status/2015883857489522876"
-        },
-        {
           "title": "Claude Code daily benchmarks for degradation tracking",
           "points": 760,
           "url": "https://marginlab.ai/trackers/claude-code/"
@@ -13704,6 +14066,11 @@
           "title": "Claude Code is suddenly everywhere inside Microsoft",
           "points": 409,
           "url": "https://www.theverge.com/tech/865689/microsoft-claude-code-anthropic-partnership-notepad"
+        },
+        {
+          "title": "Claude Code: connect to a local model when your quota runs out",
+          "points": 386,
+          "url": "https://boxc.net/blog/2026/claude-code-connecting-to-local-models-when-your-quota-runs-out/"
         }
       ],
       "highlight_score": 50
@@ -14061,11 +14428,6 @@
       ],
       "signals": [
         {
-          "title": "A few random notes from Claude coding quite a bit last few weeks",
-          "points": 913,
-          "url": "https://twitter.com/karpathy/status/2015883857489522876"
-        },
-        {
           "title": "Claude Code daily benchmarks for degradation tracking",
           "points": 760,
           "url": "https://marginlab.ai/trackers/claude-code/"
@@ -14084,6 +14446,11 @@
           "title": "Claude Code is suddenly everywhere inside Microsoft",
           "points": 409,
           "url": "https://www.theverge.com/tech/865689/microsoft-claude-code-anthropic-partnership-notepad"
+        },
+        {
+          "title": "Claude Code: connect to a local model when your quota runs out",
+          "points": 386,
+          "url": "https://boxc.net/blog/2026/claude-code-connecting-to-local-models-when-your-quota-runs-out/"
         }
       ],
       "highlight_score": 50
@@ -14267,11 +14634,6 @@
       ],
       "signals": [
         {
-          "title": "A few random notes from Claude coding quite a bit last few weeks",
-          "points": 913,
-          "url": "https://twitter.com/karpathy/status/2015883857489522876"
-        },
-        {
           "title": "Claude Code daily benchmarks for degradation tracking",
           "points": 760,
           "url": "https://marginlab.ai/trackers/claude-code/"
@@ -14290,6 +14652,11 @@
           "title": "Running Claude Code dangerously (safely)",
           "points": 351,
           "url": "https://blog.emilburzo.com/2026/01/running-claude-code-dangerously-safely/"
+        },
+        {
+          "title": "Show HN: I quit coding years ago. AI brought me back",
+          "points": 314,
+          "url": "https://calquio.com/finance/compound-interest"
         }
       ],
       "highlight_score": 55
@@ -14316,11 +14683,6 @@
       ],
       "signals": [
         {
-          "title": "A few random notes from Claude coding quite a bit last few weeks",
-          "points": 913,
-          "url": "https://twitter.com/karpathy/status/2015883857489522876"
-        },
-        {
           "title": "Claude Code daily benchmarks for degradation tracking",
           "points": 760,
           "url": "https://marginlab.ai/trackers/claude-code/"
@@ -14339,6 +14701,11 @@
           "title": "Running Claude Code dangerously (safely)",
           "points": 351,
           "url": "https://blog.emilburzo.com/2026/01/running-claude-code-dangerously-safely/"
+        },
+        {
+          "title": "Show HN: I quit coding years ago. AI brought me back",
+          "points": 314,
+          "url": "https://calquio.com/finance/compound-interest"
         }
       ],
       "highlight_score": 30
@@ -14362,11 +14729,6 @@
       ],
       "signals": [
         {
-          "title": "A few random notes from Claude coding quite a bit last few weeks",
-          "points": 913,
-          "url": "https://twitter.com/karpathy/status/2015883857489522876"
-        },
-        {
           "title": "Claude Code daily benchmarks for degradation tracking",
           "points": 760,
           "url": "https://marginlab.ai/trackers/claude-code/"
@@ -14385,6 +14747,11 @@
           "title": "Running Claude Code dangerously (safely)",
           "points": 351,
           "url": "https://blog.emilburzo.com/2026/01/running-claude-code-dangerously-safely/"
+        },
+        {
+          "title": "Show HN: I quit coding years ago. AI brought me back",
+          "points": 314,
+          "url": "https://calquio.com/finance/compound-interest"
         }
       ],
       "highlight_score": 50
@@ -14487,11 +14854,6 @@
       ],
       "signals": [
         {
-          "title": "A few random notes from Claude coding quite a bit last few weeks",
-          "points": 913,
-          "url": "https://twitter.com/karpathy/status/2015883857489522876"
-        },
-        {
           "title": "Claude Code daily benchmarks for degradation tracking",
           "points": 760,
           "url": "https://marginlab.ai/trackers/claude-code/"
@@ -14510,6 +14872,11 @@
           "title": "Running Claude Code dangerously (safely)",
           "points": 351,
           "url": "https://blog.emilburzo.com/2026/01/running-claude-code-dangerously-safely/"
+        },
+        {
+          "title": "Show HN: I quit coding years ago. AI brought me back",
+          "points": 314,
+          "url": "https://calquio.com/finance/compound-interest"
         }
       ],
       "highlight_score": 50
@@ -14572,11 +14939,6 @@
       ],
       "signals": [
         {
-          "title": "A few random notes from Claude coding quite a bit last few weeks",
-          "points": 913,
-          "url": "https://twitter.com/karpathy/status/2015883857489522876"
-        },
-        {
           "title": "I was banned from Claude for scaffolding a Claude.md file?",
           "points": 749,
           "url": "https://hugodaniel.com/posts/claude-code-banned-me/"
@@ -14595,6 +14957,11 @@
           "title": "Show HN: I quit coding years ago. AI brought me back",
           "points": 314,
           "url": "https://calquio.com/finance/compound-interest"
+        },
+        {
+          "title": "Porting 100k lines from TypeScript to Rust using Claude Code in a month",
+          "points": 255,
+          "url": "https://blog.vjeux.com/2026/analysis/porting-100k-lines-from-typescript-to-rust-using-claude-code-in-a-month.html"
         }
       ],
       "highlight_score": 50
@@ -14810,11 +15177,6 @@
       ],
       "signals": [
         {
-          "title": "A few random notes from Claude coding quite a bit last few weeks",
-          "points": 913,
-          "url": "https://twitter.com/karpathy/status/2015883857489522876"
-        },
-        {
           "title": "I was banned from Claude for scaffolding a Claude.md file?",
           "points": 749,
           "url": "https://hugodaniel.com/posts/claude-code-banned-me/"
@@ -14833,6 +15195,11 @@
           "title": "Show HN: I quit coding years ago. AI brought me back",
           "points": 314,
           "url": "https://calquio.com/finance/compound-interest"
+        },
+        {
+          "title": "Show HN: Self-host Reddit – 2.38B posts, works offline, yours forever",
+          "points": 286,
+          "url": "https://github.com/19-84/redd-archiver"
         }
       ],
       "highlight_score": 50
@@ -29672,6 +30039,11 @@
           "url": "https://github.com/pgdogdev/pgdog"
         },
         {
+          "title": "Claude Opus 4 turns to blackmail when engineers try to take it offline",
+          "points": 124,
+          "url": "https://techcrunch.com/2025/05/22/anthropics-new-ai-model-turns-to-blackmail-when-engineers-try-to-take-it-offline/"
+        },
+        {
           "title": "Claude Code Is My Computer",
           "points": 115,
           "url": "https://steipete.me/posts/2025/claude-code-is-my-computer"
@@ -29685,11 +30057,6 @@
           "title": "Claude Code is now available to Pro plans",
           "points": 97,
           "url": "https://support.anthropic.com/en/articles/11145838-using-claude-code-with-your-pro-or-max-plan"
-        },
-        {
-          "title": "Claude Code does our releases now",
-          "points": 69,
-          "url": "https://www.aluxian.com/claude-code-does-our-releases-now/"
         }
       ],
       "highlight_score": 50
@@ -29772,6 +30139,11 @@
           "url": "https://github.com/pgdogdev/pgdog"
         },
         {
+          "title": "Claude Opus 4 turns to blackmail when engineers try to take it offline",
+          "points": 124,
+          "url": "https://techcrunch.com/2025/05/22/anthropics-new-ai-model-turns-to-blackmail-when-engineers-try-to-take-it-offline/"
+        },
+        {
           "title": "Claude Code Is My Computer",
           "points": 115,
           "url": "https://steipete.me/posts/2025/claude-code-is-my-computer"
@@ -29785,11 +30157,6 @@
           "title": "Claude Code is now available to Pro plans",
           "points": 97,
           "url": "https://support.anthropic.com/en/articles/11145838-using-claude-code-with-your-pro-or-max-plan"
-        },
-        {
-          "title": "Claude Code does our releases now",
-          "points": 69,
-          "url": "https://www.aluxian.com/claude-code-does-our-releases-now/"
         }
       ],
       "highlight_score": 35
@@ -29820,6 +30187,11 @@
           "url": "https://github.com/pgdogdev/pgdog"
         },
         {
+          "title": "Claude Opus 4 turns to blackmail when engineers try to take it offline",
+          "points": 124,
+          "url": "https://techcrunch.com/2025/05/22/anthropics-new-ai-model-turns-to-blackmail-when-engineers-try-to-take-it-offline/"
+        },
+        {
           "title": "Claude Code Is My Computer",
           "points": 115,
           "url": "https://steipete.me/posts/2025/claude-code-is-my-computer"
@@ -29833,11 +30205,6 @@
           "title": "Claude Code is now available to Pro plans",
           "points": 97,
           "url": "https://support.anthropic.com/en/articles/11145838-using-claude-code-with-your-pro-or-max-plan"
-        },
-        {
-          "title": "Claude Code does our releases now",
-          "points": 69,
-          "url": "https://www.aluxian.com/claude-code-does-our-releases-now/"
         }
       ],
       "highlight_score": 15
@@ -29899,6 +30266,11 @@
           "url": "https://github.com/pgdogdev/pgdog"
         },
         {
+          "title": "Claude Opus 4 turns to blackmail when engineers try to take it offline",
+          "points": 124,
+          "url": "https://techcrunch.com/2025/05/22/anthropics-new-ai-model-turns-to-blackmail-when-engineers-try-to-take-it-offline/"
+        },
+        {
           "title": "Launch HN: Relace (YC W23) – Models for fast and reliable codegen",
           "points": 111,
           "url": "https://news.ycombinator.com/item?id=44108206"
@@ -29907,11 +30279,6 @@
           "title": "Claude Code does our releases now",
           "points": 69,
           "url": "https://www.aluxian.com/claude-code-does-our-releases-now/"
-        },
-        {
-          "title": "Show HN: MCP Defender – OSS AI Firewall for Protecting MCP in Cursor/Claude etc",
-          "points": 64,
-          "url": "https://mcpdefender.com"
         }
       ],
       "highlight_score": 35
@@ -29957,6 +30324,11 @@
           "url": "https://github.com/pgdogdev/pgdog"
         },
         {
+          "title": "Claude Opus 4 turns to blackmail when engineers try to take it offline",
+          "points": 124,
+          "url": "https://techcrunch.com/2025/05/22/anthropics-new-ai-model-turns-to-blackmail-when-engineers-try-to-take-it-offline/"
+        },
+        {
           "title": "Launch HN: Relace (YC W23) – Models for fast and reliable codegen",
           "points": 111,
           "url": "https://news.ycombinator.com/item?id=44108206"
@@ -29965,11 +30337,6 @@
           "title": "Claude Code does our releases now",
           "points": 69,
           "url": "https://www.aluxian.com/claude-code-does-our-releases-now/"
-        },
-        {
-          "title": "Show HN: MCP Defender – OSS AI Firewall for Protecting MCP in Cursor/Claude etc",
-          "points": 64,
-          "url": "https://mcpdefender.com"
         }
       ],
       "highlight_score": 80
@@ -30016,6 +30383,11 @@
           "title": "Show HN: PgDog – Shard Postgres without extensions",
           "points": 307,
           "url": "https://github.com/pgdogdev/pgdog"
+        },
+        {
+          "title": "Claude Opus 4 turns to blackmail when engineers try to take it offline",
+          "points": 124,
+          "url": "https://techcrunch.com/2025/05/22/anthropics-new-ai-model-turns-to-blackmail-when-engineers-try-to-take-it-offline/"
         },
         {
           "title": "Launch HN: Relace (YC W23) – Models for fast and reliable codegen",
@@ -34120,8 +34492,8 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 252,
-      "release_count": 115,
+      "change_count": 258,
+      "release_count": 116,
       "avg_importance": 3.12,
       "maturity": {
         "score": 92,
@@ -34132,14 +34504,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-03-26",
-        "version": "2.1.85"
+        "date": "2026-03-27",
+        "version": "2.1.86"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 90
+          "change_count": 96
         },
         {
           "epoch_id": "epoch4",
@@ -34215,8 +34587,8 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 574,
-      "release_count": 154,
+      "change_count": 579,
+      "release_count": 155,
       "avg_importance": 3.2,
       "maturity": {
         "score": 93,
@@ -34227,14 +34599,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-03-26",
-        "version": "2.1.85"
+        "date": "2026-03-27",
+        "version": "2.1.86"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 273
+          "change_count": 278
         },
         {
           "epoch_id": "epoch1",
@@ -34310,8 +34682,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 350,
-      "release_count": 112,
+      "change_count": 357,
+      "release_count": 113,
       "avg_importance": 3.21,
       "maturity": {
         "score": 93,
@@ -34322,14 +34694,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-03-26",
-        "version": "2.1.85"
+        "date": "2026-03-27",
+        "version": "2.1.86"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 186
+          "change_count": 193
         },
         {
           "epoch_id": "epoch1",
@@ -34354,6 +34726,14 @@
       ],
       "samples": [
         {
+          "date": "2026-03-27",
+          "version": "2.1.86",
+          "raw": "Fixed potential out-of-memory crash when using `/feedback` on very long sessions with large transcript files",
+          "summary": "修复长会话反馈内存溢出",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-03-20",
           "version": "2.1.81",
           "raw": "Added `--bare` flag for scripted `-p` calls — skips hooks, LSP, plugin sync, and skill directory walks; requires `ANTHROPIC_API_KEY` or an `apiKeyHelper` via `--settings` (OAuth and keychain auth disabled); auto-memory fully disabled",
@@ -34376,14 +34756,6 @@
           "summary": "修复工作树清理误删",
           "importance": 5,
           "category": "fix"
-        },
-        {
-          "date": "2026-03-13",
-          "version": "2.1.75",
-          "raw": "Added 1M context window for Opus 4.6 by default for Max, Team, and Enterprise plans (previously required extra usage)",
-          "summary": "默认开放百万上下文",
-          "importance": 5,
-          "category": "feat"
         }
       ]
     },
@@ -34405,8 +34777,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 413,
-      "release_count": 161,
+      "change_count": 416,
+      "release_count": 162,
       "avg_importance": 3.26,
       "maturity": {
         "score": 93,
@@ -34417,14 +34789,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-03-26",
-        "version": "2.1.85"
+        "date": "2026-03-27",
+        "version": "2.1.86"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 151
+          "change_count": 154
         },
         {
           "epoch_id": "epoch1",
@@ -34500,8 +34872,8 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 193,
-      "release_count": 83,
+      "change_count": 194,
+      "release_count": 84,
       "avg_importance": 3.41,
       "maturity": {
         "score": 94,
@@ -34512,14 +34884,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-03-26",
-        "version": "2.1.85"
+        "date": "2026-03-27",
+        "version": "2.1.86"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 102
+          "change_count": 103
         },
         {
           "epoch_id": "epoch1",
@@ -34595,8 +34967,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 638,
-      "release_count": 184,
+      "change_count": 650,
+      "release_count": 185,
       "avg_importance": 3.16,
       "maturity": {
         "score": 93,
@@ -34607,14 +34979,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-03-26",
-        "version": "2.1.85"
+        "date": "2026-03-27",
+        "version": "2.1.86"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 272
+          "change_count": 284
         },
         {
           "epoch_id": "epoch1",
@@ -34639,6 +35011,14 @@
       ],
       "samples": [
         {
+          "date": "2026-03-27",
+          "version": "2.1.86",
+          "raw": "[VSCode] Fixed extension defaulting Max plan users to Sonnet after the OAuth token refreshes (8 hours after login)",
+          "summary": "修复刷新后误切Sonnet",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-03-24",
           "version": "2.1.83",
           "raw": "Added `CLAUDE_CODE_SUBPROCESS_ENV_SCRUB=1` to strip Anthropic and cloud provider credentials from subprocess environments (Bash tool, hooks, MCP stdio servers)",
@@ -34661,14 +35041,6 @@
           "summary": "MCP断线不再无限卡住",
           "importance": 5,
           "category": "fix"
-        },
-        {
-          "date": "2026-03-20",
-          "version": "2.1.81",
-          "raw": "Added `--bare` flag for scripted `-p` calls — skips hooks, LSP, plugin sync, and skill directory walks; requires `ANTHROPIC_API_KEY` or an `apiKeyHelper` via `--settings` (OAuth and keychain auth disabled); auto-memory fully disabled",
-          "summary": "新增脚本裸模式",
-          "importance": 5,
-          "category": "feat"
         }
       ]
     },
@@ -34690,8 +35062,8 @@
         "Emacs",
         "web"
       ],
-      "change_count": 397,
-      "release_count": 131,
+      "change_count": 402,
+      "release_count": 132,
       "avg_importance": 2.72,
       "maturity": {
         "score": 91,
@@ -34702,14 +35074,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-03-26",
-        "version": "2.1.85"
+        "date": "2026-03-27",
+        "version": "2.1.86"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 188
+          "change_count": 193
         },
         {
           "epoch_id": "epoch4",
@@ -34785,8 +35157,8 @@
         "policy",
         "auditing"
       ],
-      "change_count": 392,
-      "release_count": 156,
+      "change_count": 398,
+      "release_count": 157,
       "avg_importance": 3.3,
       "maturity": {
         "score": 93,
@@ -34797,14 +35169,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-03-26",
-        "version": "2.1.85"
+        "date": "2026-03-27",
+        "version": "2.1.86"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 156
+          "change_count": 162
         },
         {
           "epoch_id": "epoch4",
@@ -34829,6 +35201,14 @@
       ],
       "samples": [
         {
+          "date": "2026-03-27",
+          "version": "2.1.86",
+          "raw": "[VSCode] Fixed extension defaulting Max plan users to Sonnet after the OAuth token refreshes (8 hours after login)",
+          "summary": "修复刷新后误切Sonnet",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-03-24",
           "version": "2.1.83",
           "raw": "Added `sandbox.failIfUnavailable` setting to exit with an error when sandbox is enabled but cannot start, instead of running unsandboxed",
@@ -34851,14 +35231,6 @@
           "summary": "修复MCP策略绕过漏洞",
           "importance": 5,
           "category": "security"
-        },
-        {
-          "date": "2026-03-17",
-          "version": "2.1.78",
-          "raw": "Fixed `deny: [\"mcp__servername\"]` permission rules not removing MCP server tools before sending to the model, allowing it to see and attempt blocked tools",
-          "summary": "权限拒绝规则现可屏蔽 MCP 工具",
-          "importance": 5,
-          "category": "fix"
         }
       ]
     }
@@ -34906,12 +35278,6 @@
         "points": 929,
         "url": "https://dmitrybrant.com/2025/09/07/using-claude-code-to-modernize-a-25-year-old-kernel-driver",
         "date": "2025-09-07"
-      },
-      {
-        "title": "A few random notes from Claude coding quite a bit last few weeks",
-        "points": 913,
-        "url": "https://twitter.com/karpathy/status/2015883857489522876",
-        "date": "2026-01-26"
       },
       {
         "title": "Claude Code is all you need",
@@ -34963,7 +35329,7 @@
       },
       {
         "title": "Claude Code Cheat Sheet",
-        "points": 686,
+        "points": 690,
         "url": "https://cc.storyfox.cz",
         "date": "2026-03-23"
       },
@@ -34972,6 +35338,12 @@
         "points": 683,
         "url": "https://zed.dev/blog/claude-code-via-acp",
         "date": "2025-09-03"
+      },
+      {
+        "title": "Anthropic officially bans using subscription auth for third party use",
+        "points": 655,
+        "url": "https://code.claude.com/docs/en/legal-and-compliance",
+        "date": "2026-02-19"
       }
     ],
     "blog_posts": [
