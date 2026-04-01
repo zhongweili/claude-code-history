@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-03-31T04:01:37.217Z",
+    "generated_at": "2026-04-01T04:10:54.750Z",
     "agent_model": "openai/gpt-5.4-mini",
     "total_versions": 251,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-03-30"
+      "end": "2026-03-31"
     },
     "highlight_count": 33,
     "capability_count": 8,
@@ -76,19 +76,35 @@
   ],
   "releases": [
     {
-      "version": "2.1.88",
-      "date": "2026-03-30",
+      "version": "2.1.89",
+      "date": "2026-03-31",
       "epoch_id": "epoch5",
       "source": "changelog",
       "changes": [
         {
+          "raw": "Added `\"defer\"` permission decision to `PreToolUse` hooks — headless sessions can pause at a tool call and resume with `-p --resume` to have the hook re-evaluate",
+          "category": "feat",
+          "importance": 4,
+          "summary": "PreToolUse可延后放行并恢复",
+          "summary_en": "PreToolUse can defer and resume",
+          "why_matters": "这让无头会话能在工具调用处暂停，稍后恢复时重新评估权限决策。",
+          "why_matters_en": "This lets headless sessions pause at a tool call and re-evaluate permissions on resume.",
+          "capability_ids": [
+            "automation_autonomy",
+            "governance_security",
+            "execution_workspace",
+            "memory_context",
+            "integrations_ecosystem"
+          ]
+        },
+        {
           "raw": "Added `CLAUDE_CODE_NO_FLICKER=1` environment variable to opt into flicker-free alt-screen rendering with virtualized scrollback",
           "category": "feat",
-          "importance": 3,
-          "summary": "可无闪烁渲染滚动回显",
-          "summary_en": "Flicker-free alt-screen rendering",
-          "why_matters": "在长输出和滚动场景下，界面更稳定顺滑，减少视觉闪烁干扰。",
-          "why_matters_en": "It makes long outputs and scrolling feel smoother by reducing visual flicker.",
+          "importance": 2,
+          "summary": "支持无闪烁终端渲染",
+          "summary_en": "Opt into flicker-free terminal rendering",
+          "why_matters": "这改善了长时间运行时的终端显示体验，减少闪烁干扰。",
+          "why_matters_en": "This improves terminal UX during long sessions by reducing screen flicker.",
           "capability_ids": [
             "execution_workspace",
             "multimodal_interfaces"
@@ -97,38 +113,259 @@
         {
           "raw": "Added `PermissionDenied` hook that fires after auto mode classifier denials — return `{retry: true}` to tell the model it can retry",
           "category": "feat",
-          "importance": 3,
-          "summary": "权限拒绝后可重试",
-          "summary_en": "PermissionDenied hook can enable retry",
-          "why_matters": "当自动模式误判拒绝时，回调可让模型重试，提高任务继续执行的成功率。",
-          "why_matters_en": "If auto-mode denies a valid action, the hook can let the model retry and continue the task.",
+          "importance": 4,
+          "summary": "新增拒绝后重试钩子",
+          "summary_en": "New hook after auto-denials",
+          "why_matters": "这让自动模式在被拒绝后还能显式提示模型重试，提高交互连续性。",
+          "why_matters_en": "This lets auto mode recover from denials by allowing the model to retry.",
           "capability_ids": [
+            "automation_autonomy",
             "governance_security",
-            "reasoning_workflows",
-            "automation_autonomy"
+            "reasoning_workflows"
           ]
         },
         {
           "raw": "Added named subagents to `@` mention typeahead suggestions",
           "category": "feat",
           "importance": 2,
-          "summary": "@补全支持命名子代理",
-          "summary_en": "Typeahead now includes named subagents",
-          "why_matters": "在引用代理时更容易找到目标子代理，提升协作和调用效率。",
-          "why_matters_en": "It makes the right subagent easier to find and mention, improving collaboration efficiency.",
+          "summary": "类型补全支持命名子代理",
+          "summary_en": "Typeahead now shows named subagents",
+          "why_matters": "这让用户在引用子代理时更容易发现并选择合适对象。",
+          "why_matters_en": "This makes it easier to discover and select the right subagent in mentions.",
           "capability_ids": [
             "delegation_collaboration",
             "reasoning_workflows"
           ]
         },
         {
+          "raw": "Added `MCP_CONNECTION_NONBLOCKING=true` for `-p` mode to skip the MCP connection wait entirely, and bounded `--mcp-config` server connections at 5s instead of blocking on the slowest server",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "优化无等待MCP连接",
+          "summary_en": "Faster nonblocking MCP startup",
+          "why_matters": "这减少了 `-p` 模式和慢 MCP 服务器带来的启动阻塞。",
+          "why_matters_en": "This reduces startup blocking in `-p` mode and with slow MCP servers.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "automation_autonomy",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Auto mode: denied commands now show a notification and appear in `/permissions` → Recent tab where you can retry with `r`",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "拒绝命令可通知并重试",
+          "summary_en": "Denied commands notify and can be retried",
+          "why_matters": "这让权限拒绝更可见，并可直接从最近记录里重试。",
+          "why_matters_en": "This makes permission denials visible and easy to retry from recent history.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed `Edit(//path/**)` and `Read(//path/**)` allow rules to check the resolved symlink target, not just the requested path",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复符号链接权限判断",
+          "summary_en": "Fix symlink-aware path permissions",
+          "why_matters": "这避免了通过符号链接绕过或误判文件访问允许规则。",
+          "why_matters_en": "This prevents symlink-based bypasses and misjudgments in file अनुमति rules.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed voice push-to-talk not activating for some modifier-combo bindings, and voice mode on Windows failing with \"WebSocket upgrade rejected with HTTP 101\"",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复语音快捷键与Windows故障",
+          "summary_en": "Fix voice hotkeys and Windows WebSocket error",
+          "why_matters": "这恢复了语音输入在部分按键组合和 Windows 上的可用性。",
+          "why_matters_en": "This restores voice input reliability for certain hotkeys and on Windows.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed Edit/Write tools doubling CRLF on Windows and stripping Markdown hard line breaks (two trailing spaces)",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复Windows换行与Markdown保留",
+          "summary_en": "Fix CRLF doubling and markdown line breaks",
+          "why_matters": "这避免编辑工具破坏 Windows 文本格式和 Markdown 内容。",
+          "why_matters_en": "This prevents edit tools from corrupting Windows line endings and Markdown formatting.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed `StructuredOutput` schema cache bug causing ~50% failure rate when using multiple schemas",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复结构化输出缓存失败",
+          "summary_en": "Fix StructuredOutput schema cache failures",
+          "why_matters": "这显著提高了多 schema 场景下结构化输出的成功率。",
+          "why_matters_en": "This greatly improves StructuredOutput reliability when using multiple schemas.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed memory leak where large JSON inputs were retained as LRU cache keys in long-running sessions",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复大JSON输入内存泄漏",
+          "summary_en": "Fix memory leak from large JSON inputs",
+          "why_matters": "这减少了长会话中的内存增长，提升稳定性。",
+          "why_matters_en": "This reduces memory growth in long-running sessions and improves stability.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed a crash when removing a message from very large session files (over 50MB)",
+          "category": "fix",
+          "importance": 5,
+          "summary": "修复超大会话删除崩溃",
+          "summary_en": "Fix crash removing messages in huge sessions",
+          "why_matters": "这避免了超大会话文件在编辑历史时直接崩溃。",
+          "why_matters_en": "This prevents crashes when editing history in very large session files.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed LSP server zombie state after crash — server now restarts on next request instead of failing until session restart",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复LSP崩溃后僵死状态",
+          "summary_en": "Fix LSP zombie state after crash",
+          "why_matters": "这让语言服务在崩溃后能自动恢复，避免持续失效。",
+          "why_matters_en": "This lets the language server recover after a crash instead of staying broken.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed prompt history entries containing CJK or emoji being silently dropped when they fall on a 4KB boundary in `~/.claude/history.jsonl`",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复历史记录中文与表情丢失",
+          "summary_en": "Fix dropped CJK/emoji history entries",
+          "why_matters": "这防止对话历史在边界条件下静默丢失。",
+          "why_matters_en": "This prevents silent loss of chat history under boundary conditions.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed `/stats` undercounting tokens by excluding subagent usage, and losing historical data beyond 30 days when the stats cache format changes",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复统计遗漏子代理用量",
+          "summary_en": "Fix stats to include subagent usage",
+          "why_matters": "这让 token 统计更准确，并保留更完整的历史数据。",
+          "why_matters_en": "This makes token stats accurate and preserves more complete historical data.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed `-p --resume` hangs when the deferred tool input exceeds 64KB or no deferred marker exists, and `-p --continue` not resuming deferred tools",
+          "category": "fix",
+          "importance": 5,
+          "summary": "修复续跑卡死与工具续接",
+          "summary_en": "Fix resume hangs and deferred tool continuation",
+          "why_matters": "避免长输入或旧状态导致续跑失败，让继续会话更稳定可靠。",
+          "why_matters_en": "Prevents resume failures from long inputs or stale state, making continued sessions reliable.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed `claude-cli://` deep links not opening on macOS",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复 macOS 深链无法打开",
+          "summary_en": "Fix claude-cli deep links on macOS",
+          "why_matters": "让 macOS 上的快捷打开入口恢复可用，提升跨应用联动体验。",
+          "why_matters_en": "Restores a convenient macOS entry point for better cross-app workflow.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed MCP tool errors truncating to only the first content block when the server returns multi-element error content",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复 MCP 错误内容被截断",
+          "summary_en": "Fix truncated multi-block MCP error content",
+          "why_matters": "完整保留服务端报错内容，便于定位工具和集成问题。",
+          "why_matters_en": "Preserves full server error details for easier debugging of tools and integrations.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed skill reminders and other system context being dropped when sending messages with images via the SDK",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复图片消息丢系统上下文",
+          "summary_en": "Fix system context lost with image SDK messages",
+          "why_matters": "确保 SDK 发送图片时仍保留提醒和系统指令，避免行为偏移。",
+          "why_matters_en": "Keeps reminders and system instructions intact when sending images via the SDK.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "memory_context",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed PreToolUse/PostToolUse hooks to receive `file_path` as an absolute path for Write/Edit/Read tools, matching the documented behavior",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复钩子文件路径为绝对路径",
+          "summary_en": "Fix hook file_path to absolute path",
+          "why_matters": "让钩子收到符合文档的路径格式，减少脚本兼容问题。",
+          "why_matters_en": "Ensures hooks receive the documented path format, reducing script compatibility issues.",
+          "capability_ids": [
+            "automation_autonomy",
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed autocompact thrash loop — now detects when context refills to the limit immediately after compacting three times in a row and stops with an actionable error instead of burning API calls",
+          "category": "fix",
+          "importance": 5,
+          "summary": "修复自动压缩死循环",
+          "summary_en": "Fix autocompact thrash loop",
+          "why_matters": "避免上下文反复压缩导致白白消耗调用次数，并给出可操作错误。",
+          "why_matters_en": "Prevents repeated compaction from burning calls and surfaces an actionable error.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "automation_autonomy",
+            "memory_context"
+          ]
+        },
+        {
           "raw": "Fixed prompt cache misses in long sessions caused by tool schema bytes changing mid-session",
           "category": "fix",
           "importance": 4,
-          "summary": "修复长会话缓存失效",
-          "summary_en": "Fixed prompt cache misses in long sessions",
-          "why_matters": "减少长会话中的重复计算和延迟，提升响应速度与稳定性。",
-          "why_matters_en": "It reduces repeated work and latency in long sessions, improving speed and stability.",
+          "summary": "修复长会话缓存失配",
+          "summary_en": "Fix prompt cache misses in long sessions",
+          "why_matters": "减少长对话中的重复计算和额外开销，提升响应效率。",
+          "why_matters_en": "Reduces recomputation and overhead in long conversations for better efficiency.",
           "capability_ids": [
             "memory_context",
             "reasoning_workflows"
@@ -138,176 +375,52 @@
           "raw": "Fixed nested CLAUDE.md files being re-injected dozens of times in long sessions that read many files",
           "category": "fix",
           "importance": 4,
-          "summary": "防止CLAUDE.md重复注入",
-          "summary_en": "Stopped repeated CLAUDE.md reinjection",
-          "why_matters": "避免上下文被无意义重复内容污染，提升长会话的可用上下文质量。",
-          "why_matters_en": "It prevents context pollution from repeated content and preserves useful context in long sessions.",
-          "capability_ids": [
-            "memory_context"
-          ]
-        },
-        {
-          "raw": "Fixed Edit/Write tools doubling CRLF on Windows and stripping Markdown hard line breaks (two trailing spaces)",
-          "category": "fix",
-          "importance": 3,
-          "summary": "修复Windows换行与Markdown",
-          "summary_en": "Fixed CRLF doubling and Markdown breaks",
-          "why_matters": "保证编辑结果在 Windows 和 Markdown 场景下保持原样，不破坏文件格式。",
-          "why_matters_en": "It preserves file formatting correctly on Windows and in Markdown files.",
-          "capability_ids": [
-            "execution_workspace"
-          ]
-        },
-        {
-          "raw": "Fixed `StructuredOutput` schema cache bug causing ~50% failure rate in workflows with multiple schemas",
-          "category": "fix",
-          "importance": 5,
-          "summary": "修复多Schema结构化输出失败",
-          "summary_en": "Fixed StructuredOutput schema cache bug",
-          "why_matters": "显著提升依赖结构化输出工作流的成功率，避免频繁失败。",
-          "why_matters_en": "It greatly improves success rates for workflows that rely on structured output.",
-          "capability_ids": [
-            "reasoning_workflows"
-          ]
-        },
-        {
-          "raw": "Fixed memory leak where large JSON inputs were retained as LRU cache keys in long-running sessions",
-          "category": "fix",
-          "importance": 4,
-          "summary": "修复大JSON内存泄漏",
-          "summary_en": "Fixed large JSON inputs memory leak",
-          "why_matters": "降低长时间运行时的内存占用，减少卡顿和崩溃风险。",
-          "why_matters_en": "It lowers memory usage in long-running sessions and reduces slowdown or crash risk.",
+          "summary": "修复 CLAUDE.md 重复注入",
+          "summary_en": "Fix repeated nested CLAUDE.md injection",
+          "why_matters": "避免规则和上下文被反复塞入，减少长会话中的冗余与混乱。",
+          "why_matters_en": "Prevents repeated context injection, reducing redundancy and confusion in long sessions.",
           "capability_ids": [
             "memory_context",
-            "execution_workspace"
-          ]
-        },
-        {
-          "raw": "Fixed a potential out-of-memory crash when the Edit tool was used on very large files (>1 GiB)",
-          "category": "fix",
-          "importance": 5,
-          "summary": "大文件编辑避免OOM崩溃",
-          "summary_en": "Prevented OOM on very large edits",
-          "why_matters": "避免编辑超大文件时直接崩溃，保障大项目可用性。",
-          "why_matters_en": "It prevents crashes when editing huge files, keeping large projects usable.",
-          "capability_ids": [
-            "execution_workspace",
-            "memory_context"
-          ]
-        },
-        {
-          "raw": "Fixed a crash when removing a message from very large session files (over 50MB)",
-          "category": "fix",
-          "importance": 4,
-          "summary": "修复超大会话删消息崩溃",
-          "summary_en": "Fixed crash when deleting messages",
-          "why_matters": "让超大会话的历史编辑更安全，减少数据损坏和中断。",
-          "why_matters_en": "It makes editing very large session history safer and reduces interruption risk.",
-          "capability_ids": [
-            "memory_context"
+            "reasoning_workflows"
           ]
         },
         {
           "raw": "Fixed `--resume` crash when transcript contains a tool result from an older CLI version or interrupted write",
           "category": "fix",
           "importance": 4,
-          "summary": "修复旧版本续会话崩溃",
-          "summary_en": "Fixed --resume crash on old transcripts",
-          "why_matters": "提高跨版本恢复会话的兼容性，避免续接历史记录失败。",
-          "why_matters_en": "It improves cross-version resume compatibility so old transcripts can be reopened safely.",
+          "summary": "修复旧记录续跑崩溃",
+          "summary_en": "Fix --resume crash on old transcripts",
+          "why_matters": "让从旧版本或中断状态恢复会话更稳，不会因历史记录直接崩溃。",
+          "why_matters_en": "Makes resuming from older or interrupted transcripts more reliable instead of crashing.",
           "capability_ids": [
+            "execution_workspace",
             "memory_context"
           ]
         },
         {
           "raw": "Fixed misleading \"Rate limit reached\" message when the API returned an entitlement error — now shows the actual error with actionable hints",
           "category": "fix",
-          "importance": 3,
-          "summary": "错误提示更准确可操作",
-          "summary_en": "More accurate entitlement error message",
-          "why_matters": "帮助用户更快定位真实原因并采取正确处理方式。",
-          "why_matters_en": "It helps users identify the real issue faster and take the right action.",
+          "importance": 4,
+          "summary": "修复限流提示误报",
+          "summary_en": "Fix misleading rate-limit error message",
+          "why_matters": "把真实错误和处理建议直接告诉用户，便于快速判断和修复。",
+          "why_matters_en": "Shows the real error with actionable hints so users can diagnose issues faster.",
           "capability_ids": [
             "governance_security",
             "integrations_ecosystem"
-          ]
-        },
-        {
-          "raw": "Fixed LSP server zombie state after crash — server now restarts on next request instead of failing until session restart",
-          "category": "fix",
-          "importance": 4,
-          "summary": "LSP崩溃后自动重启",
-          "summary_en": "LSP server restarts after crash",
-          "why_matters": "减少编辑器语言服务挂死，恢复后无需重启整个会话。",
-          "why_matters_en": "It reduces stuck language-server states and recovers without restarting the whole session.",
-          "capability_ids": [
-            "integrations_ecosystem",
-            "execution_workspace"
           ]
         },
         {
           "raw": "Fixed hooks `if` condition filtering not matching compound commands (`ls && git push`) or commands with env-var prefixes (`FOO=bar git push`)",
           "category": "fix",
-          "importance": 2,
-          "summary": "修复hooks条件命令匹配",
-          "summary_en": "Fixed hook condition matching for compound cmds",
-          "why_matters": "让 hooks 在复杂命令和环境变量前缀下也能正确触发。",
-          "why_matters_en": "It ensures hooks trigger correctly for compound commands and env-prefixed commands.",
+          "importance": 3,
+          "summary": "修复 hooks 条件匹配漏判",
+          "summary_en": "Fix hook if-condition matching",
+          "why_matters": "让复杂命令也能正确触发钩子，提升自动化规则覆盖率。",
+          "why_matters_en": "Ensures hooks trigger correctly for compound and prefixed commands, improving automation coverage.",
           "capability_ids": [
             "automation_autonomy",
-            "governance_security",
             "integrations_ecosystem"
-          ]
-        },
-        {
-          "raw": "Fixed prompt history entries containing CJK or emoji being silently dropped when they fall on a 4KB boundary in `~/.claude/history.jsonl`",
-          "category": "fix",
-          "importance": 4,
-          "summary": "修复历史记录丢失CJK表情",
-          "summary_en": "Fixed CJK/emoji history drop at 4KB boundary",
-          "why_matters": "避免多语言和表情历史悄然丢失，保证会话记录完整。",
-          "why_matters_en": "It prevents silent loss of multilingual and emoji history entries, preserving session integrity.",
-          "capability_ids": [
-            "memory_context"
-          ]
-        },
-        {
-          "raw": "Fixed `/stats` losing historical data beyond 30 days when the stats cache format changes",
-          "category": "fix",
-          "importance": 4,
-          "summary": "修复统计页历史数据丢失",
-          "summary_en": "Preserve /stats history beyond cache changes",
-          "why_matters": "避免统计缓存格式变更后导致历史数据丢失，保证长期用量可追溯。",
-          "why_matters_en": "Prevents historical stats from being lost after cache format changes, keeping long-term usage data reliable.",
-          "capability_ids": [
-            "memory_context"
-          ]
-        },
-        {
-          "raw": "Fixed `/stats` undercounting tokens by excluding subagent/fork usage",
-          "category": "fix",
-          "importance": 4,
-          "summary": "修复统计令牌数低估",
-          "summary_en": "Count subagent and fork token usage correctly",
-          "why_matters": "修正子代理和分支会话的用量统计，避免账单与配额判断失真。",
-          "why_matters_en": "Includes subagent and fork usage in token accounting so billing and quota checks are accurate.",
-          "capability_ids": [
-            "delegation_collaboration",
-            "memory_context"
-          ]
-        },
-        {
-          "raw": "Fixed scrollback disappearing when scrolling up in long sessions",
-          "category": "fix",
-          "importance": 3,
-          "summary": "修复长会话滚屏丢失",
-          "summary_en": "Keep scrollback visible in long sessions",
-          "why_matters": "防止长会话中回看历史内容时丢失输出，提升可调试性和可读性。",
-          "why_matters_en": "Preserves terminal history during long sessions so users can review output and debug more easily.",
-          "capability_ids": [
-            "execution_workspace",
-            "memory_context"
           ]
         },
         {
@@ -315,59 +428,43 @@
           "category": "fix",
           "importance": 2,
           "summary": "修复终端徽标重复显示",
-          "summary_en": "Avoid duplicate badges in scrollback",
-          "why_matters": "减少并行工具调用时的界面重复信息，改善终端输出整洁度。",
-          "why_matters_en": "Prevents duplicate UI badges during heavy parallel tool use, making terminal output cleaner.",
+          "summary_en": "Fix duplicate collapsed group badges",
+          "why_matters": "减少高并发工具调用时的终端噪音，让输出更清爽。",
+          "why_matters_en": "Reduces terminal noise during heavy parallel tool use, keeping output cleaner.",
           "capability_ids": [
-            "execution_workspace",
-            "automation_autonomy"
+            "execution_workspace"
           ]
         },
         {
           "raw": "Fixed notification `invalidates` not clearing the currently-displayed notification immediately",
           "category": "fix",
           "importance": 2,
-          "summary": "修复通知无法立即清除",
-          "summary_en": "Clear replaced notifications immediately",
-          "why_matters": "让当前通知在失效后立刻消失，避免用户看到过期提示。",
-          "why_matters_en": "Ensures expired notifications disappear immediately so users do not see stale alerts.",
-          "capability_ids": [
-            "automation_autonomy"
-          ]
+          "summary": "修复通知失效未立即清除",
+          "summary_en": "Fix stale notification not clearing",
+          "why_matters": "让过期通知立即消失，减少界面上的误导信息。",
+          "why_matters_en": "Removes invalid notifications immediately to avoid misleading UI state.",
+          "capability_ids": []
         },
         {
           "raw": "Fixed prompt briefly disappearing after submit when background messages arrived during processing",
           "category": "fix",
           "importance": 2,
-          "summary": "修复提交后提示词闪退",
-          "summary_en": "Prevent prompt from disappearing on submit",
-          "why_matters": "避免后台消息到达时输入框短暂消失，降低交互中断感。",
-          "why_matters_en": "Keeps the prompt stable while background messages arrive, reducing disruptive UI flicker.",
+          "summary": "修复提交后提示框闪退",
+          "summary_en": "Fix prompt briefly disappearing after submit",
+          "why_matters": "避免输入框在后台消息到来时短暂消失，改善输入体验。",
+          "why_matters_en": "Prevents the input prompt from flickering away when background messages arrive.",
           "capability_ids": [
-            "execution_workspace",
-            "automation_autonomy"
-          ]
-        },
-        {
-          "raw": "Fixed long `/btw` responses being clipped with no way to scroll — responses now render in a scrollable viewport",
-          "category": "fix",
-          "importance": 3,
-          "summary": "修复长 /btw 响应无法滚动",
-          "summary_en": "Make long /btw responses scrollable",
-          "why_matters": "让超长回复可滚动查看，避免关键信息被截断看不到。",
-          "why_matters_en": "Lets users scroll through long /btw responses instead of losing content to clipping.",
-          "capability_ids": [
-            "execution_workspace"
+            "multimodal_interfaces"
           ]
         },
         {
           "raw": "Fixed Devanagari and other combining-mark text being truncated in assistant output",
           "category": "fix",
-          "importance": 4,
+          "importance": 3,
           "summary": "修复组合字符输出截断",
-          "summary_en": "Handle Devanagari and combining marks",
-          "why_matters": "保证复杂文字正确显示，避免多语言内容被截断损坏。",
-          "why_matters_en": "Preserves correct rendering for complex scripts and multilingual output, avoiding truncated text.",
+          "summary_en": "Fix truncation of combining-mark text",
+          "why_matters": "确保多语言文字正确显示，不会破坏字符或丢失内容。",
+          "why_matters_en": "Keeps multilingual output intact so characters are not corrupted or cut off.",
           "capability_ids": [
             "multimodal_interfaces"
           ]
@@ -376,127 +473,104 @@
           "raw": "Fixed rendering artifacts on main-screen terminals after layout shifts",
           "category": "fix",
           "importance": 2,
-          "summary": "修复布局变化渲染残影",
-          "summary_en": "Fix render artifacts after layout shifts",
-          "why_matters": "减少界面重排后的视觉残影，提升终端显示稳定性。",
-          "why_matters_en": "Removes visual artifacts after layout changes, improving terminal rendering stability.",
-          "capability_ids": [
-            "execution_workspace"
-          ]
+          "summary": "修复主界面布局抖动",
+          "summary_en": "Fix rendering artifacts after layout shifts",
+          "why_matters": "减少终端界面异常显示，提升使用稳定性与观感。",
+          "why_matters_en": "This prevents visual glitches and improves terminal UI stability.",
+          "capability_ids": []
         },
         {
           "raw": "Fixed voice mode failing to request microphone permission on macOS Apple Silicon",
           "category": "fix",
           "importance": 4,
-          "summary": "修复 macOS 语音麦克风授权",
-          "summary_en": "Request microphone permission on macOS",
-          "why_matters": "让 Apple Silicon Mac 上的语音模式能正常获取麦克风权限并工作。",
-          "why_matters_en": "Allows voice mode to request microphone access properly on Apple Silicon Macs.",
+          "summary": "修复 macOS 语音权限请求",
+          "summary_en": "Fix mic permission prompt on macOS Apple Silicon",
+          "why_matters": "确保语音模式能正常获取麦克风权限并可用。",
+          "why_matters_en": "This ensures voice mode can request mic access and work properly.",
           "capability_ids": [
             "multimodal_interfaces",
             "governance_security"
           ]
         },
         {
-          "raw": "Fixed voice push-to-talk not activating for some modifier-combo bindings",
-          "category": "fix",
-          "importance": 3,
-          "summary": "修复语音快捷键激活失败",
-          "summary_en": "Support more push-to-talk bindings",
-          "why_matters": "扩大按键组合兼容性，确保更多用户能顺利使用语音对话。",
-          "why_matters_en": "Improves binding compatibility so more users can activate push-to-talk reliably.",
-          "capability_ids": [
-            "multimodal_interfaces"
-          ]
-        },
-        {
-          "raw": "Fixed voice mode on Windows failing with \"WebSocket upgrade rejected with HTTP 101\"",
-          "category": "fix",
-          "importance": 4,
-          "summary": "修复 Windows 语音 WebSocket 失败",
-          "summary_en": "Fix Windows voice WebSocket connection",
-          "why_matters": "解决 Windows 上语音模式连接失败，恢复核心功能可用性。",
-          "why_matters_en": "Fixes a Windows voice-mode connection failure that blocked the feature entirely.",
-          "capability_ids": [
-            "multimodal_interfaces",
-            "integrations_ecosystem"
-          ]
-        },
-        {
           "raw": "Fixed Shift+Enter submitting instead of inserting a newline on Windows Terminal Preview 1.25",
           "category": "fix",
-          "importance": 3,
-          "summary": "修复 WinTerm 回车误提交",
-          "summary_en": "Fix Shift+Enter handling in Windows Terminal",
-          "why_matters": "确保 Windows Terminal 中换行与提交行为符合预期，减少误操作。",
-          "why_matters_en": "Restores expected newline versus submit behavior in Windows Terminal and reduces accidental sends.",
-          "capability_ids": [
-            "execution_workspace"
-          ]
+          "importance": 2,
+          "summary": "修复 Windows 换行键误提交",
+          "summary_en": "Fix Shift+Enter submitting on Windows Terminal Preview",
+          "why_matters": "避免用户在多行输入时误发送内容，减少误操作。",
+          "why_matters_en": "This prevents accidental submission when users intend to insert a newline.",
+          "capability_ids": []
         },
         {
           "raw": "Fixed periodic UI jitter during streaming in iTerm2 when running inside tmux",
           "category": "fix",
           "importance": 2,
-          "summary": "修复 iTerm2 流式界面抖动",
-          "summary_en": "Reduce streaming jitter in iTerm2 + tmux",
-          "why_matters": "改善流式输出时的视觉抖动，让交互更平滑。",
-          "why_matters_en": "Makes streaming output smoother in iTerm2 when running under tmux.",
+          "summary": "修复 tmux 中流式抖动",
+          "summary_en": "Fix UI jitter during streaming in iTerm2 tmux",
+          "why_matters": "让长时间流式输出更平滑，减少阅读干扰。",
+          "why_matters_en": "This makes streaming output smoother and easier to follow.",
           "capability_ids": [
-            "execution_workspace",
             "multimodal_interfaces"
           ]
         },
         {
           "raw": "Fixed PowerShell tool incorrectly reporting failures when commands like `git push` wrote progress to stderr on Windows PowerShell 5.1",
           "category": "fix",
-          "importance": 4,
-          "summary": "修复 PowerShell 工具误报失败",
-          "summary_en": "Stop PowerShell false failures on stderr progress",
-          "why_matters": "避免像 git push 这类正常进度输出被误判为失败，提升命令可靠性。",
-          "why_matters_en": "Prevents normal progress output on stderr from being misclassified as failure, improving command reliability.",
-          "capability_ids": [
-            "execution_workspace",
-            "integrations_ecosystem"
-          ]
-        },
-        {
-          "raw": "Fixed SDK error result messages (`error_during_execution`, `error_max_turns`) to correctly set `is_error: true` with descriptive messages",
-          "category": "fix",
-          "importance": 4,
-          "summary": "修复SDK错误结果标记",
-          "summary_en": "Fix SDK error results to mark errors",
-          "why_matters": "让SDK调用方能准确识别执行失败并展示更清晰的错误信息。",
-          "why_matters_en": "This lets SDK consumers reliably detect failures and surface clearer error messages.",
-          "capability_ids": [
-            "execution_workspace",
-            "governance_security",
-            "integrations_ecosystem"
-          ]
-        },
-        {
-          "raw": "Fixed task notifications being lost when backgrounding a session with Ctrl+B",
-          "category": "fix",
           "importance": 3,
-          "summary": "修复后台会话通知丢失",
-          "summary_en": "Fix lost notifications after backgrounding",
-          "why_matters": "避免用户切到后台后错过任务进展提醒。",
-          "why_matters_en": "This prevents users from missing task progress notifications when a session is backgrounded.",
+          "summary": "修复 PowerShell 误报失败",
+          "summary_en": "Fix false failures from stderr progress in PowerShell",
+          "why_matters": "避免正常命令因进度输出被误判为失败。",
+          "why_matters_en": "This prevents valid commands from being misclassified as failures.",
           "capability_ids": [
-            "automation_autonomy",
-            "delegation_collaboration"
+            "execution_workspace"
           ]
         },
         {
-          "raw": "Fixed PreToolUse/PostToolUse hooks not providing `file_path` as an absolute path for Write/Edit/Read tools",
+          "raw": "Fixed a potential out-of-memory crash when the Edit tool was used on very large files (>1 GiB)",
           "category": "fix",
-          "importance": 3,
-          "summary": "修复钩子文件路径非绝对路径",
-          "summary_en": "Fix hooks to pass absolute file paths",
-          "why_matters": "让钩子在处理文件时获得统一、可直接使用的路径。",
-          "why_matters_en": "This gives hooks consistent, ready-to-use paths when handling files.",
+          "importance": 5,
+          "summary": "修复大文件编辑内存崩溃",
+          "summary_en": "Fix OOM crash when editing very large files",
+          "why_matters": "防止处理超大文件时崩溃，提升可靠性。",
+          "why_matters_en": "This prevents crashes on huge files and improves reliability.",
           "capability_ids": [
             "execution_workspace",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Improved collapsed tool summary to show \"Listed N directories\" for `ls`/`tree`/`du` instead of \"Read N files\"",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "目录统计摘要更准确",
+          "summary_en": "Show directory counts in collapsed tool summary",
+          "why_matters": "让用户更快理解 `ls`、`tree`、`du` 的结果。",
+          "why_matters_en": "This makes summaries of `ls`, `tree`, and `du` easier to understand.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Improved Bash tool to warn when a formatter/linter command modifies files you have previously read, preventing stale-edit errors",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "格式化前提醒避免脏读",
+          "summary_en": "Warn when linters modify previously read files",
+          "why_matters": "减少基于过时内容编辑带来的冲突和错误。",
+          "why_matters_en": "This reduces stale-edit errors caused by files changing behind the scenes.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Improved `@`-mention typeahead to rank source files above MCP resources with similar names",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "提到补全更偏源码文件",
+          "summary_en": "Rank source files above MCP resources in mentions",
+          "why_matters": "让 `@` 补全更符合代码场景，查找更高效。",
+          "why_matters_en": "This makes `@`-mention autocomplete better match coding workflows.",
+          "capability_ids": [
             "integrations_ecosystem"
           ]
         },
@@ -504,86 +578,136 @@
           "raw": "Improved PowerShell tool prompt with version-appropriate syntax guidance (5.1 vs 7+)",
           "category": "improvement",
           "importance": 2,
-          "summary": "增强PowerShell语法提示",
-          "summary_en": "Improve PowerShell syntax guidance",
-          "why_matters": "减少不同 PowerShell 版本下的命令输入错误。",
-          "why_matters_en": "This reduces command entry errors across different PowerShell versions.",
+          "summary": "PowerShell 提示更贴合版本",
+          "summary_en": "Improve PowerShell guidance by version",
+          "why_matters": "帮助用户输入更适合当前 PowerShell 版本的命令。",
+          "why_matters_en": "This helps users use syntax that fits their PowerShell version.",
           "capability_ids": [
-            "integrations_ecosystem",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Changed `Edit` to work on files viewed via `Bash` with `sed -n` or `cat`, without requiring a separate `Read` call first",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "无需先读即可编辑查看内容",
+          "summary_en": "Edit files seen via sed/cat without extra Read",
+          "why_matters": "减少重复读取步骤，加快基于命令输出的编辑流程。",
+          "why_matters_en": "This removes an extra read step and speeds up edit workflows.",
+          "capability_ids": [
+            "execution_workspace",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Changed hook output over 50K characters to be saved to disk with a file path + preview instead of being injected directly into context",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "超长 Hook 输出改落盘",
+          "summary_en": "Save very large hook output to disk",
+          "why_matters": "避免超长钩子输出占满上下文，提升稳定性。",
+          "why_matters_en": "This prevents huge hook outputs from bloating context and improves stability.",
+          "capability_ids": [
             "automation_autonomy"
           ]
         },
         {
-          "raw": "Thinking summaries are no longer generated by default in interactive sessions — set `showThinkingSummaries: true` in settings to restore",
-          "category": "breaking",
-          "importance": 3,
-          "summary": "默认关闭对话思考摘要",
-          "summary_en": "Thinking summaries are off by default",
-          "why_matters": "会改变互动会话中的默认输出行为，影响依赖摘要的用户。",
-          "why_matters_en": "This changes the default output behavior in interactive sessions and may affect users who rely on summaries.",
+          "raw": "Changed `cleanupPeriodDays: 0` in settings.json to be rejected with a validation error — it previously silently disabled transcript persistence",
+          "category": "security",
+          "importance": 4,
+          "summary": "禁止无效清理周期配置",
+          "summary_en": "Reject invalid cleanupPeriodDays: 0",
+          "why_matters": "防止配置把会话记录静默关闭，避免数据保留风险。",
+          "why_matters_en": "This prevents a config from silently disabling transcript persistence.",
           "capability_ids": [
-            "reasoning_workflows",
+            "governance_security",
             "memory_context"
           ]
         },
         {
-          "raw": "Auto mode denied commands now show a notification and appear in `/permissions` → Recent tab",
-          "category": "improvement",
+          "raw": "Changed thinking summaries to no longer be generated by default in interactive sessions — set `showThinkingSummaries: true` in settings.json to restore",
+          "category": "breaking",
           "importance": 3,
-          "summary": "拦截命令显示权限通知",
-          "summary_en": "Show notifications for denied commands",
-          "why_matters": "让自动模式下被拒绝的命令更可见，也便于后续回顾权限决策。",
-          "why_matters_en": "This makes denied commands in auto mode visible and easier to review later.",
+          "summary": "思考摘要默认关闭",
+          "summary_en": "Thinking summaries are no longer on by default",
+          "why_matters": "可能改变交互输出，需手动开启才能恢复原行为。",
+          "why_matters_en": "This changes default interactive output and requires opt-in to restore prior behavior.",
           "capability_ids": [
-            "governance_security",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Documented `TaskCreated` hook event and its blocking behavior",
+          "category": "other",
+          "importance": 1,
+          "summary": "补充 TaskCreated 钩子文档",
+          "summary_en": "Document TaskCreated hook event and blocking",
+          "why_matters": "帮助用户正确理解并配置钩子行为。",
+          "why_matters_en": "This helps users understand and configure hook behavior correctly.",
+          "capability_ids": [
             "automation_autonomy"
           ]
         },
         {
-          "raw": "`/env` now applies to PowerShell tool commands (previously only affected Bash)",
-          "category": "fix",
+          "raw": "Preserved task notifications when backgrounding a running command with Ctrl+B",
+          "category": "improvement",
           "importance": 3,
-          "summary": "PowerShell也支持env变量",
-          "summary_en": "Apply /env to PowerShell commands too",
-          "why_matters": "保证不同 shell 下环境配置行为一致，减少脚本差异问题。",
-          "why_matters_en": "This keeps environment configuration consistent across shells and avoids script discrepancies.",
+          "summary": "后台挂起仍保留任务通知",
+          "summary_en": "Keep task notifications when backgrounded",
+          "why_matters": "用户将运行中的命令转到后台后，仍能及时看到任务状态，不会错过完成提醒。",
+          "why_matters_en": "Users can still receive task status updates after backgrounding a running command, so they won’t miss completion notifications.",
           "capability_ids": [
-            "integrations_ecosystem",
+            "execution_workspace",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "PowerShell tool on Windows: external-command arguments containing both a double-quote and whitespace now prompt instead of auto-allowing (PS 5.1 argument-splitting hardening)",
+          "category": "security",
+          "importance": 5,
+          "summary": "PowerShell 参数解析更安全",
+          "summary_en": "Harden PowerShell arg handling on Windows",
+          "why_matters": "这减少了 Windows PowerShell 外部命令参数拆分带来的误执行和安全风险。",
+          "why_matters_en": "This reduces misexecution and security risk from PowerShell external-command argument splitting on Windows.",
+          "capability_ids": [
+            "governance_security",
             "execution_workspace"
+          ]
+        },
+        {
+          "raw": "`/env` now applies to PowerShell tool commands (previously only affected Bash)",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "/env 适用于 PowerShell 命令",
+          "summary_en": "/env now works for PowerShell commands",
+          "why_matters": "用户在 PowerShell 下也能统一设置环境变量，提高跨 shell 一致性。",
+          "why_matters_en": "Users can set environment variables consistently in PowerShell too, improving cross-shell parity.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy"
           ]
         },
         {
           "raw": "`/usage` now hides redundant \"Current week (Sonnet only)\" bar for Pro and Enterprise plans",
           "category": "improvement",
           "importance": 1,
-          "summary": "简化使用统计展示",
-          "summary_en": "Simplify usage stats display",
-          "why_matters": "让配额信息更简洁，减少不必要的重复条目。",
-          "why_matters_en": "This makes quota information cleaner by removing a redundant usage bar.",
+          "summary": "/usage 精简周用量展示",
+          "summary_en": "/usage hides redundant weekly bar",
+          "why_matters": "减少了 Pro 和 Enterprise 用户的重复信息，让用量页面更清爽。",
+          "why_matters_en": "This removes redundant information for Pro and Enterprise users, making the usage view cleaner.",
           "capability_ids": [
+            "memory_context",
             "multimodal_interfaces"
-          ]
-        },
-        {
-          "raw": "Collapsed tool summary now shows \"Listed N directories\" for ls/tree/du instead of \"Read N files\"",
-          "category": "improvement",
-          "importance": 1,
-          "summary": "目录列表摘要更准确",
-          "summary_en": "More accurate directory summary labels",
-          "why_matters": "让工具摘要更贴近实际操作，便于快速理解结果。",
-          "why_matters_en": "This makes tool summaries better match the actual operation and easier to scan.",
-          "capability_ids": [
-            "execution_workspace"
           ]
         },
         {
           "raw": "Image paste no longer inserts a trailing space",
           "category": "fix",
-          "importance": 1,
-          "summary": "修复图片粘贴多余空格",
-          "summary_en": "Fix trailing space on image paste",
-          "why_matters": "避免粘贴图片后在提示词里留下多余字符。",
-          "why_matters_en": "This prevents stray characters from being inserted after pasting an image.",
+          "importance": 2,
+          "summary": "粘贴图片不再多出空格",
+          "summary_en": "Image paste no longer adds trailing space",
+          "why_matters": "避免在插入图片后破坏提示词格式，减少无意中的输入噪音。",
+          "why_matters_en": "This avoids formatting glitches after pasting images and reduces accidental input noise.",
           "capability_ids": [
             "multimodal_interfaces"
           ]
@@ -592,26 +716,36 @@
           "raw": "Pasting `!command` into an empty prompt now enters bash mode, matching typed `!` behavior",
           "category": "fix",
           "importance": 2,
-          "summary": "粘贴!命令自动进bash模式",
-          "summary_en": "Paste !command now enters bash mode",
-          "why_matters": "让粘贴行为与手动输入一致，减少命令执行前的额外操作。",
-          "why_matters_en": "This makes paste behavior match typed input and reduces extra steps before running commands.",
+          "summary": "空提示粘贴 ! 直接进 Bash",
+          "summary_en": "Pasting !command now enters bash mode",
+          "why_matters": "粘贴命令时与手动输入行为一致，降低误解和额外操作。",
+          "why_matters_en": "Pasted commands now match typed behavior, reducing confusion and extra steps.",
           "capability_ids": [
-            "automation_autonomy",
-            "execution_workspace"
+            "execution_workspace",
+            "automation_autonomy"
           ]
+        },
+        {
+          "raw": "`/buddy` is here for April 1st — hatch a small creature that watches you code",
+          "category": "other",
+          "importance": 1,
+          "summary": "新增 /buddy 彩蛋功能",
+          "summary_en": "Added April Fools /buddy easter egg",
+          "why_matters": "这是一个节日彩蛋，主要提升趣味性而非工作流能力。",
+          "why_matters_en": "This is a seasonal easter egg that adds fun rather than improving core workflow.",
+          "capability_ids": []
         }
       ],
       "signals": [
         {
-          "title": "Claude Code Cheat Sheet",
-          "points": 698,
-          "url": "https://cc.storyfox.cz"
+          "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
+          "points": 1923,
+          "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
-          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
-          "points": 486,
-          "url": "https://github.com/itigges22/ATLAS"
+          "title": "The Claude Code Source Leak: fake tools, frustration regexes, undercover mode",
+          "points": 937,
+          "url": "https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/"
         },
         {
           "title": "Schedule tasks on the web",
@@ -619,14 +753,14 @@
           "url": "https://code.claude.com/docs/en/web-scheduled-tasks"
         },
         {
-          "title": "How I'm Productive with Claude Code",
-          "points": 280,
-          "url": "https://neilkakkar.com/productive-with-claude-code.html"
+          "title": "Claude Code users hitting usage limits 'way faster than expected'",
+          "points": 285,
+          "url": "https://www.theregister.com/2026/03/31/anthropic_claude_code_limits/"
         },
         {
-          "title": "Claude Code runs Git reset –hard origin/main against project repo every 10 mins",
-          "points": 251,
-          "url": "https://github.com/anthropics/claude-code/issues/40710"
+          "title": "Learn Claude Code by doing, not reading",
+          "points": 267,
+          "url": "https://claude.nagdy.me/"
         }
       ],
       "highlight_score": 55
@@ -653,14 +787,19 @@
       ],
       "signals": [
         {
-          "title": "Claude Code Cheat Sheet",
-          "points": 698,
-          "url": "https://cc.storyfox.cz"
+          "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
+          "points": 1923,
+          "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
-          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
-          "points": 486,
-          "url": "https://github.com/itigges22/ATLAS"
+          "title": "The Claude Code Source Leak: fake tools, frustration regexes, undercover mode",
+          "points": 937,
+          "url": "https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/"
+        },
+        {
+          "title": "Claude Code Cheat Sheet",
+          "points": 699,
+          "url": "https://cc.storyfox.cz"
         },
         {
           "title": "Schedule tasks on the web",
@@ -668,14 +807,9 @@
           "url": "https://code.claude.com/docs/en/web-scheduled-tasks"
         },
         {
-          "title": "How I'm Productive with Claude Code",
-          "points": 280,
-          "url": "https://neilkakkar.com/productive-with-claude-code.html"
-        },
-        {
-          "title": "Claude Code runs Git reset –hard origin/main against project repo every 10 mins",
-          "points": 251,
-          "url": "https://github.com/anthropics/claude-code/issues/40710"
+          "title": "Claude Code users hitting usage limits 'way faster than expected'",
+          "points": 285,
+          "url": "https://www.theregister.com/2026/03/31/anthropic_claude_code_limits/"
         }
       ],
       "highlight_score": 50
@@ -1020,14 +1154,19 @@
       ],
       "signals": [
         {
-          "title": "Claude Code Cheat Sheet",
-          "points": 698,
-          "url": "https://cc.storyfox.cz"
+          "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
+          "points": 1923,
+          "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
-          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
-          "points": 486,
-          "url": "https://github.com/itigges22/ATLAS"
+          "title": "The Claude Code Source Leak: fake tools, frustration regexes, undercover mode",
+          "points": 937,
+          "url": "https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/"
+        },
+        {
+          "title": "Claude Code Cheat Sheet",
+          "points": 699,
+          "url": "https://cc.storyfox.cz"
         },
         {
           "title": "Push events into a running session with channels",
@@ -1038,11 +1177,6 @@
           "title": "Schedule tasks on the web",
           "points": 297,
           "url": "https://code.claude.com/docs/en/web-scheduled-tasks"
-        },
-        {
-          "title": "How I'm Productive with Claude Code",
-          "points": 280,
-          "url": "https://neilkakkar.com/productive-with-claude-code.html"
         }
       ],
       "highlight_score": 50
@@ -1439,14 +1573,19 @@
       ],
       "signals": [
         {
-          "title": "Claude Code Cheat Sheet",
-          "points": 698,
-          "url": "https://cc.storyfox.cz"
+          "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
+          "points": 1923,
+          "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
-          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
-          "points": 486,
-          "url": "https://github.com/itigges22/ATLAS"
+          "title": "The Claude Code Source Leak: fake tools, frustration regexes, undercover mode",
+          "points": 937,
+          "url": "https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/"
+        },
+        {
+          "title": "Claude Code Cheat Sheet",
+          "points": 699,
+          "url": "https://cc.storyfox.cz"
         },
         {
           "title": "Push events into a running session with channels",
@@ -1457,11 +1596,6 @@
           "title": "Cook: A simple CLI for orchestrating Claude Code",
           "points": 307,
           "url": "https://rjcorwin.github.io/cook/"
-        },
-        {
-          "title": "Schedule tasks on the web",
-          "points": 297,
-          "url": "https://code.claude.com/docs/en/web-scheduled-tasks"
         }
       ],
       "highlight_score": 50
@@ -1975,14 +2109,19 @@
       ],
       "signals": [
         {
-          "title": "Claude Code Cheat Sheet",
-          "points": 698,
-          "url": "https://cc.storyfox.cz"
+          "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
+          "points": 1923,
+          "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
-          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
-          "points": 486,
-          "url": "https://github.com/itigges22/ATLAS"
+          "title": "The Claude Code Source Leak: fake tools, frustration regexes, undercover mode",
+          "points": 937,
+          "url": "https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/"
+        },
+        {
+          "title": "Claude Code Cheat Sheet",
+          "points": 699,
+          "url": "https://cc.storyfox.cz"
         },
         {
           "title": "Push events into a running session with channels",
@@ -1993,11 +2132,6 @@
           "title": "Cook: A simple CLI for orchestrating Claude Code",
           "points": 307,
           "url": "https://rjcorwin.github.io/cook/"
-        },
-        {
-          "title": "Schedule tasks on the web",
-          "points": 297,
-          "url": "https://code.claude.com/docs/en/web-scheduled-tasks"
         }
       ],
       "highlight_score": 50
@@ -2988,14 +3122,19 @@
       ],
       "signals": [
         {
-          "title": "Claude Code Cheat Sheet",
-          "points": 698,
-          "url": "https://cc.storyfox.cz"
+          "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
+          "points": 1923,
+          "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
-          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
-          "points": 486,
-          "url": "https://github.com/itigges22/ATLAS"
+          "title": "The Claude Code Source Leak: fake tools, frustration regexes, undercover mode",
+          "points": 937,
+          "url": "https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/"
+        },
+        {
+          "title": "Claude Code Cheat Sheet",
+          "points": 699,
+          "url": "https://cc.storyfox.cz"
         },
         {
           "title": "Push events into a running session with channels",
@@ -3006,11 +3145,6 @@
           "title": "Cook: A simple CLI for orchestrating Claude Code",
           "points": 307,
           "url": "https://rjcorwin.github.io/cook/"
-        },
-        {
-          "title": "Schedule tasks on the web",
-          "points": 297,
-          "url": "https://code.claude.com/docs/en/web-scheduled-tasks"
         }
       ],
       "highlight_score": 55
@@ -3381,13 +3515,8 @@
       "signals": [
         {
           "title": "Claude Code Cheat Sheet",
-          "points": 698,
+          "points": 699,
           "url": "https://cc.storyfox.cz"
-        },
-        {
-          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
-          "points": 486,
-          "url": "https://github.com/itigges22/ATLAS"
         },
         {
           "title": "Push events into a running session with channels",
@@ -3403,6 +3532,11 @@
           "title": "Cook: A simple CLI for orchestrating Claude Code",
           "points": 307,
           "url": "https://rjcorwin.github.io/cook/"
+        },
+        {
+          "title": "Schedule tasks on the web",
+          "points": 297,
+          "url": "https://code.claude.com/docs/en/web-scheduled-tasks"
         }
       ],
       "highlight_score": 50
@@ -3633,13 +3767,8 @@
       "signals": [
         {
           "title": "Claude Code Cheat Sheet",
-          "points": 698,
+          "points": 699,
           "url": "https://cc.storyfox.cz"
-        },
-        {
-          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
-          "points": 486,
-          "url": "https://github.com/itigges22/ATLAS"
         },
         {
           "title": "Push events into a running session with channels",
@@ -3655,6 +3784,11 @@
           "title": "Cook: A simple CLI for orchestrating Claude Code",
           "points": 307,
           "url": "https://rjcorwin.github.io/cook/"
+        },
+        {
+          "title": "How I'm Productive with Claude Code",
+          "points": 281,
+          "url": "https://neilkakkar.com/productive-with-claude-code.html"
         }
       ],
       "highlight_score": 50
@@ -3900,7 +4034,7 @@
       "signals": [
         {
           "title": "Claude Code Cheat Sheet",
-          "points": 698,
+          "points": 699,
           "url": "https://cc.storyfox.cz"
         },
         {
@@ -3920,7 +4054,7 @@
         },
         {
           "title": "How I'm Productive with Claude Code",
-          "points": 280,
+          "points": 281,
           "url": "https://neilkakkar.com/productive-with-claude-code.html"
         }
       ],
@@ -4282,7 +4416,7 @@
       "signals": [
         {
           "title": "Claude Code Cheat Sheet",
-          "points": 698,
+          "points": 699,
           "url": "https://cc.storyfox.cz"
         },
         {
@@ -4884,7 +5018,7 @@
       "signals": [
         {
           "title": "Claude Code Cheat Sheet",
-          "points": 698,
+          "points": 699,
           "url": "https://cc.storyfox.cz"
         },
         {
@@ -35075,37 +35209,37 @@
       }
     },
     {
-      "version": "2.1.88",
-      "date": "2026-03-30",
+      "version": "2.1.89",
+      "date": "2026-03-31",
       "epoch_id": "epoch5",
       "highlight_score": 55,
-      "highlight_title": "把长会话变得可靠",
-      "highlight_title_en": "Making Long Sessions Reliable",
-      "highlight_summary": "这次更新没有改变 Claude Code 的方向，却显著抬高了它的上限。多 schema 工作流、超大文件编辑、长会话读取与缓存，都变得更稳、更耐久。产品开始真正适配高强度、长时间的代理式编程。",
-      "highlight_summary_en": "This release does not change Claude Code’s direction, but it raises the ceiling in a meaningful way. Multi-schema workflows, very large file edits, long-session reads, and caching all become steadier and more durable. The product is now better suited for high-intensity, long-running agentic coding.",
-      "highlight_why": "当基础稳定性补齐，Claude Code 才能从“能用”走向“可持续地依赖”。",
-      "highlight_why_en": "Once the fundamentals are stable, Claude Code can move from usable to something teams can depend on continuously.",
+      "highlight_title": "从补丁到护城河",
+      "highlight_title_en": "From Patch to Moat",
+      "highlight_summary": "这次更新没有追逐炫目的新功能，而是把最脆弱、最关键的边界逐一加固。超大会话、超大文件、长输入和自动压缩循环，都从潜在崩溃点变成可控路径。产品开始显露出更成熟的信号：不是只会跑得更快，而是能在极端场景里稳定跑完。",
+      "highlight_summary_en": "This release does not chase flashy features. It hardens the edges that matter most: huge sessions, huge files, long inputs, and runaway compaction loops all move from failure modes to controlled behavior. The product now reads as something more mature — not just faster, but resilient enough to finish under extreme pressure.",
+      "highlight_why": "真正的转折不在于修掉了多少 bug，而在于 Claude Code 开始把“可靠地执行到底”作为产品能力本身来打磨。",
+      "highlight_why_en": "The turning point is not the number of bugs fixed, but the fact that Claude Code is now treating “reliably finishing the job” as a first-class product capability.",
       "capability_ids": [
-        "execution_workspace",
-        "multimodal_interfaces",
-        "governance_security",
-        "reasoning_workflows",
         "automation_autonomy",
-        "delegation_collaboration",
+        "governance_security",
+        "execution_workspace",
         "memory_context",
-        "integrations_ecosystem"
+        "integrations_ecosystem",
+        "multimodal_interfaces",
+        "reasoning_workflows",
+        "delegation_collaboration"
       ],
       "evidence": {
         "hn_signals": [
           {
-            "title": "Claude Code Cheat Sheet",
-            "points": 698,
-            "url": "https://cc.storyfox.cz"
+            "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
+            "points": 1923,
+            "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
           },
           {
-            "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
-            "points": 486,
-            "url": "https://github.com/itigges22/ATLAS"
+            "title": "The Claude Code Source Leak: fake tools, frustration regexes, undercover mode",
+            "points": 937,
+            "url": "https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/"
           },
           {
             "title": "Schedule tasks on the web",
@@ -35113,31 +35247,31 @@
             "url": "https://code.claude.com/docs/en/web-scheduled-tasks"
           },
           {
-            "title": "How I'm Productive with Claude Code",
-            "points": 280,
-            "url": "https://neilkakkar.com/productive-with-claude-code.html"
+            "title": "Claude Code users hitting usage limits 'way faster than expected'",
+            "points": 285,
+            "url": "https://www.theregister.com/2026/03/31/anthropic_claude_code_limits/"
           },
           {
-            "title": "Claude Code runs Git reset –hard origin/main against project repo every 10 mins",
-            "points": 251,
-            "url": "https://github.com/anthropics/claude-code/issues/40710"
+            "title": "Learn Claude Code by doing, not reading",
+            "points": 267,
+            "url": "https://claude.nagdy.me/"
           }
         ],
         "top_changes": [
           {
-            "raw": "Fixed `StructuredOutput` schema cache bug causing ~50% failure rate in workflows with multiple schemas",
-            "summary": "修复多Schema结构化输出失败",
+            "raw": "Fixed a crash when removing a message from very large session files (over 50MB)",
+            "summary": "修复超大会话删除崩溃",
             "importance": 5
           },
           {
-            "raw": "Fixed a potential out-of-memory crash when the Edit tool was used on very large files (>1 GiB)",
-            "summary": "大文件编辑避免OOM崩溃",
+            "raw": "Fixed `-p --resume` hangs when the deferred tool input exceeds 64KB or no deferred marker exists, and `-p --continue` not resuming deferred tools",
+            "summary": "修复续跑卡死与工具续接",
             "importance": 5
           },
           {
-            "raw": "Fixed prompt cache misses in long sessions caused by tool schema bytes changing mid-session",
-            "summary": "修复长会话缓存失效",
-            "importance": 4
+            "raw": "Fixed autocompact thrash loop — now detects when context refills to the limit immediately after compacting three times in a row and stops with an actionable error instead of burning API calls",
+            "summary": "修复自动压缩死循环",
+            "importance": 5
           }
         ]
       }
@@ -35160,11 +35294,11 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 263,
+      "change_count": 267,
       "release_count": 117,
-      "avg_importance": 3.12,
+      "avg_importance": 3.13,
       "maturity": {
-        "score": 92,
+        "score": 93,
         "level": "成熟"
       },
       "first_seen": {
@@ -35172,14 +35306,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-03-30",
-        "version": "2.1.88"
+        "date": "2026-03-31",
+        "version": "2.1.89"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 101
+          "change_count": 105
         },
         {
           "epoch_id": "epoch4",
@@ -35204,10 +35338,10 @@
       ],
       "samples": [
         {
-          "date": "2026-03-30",
-          "version": "2.1.88",
-          "raw": "Fixed `StructuredOutput` schema cache bug causing ~50% failure rate in workflows with multiple schemas",
-          "summary": "修复多Schema结构化输出失败",
+          "date": "2026-03-31",
+          "version": "2.1.89",
+          "raw": "Fixed autocompact thrash loop — now detects when context refills to the limit immediately after compacting three times in a row and stops with an actionable error instead of burning API calls",
+          "summary": "修复自动压缩死循环",
           "importance": 5,
           "category": "fix"
         },
@@ -35255,9 +35389,9 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 597,
+      "change_count": 601,
       "release_count": 156,
-      "avg_importance": 3.2,
+      "avg_importance": 3.21,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -35267,14 +35401,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-03-30",
-        "version": "2.1.88"
+        "date": "2026-03-31",
+        "version": "2.1.89"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 296
+          "change_count": 300
         },
         {
           "epoch_id": "epoch1",
@@ -35299,36 +35433,36 @@
       ],
       "samples": [
         {
-          "date": "2026-03-30",
-          "version": "2.1.88",
-          "raw": "Fixed a potential out-of-memory crash when the Edit tool was used on very large files (>1 GiB)",
-          "summary": "大文件编辑避免OOM崩溃",
+          "date": "2026-03-31",
+          "version": "2.1.89",
+          "raw": "Fixed a crash when removing a message from very large session files (over 50MB)",
+          "summary": "修复超大会话删除崩溃",
           "importance": 5,
           "category": "fix"
         },
         {
-          "date": "2026-03-24",
-          "version": "2.1.83",
-          "raw": "Added `sandbox.failIfUnavailable` setting to exit with an error when sandbox is enabled but cannot start, instead of running unsandboxed",
-          "summary": "沙箱失效时强制报错退出",
+          "date": "2026-03-31",
+          "version": "2.1.89",
+          "raw": "Fixed `-p --resume` hangs when the deferred tool input exceeds 64KB or no deferred marker exists, and `-p --continue` not resuming deferred tools",
+          "summary": "修复续跑卡死与工具续接",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
+          "date": "2026-03-31",
+          "version": "2.1.89",
+          "raw": "Fixed a potential out-of-memory crash when the Edit tool was used on very large files (>1 GiB)",
+          "summary": "修复大文件编辑内存崩溃",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
+          "date": "2026-03-31",
+          "version": "2.1.89",
+          "raw": "PowerShell tool on Windows: external-command arguments containing both a double-quote and whitespace now prompt instead of auto-allowing (PS 5.1 argument-splitting hardening)",
+          "summary": "PowerShell 参数解析更安全",
           "importance": 5,
           "category": "security"
-        },
-        {
-          "date": "2026-03-24",
-          "version": "2.1.83",
-          "raw": "Fixed MCP tool calls hanging indefinitely when an SSE connection drops mid-call and exhausts its reconnection attempts",
-          "summary": "MCP断线不再无限卡住",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-03-20",
-          "version": "2.1.81",
-          "raw": "Added `--bare` flag for scripted `-p` calls — skips hooks, LSP, plugin sync, and skill directory walks; requires `ANTHROPIC_API_KEY` or an `apiKeyHelper` via `--settings` (OAuth and keychain auth disabled); auto-memory fully disabled",
-          "summary": "新增脚本裸模式",
-          "importance": 5,
-          "category": "feat"
         }
       ]
     },
@@ -35350,9 +35484,9 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 368,
+      "change_count": 371,
       "release_count": 114,
-      "avg_importance": 3.23,
+      "avg_importance": 3.24,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -35362,14 +35496,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-03-30",
-        "version": "2.1.88"
+        "date": "2026-03-31",
+        "version": "2.1.89"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 204
+          "change_count": 207
         },
         {
           "epoch_id": "epoch1",
@@ -35394,34 +35528,34 @@
       ],
       "samples": [
         {
-          "date": "2026-03-30",
-          "version": "2.1.88",
+          "date": "2026-03-31",
+          "version": "2.1.89",
+          "raw": "Fixed a crash when removing a message from very large session files (over 50MB)",
+          "summary": "修复超大会话删除崩溃",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
+          "date": "2026-03-31",
+          "version": "2.1.89",
+          "raw": "Fixed `-p --resume` hangs when the deferred tool input exceeds 64KB or no deferred marker exists, and `-p --continue` not resuming deferred tools",
+          "summary": "修复续跑卡死与工具续接",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
+          "date": "2026-03-31",
+          "version": "2.1.89",
+          "raw": "Fixed autocompact thrash loop — now detects when context refills to the limit immediately after compacting three times in a row and stops with an actionable error instead of burning API calls",
+          "summary": "修复自动压缩死循环",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
+          "date": "2026-03-31",
+          "version": "2.1.89",
           "raw": "Fixed a potential out-of-memory crash when the Edit tool was used on very large files (>1 GiB)",
-          "summary": "大文件编辑避免OOM崩溃",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-03-27",
-          "version": "2.1.86",
-          "raw": "Fixed potential out-of-memory crash when using `/feedback` on very long sessions with large transcript files",
-          "summary": "修复长会话反馈内存溢出",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-03-20",
-          "version": "2.1.81",
-          "raw": "Added `--bare` flag for scripted `-p` calls — skips hooks, LSP, plugin sync, and skill directory walks; requires `ANTHROPIC_API_KEY` or an `apiKeyHelper` via `--settings` (OAuth and keychain auth disabled); auto-memory fully disabled",
-          "summary": "新增脚本裸模式",
-          "importance": 5,
-          "category": "feat"
-        },
-        {
-          "date": "2026-03-16",
-          "version": "2.1.77",
-          "raw": "Fixed auto-updater starting overlapping binary downloads when the slash-command overlay repeatedly opened and closed, accumulating tens of gigabytes of memory",
-          "summary": "修复更新器重复下载占内存",
+          "summary": "修复大文件编辑内存崩溃",
           "importance": 5,
           "category": "fix"
         }
@@ -35445,9 +35579,9 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 425,
+      "change_count": 429,
       "release_count": 163,
-      "avg_importance": 3.24,
+      "avg_importance": 3.26,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -35457,14 +35591,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-03-30",
-        "version": "2.1.88"
+        "date": "2026-03-31",
+        "version": "2.1.89"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 163
+          "change_count": 167
         },
         {
           "epoch_id": "epoch1",
@@ -35489,6 +35623,22 @@
       ],
       "samples": [
         {
+          "date": "2026-03-31",
+          "version": "2.1.89",
+          "raw": "Fixed `-p --resume` hangs when the deferred tool input exceeds 64KB or no deferred marker exists, and `-p --continue` not resuming deferred tools",
+          "summary": "修复续跑卡死与工具续接",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
+          "date": "2026-03-31",
+          "version": "2.1.89",
+          "raw": "Fixed autocompact thrash loop — now detects when context refills to the limit immediately after compacting three times in a row and stops with an actionable error instead of burning API calls",
+          "summary": "修复自动压缩死循环",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-03-20",
           "version": "2.1.81",
           "raw": "Added `--bare` flag for scripted `-p` calls — skips hooks, LSP, plugin sync, and skill directory walks; requires `ANTHROPIC_API_KEY` or an `apiKeyHelper` via `--settings` (OAuth and keychain auth disabled); auto-memory fully disabled",
@@ -35501,22 +35651,6 @@
           "version": "2.1.78",
           "raw": "Fixed infinite loop when API errors triggered stop hooks that re-fed blocking errors to the model",
           "summary": "修复停止钩子导致的死循环",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-03-16",
-          "version": "2.1.77",
-          "raw": "Fixed auto-updater starting overlapping binary downloads when the slash-command overlay repeatedly opened and closed, accumulating tens of gigabytes of memory",
-          "summary": "修复更新器重复下载占内存",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-03-16",
-          "version": "2.1.77",
-          "raw": "Fixed PreToolUse hooks returning `\"allow\"` bypassing `deny` permission rules, including enterprise managed settings",
-          "summary": "修复钩子绕过拒绝规则",
           "importance": 5,
           "category": "fix"
         }
@@ -35540,9 +35674,9 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 198,
+      "change_count": 197,
       "release_count": 86,
-      "avg_importance": 3.4,
+      "avg_importance": 3.41,
       "maturity": {
         "score": 94,
         "level": "成熟"
@@ -35552,14 +35686,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-03-30",
-        "version": "2.1.88"
+        "date": "2026-03-31",
+        "version": "2.1.89"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 107
+          "change_count": 106
         },
         {
           "epoch_id": "epoch1",
@@ -35635,9 +35769,9 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 660,
+      "change_count": 661,
       "release_count": 187,
-      "avg_importance": 3.16,
+      "avg_importance": 3.17,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -35647,14 +35781,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-03-30",
-        "version": "2.1.88"
+        "date": "2026-03-31",
+        "version": "2.1.89"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 294
+          "change_count": 295
         },
         {
           "epoch_id": "epoch1",
@@ -35730,7 +35864,7 @@
         "Emacs",
         "web"
       ],
-      "change_count": 410,
+      "change_count": 411,
       "release_count": 133,
       "avg_importance": 2.72,
       "maturity": {
@@ -35742,14 +35876,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-03-30",
-        "version": "2.1.88"
+        "date": "2026-03-31",
+        "version": "2.1.89"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 201
+          "change_count": 202
         },
         {
           "epoch_id": "epoch4",
@@ -35825,9 +35959,9 @@
         "policy",
         "auditing"
       ],
-      "change_count": 404,
+      "change_count": 406,
       "release_count": 158,
-      "avg_importance": 3.3,
+      "avg_importance": 3.32,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -35837,14 +35971,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-03-30",
-        "version": "2.1.88"
+        "date": "2026-03-31",
+        "version": "2.1.89"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 168
+          "change_count": 170
         },
         {
           "epoch_id": "epoch4",
@@ -35869,6 +36003,14 @@
       ],
       "samples": [
         {
+          "date": "2026-03-31",
+          "version": "2.1.89",
+          "raw": "PowerShell tool on Windows: external-command arguments containing both a double-quote and whitespace now prompt instead of auto-allowing (PS 5.1 argument-splitting hardening)",
+          "summary": "PowerShell 参数解析更安全",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-03-27",
           "version": "2.1.86",
           "raw": "[VSCode] Fixed extension defaulting Max plan users to Sonnet after the OAuth token refreshes (8 hours after login)",
@@ -35891,14 +36033,6 @@
           "summary": "子进程自动清理敏感环境变量",
           "importance": 5,
           "category": "security"
-        },
-        {
-          "date": "2026-03-24",
-          "version": "2.1.83",
-          "raw": "Fixed `--mcp-config` CLI flag bypassing `allowedMcpServers`/`deniedMcpServers` managed policy enforcement",
-          "summary": "修复MCP策略绕过漏洞",
-          "importance": 5,
-          "category": "security"
         }
       ]
     }
@@ -35910,6 +36044,12 @@
         "points": 2127,
         "url": "https://www.anthropic.com/news/claude-3-7-sonnet",
         "date": "2025-02-24"
+      },
+      {
+        "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
+        "points": 1923,
+        "url": "https://twitter.com/Fried_rice/status/2038894956459290963",
+        "date": "2026-03-31"
       },
       {
         "title": "Cowork: Claude Code for the rest of your work",
@@ -35940,6 +36080,12 @@
         "points": 976,
         "url": "https://boristane.com/blog/how-i-use-claude-code/",
         "date": "2026-02-22"
+      },
+      {
+        "title": "The Claude Code Source Leak: fake tools, frustration regexes, undercover mode",
+        "points": 937,
+        "url": "https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/",
+        "date": "2026-03-31"
       },
       {
         "title": "Using Claude Code to modernize a 25-year-old kernel driver",
@@ -35997,21 +36143,9 @@
       },
       {
         "title": "Claude Code Cheat Sheet",
-        "points": 698,
+        "points": 699,
         "url": "https://cc.storyfox.cz",
         "date": "2026-03-23"
-      },
-      {
-        "title": "Claude Code: Now in Beta in Zed",
-        "points": 683,
-        "url": "https://zed.dev/blog/claude-code-via-acp",
-        "date": "2025-09-03"
-      },
-      {
-        "title": "Anthropic officially bans using subscription auth for third party use",
-        "points": 655,
-        "url": "https://code.claude.com/docs/en/legal-and-compliance",
-        "date": "2026-02-19"
       }
     ],
     "blog_posts": [
