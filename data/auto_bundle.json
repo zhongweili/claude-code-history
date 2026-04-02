@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-04-01T04:10:54.750Z",
+    "generated_at": "2026-04-02T03:41:54.176Z",
     "agent_model": "openai/gpt-5.4-mini",
-    "total_versions": 251,
+    "total_versions": 252,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-03-31"
+      "end": "2026-04-01"
     },
     "highlight_count": 33,
     "capability_count": 8,
@@ -70,11 +70,295 @@
       "color": "#dc2626",
       "summary": "1M 上下文、安全扫描、无人值守运行能力",
       "summary_en": "1M context window, security scanning, and unattended operation capabilities",
-      "release_count": 35,
+      "release_count": 36,
       "highlight_count": 12
     }
   ],
   "releases": [
+    {
+      "version": "2.1.90",
+      "date": "2026-04-01",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added `/powerup` — interactive lessons teaching Claude Code features with animated demos",
+          "category": "feat",
+          "importance": 3,
+          "summary": "新增交互式功能教学",
+          "summary_en": "Added interactive feature lessons",
+          "why_matters": "帮助用户更快学会 Claude Code 的关键功能，降低上手成本。",
+          "why_matters_en": "Helps users learn Claude Code features faster and lowers onboarding friction.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Added `CLAUDE_CODE_PLUGIN_KEEP_MARKETPLACE_ON_FAILURE` env var to keep the existing marketplace cache when `git pull` fails, useful in offline environments",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "拉取失败保留插件缓存",
+          "summary_en": "Keep plugin cache when pull fails",
+          "why_matters": "在离线或网络不稳时能继续使用已有市场缓存，减少插件中断。",
+          "why_matters_en": "Preserves existing marketplace cache in offline or flaky-network environments, reducing interruptions.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Added `.husky` to protected directories (acceptEdits mode)",
+          "category": "feat",
+          "importance": 2,
+          "summary": "受保护目录加入 .husky",
+          "summary_en": "Add .husky to protected dirs",
+          "why_matters": "减少自动编辑误改构建钩子配置的风险，提升安全性和稳定性。",
+          "why_matters_en": "Reduces the risk of auto-edits altering hook config, improving safety and stability.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed an infinite loop where the rate-limit options dialog would repeatedly auto-open after hitting your usage limit, eventually crashing the session",
+          "category": "fix",
+          "importance": 5,
+          "summary": "修复限流弹窗死循环",
+          "summary_en": "Fix rate-limit dialog reopen loop",
+          "why_matters": "避免会话因重复弹窗最终崩溃，直接影响可用性。",
+          "why_matters_en": "Prevents repeated dialogs from crashing the session, directly affecting usability.",
+          "capability_ids": [
+            "automation_autonomy",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed `--resume` causing a full prompt-cache miss on the first request for users with deferred tools, MCP servers, or custom agents (regression since v2.1.69)",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复 --resume 首次缓存失效",
+          "summary_en": "Fix first-request cache miss on --resume",
+          "why_matters": "恢复会话时可减少首轮延迟和重复请求，提升继续工作的效率。",
+          "why_matters_en": "Improves resume efficiency by avoiding a first-request cache miss and extra latency.",
+          "capability_ids": [
+            "memory_context",
+            "reasoning_workflows",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed `Edit`/`Write` failing with \"File content has changed\" when a PostToolUse format-on-save hook rewrites the file between consecutive edits",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复连续编辑文件变更报错",
+          "summary_en": "Fix false file-changed errors on edits",
+          "why_matters": "避免格式化钩子导致编辑失败，让自动保存和连续修改更可靠。",
+          "why_matters_en": "Prevents format-on-save hooks from breaking edits, making autosave and repeated edits more reliable.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed `PreToolUse` hooks that emit JSON to stdout and exit with code 2 not correctly blocking the tool call",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复 PreToolUse 误放行",
+          "summary_en": "Fix PreToolUse JSON block handling",
+          "why_matters": "确保钩子明确阻止工具调用时真的生效，提升权限控制准确性。",
+          "why_matters_en": "Ensures hooks that intend to block a tool call actually do so, improving permission enforcement.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed collapsed search/read summary badge appearing multiple times in fullscreen scrollback when a CLAUDE.md file auto-loads during a tool call",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复全屏摘要徽标重复",
+          "summary_en": "Fix duplicate summary badges in fullscreen",
+          "why_matters": "改善长会话滚动阅读体验，减少界面干扰。",
+          "why_matters_en": "Improves long-session scrollback readability by removing duplicate UI clutter.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed auto mode not respecting explicit user boundaries (\"don't push\", \"wait for X before Y\") even when the action would otherwise be allowed",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复自动模式越界行动",
+          "summary_en": "Fix auto mode boundary violations",
+          "why_matters": "让自动模式遵守用户明确边界，避免越权操作。",
+          "why_matters_en": "Keeps auto mode aligned with explicit user boundaries and prevents overstepping.",
+          "capability_ids": [
+            "automation_autonomy",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed click-to-expand hover text being nearly invisible on light terminal themes",
+          "category": "fix",
+          "importance": 1,
+          "summary": "修复浅色主题提示难看清",
+          "summary_en": "Fix faint hover text on light themes",
+          "why_matters": "提升浅色终端下的可读性和使用舒适度。",
+          "why_matters_en": "Improves readability and comfort on light terminal themes.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed UI crash when malformed tool input reached the permission dialog",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复权限弹窗崩溃",
+          "summary_en": "Fix permission dialog crash",
+          "why_matters": "避免异常输入导致权限确认界面崩溃，保障核心交互可用。",
+          "why_matters_en": "Prevents malformed input from crashing the permission prompt, preserving a core interaction path.",
+          "capability_ids": [
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed headers disappearing when scrolling `/model`, `/config`, and other selection screens",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复选择页滚动时标题消失",
+          "summary_en": "Fix disappearing headers on selection screens",
+          "why_matters": "让模型和配置等选择界面更易浏览，减少误选。",
+          "why_matters_en": "Makes model/config selection screens easier to navigate and less error-prone.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Hardened PowerShell tool permission checks: fixed trailing `&` background job bypass, `-ErrorAction Break` debugger hang, archive-extraction TOCTOU, and parse-fail fallback deny-rule degradation",
+          "category": "security",
+          "importance": 5,
+          "summary": "强化 PowerShell 权限校验",
+          "summary_en": "Harden PowerShell permission checks",
+          "why_matters": "修复多种绕过和挂死漏洞，显著降低在 Windows 环境中的执行风险。",
+          "why_matters_en": "Fixes several bypasses and hangs, significantly reducing execution risk on Windows.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Improved performance: eliminated per-turn JSON.stringify of MCP tool schemas on cache-key lookup",
+          "category": "perf",
+          "importance": 2,
+          "summary": "优化 MCP 架构缓存开销",
+          "summary_en": "Reduce MCP schema cache-key overhead",
+          "why_matters": "减少每轮计算成本，提升包含 MCP 工具时的响应速度。",
+          "why_matters_en": "Cuts per-turn overhead and improves responsiveness when MCP tools are present.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Improved performance: SSE transport now handles large streamed frames in linear time (was quadratic)",
+          "category": "perf",
+          "importance": 3,
+          "summary": "SSE 大帧传输改为线性处理",
+          "summary_en": "Make SSE large-frame handling linear",
+          "why_matters": "在大流式输出场景下显著降低卡顿和 CPU 消耗。",
+          "why_matters_en": "Greatly reduces lag and CPU usage for large streamed outputs.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Improved performance: SDK sessions with long conversations no longer slow down quadratically on transcript writes",
+          "category": "perf",
+          "importance": 4,
+          "summary": "长对话转写写入提速",
+          "summary_en": "Faster transcript writes for long chats",
+          "why_matters": "避免长会话在写入转写时性能逐步恶化，提升持续使用的流畅度。",
+          "why_matters_en": "Prevents transcript writes from slowing down as conversations grow, improving long-session responsiveness.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Improved `/resume` all-projects view to load project sessions in parallel, improving load times for users with many projects",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "/resume 多项目加载更快",
+          "summary_en": "Faster all-projects resume loading",
+          "why_matters": "并行加载项目会话能减少等待时间，让多项目用户更快恢复工作。",
+          "why_matters_en": "Loading project sessions in parallel reduces wait time for users with many projects.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Changed `--resume` picker to no longer show sessions created by `claude -p` or SDK invocations",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "隐藏非交互会话选择项",
+          "summary_en": "Hide non-interactive sessions in picker",
+          "why_matters": "减少恢复列表中的无关会话，帮助用户更快找到真正可继续的对话。",
+          "why_matters_en": "Removes irrelevant sessions from the resume list so users can find resumable conversations faster.",
+          "capability_ids": [
+            "memory_context",
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Removed `Get-DnsClientCache` and `ipconfig /displaydns` from auto-allow (DNS cache privacy)",
+          "category": "security",
+          "importance": 4,
+          "summary": "取消 DNS 缓存自动放行",
+          "summary_en": "Remove DNS cache commands from auto-allow",
+          "why_matters": "降低自动放行高敏感命令带来的隐私风险，保护本机 DNS 查询信息。",
+          "why_matters_en": "Reduces privacy risk by preventing sensitive DNS cache commands from being auto-approved.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
+          "points": 2049,
+          "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
+        },
+        {
+          "title": "The Claude Code Source Leak: fake tools, frustration regexes, undercover mode",
+          "points": 1344,
+          "url": "https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/"
+        },
+        {
+          "title": "Claude Code Unpacked : A visual guide",
+          "points": 1046,
+          "url": "https://ccunpacked.dev/"
+        },
+        {
+          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
+          "points": 486,
+          "url": "https://github.com/itigges22/ATLAS"
+        },
+        {
+          "title": "Claude Code users hitting usage limits 'way faster than expected'",
+          "points": 319,
+          "url": "https://www.theregister.com/2026/03/31/anthropic_claude_code_limits/"
+        }
+      ],
+      "highlight_score": 50
+    },
     {
       "version": "2.1.89",
       "date": "2026-03-31",
@@ -739,28 +1023,28 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 1923,
+          "points": 2049,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
           "title": "The Claude Code Source Leak: fake tools, frustration regexes, undercover mode",
-          "points": 937,
+          "points": 1344,
           "url": "https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/"
         },
         {
-          "title": "Schedule tasks on the web",
-          "points": 297,
-          "url": "https://code.claude.com/docs/en/web-scheduled-tasks"
+          "title": "Claude Code Unpacked : A visual guide",
+          "points": 1046,
+          "url": "https://ccunpacked.dev/"
+        },
+        {
+          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
+          "points": 486,
+          "url": "https://github.com/itigges22/ATLAS"
         },
         {
           "title": "Claude Code users hitting usage limits 'way faster than expected'",
-          "points": 285,
+          "points": 319,
           "url": "https://www.theregister.com/2026/03/31/anthropic_claude_code_limits/"
-        },
-        {
-          "title": "Learn Claude Code by doing, not reading",
-          "points": 267,
-          "url": "https://claude.nagdy.me/"
         }
       ],
       "highlight_score": 55
@@ -788,13 +1072,18 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 1923,
+          "points": 2049,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
           "title": "The Claude Code Source Leak: fake tools, frustration regexes, undercover mode",
-          "points": 937,
+          "points": 1344,
           "url": "https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/"
+        },
+        {
+          "title": "Claude Code Unpacked : A visual guide",
+          "points": 1046,
+          "url": "https://ccunpacked.dev/"
         },
         {
           "title": "Claude Code Cheat Sheet",
@@ -802,14 +1091,9 @@
           "url": "https://cc.storyfox.cz"
         },
         {
-          "title": "Schedule tasks on the web",
-          "points": 297,
-          "url": "https://code.claude.com/docs/en/web-scheduled-tasks"
-        },
-        {
-          "title": "Claude Code users hitting usage limits 'way faster than expected'",
-          "points": 285,
-          "url": "https://www.theregister.com/2026/03/31/anthropic_claude_code_limits/"
+          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
+          "points": 486,
+          "url": "https://github.com/itigges22/ATLAS"
         }
       ],
       "highlight_score": 50
@@ -1155,13 +1439,18 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 1923,
+          "points": 2049,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
           "title": "The Claude Code Source Leak: fake tools, frustration regexes, undercover mode",
-          "points": 937,
+          "points": 1344,
           "url": "https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/"
+        },
+        {
+          "title": "Claude Code Unpacked : A visual guide",
+          "points": 1046,
+          "url": "https://ccunpacked.dev/"
         },
         {
           "title": "Claude Code Cheat Sheet",
@@ -1169,14 +1458,9 @@
           "url": "https://cc.storyfox.cz"
         },
         {
-          "title": "Push events into a running session with channels",
-          "points": 400,
-          "url": "https://code.claude.com/docs/en/channels"
-        },
-        {
-          "title": "Schedule tasks on the web",
-          "points": 297,
-          "url": "https://code.claude.com/docs/en/web-scheduled-tasks"
+          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
+          "points": 486,
+          "url": "https://github.com/itigges22/ATLAS"
         }
       ],
       "highlight_score": 50
@@ -1574,13 +1858,18 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 1923,
+          "points": 2049,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
           "title": "The Claude Code Source Leak: fake tools, frustration regexes, undercover mode",
-          "points": 937,
+          "points": 1344,
           "url": "https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/"
+        },
+        {
+          "title": "Claude Code Unpacked : A visual guide",
+          "points": 1046,
+          "url": "https://ccunpacked.dev/"
         },
         {
           "title": "Claude Code Cheat Sheet",
@@ -1588,14 +1877,9 @@
           "url": "https://cc.storyfox.cz"
         },
         {
-          "title": "Push events into a running session with channels",
-          "points": 400,
-          "url": "https://code.claude.com/docs/en/channels"
-        },
-        {
-          "title": "Cook: A simple CLI for orchestrating Claude Code",
-          "points": 307,
-          "url": "https://rjcorwin.github.io/cook/"
+          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
+          "points": 486,
+          "url": "https://github.com/itigges22/ATLAS"
         }
       ],
       "highlight_score": 50
@@ -2110,13 +2394,18 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 1923,
+          "points": 2049,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
           "title": "The Claude Code Source Leak: fake tools, frustration regexes, undercover mode",
-          "points": 937,
+          "points": 1344,
           "url": "https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/"
+        },
+        {
+          "title": "Claude Code Unpacked : A visual guide",
+          "points": 1046,
+          "url": "https://ccunpacked.dev/"
         },
         {
           "title": "Claude Code Cheat Sheet",
@@ -2124,14 +2413,9 @@
           "url": "https://cc.storyfox.cz"
         },
         {
-          "title": "Push events into a running session with channels",
-          "points": 400,
-          "url": "https://code.claude.com/docs/en/channels"
-        },
-        {
-          "title": "Cook: A simple CLI for orchestrating Claude Code",
-          "points": 307,
-          "url": "https://rjcorwin.github.io/cook/"
+          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
+          "points": 486,
+          "url": "https://github.com/itigges22/ATLAS"
         }
       ],
       "highlight_score": 50
@@ -3123,12 +3407,12 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 1923,
+          "points": 2049,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
           "title": "The Claude Code Source Leak: fake tools, frustration regexes, undercover mode",
-          "points": 937,
+          "points": 1344,
           "url": "https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/"
         },
         {
@@ -3137,14 +3421,14 @@
           "url": "https://cc.storyfox.cz"
         },
         {
+          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
+          "points": 486,
+          "url": "https://github.com/itigges22/ATLAS"
+        },
+        {
           "title": "Push events into a running session with channels",
           "points": 400,
           "url": "https://code.claude.com/docs/en/channels"
-        },
-        {
-          "title": "Cook: A simple CLI for orchestrating Claude Code",
-          "points": 307,
-          "url": "https://rjcorwin.github.io/cook/"
         }
       ],
       "highlight_score": 55
@@ -3519,6 +3803,11 @@
           "url": "https://cc.storyfox.cz"
         },
         {
+          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
+          "points": 486,
+          "url": "https://github.com/itigges22/ATLAS"
+        },
+        {
           "title": "Push events into a running session with channels",
           "points": 400,
           "url": "https://code.claude.com/docs/en/channels"
@@ -3532,11 +3821,6 @@
           "title": "Cook: A simple CLI for orchestrating Claude Code",
           "points": 307,
           "url": "https://rjcorwin.github.io/cook/"
-        },
-        {
-          "title": "Schedule tasks on the web",
-          "points": 297,
-          "url": "https://code.claude.com/docs/en/web-scheduled-tasks"
         }
       ],
       "highlight_score": 50
@@ -3771,6 +4055,11 @@
           "url": "https://cc.storyfox.cz"
         },
         {
+          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
+          "points": 486,
+          "url": "https://github.com/itigges22/ATLAS"
+        },
+        {
           "title": "Push events into a running session with channels",
           "points": 400,
           "url": "https://code.claude.com/docs/en/channels"
@@ -3784,11 +4073,6 @@
           "title": "Cook: A simple CLI for orchestrating Claude Code",
           "points": 307,
           "url": "https://rjcorwin.github.io/cook/"
-        },
-        {
-          "title": "How I'm Productive with Claude Code",
-          "points": 281,
-          "url": "https://neilkakkar.com/productive-with-claude-code.html"
         }
       ],
       "highlight_score": 50
@@ -35294,8 +35578,8 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 267,
-      "release_count": 117,
+      "change_count": 270,
+      "release_count": 118,
       "avg_importance": 3.13,
       "maturity": {
         "score": 93,
@@ -35306,14 +35590,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-03-31",
-        "version": "2.1.89"
+        "date": "2026-04-01",
+        "version": "2.1.90"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 105
+          "change_count": 108
         },
         {
           "epoch_id": "epoch4",
@@ -35389,9 +35673,9 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 601,
-      "release_count": 156,
-      "avg_importance": 3.21,
+      "change_count": 606,
+      "release_count": 157,
+      "avg_importance": 3.22,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -35401,14 +35685,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-03-31",
-        "version": "2.1.89"
+        "date": "2026-04-01",
+        "version": "2.1.90"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 300
+          "change_count": 305
         },
         {
           "epoch_id": "epoch1",
@@ -35433,6 +35717,14 @@
       ],
       "samples": [
         {
+          "date": "2026-04-01",
+          "version": "2.1.90",
+          "raw": "Hardened PowerShell tool permission checks: fixed trailing `&` background job bypass, `-ErrorAction Break` debugger hang, archive-extraction TOCTOU, and parse-fail fallback deny-rule degradation",
+          "summary": "强化 PowerShell 权限校验",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-03-31",
           "version": "2.1.89",
           "raw": "Fixed a crash when removing a message from very large session files (over 50MB)",
@@ -35455,14 +35747,6 @@
           "summary": "修复大文件编辑内存崩溃",
           "importance": 5,
           "category": "fix"
-        },
-        {
-          "date": "2026-03-31",
-          "version": "2.1.89",
-          "raw": "PowerShell tool on Windows: external-command arguments containing both a double-quote and whitespace now prompt instead of auto-allowing (PS 5.1 argument-splitting hardening)",
-          "summary": "PowerShell 参数解析更安全",
-          "importance": 5,
-          "category": "security"
         }
       ]
     },
@@ -35484,8 +35768,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 371,
-      "release_count": 114,
+      "change_count": 376,
+      "release_count": 115,
       "avg_importance": 3.24,
       "maturity": {
         "score": 93,
@@ -35496,14 +35780,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-03-31",
-        "version": "2.1.89"
+        "date": "2026-04-01",
+        "version": "2.1.90"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 207
+          "change_count": 212
         },
         {
           "epoch_id": "epoch1",
@@ -35579,8 +35863,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 429,
-      "release_count": 163,
+      "change_count": 435,
+      "release_count": 164,
       "avg_importance": 3.26,
       "maturity": {
         "score": 93,
@@ -35591,14 +35875,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-03-31",
-        "version": "2.1.89"
+        "date": "2026-04-01",
+        "version": "2.1.90"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 167
+          "change_count": 173
         },
         {
           "epoch_id": "epoch1",
@@ -35623,6 +35907,14 @@
       ],
       "samples": [
         {
+          "date": "2026-04-01",
+          "version": "2.1.90",
+          "raw": "Fixed an infinite loop where the rate-limit options dialog would repeatedly auto-open after hitting your usage limit, eventually crashing the session",
+          "summary": "修复限流弹窗死循环",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-03-31",
           "version": "2.1.89",
           "raw": "Fixed `-p --resume` hangs when the deferred tool input exceeds 64KB or no deferred marker exists, and `-p --continue` not resuming deferred tools",
@@ -35645,14 +35937,6 @@
           "summary": "新增脚本裸模式",
           "importance": 5,
           "category": "feat"
-        },
-        {
-          "date": "2026-03-17",
-          "version": "2.1.78",
-          "raw": "Fixed infinite loop when API errors triggered stop hooks that re-fed blocking errors to the model",
-          "summary": "修复停止钩子导致的死循环",
-          "importance": 5,
-          "category": "fix"
         }
       ]
     },
@@ -35769,8 +36053,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 661,
-      "release_count": 187,
+      "change_count": 668,
+      "release_count": 188,
       "avg_importance": 3.17,
       "maturity": {
         "score": 93,
@@ -35781,14 +36065,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-03-31",
-        "version": "2.1.89"
+        "date": "2026-04-01",
+        "version": "2.1.90"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 295
+          "change_count": 302
         },
         {
           "epoch_id": "epoch1",
@@ -35864,9 +36148,9 @@
         "Emacs",
         "web"
       ],
-      "change_count": 411,
-      "release_count": 133,
-      "avg_importance": 2.72,
+      "change_count": 417,
+      "release_count": 134,
+      "avg_importance": 2.71,
       "maturity": {
         "score": 91,
         "level": "成熟"
@@ -35876,14 +36160,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-03-31",
-        "version": "2.1.89"
+        "date": "2026-04-01",
+        "version": "2.1.90"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 202
+          "change_count": 208
         },
         {
           "epoch_id": "epoch4",
@@ -35959,8 +36243,8 @@
         "policy",
         "auditing"
       ],
-      "change_count": 406,
-      "release_count": 158,
+      "change_count": 413,
+      "release_count": 159,
       "avg_importance": 3.32,
       "maturity": {
         "score": 93,
@@ -35971,14 +36255,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-03-31",
-        "version": "2.1.89"
+        "date": "2026-04-01",
+        "version": "2.1.90"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 170
+          "change_count": 177
         },
         {
           "epoch_id": "epoch4",
@@ -36003,6 +36287,22 @@
       ],
       "samples": [
         {
+          "date": "2026-04-01",
+          "version": "2.1.90",
+          "raw": "Fixed an infinite loop where the rate-limit options dialog would repeatedly auto-open after hitting your usage limit, eventually crashing the session",
+          "summary": "修复限流弹窗死循环",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
+          "date": "2026-04-01",
+          "version": "2.1.90",
+          "raw": "Hardened PowerShell tool permission checks: fixed trailing `&` background job bypass, `-ErrorAction Break` debugger hang, archive-extraction TOCTOU, and parse-fail fallback deny-rule degradation",
+          "summary": "强化 PowerShell 权限校验",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-03-31",
           "version": "2.1.89",
           "raw": "PowerShell tool on Windows: external-command arguments containing both a double-quote and whitespace now prompt instead of auto-allowing (PS 5.1 argument-splitting hardening)",
@@ -36017,22 +36317,6 @@
           "summary": "修复刷新后误切Sonnet",
           "importance": 5,
           "category": "fix"
-        },
-        {
-          "date": "2026-03-24",
-          "version": "2.1.83",
-          "raw": "Added `sandbox.failIfUnavailable` setting to exit with an error when sandbox is enabled but cannot start, instead of running unsandboxed",
-          "summary": "沙箱失效时强制报错退出",
-          "importance": 5,
-          "category": "security"
-        },
-        {
-          "date": "2026-03-24",
-          "version": "2.1.83",
-          "raw": "Added `CLAUDE_CODE_SUBPROCESS_ENV_SCRUB=1` to strip Anthropic and cloud provider credentials from subprocess environments (Bash tool, hooks, MCP stdio servers)",
-          "summary": "子进程自动清理敏感环境变量",
-          "importance": 5,
-          "category": "security"
         }
       ]
     }
@@ -36047,8 +36331,14 @@
       },
       {
         "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-        "points": 1923,
+        "points": 2049,
         "url": "https://twitter.com/Fried_rice/status/2038894956459290963",
+        "date": "2026-03-31"
+      },
+      {
+        "title": "The Claude Code Source Leak: fake tools, frustration regexes, undercover mode",
+        "points": 1344,
+        "url": "https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/",
         "date": "2026-03-31"
       },
       {
@@ -36070,6 +36360,12 @@
         "date": "2026-02-11"
       },
       {
+        "title": "Claude Code Unpacked : A visual guide",
+        "points": 1046,
+        "url": "https://ccunpacked.dev/",
+        "date": "2026-04-01"
+      },
+      {
         "title": "Warcraft III Peon Voice Notifications for Claude Code",
         "points": 1006,
         "url": "https://github.com/tonyyont/peon-ping",
@@ -36080,12 +36376,6 @@
         "points": 976,
         "url": "https://boristane.com/blog/how-i-use-claude-code/",
         "date": "2026-02-22"
-      },
-      {
-        "title": "The Claude Code Source Leak: fake tools, frustration regexes, undercover mode",
-        "points": 937,
-        "url": "https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/",
-        "date": "2026-03-31"
       },
       {
         "title": "Using Claude Code to modernize a 25-year-old kernel driver",
@@ -36140,12 +36430,6 @@
         "points": 749,
         "url": "https://hugodaniel.com/posts/claude-code-banned-me/",
         "date": "2026-01-22"
-      },
-      {
-        "title": "Claude Code Cheat Sheet",
-        "points": 699,
-        "url": "https://cc.storyfox.cz",
-        "date": "2026-03-23"
       }
     ],
     "blog_posts": [
