@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-04-02T03:41:54.176Z",
+    "generated_at": "2026-04-03T03:43:21.304Z",
     "agent_model": "openai/gpt-5.4-mini",
-    "total_versions": 252,
+    "total_versions": 253,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-04-01"
+      "end": "2026-04-02"
     },
     "highlight_count": 33,
     "capability_count": 8,
@@ -70,11 +70,207 @@
       "color": "#dc2626",
       "summary": "1M 上下文、安全扫描、无人值守运行能力",
       "summary_en": "1M context window, security scanning, and unattended operation capabilities",
-      "release_count": 36,
+      "release_count": 37,
       "highlight_count": 12
     }
   ],
   "releases": [
+    {
+      "version": "2.1.91",
+      "date": "2026-04-02",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added MCP tool result persistence override via `_meta[\"anthropic/maxResultSizeChars\"]` annotation (up to 500K), allowing larger results like DB schemas to pass through without truncation",
+          "category": "feat",
+          "importance": 4,
+          "summary": "支持更大MCP结果透传",
+          "summary_en": "Allow larger MCP tool results",
+          "why_matters": "减少数据库等大结果被截断的问题，让工具输出更完整可用。",
+          "why_matters_en": "It prevents truncation of large outputs like DB schemas, making tool results more usable.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Added `disableSkillShellExecution` setting to disable inline shell execution in skills, custom slash commands, and plugin commands",
+          "category": "security",
+          "importance": 4,
+          "summary": "可禁用技能内联执行",
+          "summary_en": "Disable inline shell execution in skills",
+          "why_matters": "降低技能、斜杠命令和插件命令执行任意 shell 的风险。",
+          "why_matters_en": "It reduces the risk of arbitrary shell execution from skills, slash commands, and plugins.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added support for multi-line prompts in `claude-cli://open?q=` deep links (encoded newlines `%0A` no longer rejected)",
+          "category": "feat",
+          "importance": 2,
+          "summary": "深链支持多行提示词",
+          "summary_en": "Support multi-line deep link prompts",
+          "why_matters": "让通过链接打开复杂提示更方便，适合包含换行的任务说明。",
+          "why_matters_en": "It makes it easier to open richer prompts via links, including instructions with newlines.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Plugins can now ship executables under `bin/` and invoke them as bare commands from the Bash tool",
+          "category": "feat",
+          "importance": 3,
+          "summary": "插件可直接调用bin可执行文件",
+          "summary_en": "Plugins can ship and run bin executables",
+          "why_matters": "插件可以更灵活地分发和复用本地工具，提升扩展能力。",
+          "why_matters_en": "It lets plugins distribute and reuse bundled tools more flexibly, improving extensibility.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed transcript chain breaks on `--resume` that could lose conversation history when async transcript writes fail silently",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复--resume丢失对话链",
+          "summary_en": "Fix transcript chain breaks on --resume",
+          "why_matters": "避免恢复会话时丢失历史记录，保证连续上下文不被破坏。",
+          "why_matters_en": "It preserves conversation history when resuming sessions, keeping context intact.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed `cmd+delete` not deleting to start of line on iTerm2, kitty, WezTerm, Ghostty, and Windows Terminal",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复终端退格删到行首",
+          "summary_en": "Fix cmd+delete behavior in more terminals",
+          "why_matters": "提升常用编辑快捷键在不同终端中的一致性和可用性。",
+          "why_matters_en": "It makes a common editing shortcut behave consistently across more terminals.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed plan mode in remote sessions losing track of the plan file after a container restart, which caused permission prompts on plan edits and an empty plan-approval modal",
+          "category": "fix",
+          "importance": 4,
+          "summary": "远程会话计划文件重启后不丢失",
+          "summary_en": "Keep remote plan file after container restart",
+          "why_matters": "避免计划模式在重启后失去状态，减少多余权限提示和空白审批界面。",
+          "why_matters_en": "It preserves plan state across restarts, preventing spurious permission prompts and empty approval dialogs.",
+          "capability_ids": [
+            "execution_workspace",
+            "memory_context",
+            "automation_autonomy",
+            "reasoning_workflows",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed JSON schema validation for `permissions.defaultMode: \"auto\"` in settings.json",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复auto权限模式校验",
+          "summary_en": "Fix permissions.defaultMode auto validation",
+          "why_matters": "让配置文件能正确通过校验，减少设置报错。",
+          "why_matters_en": "It ensures the settings file validates correctly, reducing configuration errors.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed Windows version cleanup not protecting the active version's rollback copy",
+          "category": "fix",
+          "importance": 3,
+          "summary": "Windows清理保护当前回滚副本",
+          "summary_en": "Protect active Windows rollback copy",
+          "why_matters": "避免误删正在使用的版本回滚文件，提升升级安全性。",
+          "why_matters_en": "It avoids deleting the active rollback copy, making Windows upgrades safer.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "`/feedback` now explains why it's unavailable instead of disappearing from the slash menu",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "反馈命令改为说明不可用原因",
+          "summary_en": "Explain why /feedback is unavailable",
+          "why_matters": "用户不会再看到“消失”的命令，而是能理解当前不可用的原因。",
+          "why_matters_en": "Users now get an explanation instead of a missing command, reducing confusion.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Improved `/claude-api` skill guidance for agent design patterns including tool surface decisions, context management, and caching strategy",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "/claude-api技能指南更实用",
+          "summary_en": "Better /claude-api skill guidance",
+          "why_matters": "帮助用户更好设计代理的工具选择、上下文管理和缓存策略。",
+          "why_matters_en": "It helps users design agents better with clearer guidance on tools, context, and caching.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "delegation_collaboration",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Improved performance: faster `stripAnsi` on Bun by routing through `Bun.stripANSI`",
+          "category": "perf",
+          "importance": 2,
+          "summary": "Bun下stripAnsi更快",
+          "summary_en": "Faster stripAnsi on Bun",
+          "why_matters": "减少字符处理开销，让相关输出处理更快。",
+          "why_matters_en": "It reduces text-processing overhead, improving output speed.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Edit tool now uses shorter `old_string` anchors, reducing output tokens",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "Edit工具输出更短",
+          "summary_en": "Shorter Edit tool anchors",
+          "why_matters": "减少模型输出 token 消耗，降低编辑调用成本。",
+          "why_matters_en": "It lowers token usage for edit operations, reducing cost and verbosity.",
+          "capability_ids": [
+            "automation_autonomy",
+            "reasoning_workflows"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
+          "points": 2069,
+          "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
+        },
+        {
+          "title": "The Claude Code Source Leak: fake tools, frustration regexes, undercover mode",
+          "points": 1357,
+          "url": "https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/"
+        },
+        {
+          "title": "Claude Code Unpacked : A visual guide",
+          "points": 1093,
+          "url": "https://ccunpacked.dev/"
+        },
+        {
+          "title": "Claude Code users hitting usage limits 'way faster than expected'",
+          "points": 324,
+          "url": "https://www.theregister.com/2026/03/31/anthropic_claude_code_limits/"
+        },
+        {
+          "title": "Schedule tasks on the web",
+          "points": 298,
+          "url": "https://code.claude.com/docs/en/web-scheduled-tasks"
+        }
+      ],
+      "highlight_score": 50
+    },
     {
       "version": "2.1.90",
       "date": "2026-04-01",
@@ -333,28 +529,28 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 2049,
+          "points": 2069,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
           "title": "The Claude Code Source Leak: fake tools, frustration regexes, undercover mode",
-          "points": 1344,
+          "points": 1357,
           "url": "https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/"
         },
         {
           "title": "Claude Code Unpacked : A visual guide",
-          "points": 1046,
+          "points": 1093,
           "url": "https://ccunpacked.dev/"
         },
         {
-          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
-          "points": 486,
-          "url": "https://github.com/itigges22/ATLAS"
+          "title": "Claude Code users hitting usage limits 'way faster than expected'",
+          "points": 324,
+          "url": "https://www.theregister.com/2026/03/31/anthropic_claude_code_limits/"
         },
         {
-          "title": "Claude Code users hitting usage limits 'way faster than expected'",
-          "points": 319,
-          "url": "https://www.theregister.com/2026/03/31/anthropic_claude_code_limits/"
+          "title": "Schedule tasks on the web",
+          "points": 298,
+          "url": "https://code.claude.com/docs/en/web-scheduled-tasks"
         }
       ],
       "highlight_score": 50
@@ -1023,28 +1219,28 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 2049,
+          "points": 2069,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
           "title": "The Claude Code Source Leak: fake tools, frustration regexes, undercover mode",
-          "points": 1344,
+          "points": 1357,
           "url": "https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/"
         },
         {
           "title": "Claude Code Unpacked : A visual guide",
-          "points": 1046,
+          "points": 1093,
           "url": "https://ccunpacked.dev/"
         },
         {
-          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
-          "points": 486,
-          "url": "https://github.com/itigges22/ATLAS"
+          "title": "Claude Code users hitting usage limits 'way faster than expected'",
+          "points": 324,
+          "url": "https://www.theregister.com/2026/03/31/anthropic_claude_code_limits/"
         },
         {
-          "title": "Claude Code users hitting usage limits 'way faster than expected'",
-          "points": 319,
-          "url": "https://www.theregister.com/2026/03/31/anthropic_claude_code_limits/"
+          "title": "Schedule tasks on the web",
+          "points": 298,
+          "url": "https://code.claude.com/docs/en/web-scheduled-tasks"
         }
       ],
       "highlight_score": 55
@@ -1072,17 +1268,17 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 2049,
+          "points": 2069,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
           "title": "The Claude Code Source Leak: fake tools, frustration regexes, undercover mode",
-          "points": 1344,
+          "points": 1357,
           "url": "https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/"
         },
         {
           "title": "Claude Code Unpacked : A visual guide",
-          "points": 1046,
+          "points": 1093,
           "url": "https://ccunpacked.dev/"
         },
         {
@@ -1091,9 +1287,9 @@
           "url": "https://cc.storyfox.cz"
         },
         {
-          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
-          "points": 486,
-          "url": "https://github.com/itigges22/ATLAS"
+          "title": "Claude Code users hitting usage limits 'way faster than expected'",
+          "points": 324,
+          "url": "https://www.theregister.com/2026/03/31/anthropic_claude_code_limits/"
         }
       ],
       "highlight_score": 50
@@ -1439,17 +1635,17 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 2049,
+          "points": 2069,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
           "title": "The Claude Code Source Leak: fake tools, frustration regexes, undercover mode",
-          "points": 1344,
+          "points": 1357,
           "url": "https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/"
         },
         {
           "title": "Claude Code Unpacked : A visual guide",
-          "points": 1046,
+          "points": 1093,
           "url": "https://ccunpacked.dev/"
         },
         {
@@ -1458,9 +1654,9 @@
           "url": "https://cc.storyfox.cz"
         },
         {
-          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
-          "points": 486,
-          "url": "https://github.com/itigges22/ATLAS"
+          "title": "Push events into a running session with channels",
+          "points": 400,
+          "url": "https://code.claude.com/docs/en/channels"
         }
       ],
       "highlight_score": 50
@@ -1858,17 +2054,17 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 2049,
+          "points": 2069,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
           "title": "The Claude Code Source Leak: fake tools, frustration regexes, undercover mode",
-          "points": 1344,
+          "points": 1357,
           "url": "https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/"
         },
         {
           "title": "Claude Code Unpacked : A visual guide",
-          "points": 1046,
+          "points": 1093,
           "url": "https://ccunpacked.dev/"
         },
         {
@@ -1877,9 +2073,9 @@
           "url": "https://cc.storyfox.cz"
         },
         {
-          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
-          "points": 486,
-          "url": "https://github.com/itigges22/ATLAS"
+          "title": "Push events into a running session with channels",
+          "points": 400,
+          "url": "https://code.claude.com/docs/en/channels"
         }
       ],
       "highlight_score": 50
@@ -2394,17 +2590,17 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 2049,
+          "points": 2069,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
           "title": "The Claude Code Source Leak: fake tools, frustration regexes, undercover mode",
-          "points": 1344,
+          "points": 1357,
           "url": "https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/"
         },
         {
           "title": "Claude Code Unpacked : A visual guide",
-          "points": 1046,
+          "points": 1093,
           "url": "https://ccunpacked.dev/"
         },
         {
@@ -2413,9 +2609,9 @@
           "url": "https://cc.storyfox.cz"
         },
         {
-          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
-          "points": 486,
-          "url": "https://github.com/itigges22/ATLAS"
+          "title": "Push events into a running session with channels",
+          "points": 400,
+          "url": "https://code.claude.com/docs/en/channels"
         }
       ],
       "highlight_score": 50
@@ -3407,12 +3603,12 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 2049,
+          "points": 2069,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
           "title": "The Claude Code Source Leak: fake tools, frustration regexes, undercover mode",
-          "points": 1344,
+          "points": 1357,
           "url": "https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/"
         },
         {
@@ -3421,14 +3617,14 @@
           "url": "https://cc.storyfox.cz"
         },
         {
-          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
-          "points": 486,
-          "url": "https://github.com/itigges22/ATLAS"
-        },
-        {
           "title": "Push events into a running session with channels",
           "points": 400,
           "url": "https://code.claude.com/docs/en/channels"
+        },
+        {
+          "title": "Claude Code users hitting usage limits 'way faster than expected'",
+          "points": 324,
+          "url": "https://www.theregister.com/2026/03/31/anthropic_claude_code_limits/"
         }
       ],
       "highlight_score": 55
@@ -3803,11 +3999,6 @@
           "url": "https://cc.storyfox.cz"
         },
         {
-          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
-          "points": 486,
-          "url": "https://github.com/itigges22/ATLAS"
-        },
-        {
           "title": "Push events into a running session with channels",
           "points": 400,
           "url": "https://code.claude.com/docs/en/channels"
@@ -3821,6 +4012,11 @@
           "title": "Cook: A simple CLI for orchestrating Claude Code",
           "points": 307,
           "url": "https://rjcorwin.github.io/cook/"
+        },
+        {
+          "title": "Schedule tasks on the web",
+          "points": 298,
+          "url": "https://code.claude.com/docs/en/web-scheduled-tasks"
         }
       ],
       "highlight_score": 50
@@ -4055,11 +4251,6 @@
           "url": "https://cc.storyfox.cz"
         },
         {
-          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
-          "points": 486,
-          "url": "https://github.com/itigges22/ATLAS"
-        },
-        {
           "title": "Push events into a running session with channels",
           "points": 400,
           "url": "https://code.claude.com/docs/en/channels"
@@ -4073,6 +4264,11 @@
           "title": "Cook: A simple CLI for orchestrating Claude Code",
           "points": 307,
           "url": "https://rjcorwin.github.io/cook/"
+        },
+        {
+          "title": "How I'm Productive with Claude Code",
+          "points": 281,
+          "url": "https://neilkakkar.com/productive-with-claude-code.html"
         }
       ],
       "highlight_score": 50
@@ -35578,11 +35774,11 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 270,
-      "release_count": 118,
-      "avg_importance": 3.13,
+      "change_count": 273,
+      "release_count": 119,
+      "avg_importance": 3.12,
       "maturity": {
-        "score": 93,
+        "score": 92,
         "level": "成熟"
       },
       "first_seen": {
@@ -35590,14 +35786,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-04-01",
-        "version": "2.1.90"
+        "date": "2026-04-02",
+        "version": "2.1.91"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 108
+          "change_count": 111
         },
         {
           "epoch_id": "epoch4",
@@ -35673,8 +35869,8 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 606,
-      "release_count": 157,
+      "change_count": 608,
+      "release_count": 158,
       "avg_importance": 3.22,
       "maturity": {
         "score": 93,
@@ -35685,14 +35881,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-04-01",
-        "version": "2.1.90"
+        "date": "2026-04-02",
+        "version": "2.1.91"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 305
+          "change_count": 307
         },
         {
           "epoch_id": "epoch1",
@@ -35768,8 +35964,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 376,
-      "release_count": 115,
+      "change_count": 379,
+      "release_count": 116,
       "avg_importance": 3.24,
       "maturity": {
         "score": 93,
@@ -35780,14 +35976,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-04-01",
-        "version": "2.1.90"
+        "date": "2026-04-02",
+        "version": "2.1.91"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 212
+          "change_count": 215
         },
         {
           "epoch_id": "epoch1",
@@ -35863,8 +36059,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 435,
-      "release_count": 164,
+      "change_count": 437,
+      "release_count": 165,
       "avg_importance": 3.26,
       "maturity": {
         "score": 93,
@@ -35875,14 +36071,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-01",
-        "version": "2.1.90"
+        "date": "2026-04-02",
+        "version": "2.1.91"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 173
+          "change_count": 175
         },
         {
           "epoch_id": "epoch1",
@@ -35958,9 +36154,9 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 197,
-      "release_count": 86,
-      "avg_importance": 3.41,
+      "change_count": 198,
+      "release_count": 87,
+      "avg_importance": 3.4,
       "maturity": {
         "score": 94,
         "level": "成熟"
@@ -35970,14 +36166,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-03-31",
-        "version": "2.1.89"
+        "date": "2026-04-02",
+        "version": "2.1.91"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 106
+          "change_count": 107
         },
         {
           "epoch_id": "epoch1",
@@ -36053,8 +36249,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 668,
-      "release_count": 188,
+      "change_count": 671,
+      "release_count": 189,
       "avg_importance": 3.17,
       "maturity": {
         "score": 93,
@@ -36065,14 +36261,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-04-01",
-        "version": "2.1.90"
+        "date": "2026-04-02",
+        "version": "2.1.91"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 302
+          "change_count": 305
         },
         {
           "epoch_id": "epoch1",
@@ -36148,9 +36344,9 @@
         "Emacs",
         "web"
       ],
-      "change_count": 417,
-      "release_count": 134,
-      "avg_importance": 2.71,
+      "change_count": 419,
+      "release_count": 135,
+      "avg_importance": 2.72,
       "maturity": {
         "score": 91,
         "level": "成熟"
@@ -36160,14 +36356,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-01",
-        "version": "2.1.90"
+        "date": "2026-04-02",
+        "version": "2.1.91"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 208
+          "change_count": 210
         },
         {
           "epoch_id": "epoch4",
@@ -36243,8 +36439,8 @@
         "policy",
         "auditing"
       ],
-      "change_count": 413,
-      "release_count": 159,
+      "change_count": 417,
+      "release_count": 160,
       "avg_importance": 3.32,
       "maturity": {
         "score": 93,
@@ -36255,14 +36451,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-01",
-        "version": "2.1.90"
+        "date": "2026-04-02",
+        "version": "2.1.91"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 177
+          "change_count": 181
         },
         {
           "epoch_id": "epoch4",
@@ -36331,13 +36527,13 @@
       },
       {
         "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-        "points": 2049,
+        "points": 2069,
         "url": "https://twitter.com/Fried_rice/status/2038894956459290963",
         "date": "2026-03-31"
       },
       {
         "title": "The Claude Code Source Leak: fake tools, frustration regexes, undercover mode",
-        "points": 1344,
+        "points": 1357,
         "url": "https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/",
         "date": "2026-03-31"
       },
@@ -36346,6 +36542,12 @@
         "points": 1298,
         "url": "https://claude.com/blog/cowork-research-preview",
         "date": "2026-01-12"
+      },
+      {
+        "title": "Claude Code Unpacked : A visual guide",
+        "points": 1093,
+        "url": "https://ccunpacked.dev/",
+        "date": "2026-04-01"
       },
       {
         "title": "Tell HN: I'm 60 years old. Claude Code has re-ignited a passion",
@@ -36358,12 +36560,6 @@
         "points": 1085,
         "url": "https://symmetrybreak.ing/blog/claude-code-is-being-dumbed-down/",
         "date": "2026-02-11"
-      },
-      {
-        "title": "Claude Code Unpacked : A visual guide",
-        "points": 1046,
-        "url": "https://ccunpacked.dev/",
-        "date": "2026-04-01"
       },
       {
         "title": "Warcraft III Peon Voice Notifications for Claude Code",
