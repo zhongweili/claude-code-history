@@ -197,7 +197,7 @@ function buildStoryHome(bundle: any) {
 }
 
 function buildExploreData(bundle: any) {
-  const epochLookup = new Map(bundle.epochs.map((e: any) => [e.id, e]));
+  const epochLookup = new Map<string, any>(bundle.epochs.map((e: any) => [e.id, e]));
   const capLookup = new Map(
     bundle.capabilities.map((c: any) => [c.id, { id: c.id, name: c.name, name_en: c.name_en || c.name }])
   );
