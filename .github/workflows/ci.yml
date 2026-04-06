@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [master]
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: cd site && bun install --frozen-lockfile
+
+      - name: Type check
+        run: cd site && bun run check
+
+      - name: Build site
+        run: cd site && bun run build

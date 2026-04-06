@@ -22,7 +22,7 @@ const navItems = [
 ---
 
 <!doctype html>
-<html class="scroll-smooth" lang="zh-CN">
+<html class="scroll-smooth" lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -33,14 +33,27 @@ const navItems = [
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <title>{title}</title>
-    <!-- Restore lang preference before paint -->
+    <!-- Detect language before paint: localStorage > browser locale > default EN -->
     <script is:inline>
-      if (localStorage.getItem("lang") === "en") {
-        document.documentElement.setAttribute("data-lang", "en");
-        document.documentElement.lang = "en";
-        var md = document.querySelector('meta[name="description"]');
-        if (md && md.dataset.descEn) md.setAttribute("content", md.dataset.descEn);
-      }
+      (function() {
+        var stored = localStorage.getItem("lang");
+        var lang;
+        if (stored === "cn" || stored === "en") {
+          lang = stored;
+        } else {
+          var nav = (navigator.languages && navigator.languages[0]) || navigator.language || "";
+          lang = /^zh\b/i.test(nav) ? "cn" : "en";
+        }
+        if (lang === "cn") {
+          document.documentElement.removeAttribute("data-lang");
+          document.documentElement.lang = "zh-CN";
+        } else {
+          document.documentElement.setAttribute("data-lang", "en");
+          document.documentElement.lang = "en";
+          var md = document.querySelector('meta[name="description"]');
+          if (md && md.dataset.descEn) md.setAttribute("content", md.dataset.descEn);
+        }
+      })();
     </script>
   </head>
   <body class="bg-surface text-primary selection:bg-secondary-container selection:text-on-secondary-container">
