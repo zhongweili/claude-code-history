@@ -1,6 +1,262 @@
 {
   "$comment": "Hand-edited narrative overrides for auto-generated highlights. Merged by agent/update.ts after LLM generation. Use sparingly for events where the release notes alone don't capture the full story (e.g. community backlash, reversals, ecosystem context).",
   "highlights": {
+    "1.0.126": {
+      "highlight_title": "/context 进 Bedrock",
+      "highlight_title_en": "/context Reaches Bedrock",
+      "highlight_summary": "v2.0 前的最后一次小更新，悄悄把 /context 放进 Bedrock 和 Vertex，再给 OpenTelemetry 的 HTTP 导出器加上 mTLS。三天后 v2.0 发布、HN「Claude Code 2.0」拿到 842 分；这一版是给企业部署的预备动作。",
+      "highlight_summary_en": "Three days before v2.0 lands and HN lights up with \"Claude Code 2.0\" (842 points), this small release quietly enables /context on Bedrock and Vertex and adds mTLS to the HTTP OpenTelemetry exporter. Pre-flight checks for the enterprise side of the room.",
+      "highlight_why": "/context 终于走进 Bedrock 和 Vertex，企业部署的最后一道墙拆掉。",
+      "highlight_why_en": "/context finally reaches Bedrock and Vertex — the last wall around enterprise deploys comes down."
+    },
+    "2.0.0": {
+      "highlight_title": "VS Code 与 /rewind",
+      "highlight_title_en": "VS Code, and a Rewind Button",
+      "highlight_summary": "9 月 29 日，原生 VS Code 扩展上线，/rewind 让你把整段对话连同代码改动一起倒带，SDK 同日改名为 Claude Agent SDK。HN 上「Claude Code 2.0」842 分，「Claude Code is all you need」851 分——这是 Epoch 3 的高潮，也是改名带来的迁移痛的开始。",
+      "highlight_summary_en": "September 29: a native VS Code extension ships, /rewind lets you undo a whole conversation along with its code changes, and the SDK is renamed to the Claude Agent SDK on the same day. \"Claude Code 2.0\" pulls 842 HN points, \"Claude Code is all you need\" 851 — the high water mark of Epoch 3, and the start of a painful rename migration.",
+      "highlight_why": "原生 VS Code 扩展、/rewind、SDK 改名同日落地——一次塞进去的三件大事。",
+      "highlight_why_en": "Native VS Code, /rewind, and an SDK rename — three big moves crammed into one day."
+    },
+    "2.0.5": {
+      "highlight_title": "IME 与 401 善后",
+      "highlight_title_en": "Cleaning Up After 2.0",
+      "highlight_summary": "v2.0 之后的第一波善后：中文输入法按 Enter 不再误发消息，OAuth 过期 401 不再裸奔抛错，SDK 加上 isReplay 防止重复消息。三天前那场盛大发布留下的细碎裂缝，从这里开始一条条焊上。",
+      "highlight_summary_en": "The first cleanup after v2.0: IME users no longer accidentally submit on Enter, expired OAuth tokens stop throwing raw 401s, and the SDK gains an isReplay flag to dedupe messages. Three days after the big release, the hairline cracks start getting welded shut.",
+      "highlight_why": "v2.0 三天后，IME 误发、OAuth 401、SDK 重放——三个最尴尬的洞先补上。",
+      "highlight_why_en": "Three days post-v2.0, the three most embarrassing holes — IME mis-submits, OAuth 401s, SDK message replays — get plugged first."
+    },
+    "2.0.8": {
+      "highlight_title": "扔掉旧 .claude.json",
+      "highlight_title_en": "Goodbye, Old .claude.json",
+      "highlight_summary": ".claude.json 里的 allowedTools、ignorePatterns、env、todoFeatureEnabled 一次性下架，全部迁到 settings.json。Bedrock 默认 Sonnet 跳到 4.5，IDE 支持文件拖拽。这是 v2.0 之后第一次明确告诉用户：旧的配置入口，别再用了。",
+      "highlight_summary_en": "allowedTools, ignorePatterns, env, and todoFeatureEnabled are evicted from .claude.json in one go and sent to settings.json. Bedrock's default Sonnet jumps to 4.5, and the IDE finally accepts drag-and-drop. The first post-2.0 release where Anthropic flatly tells users: stop using the old config file.",
+      "highlight_why": "旧 .claude.json 里的四个老字段一次性下架，迁移没有缓冲期。",
+      "highlight_why_en": "Four legacy fields evicted from .claude.json in one shot — no grace period."
+    },
+    "2.0.25": {
+      "highlight_title": "旧 SDK 入口下线",
+      "highlight_title_en": "Legacy SDK Entry Removed",
+      "highlight_summary": "10 月 21 日，遗留 SDK 入口正式拆掉，所有人必须迁到 @anthropic-ai/claude-agent-sdk。改名公告过去三周，缓冲期到此结束。同一天 HN 上「Claude Code on the web」拿到 578 分——产品边界正在往外推，旧名字必须先收干净。",
+      "highlight_summary_en": "October 21: the legacy SDK entrypoint is removed for good and everyone is pushed to @anthropic-ai/claude-agent-sdk. Three weeks after the rename announcement, the grace period ends. The same day, \"Claude Code on the web\" hits 578 points on HN — the product is expanding outward, so the old name has to be tidied away first.",
+      "highlight_why": "改名三周后，旧 SDK 入口被直接拆走，迁移再无退路。",
+      "highlight_why_en": "Three weeks after the rename, the old SDK entrypoint is yanked — migration, no more delays."
+    },
+    "2.0.30": {
+      "highlight_title": "把 sandbox 的逃生门焊死",
+      "highlight_title_en": "Welding the Sandbox Escape Hatch Shut",
+      "highlight_summary": "新增 allowUnsandboxedCommands 设置，让管理员从策略层把 dangerouslyDisableSandbox 这个逃生门彻底封死；自定义 agent 拿到 disallowedTools，还多了一种 prompt-based 的 stop hook。Nx 用 Claude Code CLI 做供应链攻击的事没过去多久，这一版的味道很明确：少一点信任，多一点开关。",
+      "highlight_summary_en": "A new allowUnsandboxedCommands setting lets admins kill the dangerouslyDisableSandbox escape hatch at the policy layer; custom agents get a disallowedTools field, and there's a new prompt-based stop hook on top. Not long after the Nx supply-chain attack used the Claude Code CLI to walk filesystems, this release has a clear flavor: less trust, more switches.",
+      "highlight_why": "Nx 事件之后，dangerouslyDisableSandbox 这扇逃生门第一次能从策略层焊死。",
+      "highlight_why_en": "Post-Nx, the dangerouslyDisableSandbox escape hatch can finally be welded shut at the policy layer."
+    },
+    "2.0.35": {
+      "highlight_title": "空跑就退",
+      "highlight_title_en": "Idle, Then Exit",
+      "highlight_summary": "新增 CLAUDE_CODE_EXIT_AFTER_STOP_DELAY 环境变量，让 SDK 在闲置一段时间后自动退出——给自动化脚本和无人值守任务用的。同周 HN 上一个不大不小的吐槽帖「Claude Code refused to add rainbows and unicorns to my app」拿到 83 分，提醒人 Claude Code 也会拒人；ignorePatterns 顺势从项目配置迁到 deny permissions。",
+      "highlight_summary_en": "A new CLAUDE_CODE_EXIT_AFTER_STOP_DELAY env var tells the SDK to bow out after a set idle window — built for unattended scripts and automation runs. The same week, a small HN gripe (\"Claude Code refused to add rainbows and unicorns to my app\", 83 points) reminds people Claude Code can also say no, and ignorePatterns quietly moves from project config into deny permissions.",
+      "highlight_why": "脚本跑完了不知道该不该退？现在有一个环境变量替你做决定。",
+      "highlight_why_en": "Scripts that don't know when to leave finally get an env var to decide for them."
+    },
+    "2.0.70": {
+      "highlight_title": "内存瘦三倍",
+      "highlight_title_en": "Memory, Cut by Three",
+      "highlight_summary": "长会话的内存占用一口气降到原来的三分之一，MCP 权限第一次接受 `mcp__server__*` 这样的整服务器通配规则。再加上输入框被排队命令清空的老毛病修好——每天都会被绊到的三件事，同一天处理掉。",
+      "highlight_summary_en": "Long-running conversations now use a third of the memory they did, MCP permissions accept `mcp__server__*` to allow or deny an entire server in one rule, and the long-standing bug that wiped your input while a queued command was running is finally gone. Three daily annoyances, swept on the same day.",
+      "highlight_why": "长会话的内存占用一夜砍掉三分之二，每天被打字清空一次的输入框也终于不再清空。",
+      "highlight_why_en": "Long sessions cost a third of the memory they used to, and your half-typed prompt stops vanishing every time a queued command lands."
+    },
+    "2.0.72": {
+      "highlight_title": "Claude 走进浏览器",
+      "highlight_title_en": "Claude Opens a Browser Tab",
+      "highlight_summary": "Claude in Chrome 以 Beta 身份上线，装上扩展后可以直接从 Claude Code 操控真实浏览器。同一版里 @ 提及在 git 仓库内提速三倍，Tab 切换思考模式被改到 Alt+T——一边伸手到终端外，一边把终端里最容易误触的快捷键收回去。",
+      "highlight_summary_en": "Claude in Chrome ships in beta — install the extension and Claude Code can drive a real browser tab from the terminal. The same release makes @ mentions roughly three times faster inside git repos, and quietly moves the thinking-mode toggle off Tab onto Alt+T so it stops firing by accident.",
+      "highlight_why": "终端里的 Claude 第一次伸手到 Chrome 标签页里。",
+      "highlight_why_en": "The Claude inside your terminal reaches out and clicks around in a Chrome tab for the first time."
+    },
+    "2.1.0": {
+      "highlight_title": "2.1 首发夜",
+      "highlight_title_en": "2.1, Night One",
+      "highlight_summary": "2.1 系列首发，最重要的一行藏在安全更新里：debug 日志会把 OAuth token、API key、密码一起印出来的漏洞被补上。功能层面，`~/.claude/skills` 里的技能改完即生效，技能可以靠 `context: fork` 跑在子代理上下文里。同一周的 HN 上，Cowork 拿到 1298 分，「Anthropic blocks third-party use」拿到 625——平台扩张和信任挤压同时进行。",
+      "highlight_summary_en": "The 2.1 line opens with its most important line buried under \"security\": OAuth tokens, API keys, and passwords could leak into debug logs. Features get their own moment too — skills in `~/.claude/skills` hot-reload without restarting a session, and `context: fork` lets a skill or slash command run inside its own sub-agent. The same week, Cowork hits 1298 points on HN and \"Anthropic blocks third-party use of Claude Code subscriptions\" hits 625. Platform ambition and trust friction, on the same calendar page.",
+      "highlight_why": "2.1 的开门第一刀打在自己身上——debug 日志会泄露 OAuth token。",
+      "highlight_why_en": "2.1 opens by patching itself — the debug log that could spill OAuth tokens, API keys, and passwords is finally sealed."
+    },
+    "2.1.2": {
+      "highlight_title": "大输出落地",
+      "highlight_title_en": "Big Output, Saved to Disk",
+      "highlight_summary": "Bash 和工具的大输出不再被截断——它们会写到磁盘上，Claude 通过文件引用读完整内容。底下还修了一个 bash 命令注入漏洞，以及一个会让 tree-sitter WASM 内存无限增长的解析树泄漏。功能、安全、性能各取一样，节奏平稳。",
+      "highlight_summary_en": "Bash and tool outputs that used to be truncated now spill to disk, and Claude reads the full thing back through file references. Underneath, a command-injection hole in bash processing gets patched and a tree-sitter parse-tree leak that quietly grew WASM memory all session long is closed. One feature, one security fix, one leak — a calm working day.",
+      "highlight_why": "长输出不再被截断——它们落到磁盘上，由 Claude 自己回头读完整版。",
+      "highlight_why_en": "Long outputs stop being chopped at the edge; they land on disk and Claude reads the whole thing back."
+    },
+    "2.1.3": {
+      "highlight_title": "信任对话框说谎",
+      "highlight_title_en": "The Trust Dialog That Lied",
+      "highlight_summary": "在 home 目录里点了「信任」却没真正解锁 hooks——这条悄悄存在的漏洞被修掉。同一版引入了不可达权限规则的提示，`/doctor` 会指出哪条规则被前面的规则覆盖、来源在哪、怎么改。子代理在压缩对话时用错模型的 bug 也一并处理。三个修复都长得像小事，加在一起就是「权限说一不二」这件事。",
+      "highlight_summary_en": "Accepting the trust dialog from your home directory used to look like consent without actually unlocking hooks for the session — that quiet contradiction is fixed. The same release teaches `/doctor` to flag permission rules that can never fire, telling you where each rule came from and how to repair it, and stops sub-agents from silently switching to the wrong model during compaction. Three small repairs that all answer the same question: when the rules say yes, do they mean yes?",
+      "highlight_why": "在 home 目录点「信任」却没真的解锁 hooks 的那条沉默漏洞，今天被修掉。",
+      "highlight_why_en": "The trust dialog that said yes from your home directory but never actually unlocked hooks finally tells the truth."
+    },
+    "2.1.7": {
+      "highlight_title": "通配符越权",
+      "highlight_title_en": "The Wildcard Loophole",
+      "highlight_summary": "同一天放出的两个安全补丁里的第二个：通配符权限规则会匹配到含 shell 操作符的复合命令，`Bash(npm *)` 能放过 `npm install && rm -rf .` 这种东西。补丁同时把 MCP 工具搜索的 auto 模式默认打开——当工具描述超过上下文 10%，不再一次性塞进 prompt。Windows 上的「文件被改」假报警和路径里 `t` `n` 被当成转义符的怪 bug，也都修掉。",
+      "highlight_summary_en": "The second of two security patches released on the same day: a wildcard permission rule could quietly match a compound command full of shell operators, so `Bash(npm *)` would happily wave through `npm install && rm -rf .`. The same release flips MCP tool search auto-mode on by default — when MCP descriptions exceed 10% of the context window, they get deferred instead of stuffed in upfront. Windows users also get rid of the false \"file modified\" warnings cloud-sync tools were triggering, and the bug where temp paths containing `t` or `n` were being read as escape sequences.",
+      "highlight_why": "`Bash(npm *)` 原本能放过 `npm install && rm -rf .`——今天的第二个补丁堵的是这个。",
+      "highlight_why_en": "`Bash(npm *)` was quietly waving through `npm install && rm -rf .`. The day's second security patch closes that door."
+    },
+    "2.1.6": {
+      "highlight_title": "反斜杠回车的后门",
+      "highlight_title_en": "The Backslash-Newline Backdoor",
+      "highlight_summary": "同一天的两个安全补丁里的第一个：在 shell 命令里用反斜杠折行，可以骗过权限检查、让被禁的命令照样执行——这条绕过被堵掉。同一版还修了 `mcp list` 和 `mcp get` 留下孤儿 MCP 进程的问题，并取消了用 @ 提及来开关 MCP 服务器的旧习惯，统一改走 `/mcp enable`。",
+      "highlight_summary_en": "The first of two security patches that ship on the same day: a shell line-continuation trick — backslash-newline inside a command — could slip past permission checks and run a command you'd already blocked. That door is shut. The release also kills the orphaned MCP server processes that `mcp list` and `mcp get` were leaving behind, and retires the old @-mention shortcut for toggling MCP servers in favor of `/mcp enable <name>`.",
+      "highlight_why": "一个反斜杠加换行就能绕过权限的旧把戏，今天被堵掉——而它的孪生补丁同天就到。",
+      "highlight_why_en": "A backslash and a newline used to be enough to walk around the permission system. Today that trick dies — and its twin patch ships hours later."
+    },
+    "2.1.9": {
+      "highlight_title": "孤儿 tool_result",
+      "highlight_title_en": "Orphan tool_result",
+      "highlight_summary": "并行工具调用在长会话里偶尔会甩出一个找不到主人的 tool_result 块，整段对话直接被 API 拒掉——这一版终于把它堵上。同一天 MCP 重连不再卡死在悬挂的 promise 上，auto:N 让 MCP 工具搜索的开启阈值可以按上下文百分比来调。都是看起来不起眼的修补，但每一条都是某个用户那天没法继续工作的原因。",
+      "highlight_summary_en": "Long sessions with parallel tool calls had been occasionally throwing an orphan tool_result block and getting the whole conversation rejected by the API. That gets sealed off here. Same release: MCP reconnection no longer hangs on a dangling cached promise, and auto:N lets you set the MCP tool search threshold by context-window percent. Each fix is the reason someone lost an afternoon last week.",
+      "highlight_why": "并行工具调用甩出孤儿 tool_result 的那个 bug，今天被堵上了。",
+      "highlight_why_en": "The bug where parallel tool calls spat out an orphan tool_result finally gets sealed off."
+    },
+    "2.1.19": {
+      "highlight_title": "回退到任意一步",
+      "highlight_title_en": "Rewind to Any Step",
+      "highlight_summary": "VSCode 扩展里的会话分叉和 /rewind 这次面向所有人开门——你可以把对话拉回到任意一个节点再走另一条路。同窗里 HN 上「Claude Code daily benchmarks for degradation tracking」拿到 760 分，用户已经在自建回归基准盯着模型变化；能往回倒带，正好接上这种「我要自己复核」的心态。顺手还修了 AVX 缺失会崩、终端关掉留下僵尸进程这两件老麻烦。",
+      "highlight_summary_en": "Session forking and /rewind ship to every VSCode user this release — you can pull a conversation back to any point and try a different branch. In the same window, \"Claude Code daily benchmarks for degradation tracking\" hits 760 on HN: people are wiring up their own regression harnesses to watch for drift, and a real undo button fits that mood exactly. Two old annoyances get cleaned up too: crashes on CPUs without AVX, and zombie processes left behind when the terminal closes.",
+      "highlight_why": "/rewind 这次面向所有 VSCode 用户开门，对话可以拉回任意一步重走。",
+      "highlight_why_en": "/rewind opens up to every VSCode user — pull the conversation back to any step and try again."
+    },
+    "2.1.44": {
+      "highlight_title": "鉴权别再掉链子",
+      "highlight_title_en": "Auth, Stop Dropping",
+      "highlight_summary": "两条修复：auth refresh 偶发报错，深嵌目录下的 ENAMETOOLONG。没有新功能，没有发布博客，就是把上周让人骂街的两件事按住。这一天也是平台化纪元的最后一次发布——第二天 Sonnet 4.6 就要登场，自主化纪元开始。HN 上「Claude Code is being dumbed down?」当时正挂在 1085 分，社区紧张感已经在那里了。",
+      "highlight_summary_en": "Two fixes: flaky auth refresh, and ENAMETOOLONG on deeply nested paths. No new features, no blog post — just pinning down the two things people had been swearing at all week. It's also the last release of the Platformization epoch; Sonnet 4.6 lands the next day and Autonomization begins. \"Claude Code is being dumbed down?\" was sitting at 1085 on HN that week — the nerves were already in the air.",
+      "highlight_why": "平台化纪元的最后一次发布——只修了鉴权和路径，明天 Sonnet 4.6 就到。",
+      "highlight_why_en": "The final release of the Platformization epoch — just auth and paths, before Sonnet 4.6 lands tomorrow."
+    },
+    "2.1.45": {
+      "highlight_title": "Sonnet 4.6 落地的同一天",
+      "highlight_title_en": "The Day Sonnet 4.6 Lands",
+      "highlight_summary": "Sonnet 4.6 进入 Claude Code，但同日的 changelog 几乎全是修补：Agent Teams 在 Bedrock/Vertex/Foundry 上跑不起来的环境变量传递问题、macOS sandbox 写临时文件被拒、Task 工具完成时甩出的 ReferenceError，连同插件命令装完必须重启的老毛病一起按掉。HN 上「Claude Code is being dumbed down?」当时挂在 1085 分——新模型上线那天，团队选择先收紧地基。",
+      "highlight_summary_en": "Sonnet 4.6 lands in Claude Code, but the changelog around it is almost all repairs: Agent Teams failing on Bedrock/Vertex/Foundry because the API provider env vars never reached tmux-spawned processes, macOS sandbox refusing temp-file writes, the Task tool throwing a ReferenceError on completion, and plugin commands needing a restart before they showed up. \"Claude Code is being dumbed down?\" was sitting at 1085 on HN that week — on launch day, the team chose to tighten the floor first.",
+      "highlight_why": "新模型登场的同一天，团队选择先把 Agent Teams 跑不起来的洞补上。",
+      "highlight_why_en": "On the day a new model arrives, the team spends it patching the holes Agent Teams kept falling through."
+    },
+    "2.1.47": {
+      "highlight_title": "权限分类器在编故事",
+      "highlight_title_en": "When the Classifier Hallucinates",
+      "highlight_summary": "Bash 权限分类器原本会信任模型自己写的「这条命令匹配了哪条规则」描述——这一版改成强制拿描述去对真实规则比对，杜绝模型用一句虚构的解释把命令放行。同日还修了带大量 PDF 的会话压缩失败、并发 agent 下 thinking block 互相覆盖造成的 400 错误，以及长会话里 API 流缓冲、agent 上下文、skill 状态用完不释放的内存堆积。",
+      "highlight_summary_en": "The bash permission classifier had been trusting the model's own \"this command matched rule X\" explanation — this release forces the description to be cross-checked against the actual rule, so a hallucinated justification can no longer wave a command through. Same release: compaction stops failing on conversations stuffed with PDFs, concurrent agents stop hitting 400s from interleaved thinking blocks, and long sessions finally release API stream buffers, agent context, and skill state instead of letting them pile up.",
+      "highlight_why": "模型曾经能用一句虚构的「这条命令匹配了规则 X」给自己开闸——这条路今天被堵上。",
+      "highlight_why_en": "The model used to wave commands through by fabricating which rule they matched. That door gets nailed shut today."
+    },
+    "2.1.49": {
+      "highlight_title": "--worktree 上线",
+      "highlight_title_en": "--worktree Ships",
+      "highlight_summary": "`--worktree` 标志和子代理的 `isolation: \"worktree\"` 同时落地——Claude Code 第一次有了「在临时 git worktree 里干活」的官方姿势，后台代理和主线程不再共享同一棵工作树。同日把 Sonnet 4.5 的 1M 上下文从 Max 套餐拿掉，统一让位给 4.6；Yoga WASM 那个永远不缩的线性内存终于被收住。Ctrl+C 在后台代理跑着时不再被吞，连按两次会一并杀掉所有 background。",
+      "highlight_summary_en": "The `--worktree` flag and subagents' `isolation: \"worktree\"` land together — Claude Code finally has an official way to spin up work in a throwaway git worktree, so background agents and the main thread stop fighting over the same tree. The same day, Sonnet 4.5's 1M context disappears from the Max plan in favor of 4.6, and Yoga WASM's linear memory — the leak that never shrank — finally gets capped. Ctrl+C and ESC stop being swallowed when background agents are running; press twice in three seconds and they all die.",
+      "highlight_why": "后台代理第一次有了自己的工作树，主线程不再被它们踩。",
+      "highlight_why_en": "Background agents get their own working tree for the first time — the main thread stops getting trampled."
+    },
+    "2.1.50": {
+      "highlight_title": "符号链接吃掉了你的会话",
+      "highlight_title_en": "When Symlinks Eat Your Session",
+      "highlight_summary": "如果你的工作目录里有 symlink，启动时不同阶段会把会话存储路径解析成不同结果——结果是恢复时整段历史「凭空消失」。这一版把它按下去，顺手给文件历史快照加了上限，不再让长会话被它撑爆。WorktreeCreate/Remove 钩子配套上线，让自定义 VCS 流程能跟上前一天的 worktree 隔离。同一天 Anthropic 发布 Claude Code Security 博客——产品的「不丢东西」承诺，要从这种边角 bug 一条条赎回来。",
+      "highlight_summary_en": "If your working directory ran through a symlink, different stages of startup would resolve the session-storage path to different places — and your resumed session would simply vanish. This release pins it down, and caps file-history snapshots so long sessions stop getting blown up by them. WorktreeCreate and WorktreeRemove hooks land alongside, so custom VCS setup can keep up with yesterday's worktree isolation. Same day as the Claude Code Security blog post — the product's promise not to lose your work has to be earned back one corner case at a time.",
+      "highlight_why": "符号链接路径下，会话恢复时整段历史会凭空消失——今天这条路被堵上。",
+      "highlight_why_en": "Under a symlinked working directory, resumed sessions used to disappear into thin air. Not anymore."
+    },
+    "2.1.51": {
+      "highlight_title": "remote-control 第一次出场",
+      "highlight_title_en": "remote-control Steps Out",
+      "highlight_summary": "`claude remote-control` 子命令正式登场，外部构建可以从此把本地环境作为服务暴露出去——HN 上「Claude Code Remote Control」同期挂着 544 分，社区已经在等。同日按掉一个安全洞：交互模式下 statusLine 和 fileSuggestion 钩子能在用户没接受 workspace trust 之前就执行命令。BashTool 默认不再走 login shell 启动，跳过 `-l` 直接加速。",
+      "highlight_summary_en": "The `claude remote-control` subcommand makes its debut, letting external builds serve a local environment to the outside world — HN's \"Claude Code Remote Control\" thread was sitting at 544 points the same week, and people had already been waiting. Quietly tucked into the same release is a security fix: statusLine and fileSuggestion hooks could fire commands before the user accepted workspace trust. BashTool stops invoking a login shell by default, skipping `-l` for raw speed.",
+      "highlight_why": "外部系统第一次有了官方的「钩进 Claude Code」入口。",
+      "highlight_why_en": "External systems get their first official way to reach into a Claude Code session."
+    },
+    "2.1.73": {
+      "highlight_title": "复杂 bash 不再卡死",
+      "highlight_title_en": "Complex Bash, No More Freezes",
+      "highlight_summary": "复杂 bash 命令的权限弹窗会触发 100% CPU 死循环，`.claude/skills/` 多的 repo 里一次 git pull 就让 Claude Code 整个僵住——这两个让长会话一夜白干的死锁同时被按下。云端还有个更阴险的问题：在 Bedrock/Vertex/Foundry 上写 `model: opus` 的子代理会被悄悄降到老版本，今天也修了。modelOverrides 让模型选择器条目可以映射到自定义 provider ID，比如 Bedrock 推理 profile ARN。",
+      "highlight_summary_en": "Permission prompts for complex bash commands could trigger a 100% CPU loop, and a `git pull` over a repo with a heavy `.claude/skills/` directory could deadlock the whole session — both of these long-session killers get pinned down in one release. There's a sneakier one too: subagents written as `model: opus` were being silently downgraded to older versions on Bedrock, Vertex, and Microsoft Foundry — also fixed today. modelOverrides lets you map model-picker entries to custom provider IDs like Bedrock inference profile ARNs.",
+      "highlight_why": "云上的 `model: opus` 一直在被悄悄降级到老版本——这条路今天截住了。",
+      "highlight_why_en": "On the cloud providers, `model: opus` had been silently downgraded to older versions. Cut off today."
+    },
+    "2.1.75": {
+      "highlight_title": "Opus 4.6 拿到 1M",
+      "highlight_title_en": "Opus 4.6 Gets 1M",
+      "highlight_summary": "Opus 4.6 的 1M 上下文从「需要额外用量」变成 Max/Team/Enterprise 套餐的默认。同日按掉一个折磨过很多人的 token 估算 bug：thinking 和 tool_use 块的 token 一直被多算，导致上下文压缩在还远没到限额时就触发。Bash 工具不再吃掉管道命令里的 `!`——`jq 'select(.x != .y)'` 终于能跑。这是社区怀疑「Feb 静默降级」之前两周。",
+      "highlight_summary_en": "Opus 4.6's 1M context window flips from \"requires extra usage\" to default on Max, Team, and Enterprise plans. Tucked into the same release is a token-estimation fix that had been quietly tormenting people: thinking blocks and `tool_use` blocks were being overcounted, triggering context compaction long before the real limit. The Bash tool stops mangling `!` in piped commands — `jq 'select(.x != .y)'` finally works. Two weeks before the community would start putting words to the February silent downgrade.",
+      "highlight_why": "1M 上下文从「按用量解锁」改成订阅默认，门槛被一脚踢平。",
+      "highlight_why_en": "1M context shifts from a metered unlock to the subscription default — the gate gets kicked over."
+    },
+    "2.1.76": {
+      "highlight_title": "Remote Control 不再静默死",
+      "highlight_title_en": "Remote Control Stops Dying Quietly",
+      "highlight_summary": "Remote Control 上线四周后第一次大修：服务器回收闲置环境时会话静默死亡、快速消息被一条一条排队而不是批处理、JWT 刷新后过期的工作项被重投递、桥接会话长时间断线后无法恢复。MCP elicitation 同日落地，让 MCP 服务器可以在任务中途要求用户填表或打开浏览器。`worktree.sparsePaths` 给大型 monorepo 用 sparse-checkout 只拉需要的目录。",
+      "highlight_summary_en": "Four weeks after Remote Control shipped, it gets its first serious round of repairs: sessions silently dying when the server reaped an idle environment, rapid messages being queued one-at-a-time instead of batched, stale work items being redelivered after JWT refresh, bridge sessions failing to recover after long WebSocket drops. MCP elicitation arrives the same day, so MCP servers can ask the user for structured input mid-task via a form or a browser URL. `worktree.sparsePaths` lets a `claude --worktree` over a giant monorepo pull only the directories it needs.",
+      "highlight_why": "Remote Control 的四个静默故障一次性按掉——这次它真的能挂在长会话上了。",
+      "highlight_why_en": "Four silent failures in Remote Control all get pinned down at once — long sessions can actually live on it now."
+    },
+    "2.1.77": {
+      "highlight_title": "PreToolUse 不能再越过 deny",
+      "highlight_title_en": "PreToolUse Can't Override Deny",
+      "highlight_summary": "PreToolUse 钩子返回 `\"allow\"` 居然能绕过 `deny` 权限规则——包括企业的 managed settings。一个会让安全审计冒汗的 bug，今天关掉。同日还修了自动更新器在 slash-command 浮层反复开关时叠加几十个二进制下载、吃掉几十 GB 内存的怪异行为。Opus 4.6 默认输出上限抬到 64k，Opus 4.6 与 Sonnet 4.6 的上限抬到 128k。",
+      "highlight_summary_en": "PreToolUse hooks returning `\"allow\"` were able to override `deny` permission rules — even enterprise managed settings. The kind of bug that makes a security auditor sweat. Closed today. Same release: the auto-updater stops piling up overlapping binary downloads when the slash-command overlay flickered open and shut. Default output limits jump to 64k for Opus 4.6, with the upper bound for Opus 4.6 and Sonnet 4.6 raised to 128k.",
+      "highlight_why": "一个 PreToolUse 钩子曾经能用 `\"allow\"` 一句话推翻企业 deny 规则——这扇门今天被焊上。",
+      "highlight_why_en": "A PreToolUse hook used to be able to override an enterprise deny rule with a single \"allow\". Welded shut today."
+    },
+    "2.1.83": {
+      "highlight_title": "源代码泄漏的那一周",
+      "highlight_title_en": "The Week the Source Leaked",
+      "highlight_summary": "前一周 HN 上「Claude Code 的源代码通过 npm map 文件泄漏」拿到 2090 分，紧接着「fake tools, frustration regexes, undercover mode」又刷到 1374 分——内部 prompt、命名、调试逻辑被翻了个底朝天。这一版是泄漏后第一次集中加固：`sandbox.failIfUnavailable` 不再让 sandbox 启动失败时悄悄裸奔，`CLAUDE_CODE_SUBPROCESS_ENV_SCRUB=1` 把密钥从子进程环境里抹掉，`--mcp-config` 也不能再绕过 managed policy 的白/黑名单。",
+      "highlight_summary_en": "The week before, \"Claude Code's source code has been leaked via a map file\" hit 2090 on HN, and \"fake tools, frustration regexes, undercover mode\" followed at 1374 — the internal prompts, naming, and debug logic all got picked apart in public. This is the first hardening release in that aftermath: `sandbox.failIfUnavailable` stops a failed sandbox start from quietly running unsandboxed, `CLAUDE_CODE_SUBPROCESS_ENV_SCRUB=1` strips credentials out of subprocess envs, and `--mcp-config` can no longer slip past the managed MCP allow/deny policy.",
+      "highlight_why": "源代码被翻了个底朝天的那一周，团队选择把每一处可滑出的边界各打一颗钉。",
+      "highlight_why_en": "The week the source got picked apart in public, the team spent it driving a nail into every boundary that could slip."
+    },
+    "2.1.92": {
+      "highlight_title": "seccomp 补回 unix socket",
+      "highlight_title_en": "seccomp Reblocks the Sockets",
+      "highlight_summary": "Linux sandbox 一度漏发了 `apply-seccomp` 辅助二进制，sandboxed 命令对 unix socket 的拦截整个失效——这一版在 npm 和 native 构建里把它补齐。`forceRemoteSettingsRefresh` 让 CLI 在拉不到最新 managed settings 时直接 fail-closed 退出，不再用本地缓存带病上路。Write 工具对带 tab/`&`/`$` 的大文件 diff 计算快了 60%。",
+      "highlight_summary_en": "The Linux sandbox had been shipping without its `apply-seccomp` helper, silently breaking unix-socket blocking for sandboxed commands — this release brings it back in both npm and native builds. `forceRemoteSettingsRefresh` makes the CLI fail-closed when it can't reach fresh managed settings, refusing to limp along on a stale local cache. The Write tool's diff computation runs 60% faster on big files full of tabs, `&`, or `$`.",
+      "highlight_why": "Linux sandbox 一度漏发了 seccomp helper，unix socket 拦截整个失效——今天补回来。",
+      "highlight_why_en": "The Linux sandbox had been shipping without its seccomp helper, leaving unix-socket blocking wide open. Restored today."
+    },
+    "0.2.74": {
+      "highlight_title": "Task 工具开始动手",
+      "highlight_title_en": "The Task Tool Stops Asking",
+      "highlight_summary": "Task 工具原本只能搜索和 grep，从这一版起它可以直接写文件、跑 bash。同一天，动态生成的 API Key 获得了 5 分钟刷新机制——长跑工作流终于有了最基础的两样东西：手，和稳定的身份。",
+      "highlight_summary_en": "The Task tool stops being a read-only search-and-grep and starts writing files and running bash. On the same day, dynamically generated API keys gain a 5-minute refresh — the two most basic things any long-running workflow needs: hands, and a stable identity.",
+      "highlight_why": "Task 工具从这天起有了「手」——Claude Code 第一次可以自己写文件、跑命令。",
+      "highlight_why_en": "From this release on, the Task tool has hands — Claude Code can write files and run commands on its own."
+    },
+    "0.2.117": {
+      "highlight_title": "SDK 长出骨架",
+      "highlight_title_en": "The SDK Grows Its Skeleton",
+      "highlight_summary": "--print 的 JSON 输出被整体重构为嵌套消息对象，--debug 模式同时落地，settings.cleanupPeriodDays 也顺带上线。都是不性感的管道活，但没有这一周的打底，v1.0 那个承诺就站不住。",
+      "highlight_summary_en": "The --print flag switches to nested message objects, --debug mode ships, settings.cleanupPeriodDays lands. None of it is sexy — all of it is the scaffolding v1.0 will stand on next week.",
+      "highlight_why": "这不是一次功能上新，而是 v1.0 之前最后一周的管道活。",
+      "highlight_why_en": "Not a feature drop — the last week of plumbing before v1.0."
+    },
+    "0.2.125": {
+      "highlight_title": "配置冷启动",
+      "highlight_title_en": "Config, Cold Start",
+      "highlight_summary": "DEBUG=true 被扔掉，换成 ANTHROPIC_LOG=debug；Bedrock ARN 的写法也改口。v1.0 前一天，老的默认和老的习惯一起被收拾干净——这是一次克制但刻意的清场。",
+      "highlight_summary_en": "DEBUG=true is retired in favor of ANTHROPIC_LOG=debug, Bedrock ARN changes shape. The day before v1.0, the old defaults and old habits are swept away together — a quiet, deliberate clearing of the room.",
+      "highlight_why": "v1.0 前一天，旧的默认和旧的习惯一起被清掉。",
+      "highlight_why_en": "The day before v1.0, the old defaults and the old habits get swept away together."
+    },
+    "1.0.0": {
+      "highlight_title": "v1.0 开张",
+      "highlight_title_en": "v1.0 Opens for Business",
+      "highlight_summary": "三个月，从 research preview 走到 v1.0。Sonnet 4 和 Opus 4 一同就位，Claude Code SDK 正式发布，Anthropic 终于敢说「一般可用」这四个字。几周后，HN 上「6 weeks of Claude Code」拿到 581 分——有人开始在真实代码里长期用它。",
+      "highlight_summary_en": "Three months from research preview to v1.0. Sonnet 4 and Opus 4 land together, the Claude Code SDK is formally announced, and Anthropic finally works up the nerve to say \"generally available.\" A few weeks later, \"6 weeks of Claude Code\" hits 581 points on HN — real codebases are starting to live inside it.",
+      "highlight_why": "三个月，从 research preview 到 v1.0——以及说出「一般可用」这四个字的勇气。",
+      "highlight_why_en": "Three months from research preview to v1.0 — and the nerve to finally say \"generally available.\""
+    },
     "2.1.32": {
       "force_include": true,
       "highlight_score": 75,
