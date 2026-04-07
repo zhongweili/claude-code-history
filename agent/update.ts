@@ -19,6 +19,7 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const DATA = resolve(ROOT, "data");
 const CAPS_SEED = resolve(DATA, "capabilities_seed.json");
 const EPOCHS_SEED = resolve(DATA, "epochs_seed.json");
+const EDITORIAL_OVERRIDES = resolve(DATA, "editorial_overrides.json");
 const OUTPUT = resolve(DATA, "auto_bundle.json");
 
 // ── config ─────────────────────────────────────────────────────────────────
@@ -397,6 +398,50 @@ function matchBlogPost(
   return post ? { title: post.title, url: post.url } : undefined;
 }
 
+// ── Editorial overrides ───────────────────────────────────────────────────
+// Hand-edited narrative overrides for highlights — see data/editorial_overrides.json.
+// Used for events where release notes alone don't tell the full story
+// (community backlash, reversals, cross-release sagas).
+interface EditorialOverride {
+  force_include?: boolean;
+  highlight_score?: number;
+  highlight_title?: string;
+  highlight_title_en?: string;
+  highlight_summary?: string;
+  highlight_summary_en?: string;
+  highlight_why?: string;
+  highlight_why_en?: string;
+}
+interface EditorialOverrides {
+  highlights?: Record<string, EditorialOverride>;
+}
+
+let cachedOverrides: EditorialOverrides | null | undefined;
+function loadEditorialOverrides(): EditorialOverrides | null {
+  if (cachedOverrides !== undefined) return cachedOverrides;
+  try {
+    const raw = readFileSync(EDITORIAL_OVERRIDES, "utf8");
+    cachedOverrides = JSON.parse(raw) as EditorialOverrides;
+  } catch {
+    cachedOverrides = null;
+  }
+  return cachedOverrides;
+}
+
+function applyEditorialOverrides(highlights: Highlight[]): Highlight[] {
+  const overrides = loadEditorialOverrides();
+  if (!overrides?.highlights) return highlights;
+  const overridden = highlights.map((h) => {
+    const o = overrides.highlights![h.version];
+    if (!o) return h;
+    // Strip force_include flag; everything else (title/summary/why/score) overlays.
+    const { force_include: _ignored, ...narrative } = o;
+    return { ...h, ...narrative } as Highlight;
+  });
+  overridden.sort((a, b) => a.date.localeCompare(b.date));
+  return overridden;
+}
+
 function calcHighlightScore(
   release: Release,
   blog?: { title: string; url: string },
@@ -667,7 +712,16 @@ async function generateHighlights(
   onlyNewVersions?: Set<string>,
 ): Promise<Highlight[]> {
   const existingVersions = new Set(existingHighlights.map((h) => h.version));
-  const candidates = releases.filter((r) => r.highlight_score >= HIGHLIGHT_THRESHOLD && r.date);
+  const editorialOverrides = loadEditorialOverrides()?.highlights ?? {};
+  const forceIncluded = new Set(
+    Object.entries(editorialOverrides)
+      .filter(([, v]) => v.force_include)
+      .map(([k]) => k),
+  );
+  const candidates = releases.filter(
+    (r) =>
+      r.date && (r.highlight_score >= HIGHLIGHT_THRESHOLD || forceIncluded.has(r.version)),
+  );
   const highlights: Highlight[] = [];
 
   for (const rel of candidates) {
@@ -680,14 +734,32 @@ async function generateHighlights(
 
     const topChanges = [...rel.changes].sort((a, b) => b.importance - a.importance).slice(0, 5);
     const blog = matchBlogPost(rel.date, blogPosts);
-    const narrative = await writeHighlightNarrative(rel.version, rel.date!, topChanges, rel.signals);
-    log("highlight", `v${rel.version} (score=${rel.highlight_score}): ${narrative.highlight_title}`);
+    const override = editorialOverrides[rel.version];
+    const hasCompleteOverride =
+      override?.highlight_title &&
+      override?.highlight_summary &&
+      override?.highlight_why;
+    // If editorial override supplies a full narrative, skip the LLM call — cheaper and deterministic.
+    const narrative = hasCompleteOverride
+      ? {
+          highlight_title: override!.highlight_title!,
+          highlight_title_en: override!.highlight_title_en ?? "",
+          highlight_summary: override!.highlight_summary!,
+          highlight_summary_en: override!.highlight_summary_en ?? "",
+          highlight_why: override!.highlight_why!,
+          highlight_why_en: override!.highlight_why_en ?? "",
+        }
+      : await writeHighlightNarrative(rel.version, rel.date!, topChanges, rel.signals);
+    log(
+      hasCompleteOverride ? "editorial" : "highlight",
+      `v${rel.version} (score=${rel.highlight_score}): ${narrative.highlight_title}`,
+    );
 
     highlights.push({
       version: rel.version,
       date: rel.date!,
       epoch_id: rel.epoch_id,
-      highlight_score: rel.highlight_score,
+      highlight_score: override?.highlight_score ?? rel.highlight_score,
       ...narrative,
       capability_ids: [...new Set(rel.changes.flatMap((c) => c.capability_ids))],
       evidence: {
@@ -702,8 +774,9 @@ async function generateHighlights(
     });
   }
 
-  highlights.sort((a, b) => a.date.localeCompare(b.date));
-  return highlights;
+  // Apply editorial overrides to reused existing highlights (covers incremental mode)
+  const withOverrides = applyEditorialOverrides(highlights);
+  return withOverrides;
 }
 
 // ── Main ───────────────────────────────────────────────────────────────────
