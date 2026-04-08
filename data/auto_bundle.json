@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-04-07T15:39:15.056Z",
+    "generated_at": "2026-04-08T03:49:48.307Z",
     "agent_model": "openai/gpt-5.4-mini",
-    "total_versions": 254,
+    "total_versions": 255,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-04-04"
+      "end": "2026-04-07"
     },
     "highlight_count": 35,
     "capability_count": 8,
@@ -70,11 +70,358 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。与此同时，Opus 4.6 把「思考」变成了可选项，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Meanwhile, Opus 4.6 makes reasoning optional rather than visible, while worktree isolation and a 1M context push the agent toward running for hours, unattended.",
-      "release_count": 38,
+      "release_count": 39,
       "highlight_count": 13
     }
   ],
   "releases": [
+    {
+      "version": "2.1.94",
+      "date": "2026-04-07",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added support for Amazon Bedrock powered by Mantle, set `CLAUDE_CODE_USE_MANTLE=1`",
+          "category": "feat",
+          "importance": 4,
+          "summary": "支持 Mantle 的 Bedrock",
+          "summary_en": "Add Mantle-backed Bedrock support",
+          "why_matters": "让用户可以通过 Mantle 使用 Amazon Bedrock，扩展模型接入方式。",
+          "why_matters_en": "Lets users access Amazon Bedrock through Mantle, expanding model connectivity options.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Changed default effort level from medium to high for API-key, Bedrock/Vertex/Foundry, Team, and Enterprise users (control this with `/effort`)",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "默认提高推理力度",
+          "summary_en": "Raise default effort to high",
+          "why_matters": "默认更高的推理力度可提升生成质量，但用户仍可通过 /effort 调整。",
+          "why_matters_en": "A higher default effort can improve output quality while still being adjustable via /effort.",
+          "capability_ids": [
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Added compact `Slacked #channel` header with a clickable channel link for Slack MCP send-message tool calls",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "Slack 消息标题更清晰",
+          "summary_en": "Add clickable Slack channel header",
+          "why_matters": "让 Slack MCP 的消息调用更容易识别和跳转到目标频道。",
+          "why_matters_en": "Makes Slack MCP send-message calls easier to identify and jump to the target channel.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added `keep-coding-instructions` frontmatter field support for plugin output styles",
+          "category": "feat",
+          "importance": 2,
+          "summary": "支持插件输出样式保留指令",
+          "summary_en": "Support keep-coding-instructions frontmatter",
+          "why_matters": "插件可以更精细地控制输出样式中的编码指令保留行为。",
+          "why_matters_en": "Plugins can more precisely control whether coding instructions are preserved in output styles.",
+          "capability_ids": [
+            "extensions_ecosystem",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added `hookSpecificOutput.sessionTitle` to `UserPromptSubmit` hooks for setting the session title",
+          "category": "feat",
+          "importance": 2,
+          "summary": "钩子可设置会话标题",
+          "summary_en": "Let hooks set the session title",
+          "why_matters": "用户提示提交时可以自动设置更合适的会话标题，便于整理对话。",
+          "why_matters_en": "UserPromptSubmit hooks can now set a better session title, helping organize conversations.",
+          "capability_ids": [
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Plugin skills declared via `\"skills\": [\"./\"]` now use the skill's frontmatter `name` for the invocation name instead of the directory basename, giving a stable name across install methods",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "技能调用名更稳定",
+          "summary_en": "Use skill frontmatter name as invocation name",
+          "why_matters": "技能在不同安装方式下会保持一致的调用名，减少引用失效。",
+          "why_matters_en": "Skills keep a stable invocation name across install methods, reducing broken references.",
+          "capability_ids": [
+            "memory_context",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed agents appearing stuck after a 429 rate-limit response with a long Retry-After header — the error now surfaces immediately instead of silently waiting",
+          "category": "fix",
+          "importance": 4,
+          "summary": "429 限流错误立即显示",
+          "summary_en": "Surface 429 rate-limit errors immediately",
+          "why_matters": "避免长时间看似卡住，让用户能及时知道请求被限流并采取措施。",
+          "why_matters_en": "Prevents the app from appearing stuck and lets users know immediately when they are rate-limited.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed Console login on macOS silently failing with \"Not logged in\" when the login keychain is locked or its password is out of sync — the error is now surfaced and `claude doctor` diagnoses the fix",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复 macOS 登录静默失败",
+          "summary_en": "Fix silent macOS Console login failure",
+          "why_matters": "登录失败会被明确提示并可由诊断工具定位，减少排障时间。",
+          "why_matters_en": "Login failures are now surfaced and diagnosable, reducing time spent troubleshooting.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed plugin skill hooks defined in YAML frontmatter being silently ignored",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复 YAML 技能钩子失效",
+          "summary_en": "Fix YAML skill hooks being ignored",
+          "why_matters": "声明在 frontmatter 中的技能钩子现在会真正生效，避免自动化逻辑丢失。",
+          "why_matters_en": "Skill hooks declared in frontmatter now work as intended, avoiding lost automation logic.",
+          "capability_ids": [
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed plugin hooks failing with \"No such file or directory\" when `CLAUDE_PLUGIN_ROOT` was not set",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复插件钩子路径错误",
+          "summary_en": "Fix plugin hooks missing CLAUDE_PLUGIN_ROOT",
+          "why_matters": "未设置环境变量时插件钩子也能正常定位文件，减少启动/执行报错。",
+          "why_matters_en": "Plugin hooks can locate files even without the env var, reducing startup and execution errors.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed `${CLAUDE_PLUGIN_ROOT}` resolving to the marketplace source directory instead of the installed cache for local-marketplace plugins on startup",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复本地市场插件路径",
+          "summary_en": "Fix local marketplace plugin root resolution",
+          "why_matters": "本地 marketplace 插件启动时会正确指向安装缓存，避免加载错误资源。",
+          "why_matters_en": "Local marketplace plugins now resolve to the installed cache correctly, preventing bad resource loads.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed scrollback showing the same diff repeated and blank pages in long-running sessions",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复长会话滚动回放重复",
+          "summary_en": "Fix repeated diffs and blank scrollback",
+          "why_matters": "长时间运行时的历史显示更稳定，便于回看和审核变更。",
+          "why_matters_en": "Long-running session history is more reliable, making it easier to review changes.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed multiline user prompts in the transcript indenting wrapped lines under the `❯` caret instead of under the text",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复多行提示缩进错位",
+          "summary_en": "Fix multiline prompt indentation",
+          "why_matters": "转录显示更清晰，长提示词更容易阅读和核对。",
+          "why_matters_en": "Transcript display is clearer, making long prompts easier to read and verify.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed Shift+Space inserting the literal word \"space\" instead of a space character in search inputs",
+          "category": "fix",
+          "importance": 1,
+          "summary": "修复空格键输入异常",
+          "summary_en": "Fix Shift+Space input bug",
+          "why_matters": "改善搜索输入的基础可用性，避免误输入文字。",
+          "why_matters_en": "Improves basic usability in search inputs by preventing incorrect text entry.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed hyperlinks opening two browser tabs when clicked inside tmux running in an xterm.js-based terminal (VS Code, Hyper, Tabby)",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复链接重复打开",
+          "summary_en": "Fix duplicate browser tabs on link click",
+          "why_matters": "点击链接时只会打开一个页面，减少干扰和重复操作。",
+          "why_matters_en": "Links now open a single page instead of duplicate tabs, reducing friction.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed an alt-screen rendering bug where content height changes mid-scroll could leave compounding ghost lines",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复滚动时幽灵残影",
+          "summary_en": "Fix ghost lines during scroll",
+          "why_matters": "避免在滚动和高度变化时出现残影，提升终端显示准确性。",
+          "why_matters_en": "Prevents ghost artifacts when scrolling and the content height changes.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed `FORCE_HYPERLINK` environment variable being ignored when set via `settings.json` `env`",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复 env 里超链接失效",
+          "summary_en": "Respect FORCE_HYPERLINK from settings env",
+          "why_matters": "确保通过配置注入的环境变量能按预期生效，减少链接显示异常。",
+          "why_matters_en": "Ensures environment variables set via config are honored as expected.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed native terminal cursor not tracking the selected tab in dialogs, so screen readers and magnifiers can follow tab navigation",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复终端焦点跟随标签",
+          "summary_en": "Keep terminal cursor on the active dialog tab",
+          "why_matters": "让读屏和放大工具能准确跟踪当前标签页，改善无障碍体验。",
+          "why_matters_en": "Helps screen readers and magnifiers track the active tab for better accessibility.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed Bedrock invocation of Sonnet 3.5 v2 by using the `us.` inference profile ID",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复 Bedrock Sonnet 3.5 调用",
+          "summary_en": "Fix Bedrock Sonnet 3.5 v2 invocation",
+          "why_matters": "确保模型调用成功，避免 Bedrock 用户遇到请求失败。",
+          "why_matters_en": "Ensures model requests succeed for Bedrock users.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed SDK/print mode not preserving the partial assistant response in conversation history when interrupted mid-stream",
+          "category": "fix",
+          "importance": 4,
+          "summary": "保留中断的部分回复",
+          "summary_en": "Preserve interrupted partial assistant replies",
+          "why_matters": "中断后仍能保留已生成内容，减少上下文丢失和重复生成。",
+          "why_matters_en": "Keeps partial output after interruption to avoid losing progress.",
+          "capability_ids": [
+            "memory_context",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Improved `--resume` to resume sessions from other worktrees of the same repo directly instead of printing a `cd` command",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "--resume 直达其他工作区",
+          "summary_en": "Resume directly from another worktree",
+          "why_matters": "减少手动切换目录的步骤，让会话恢复更顺畅。",
+          "why_matters_en": "Removes extra directory switching and makes session resuming smoother.",
+          "capability_ids": [
+            "automation_autonomy",
+            "memory_context",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed CJK and other multibyte text being corrupted with U+FFFD in stream-json input/output when chunk boundaries split a UTF-8 sequence",
+          "category": "fix",
+          "importance": 5,
+          "summary": "修复 UTF-8 分块乱码",
+          "summary_en": "Fix UTF-8 corruption across stream-json chunks",
+          "why_matters": "避免多字节文本被破坏，保障中文等内容在流式输入输出中正确传输。",
+          "why_matters_en": "Prevents multibyte text corruption in streaming I/O, preserving non-ASCII content.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "[VSCode] Reduced cold-open subprocess work on starting a session",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "VSCode 冷启动更快",
+          "summary_en": "Reduce VSCode cold-start subprocess work",
+          "why_matters": "降低启动开销，让首次打开会话更快更轻。",
+          "why_matters_en": "Cuts startup overhead so sessions open faster.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed dropdown menus selecting the wrong item when the mouse was over the list while typing or using arrow keys",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复下拉菜单选错项",
+          "summary_en": "Fix wrong dropdown selection in VSCode",
+          "why_matters": "减少鼠标与键盘输入冲突导致的误选，提升编辑器交互可靠性。",
+          "why_matters_en": "Prevents misselection when mouse hover conflicts with typing or arrows.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "[VSCode] Added a warning banner when `settings.json` files fail to parse, so users know their permission rules are not being applied",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "配置解析失败时提示告警",
+          "summary_en": "Warn when settings.json fails to parse",
+          "why_matters": "及时告知配置未生效，避免权限规则默默失效。",
+          "why_matters_en": "Alerts users when config parsing fails so permission rules don’t silently stop working.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
+          "points": 2092,
+          "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
+        },
+        {
+          "title": "The Claude Code Source Leak: fake tools, frustration regexes, undercover mode",
+          "points": 1374,
+          "url": "https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/"
+        },
+        {
+          "title": "Issue: Claude Code is unusable for complex engineering tasks with Feb updates",
+          "points": 1294,
+          "url": "https://github.com/anthropics/claude-code/issues/42796"
+        },
+        {
+          "title": "Claude Code Unpacked : A visual guide",
+          "points": 1124,
+          "url": "https://ccunpacked.dev/"
+        },
+        {
+          "title": "Tell HN: Anthropic no longer allowing Claude Code subscriptions to use OpenClaw",
+          "points": 1095,
+          "url": "https://news.ycombinator.com/item?id=47633396"
+        }
+      ],
+      "highlight_score": 50
+    },
     {
       "version": "2.1.92",
       "date": "2026-04-04",
@@ -324,7 +671,7 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 2090,
+          "points": 2092,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
@@ -334,17 +681,17 @@
         },
         {
           "title": "Issue: Claude Code is unusable for complex engineering tasks with Feb updates",
-          "points": 1250,
+          "points": 1294,
           "url": "https://github.com/anthropics/claude-code/issues/42796"
         },
         {
           "title": "Claude Code Unpacked : A visual guide",
-          "points": 1123,
+          "points": 1124,
           "url": "https://ccunpacked.dev/"
         },
         {
           "title": "Tell HN: Anthropic no longer allowing Claude Code subscriptions to use OpenClaw",
-          "points": 1091,
+          "points": 1095,
           "url": "https://news.ycombinator.com/item?id=47633396"
         }
       ],
@@ -520,7 +867,7 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 2090,
+          "points": 2092,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
@@ -530,17 +877,17 @@
         },
         {
           "title": "Issue: Claude Code is unusable for complex engineering tasks with Feb updates",
-          "points": 1250,
+          "points": 1294,
           "url": "https://github.com/anthropics/claude-code/issues/42796"
         },
         {
           "title": "Claude Code Unpacked : A visual guide",
-          "points": 1123,
+          "points": 1124,
           "url": "https://ccunpacked.dev/"
         },
         {
           "title": "Tell HN: Anthropic no longer allowing Claude Code subscriptions to use OpenClaw",
-          "points": 1091,
+          "points": 1095,
           "url": "https://news.ycombinator.com/item?id=47633396"
         }
       ],
@@ -804,7 +1151,7 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 2090,
+          "points": 2092,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
@@ -814,17 +1161,17 @@
         },
         {
           "title": "Issue: Claude Code is unusable for complex engineering tasks with Feb updates",
-          "points": 1250,
+          "points": 1294,
           "url": "https://github.com/anthropics/claude-code/issues/42796"
         },
         {
           "title": "Claude Code Unpacked : A visual guide",
-          "points": 1123,
+          "points": 1124,
           "url": "https://ccunpacked.dev/"
         },
         {
           "title": "Tell HN: Anthropic no longer allowing Claude Code subscriptions to use OpenClaw",
-          "points": 1091,
+          "points": 1095,
           "url": "https://news.ycombinator.com/item?id=47633396"
         }
       ],
@@ -1494,7 +1841,7 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 2090,
+          "points": 2092,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
@@ -1504,17 +1851,17 @@
         },
         {
           "title": "Issue: Claude Code is unusable for complex engineering tasks with Feb updates",
-          "points": 1250,
+          "points": 1294,
           "url": "https://github.com/anthropics/claude-code/issues/42796"
         },
         {
           "title": "Claude Code Unpacked : A visual guide",
-          "points": 1123,
+          "points": 1124,
           "url": "https://ccunpacked.dev/"
         },
         {
           "title": "Tell HN: Anthropic no longer allowing Claude Code subscriptions to use OpenClaw",
-          "points": 1091,
+          "points": 1095,
           "url": "https://news.ycombinator.com/item?id=47633396"
         }
       ],
@@ -1543,7 +1890,7 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 2090,
+          "points": 2092,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
@@ -1553,12 +1900,12 @@
         },
         {
           "title": "Claude Code Unpacked : A visual guide",
-          "points": 1123,
+          "points": 1124,
           "url": "https://ccunpacked.dev/"
         },
         {
           "title": "Tell HN: Anthropic no longer allowing Claude Code subscriptions to use OpenClaw",
-          "points": 1091,
+          "points": 1095,
           "url": "https://news.ycombinator.com/item?id=47633396"
         },
         {
@@ -1910,7 +2257,7 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 2090,
+          "points": 2092,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
@@ -1920,12 +2267,12 @@
         },
         {
           "title": "Claude Code Unpacked : A visual guide",
-          "points": 1123,
+          "points": 1124,
           "url": "https://ccunpacked.dev/"
         },
         {
           "title": "Tell HN: Anthropic no longer allowing Claude Code subscriptions to use OpenClaw",
-          "points": 1091,
+          "points": 1095,
           "url": "https://news.ycombinator.com/item?id=47633396"
         },
         {
@@ -2329,7 +2676,7 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 2090,
+          "points": 2092,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
@@ -2339,7 +2686,7 @@
         },
         {
           "title": "Claude Code Unpacked : A visual guide",
-          "points": 1123,
+          "points": 1124,
           "url": "https://ccunpacked.dev/"
         },
         {
@@ -2865,7 +3212,7 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 2090,
+          "points": 2092,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
@@ -2875,7 +3222,7 @@
         },
         {
           "title": "Claude Code Unpacked : A visual guide",
-          "points": 1123,
+          "points": 1124,
           "url": "https://ccunpacked.dev/"
         },
         {
@@ -3878,7 +4225,7 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 2090,
+          "points": 2092,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
@@ -36185,8 +36532,8 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 275,
-      "release_count": 120,
+      "change_count": 277,
+      "release_count": 121,
       "avg_importance": 3.12,
       "maturity": {
         "score": 92,
@@ -36197,14 +36544,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-04-04",
-        "version": "2.1.92"
+        "date": "2026-04-07",
+        "version": "2.1.94"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 113
+          "change_count": 115
         },
         {
           "epoch_id": "epoch4",
@@ -36280,9 +36627,9 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 610,
-      "release_count": 159,
-      "avg_importance": 3.22,
+      "change_count": 614,
+      "release_count": 160,
+      "avg_importance": 3.21,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -36292,14 +36639,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-04-04",
-        "version": "2.1.92"
+        "date": "2026-04-07",
+        "version": "2.1.94"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 309
+          "change_count": 313
         },
         {
           "epoch_id": "epoch1",
@@ -36375,8 +36722,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 380,
-      "release_count": 117,
+      "change_count": 385,
+      "release_count": 118,
       "avg_importance": 3.24,
       "maturity": {
         "score": 93,
@@ -36387,14 +36734,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-04-04",
-        "version": "2.1.92"
+        "date": "2026-04-07",
+        "version": "2.1.94"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 216
+          "change_count": 221
         },
         {
           "epoch_id": "epoch1",
@@ -36419,6 +36766,14 @@
       ],
       "samples": [
         {
+          "date": "2026-04-07",
+          "version": "2.1.94",
+          "raw": "Fixed CJK and other multibyte text being corrupted with U+FFFD in stream-json input/output when chunk boundaries split a UTF-8 sequence",
+          "summary": "修复 UTF-8 分块乱码",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-03-31",
           "version": "2.1.89",
           "raw": "Fixed a crash when removing a message from very large session files (over 50MB)",
@@ -36439,14 +36794,6 @@
           "version": "2.1.89",
           "raw": "Fixed autocompact thrash loop — now detects when context refills to the limit immediately after compacting three times in a row and stops with an actionable error instead of burning API calls",
           "summary": "修复自动压缩死循环",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-03-31",
-          "version": "2.1.89",
-          "raw": "Fixed a potential out-of-memory crash when the Edit tool was used on very large files (>1 GiB)",
-          "summary": "修复大文件编辑内存崩溃",
           "importance": 5,
           "category": "fix"
         }
@@ -36470,8 +36817,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 438,
-      "release_count": 166,
+      "change_count": 442,
+      "release_count": 167,
       "avg_importance": 3.26,
       "maturity": {
         "score": 93,
@@ -36482,14 +36829,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-04",
-        "version": "2.1.92"
+        "date": "2026-04-07",
+        "version": "2.1.94"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 176
+          "change_count": 180
         },
         {
           "epoch_id": "epoch1",
@@ -36565,8 +36912,8 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 200,
-      "release_count": 88,
+      "change_count": 201,
+      "release_count": 89,
       "avg_importance": 3.39,
       "maturity": {
         "score": 94,
@@ -36577,14 +36924,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-04",
-        "version": "2.1.92"
+        "date": "2026-04-07",
+        "version": "2.1.94"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 109
+          "change_count": 110
         },
         {
           "epoch_id": "epoch1",
@@ -36660,9 +37007,9 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 673,
-      "release_count": 190,
-      "avg_importance": 3.17,
+      "change_count": 689,
+      "release_count": 191,
+      "avg_importance": 3.16,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -36672,14 +37019,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-04-04",
-        "version": "2.1.92"
+        "date": "2026-04-07",
+        "version": "2.1.94"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 307
+          "change_count": 323
         },
         {
           "epoch_id": "epoch1",
@@ -36704,6 +37051,14 @@
       ],
       "samples": [
         {
+          "date": "2026-04-07",
+          "version": "2.1.94",
+          "raw": "Fixed CJK and other multibyte text being corrupted with U+FFFD in stream-json input/output when chunk boundaries split a UTF-8 sequence",
+          "summary": "修复 UTF-8 分块乱码",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-03-27",
           "version": "2.1.86",
           "raw": "[VSCode] Fixed extension defaulting Max plan users to Sonnet after the OAuth token refreshes (8 hours after login)",
@@ -36726,14 +37081,6 @@
           "summary": "修复MCP策略绕过漏洞",
           "importance": 5,
           "category": "security"
-        },
-        {
-          "date": "2026-03-24",
-          "version": "2.1.83",
-          "raw": "Fixed MCP tool calls hanging indefinitely when an SSE connection drops mid-call and exhausts its reconnection attempts",
-          "summary": "MCP断线不再无限卡住",
-          "importance": 5,
-          "category": "fix"
         }
       ]
     },
@@ -36755,8 +37102,8 @@
         "Emacs",
         "web"
       ],
-      "change_count": 424,
-      "release_count": 136,
+      "change_count": 427,
+      "release_count": 137,
       "avg_importance": 2.71,
       "maturity": {
         "score": 91,
@@ -36767,14 +37114,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-04",
-        "version": "2.1.92"
+        "date": "2026-04-07",
+        "version": "2.1.94"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 215
+          "change_count": 218
         },
         {
           "epoch_id": "epoch4",
@@ -36850,9 +37197,9 @@
         "policy",
         "auditing"
       ],
-      "change_count": 419,
-      "release_count": 161,
-      "avg_importance": 3.32,
+      "change_count": 421,
+      "release_count": 162,
+      "avg_importance": 3.33,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -36862,14 +37209,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-04",
-        "version": "2.1.92"
+        "date": "2026-04-07",
+        "version": "2.1.94"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 183
+          "change_count": 185
         },
         {
           "epoch_id": "epoch4",
@@ -36938,7 +37285,7 @@
       },
       {
         "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-        "points": 2090,
+        "points": 2092,
         "url": "https://twitter.com/Fried_rice/status/2038894956459290963",
         "date": "2026-03-31"
       },
@@ -36956,19 +37303,19 @@
       },
       {
         "title": "Issue: Claude Code is unusable for complex engineering tasks with Feb updates",
-        "points": 1250,
+        "points": 1294,
         "url": "https://github.com/anthropics/claude-code/issues/42796",
         "date": "2026-04-06"
       },
       {
         "title": "Claude Code Unpacked : A visual guide",
-        "points": 1123,
+        "points": 1124,
         "url": "https://ccunpacked.dev/",
         "date": "2026-04-01"
       },
       {
         "title": "Tell HN: Anthropic no longer allowing Claude Code subscriptions to use OpenClaw",
-        "points": 1091,
+        "points": 1095,
         "url": "https://news.ycombinator.com/item?id=47633396",
         "date": "2026-04-03"
       },
