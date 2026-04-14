@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-04-13T04:18:12.628Z",
+    "generated_at": "2026-04-14T03:59:54.610Z",
     "agent_model": "openai/gpt-5.4-mini",
-    "total_versions": 259,
+    "total_versions": 260,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-04-10"
+      "end": "2026-04-13"
     },
     "highlight_count": 35,
     "capability_count": 8,
@@ -70,11 +70,495 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。与此同时，Opus 4.6 把「思考」变成了可选项，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Meanwhile, Opus 4.6 makes reasoning optional rather than visible, while worktree isolation and a 1M context push the agent toward running for hours, unattended.",
-      "release_count": 43,
+      "release_count": 44,
       "highlight_count": 13
     }
   ],
   "releases": [
+    {
+      "version": "2.1.105",
+      "date": "2026-04-13",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added `path` parameter to the `EnterWorktree` tool to switch into an existing worktree of the current repository",
+          "category": "feat",
+          "importance": 4,
+          "summary": "EnterWorktree支持指定路径切换",
+          "summary_en": "EnterWorktree can switch by path",
+          "why_matters": "用户可以直接进入当前仓库的既有 worktree，减少手动查找和切换成本。",
+          "why_matters_en": "Users can jump into an existing worktree in the current repo, reducing manual lookup and switching.",
+          "capability_ids": [
+            "execution_workspace",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Added PreCompact hook support: hooks can now block compaction by exiting with code 2 or returning `{\"decision\":\"block\"}`",
+          "category": "feat",
+          "importance": 4,
+          "summary": "PreCompact钩子可阻止压缩",
+          "summary_en": "PreCompact hooks can block compaction",
+          "why_matters": "插件现在能在压缩前拦截流程，避免在不合适的时机丢失上下文。",
+          "why_matters_en": "Plugins can now stop compaction before it happens, avoiding context loss at the wrong time.",
+          "capability_ids": [
+            "automation_autonomy",
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added background monitor support for plugins via a top-level `monitors` manifest key that auto-arms at session start or on skill invoke",
+          "category": "feat",
+          "importance": 4,
+          "summary": "插件支持后台监控进程",
+          "summary_en": "Plugins can define background monitors",
+          "why_matters": "插件可在会话开始或技能调用时自动启动监控，增强持续自动化能力。",
+          "why_matters_en": "Plugins can auto-start monitors at session start or skill invoke, improving continuous automation.",
+          "capability_ids": [
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "`/proactive` is now an alias for `/loop`",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "/proactive改为/loop别名",
+          "summary_en": "/proactive is now an alias for /loop",
+          "why_matters": "这只是命令别名调整，提升使用一致性但对能力影响很小。",
+          "why_matters_en": "This is just a command alias change, improving consistency with minimal impact.",
+          "capability_ids": [
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Improved stalled API stream handling: streams now abort after 5 minutes of no data and retry non-streaming instead of hanging indefinitely",
+          "category": "fix",
+          "importance": 5,
+          "summary": "卡住的流式请求会自动重试",
+          "summary_en": "Stalled API streams now abort and retry",
+          "why_matters": "避免请求无限挂起，显著提升长时间运行任务的可靠性。",
+          "why_matters_en": "This prevents requests from hanging indefinitely and greatly improves reliability for long-running tasks.",
+          "capability_ids": [
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Improved network error messages: connection errors now show a retry message immediately instead of a silent spinner",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "网络错误立即提示可重试",
+          "summary_en": "Network errors now show retry hints immediately",
+          "why_matters": "用户能更快判断问题并采取重试操作，减少等待和困惑。",
+          "why_matters_en": "Users can understand the issue sooner and retry faster, reducing waiting and confusion.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Improved file write display: long single-line writes (e.g. minified JSON) are now truncated in the UI instead of paginating across many screens",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "长单行写入改为截断显示",
+          "summary_en": "Long single-line writes are truncated in UI",
+          "why_matters": "界面不再被超长内容撑爆，提升浏览写入结果的可读性。",
+          "why_matters_en": "The UI no longer gets overwhelmed by very long lines, making write output easier to scan.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Improved `/doctor` layout with status icons; press `f` to have Claude fix reported issues",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "/doctor界面更清晰可修复",
+          "summary_en": "/doctor now shows status icons and fix action",
+          "why_matters": "诊断结果更易读，还能直接一键修复问题，提高排障效率。",
+          "why_matters_en": "Diagnostics are easier to read and can be fixed directly, improving troubleshooting efficiency.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Improved `/config` labels and descriptions for clarity",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "/config说明更清楚",
+          "summary_en": "/config labels and descriptions are clearer",
+          "why_matters": "配置项更易理解，减少误设和学习成本。",
+          "why_matters_en": "Configuration options are easier to understand, reducing misconfiguration and learning cost.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Improved skill description handling: raised the listing cap from 250 to 1,536 characters and added a startup warning when descriptions are truncated",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "技能描述支持更长内容",
+          "summary_en": "Skill descriptions support much longer text",
+          "why_matters": "技能信息不易被截断，启动时还能提醒用户描述被截断的问题。",
+          "why_matters_en": "Skill info is less likely to be truncated, and users get warned at startup when it still happens.",
+          "capability_ids": [
+            "memory_context",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Improved `WebFetch` to strip `<style>` and `<script>` contents from fetched pages so CSS-heavy pages no longer exhaust the content budget before reaching actual text",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "WebFetch过滤样式脚本内容",
+          "summary_en": "WebFetch strips style and script content",
+          "why_matters": "网页抓取能更集中保留正文，避免无关代码耗尽内容预算。",
+          "why_matters_en": "Web fetching preserves the actual text more effectively and avoids wasting budget on irrelevant code.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Improved stale agent worktree cleanup to remove worktrees whose PR was squash-merged instead of keeping them indefinitely",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "自动清理已合并的旧工作树",
+          "summary_en": "Stale worktrees from squash-merged PRs are cleaned",
+          "why_matters": "减少仓库残留和磁盘占用，让工作区管理更干净。",
+          "why_matters_en": "This reduces repository clutter and disk usage, keeping workspace management cleaner.",
+          "capability_ids": [
+            "execution_workspace",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Improved MCP large-output truncation prompt to give format-specific recipes (e.g. `jq` for JSON, computed Read chunk sizes for text)",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "大输出提示更懂格式",
+          "summary_en": "Large-output truncation tips are format-aware",
+          "why_matters": "当 MCP 输出过大时，系统会给出更实用的裁剪和阅读建议。",
+          "why_matters_en": "When MCP output is too large, the tool now gives more practical trimming and reading advice.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed images attached to queued messages (sent while Claude is working) being dropped",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复队列消息图片丢失",
+          "summary_en": "Images in queued messages are preserved",
+          "why_matters": "用户在 Claude 忙碌时发送的带图消息不再丢失，避免信息缺失。",
+          "why_matters_en": "Images sent while Claude is busy are no longer dropped, preventing missing context.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed screen going blank when the prompt input wraps to a second line in long conversations",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复长对话输入换行黑屏",
+          "summary_en": "Long wrapped prompts no longer blank the screen",
+          "why_matters": "长对话中输入框换行时界面不再空白，避免严重的交互中断。",
+          "why_matters_en": "The screen no longer goes blank when input wraps, avoiding a serious interaction break.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed leading whitespace getting copied when selecting multi-line assistant responses in fullscreen mode",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复多行复制前导空格",
+          "summary_en": "Fix leading spaces in copied multiline replies",
+          "why_matters": "避免复制助手回复时丢失或多出缩进，保证代码和文本可直接使用。",
+          "why_matters_en": "Prevents copied assistant text from losing or gaining indentation, keeping code and text usable.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed leading whitespace being trimmed from assistant messages, breaking ASCII art and indented diagrams",
+          "category": "fix",
+          "importance": 3,
+          "summary": "保留助手消息缩进",
+          "summary_en": "Preserve assistant message indentation",
+          "why_matters": "ASCII 图和缩进示意图不会被破坏，输出更准确可读。",
+          "why_matters_en": "ASCII art and indented diagrams stay intact, making output more accurate and readable.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed garbled bash output when commands print clickable file links (e.g. Python `rich`/`loguru` logging)",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复 bash 可点击链接乱码",
+          "summary_en": "Fix garbled bash output from clickable links",
+          "why_matters": "终端日志输出更稳定，避免带链接的命令结果显示异常。",
+          "why_matters_en": "Keeps terminal logs stable and avoids display corruption from link-heavy command output.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed alt+enter not inserting a newline in terminals using ESC-prefix alt encoding, and Ctrl+J not inserting a newline (regression in 2.1.100)",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复终端换行快捷键",
+          "summary_en": "Fix newline shortcuts in escaped-alt terminals",
+          "why_matters": "用户在不同终端配置下都能正常输入换行，减少编辑中断。",
+          "why_matters_en": "Users can insert newlines reliably across terminal configs, reducing interruptions while editing.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed duplicate \"Creating worktree\" text in EnterWorktree/ExitWorktree tool display",
+          "category": "fix",
+          "importance": 1,
+          "summary": "去除工作树重复提示",
+          "summary_en": "Remove duplicate worktree message",
+          "why_matters": "减少重复输出，让工具状态更清晰。",
+          "why_matters_en": "Reduces duplicate output and makes tool status clearer.",
+          "capability_ids": [
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed queued user prompts disappearing from focus mode",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复焦点模式待办消失",
+          "summary_en": "Fix queued prompts disappearing in focus mode",
+          "why_matters": "避免用户排队的输入丢失，提升长任务场景的可靠性。",
+          "why_matters_en": "Prevents queued user input from being lost, improving reliability in long-running flows.",
+          "capability_ids": [
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed one-shot scheduled tasks re-firing repeatedly when the file watcher missed the post-fire cleanup",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复计划任务重复触发",
+          "summary_en": "Fix scheduled tasks re-firing repeatedly",
+          "why_matters": "防止自动任务重复执行造成混乱或副作用。",
+          "why_matters_en": "Prevents automated tasks from firing multiple times and causing unwanted side effects.",
+          "capability_ids": [
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed inbound channel notifications being silently dropped after the first message for Team/Enterprise users",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复团队通知丢失",
+          "summary_en": "Fix dropped team notification messages",
+          "why_matters": "确保 Team/Enterprise 通知链路可靠，不会漏掉后续消息。",
+          "why_matters_en": "Ensures Team/Enterprise notifications remain reliable and do not silently drop later messages.",
+          "capability_ids": [
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed marketplace plugins with `package.json` and lockfile not having dependencies installed automatically after install/update",
+          "category": "fix",
+          "importance": 4,
+          "summary": "自动安装插件依赖",
+          "summary_en": "Auto-install marketplace plugin dependencies",
+          "why_matters": "插件安装后即可正常运行，减少手动补依赖的成本。",
+          "why_matters_en": "Plugins work immediately after install, reducing manual dependency setup.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed marketplace auto-update leaving the official marketplace in a broken state when a plugin process holds files open during the update",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复插件自动更新损坏",
+          "summary_en": "Fix broken marketplace auto-update state",
+          "why_matters": "避免更新过程中因文件占用导致官方市场状态损坏。",
+          "why_matters_en": "Prevents the official marketplace from breaking when file locks interfere with updates.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed \"Resume this session with...\" hint not printing on exit after `/resume`, `--worktree`, or `/branch`",
+          "category": "fix",
+          "importance": 1,
+          "summary": "恢复会话提示退出显示",
+          "summary_en": "Restore resume-on-exit hint",
+          "why_matters": "让用户更容易知道如何继续上一次会话。",
+          "why_matters_en": "Helps users see how to continue their previous session more easily.",
+          "capability_ids": [
+            "memory_context",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed feedback survey shortcut keys firing when typed at the end of a longer prompt",
+          "category": "fix",
+          "importance": 1,
+          "summary": "修复反馈快捷键误触发",
+          "summary_en": "Fix feedback shortcuts firing in prompts",
+          "why_matters": "避免在长输入末尾意外触发反馈操作。",
+          "why_matters_en": "Prevents accidental feedback actions when typing at the end of a longer prompt.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed stdio MCP server emitting malformed (non-JSON) output hanging the session instead of failing fast with \"Connection closed\"",
+          "category": "fix",
+          "importance": 5,
+          "summary": "MCP异常输出快速失败",
+          "summary_en": "Fail fast on malformed MCP stdio output",
+          "why_matters": "防止会话被坏格式输出卡死，提升系统稳定性。",
+          "why_matters_en": "Prevents malformed output from hanging the session and improves overall stability.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed MCP tools missing on the first turn of headless/remote-trigger sessions when MCP servers connect asynchronously",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复首轮缺失MCP工具",
+          "summary_en": "Fix missing MCP tools on first turn",
+          "why_matters": "远程或无头会话首次响应就能使用完整工具集。",
+          "why_matters_en": "Headless or remote-triggered sessions get the full toolset on the first turn.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed `/model` picker on AWS Bedrock in non-US regions persisting invalid `us.*` model IDs to `settings.json` when inference profile discovery is still in-flight",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复Bedrock错误模型ID",
+          "summary_en": "Fix invalid Bedrock model IDs persistence",
+          "why_matters": "避免在非美国区域保存错误配置，减少模型选择失败。",
+          "why_matters_en": "Prevents invalid config from being saved in non-US regions and reduces model selection failures.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed 429 rate-limit errors showing a raw JSON dump instead of a clean message for API-key, Bedrock, and Vertex users",
+          "category": "fix",
+          "importance": 3,
+          "summary": "429报错显示友好信息",
+          "summary_en": "Show clean 429 rate-limit errors",
+          "why_matters": "避免用户看到原始JSON错误，提升限流场景下的可读性与排障体验。",
+          "why_matters_en": "Avoids raw JSON dumps and gives users a clearer, more actionable rate-limit error.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed crash on resume when session contains malformed text blocks",
+          "category": "fix",
+          "importance": 5,
+          "summary": "恢复时不再因脏文本崩溃",
+          "summary_en": "Prevent resume crashes on malformed text",
+          "why_matters": "修复会话恢复崩溃，直接影响继续工作能力和数据完整性。",
+          "why_matters_en": "Fixes a resume-time crash that directly blocks continued work and session recovery.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed `/help` dropping the tab bar, Shortcuts heading, and footer at short terminal heights",
+          "category": "fix",
+          "importance": 2,
+          "summary": "/help窄终端布局不再丢失",
+          "summary_en": "Keep /help layout in short terminals",
+          "why_matters": "在小终端高度下保持帮助内容完整，避免关键信息缺失。",
+          "why_matters_en": "Preserves help content in short terminals so key navigation info is not lost.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed malformed keybinding entry values in `keybindings.json` being silently loaded instead of rejected with a clear error",
+          "category": "fix",
+          "importance": 3,
+          "summary": "无效快捷键配置会明确报错",
+          "summary_en": "Reject malformed keybindings clearly",
+          "why_matters": "避免错误配置被静默接受，减少键位异常和排查成本。",
+          "why_matters_en": "Prevents bad configs from being silently loaded, reducing keybinding surprises and debugging time.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC` in one project's settings permanently disabling usage metrics for all projects on the machine",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复项目级限流开关串扰",
+          "summary_en": "Isolate nonessential traffic per project",
+          "why_matters": "避免一个项目的设置影响整台机器，防止指标统计被意外全局关闭。",
+          "why_matters_en": "Stops one project’s setting from affecting the whole machine and unintentionally disabling usage metrics everywhere.",
+          "capability_ids": [
+            "memory_context",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed washed-out 16-color palette when using Ghostty, Kitty, Alacritty, WezTerm, foot, rio, or Contour over SSH/mosh",
+          "category": "fix",
+          "importance": 2,
+          "summary": "SSH终端16色调色板更准确",
+          "summary_en": "Fix washed-out 16-color SSH palettes",
+          "why_matters": "改善远程终端颜色显示，提升可读性和界面一致性。",
+          "why_matters_en": "Improves remote terminal color rendering for better readability and UI consistency.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed Bash tool suggesting `acceptEdits` permission mode when exiting plan mode would downgrade from a higher permission level",
+          "category": "fix",
+          "importance": 3,
+          "summary": "退出计划模式不再降权提示",
+          "summary_en": "Avoid suggesting weaker permissions",
+          "why_matters": "防止工具提示用户切换到更低权限模式，避免权限误降与流程混乱。",
+          "why_matters_en": "Prevents the tool from nudging users toward a weaker permission mode and avoids accidental privilege downgrades.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy",
+            "reasoning_workflows"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Issue: Claude Code is unusable for complex engineering tasks with Feb updates",
+          "points": 1358,
+          "url": "https://github.com/anthropics/claude-code/issues/42796"
+        },
+        {
+          "title": "Pro Max 5x quota exhausted in 1.5 hours despite moderate usage",
+          "points": 728,
+          "url": "https://github.com/anthropics/claude-code/issues/45756"
+        },
+        {
+          "title": "Anthropic downgraded cache TTL on March 6th",
+          "points": 543,
+          "url": "https://github.com/anthropics/claude-code/issues/46829"
+        },
+        {
+          "title": "Reallocating $100/Month Claude Code Spend to Zed and OpenRouter",
+          "points": 347,
+          "url": "https://braw.dev/blog/2026-04-06-reallocating-100-month-claude-spend/"
+        },
+        {
+          "title": "The Vercel plugin on Claude Code wants to read your prompts",
+          "points": 274,
+          "url": "https://akshaychugh.xyz/writings/png/vercel-plugin-telemetry"
+        }
+      ],
+      "highlight_score": 50
+    },
     {
       "version": "2.1.101",
       "date": "2026-04-10",
@@ -690,7 +1174,7 @@
       "signals": [
         {
           "title": "Issue: Claude Code is unusable for complex engineering tasks with Feb updates",
-          "points": 1355,
+          "points": 1358,
           "url": "https://github.com/anthropics/claude-code/issues/42796"
         },
         {
@@ -700,12 +1184,12 @@
         },
         {
           "title": "Pro Max 5x quota exhausted in 1.5 hours despite moderate usage",
-          "points": 556,
+          "points": 728,
           "url": "https://github.com/anthropics/claude-code/issues/45756"
         },
         {
           "title": "Anthropic downgraded cache TTL on March 6th",
-          "points": 498,
+          "points": 543,
           "url": "https://github.com/anthropics/claude-code/issues/46829"
         },
         {
@@ -1453,7 +1937,7 @@
       "signals": [
         {
           "title": "Issue: Claude Code is unusable for complex engineering tasks with Feb updates",
-          "points": 1355,
+          "points": 1358,
           "url": "https://github.com/anthropics/claude-code/issues/42796"
         },
         {
@@ -1463,12 +1947,12 @@
         },
         {
           "title": "Pro Max 5x quota exhausted in 1.5 hours despite moderate usage",
-          "points": 556,
+          "points": 728,
           "url": "https://github.com/anthropics/claude-code/issues/45756"
         },
         {
           "title": "Anthropic downgraded cache TTL on March 6th",
-          "points": 498,
+          "points": 543,
           "url": "https://github.com/anthropics/claude-code/issues/46829"
         },
         {
@@ -2074,7 +2558,7 @@
       "signals": [
         {
           "title": "Issue: Claude Code is unusable for complex engineering tasks with Feb updates",
-          "points": 1355,
+          "points": 1358,
           "url": "https://github.com/anthropics/claude-code/issues/42796"
         },
         {
@@ -2089,12 +2573,12 @@
         },
         {
           "title": "Pro Max 5x quota exhausted in 1.5 hours despite moderate usage",
-          "points": 556,
+          "points": 728,
           "url": "https://github.com/anthropics/claude-code/issues/45756"
         },
         {
           "title": "Anthropic downgraded cache TTL on March 6th",
-          "points": 498,
+          "points": 543,
           "url": "https://github.com/anthropics/claude-code/issues/46829"
         }
       ],
@@ -2123,7 +2607,7 @@
       "signals": [
         {
           "title": "Issue: Claude Code is unusable for complex engineering tasks with Feb updates",
-          "points": 1355,
+          "points": 1358,
           "url": "https://github.com/anthropics/claude-code/issues/42796"
         },
         {
@@ -2138,12 +2622,12 @@
         },
         {
           "title": "Pro Max 5x quota exhausted in 1.5 hours despite moderate usage",
-          "points": 556,
+          "points": 728,
           "url": "https://github.com/anthropics/claude-code/issues/45756"
         },
         {
           "title": "Anthropic downgraded cache TTL on March 6th",
-          "points": 498,
+          "points": 543,
           "url": "https://github.com/anthropics/claude-code/issues/46829"
         }
       ],
@@ -2470,7 +2954,7 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 2094,
+          "points": 2095,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
@@ -2480,7 +2964,7 @@
         },
         {
           "title": "Issue: Claude Code is unusable for complex engineering tasks with Feb updates",
-          "points": 1355,
+          "points": 1358,
           "url": "https://github.com/anthropics/claude-code/issues/42796"
         },
         {
@@ -2745,7 +3229,7 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 2094,
+          "points": 2095,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
@@ -2755,7 +3239,7 @@
         },
         {
           "title": "Issue: Claude Code is unusable for complex engineering tasks with Feb updates",
-          "points": 1355,
+          "points": 1358,
           "url": "https://github.com/anthropics/claude-code/issues/42796"
         },
         {
@@ -2941,7 +3425,7 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 2094,
+          "points": 2095,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
@@ -2951,7 +3435,7 @@
         },
         {
           "title": "Issue: Claude Code is unusable for complex engineering tasks with Feb updates",
-          "points": 1355,
+          "points": 1358,
           "url": "https://github.com/anthropics/claude-code/issues/42796"
         },
         {
@@ -3225,7 +3709,7 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 2094,
+          "points": 2095,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
@@ -3235,7 +3719,7 @@
         },
         {
           "title": "Issue: Claude Code is unusable for complex engineering tasks with Feb updates",
-          "points": 1355,
+          "points": 1358,
           "url": "https://github.com/anthropics/claude-code/issues/42796"
         },
         {
@@ -3915,7 +4399,7 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 2094,
+          "points": 2095,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
@@ -3925,7 +4409,7 @@
         },
         {
           "title": "Issue: Claude Code is unusable for complex engineering tasks with Feb updates",
-          "points": 1355,
+          "points": 1358,
           "url": "https://github.com/anthropics/claude-code/issues/42796"
         },
         {
@@ -3964,7 +4448,7 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 2094,
+          "points": 2095,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
@@ -4331,7 +4815,7 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 2094,
+          "points": 2095,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
@@ -4750,7 +5234,7 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 2094,
+          "points": 2095,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
@@ -5286,7 +5770,7 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 2094,
+          "points": 2095,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
@@ -6299,7 +6783,7 @@
       "signals": [
         {
           "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-          "points": 2094,
+          "points": 2095,
           "url": "https://twitter.com/Fried_rice/status/2038894956459290963"
         },
         {
@@ -38606,8 +39090,8 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 292,
-      "release_count": 124,
+      "change_count": 296,
+      "release_count": 125,
       "avg_importance": 3.11,
       "maturity": {
         "score": 92,
@@ -38618,14 +39102,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-04-10",
-        "version": "2.1.101"
+        "date": "2026-04-13",
+        "version": "2.1.105"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 130
+          "change_count": 134
         },
         {
           "epoch_id": "epoch4",
@@ -38650,6 +39134,14 @@
       ],
       "samples": [
         {
+          "date": "2026-04-13",
+          "version": "2.1.105",
+          "raw": "Improved stalled API stream handling: streams now abort after 5 minutes of no data and retry non-streaming instead of hanging indefinitely",
+          "summary": "卡住的流式请求会自动重试",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-04-10",
           "version": "2.1.101",
           "raw": "Fixed `--resume`/`--continue` losing conversation context on large sessions when the loader anchored on a dead-end branch instead of the live conversation",
@@ -38672,14 +39164,6 @@
           "summary": "修复停止钩子导致的死循环",
           "importance": 5,
           "category": "fix"
-        },
-        {
-          "date": "2026-03-13",
-          "version": "2.1.75",
-          "raw": "Added 1M context window for Opus 4.6 by default for Max, Team, and Enterprise plans (previously required extra usage)",
-          "summary": "默认开放百万上下文",
-          "importance": 5,
-          "category": "feat"
         }
       ]
     },
@@ -38701,8 +39185,8 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 654,
-      "release_count": 163,
+      "change_count": 658,
+      "release_count": 164,
       "avg_importance": 3.22,
       "maturity": {
         "score": 93,
@@ -38713,14 +39197,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-04-10",
-        "version": "2.1.101"
+        "date": "2026-04-13",
+        "version": "2.1.105"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 353
+          "change_count": 357
         },
         {
           "epoch_id": "epoch1",
@@ -38745,6 +39229,14 @@
       ],
       "samples": [
         {
+          "date": "2026-04-13",
+          "version": "2.1.105",
+          "raw": "Fixed crash on resume when session contains malformed text blocks",
+          "summary": "恢复时不再因脏文本崩溃",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-04-10",
           "version": "2.1.101",
           "raw": "Fixed crash when `settings.json` env values are numbers instead of strings",
@@ -38765,14 +39257,6 @@
           "version": "2.1.97",
           "raw": "Fixed and hardened Bash tool permissions, tightening checks around env-var prefixes and network redirects, and reducing false prompts on common commands",
           "summary": "强化 Bash 工具权限检查",
-          "importance": 5,
-          "category": "security"
-        },
-        {
-          "date": "2026-04-04",
-          "version": "2.1.92",
-          "raw": "Linux sandbox now ships the `apply-seccomp` helper in both npm and native builds, restoring unix-socket blocking for sandboxed commands",
-          "summary": "恢复 Linux 沙箱套接字阻断",
           "importance": 5,
           "category": "security"
         }
@@ -38796,8 +39280,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 424,
-      "release_count": 121,
+      "change_count": 428,
+      "release_count": 122,
       "avg_importance": 3.23,
       "maturity": {
         "score": 93,
@@ -38808,14 +39292,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-04-10",
-        "version": "2.1.101"
+        "date": "2026-04-13",
+        "version": "2.1.105"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 260
+          "change_count": 264
         },
         {
           "epoch_id": "epoch1",
@@ -38840,6 +39324,14 @@
       ],
       "samples": [
         {
+          "date": "2026-04-13",
+          "version": "2.1.105",
+          "raw": "Fixed crash on resume when session contains malformed text blocks",
+          "summary": "恢复时不再因脏文本崩溃",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-04-10",
           "version": "2.1.101",
           "raw": "Fixed `--resume`/`--continue` losing conversation context on large sessions when the loader anchored on a dead-end branch instead of the live conversation",
@@ -38860,14 +39352,6 @@
           "version": "2.1.89",
           "raw": "Fixed a crash when removing a message from very large session files (over 50MB)",
           "summary": "修复超大会话删除崩溃",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-03-31",
-          "version": "2.1.89",
-          "raw": "Fixed `-p --resume` hangs when the deferred tool input exceeds 64KB or no deferred marker exists, and `-p --continue` not resuming deferred tools",
-          "summary": "修复续跑卡死与工具续接",
           "importance": 5,
           "category": "fix"
         }
@@ -38891,8 +39375,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 473,
-      "release_count": 170,
+      "change_count": 481,
+      "release_count": 171,
       "avg_importance": 3.26,
       "maturity": {
         "score": 93,
@@ -38903,14 +39387,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-10",
-        "version": "2.1.101"
+        "date": "2026-04-13",
+        "version": "2.1.105"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 211
+          "change_count": 219
         },
         {
           "epoch_id": "epoch1",
@@ -38986,9 +39470,9 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 224,
-      "release_count": 92,
-      "avg_importance": 3.37,
+      "change_count": 230,
+      "release_count": 93,
+      "avg_importance": 3.35,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -38998,14 +39482,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-10",
-        "version": "2.1.101"
+        "date": "2026-04-13",
+        "version": "2.1.105"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 133
+          "change_count": 139
         },
         {
           "epoch_id": "epoch1",
@@ -39081,9 +39565,9 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 735,
-      "release_count": 195,
-      "avg_importance": 3.16,
+      "change_count": 746,
+      "release_count": 196,
+      "avg_importance": 3.17,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -39093,14 +39577,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-04-10",
-        "version": "2.1.101"
+        "date": "2026-04-13",
+        "version": "2.1.105"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 369
+          "change_count": 380
         },
         {
           "epoch_id": "epoch1",
@@ -39125,6 +39609,14 @@
       ],
       "samples": [
         {
+          "date": "2026-04-13",
+          "version": "2.1.105",
+          "raw": "Fixed stdio MCP server emitting malformed (non-JSON) output hanging the session instead of failing fast with \"Connection closed\"",
+          "summary": "MCP异常输出快速失败",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-04-10",
           "version": "2.1.101",
           "raw": "Added OS CA certificate store trust by default, so enterprise TLS proxies work without extra setup (set `CLAUDE_CODE_CERT_STORE=bundled` to use only bundled CAs)",
@@ -39147,14 +39639,6 @@
           "summary": "新增Vertex AI登录向导",
           "importance": 5,
           "category": "feat"
-        },
-        {
-          "date": "2026-04-07",
-          "version": "2.1.94",
-          "raw": "Fixed CJK and other multibyte text being corrupted with U+FFFD in stream-json input/output when chunk boundaries split a UTF-8 sequence",
-          "summary": "修复 UTF-8 分块乱码",
-          "importance": 5,
-          "category": "fix"
         }
       ]
     },
@@ -39176,8 +39660,8 @@
         "Emacs",
         "web"
       ],
-      "change_count": 468,
-      "release_count": 140,
+      "change_count": 472,
+      "release_count": 141,
       "avg_importance": 2.71,
       "maturity": {
         "score": 91,
@@ -39188,14 +39672,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-10",
-        "version": "2.1.101"
+        "date": "2026-04-13",
+        "version": "2.1.105"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 259
+          "change_count": 263
         },
         {
           "epoch_id": "epoch4",
@@ -39271,8 +39755,8 @@
         "policy",
         "auditing"
       ],
-      "change_count": 473,
-      "release_count": 166,
+      "change_count": 480,
+      "release_count": 167,
       "avg_importance": 3.37,
       "maturity": {
         "score": 93,
@@ -39283,14 +39767,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-10",
-        "version": "2.1.101"
+        "date": "2026-04-13",
+        "version": "2.1.105"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 237
+          "change_count": 244
         },
         {
           "epoch_id": "epoch4",
@@ -39315,6 +39799,14 @@
       ],
       "samples": [
         {
+          "date": "2026-04-13",
+          "version": "2.1.105",
+          "raw": "Fixed stdio MCP server emitting malformed (non-JSON) output hanging the session instead of failing fast with \"Connection closed\"",
+          "summary": "MCP异常输出快速失败",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-04-10",
           "version": "2.1.101",
           "raw": "Added OS CA certificate store trust by default, so enterprise TLS proxies work without extra setup (set `CLAUDE_CODE_CERT_STORE=bundled` to use only bundled CAs)",
@@ -39337,14 +39829,6 @@
           "summary": "修复deny规则未覆盖ask",
           "importance": 5,
           "category": "fix"
-        },
-        {
-          "date": "2026-04-10",
-          "version": "2.1.101",
-          "raw": "Fixed crash when `settings.json` env values are numbers instead of strings",
-          "summary": "修复数值型 env 导致崩溃",
-          "importance": 5,
-          "category": "fix"
         }
       ]
     }
@@ -39359,7 +39843,7 @@
       },
       {
         "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
-        "points": 2094,
+        "points": 2095,
         "url": "https://twitter.com/Fried_rice/status/2038894956459290963",
         "date": "2026-03-31"
       },
@@ -39371,7 +39855,7 @@
       },
       {
         "title": "Issue: Claude Code is unusable for complex engineering tasks with Feb updates",
-        "points": 1355,
+        "points": 1358,
         "url": "https://github.com/anthropics/claude-code/issues/42796",
         "date": "2026-04-06"
       },
