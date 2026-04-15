@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-04-14T03:59:54.610Z",
+    "generated_at": "2026-04-15T03:58:34.917Z",
     "agent_model": "openai/gpt-5.4-mini",
-    "total_versions": 260,
+    "total_versions": 262,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-04-13"
+      "end": "2026-04-14"
     },
     "highlight_count": 35,
     "capability_count": 8,
@@ -70,11 +70,398 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。与此同时，Opus 4.6 把「思考」变成了可选项，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Meanwhile, Opus 4.6 makes reasoning optional rather than visible, while worktree isolation and a 1M context push the agent toward running for hours, unattended.",
-      "release_count": 44,
+      "release_count": 46,
       "highlight_count": 13
     }
   ],
   "releases": [
+    {
+      "version": "2.1.108",
+      "date": "2026-04-14",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added `ENABLE_PROMPT_CACHING_1H` env var to opt into 1-hour prompt cache TTL on API key, Bedrock, Vertex, and Foundry (`ENABLE_PROMPT_CACHING_1H_BEDROCK` is deprecated but still honored), and `FORCE_PROMPT_CACHING_5M` to force 5-minute TTL",
+          "category": "improvement",
+          "importance": 4,
+          "summary": "支持1小时提示缓存",
+          "summary_en": "Add 1-hour prompt caching",
+          "why_matters": "可降低重复请求成本并提升长会话响应效率。",
+          "why_matters_en": "It reduces repeated request cost and improves responsiveness in long sessions.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Added recap feature to provide context when returning to a session, configurable in /config and manually invocable with /recap; force with `CLAUDE_CODE_ENABLE_AWAY_SUMMARY` if telemetry disabled.",
+          "category": "feat",
+          "importance": 4,
+          "summary": "加入会话回顾总结",
+          "summary_en": "Add session recap summaries",
+          "why_matters": "用户回到会话时能快速恢复上下文，减少重新解释的成本。",
+          "why_matters_en": "It helps users regain context quickly when returning to a session and reduces re-explaining work.",
+          "capability_ids": [
+            "memory_context",
+            "reasoning_workflows",
+            "automation_autonomy",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "The model can now discover and invoke built-in slash commands like `/init`, `/review`, and `/security-review` via the Skill tool",
+          "category": "feat",
+          "importance": 3,
+          "summary": "可调用内置斜杠命令",
+          "summary_en": "Invoke built-in slash commands",
+          "why_matters": "模型可直接触发常用命令，减少人工干预并提升自动化程度。",
+          "why_matters_en": "The model can trigger common commands directly, reducing manual intervention and increasing automation.",
+          "capability_ids": [
+            "automation_autonomy",
+            "delegation_collaboration",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "`/undo` is now an alias for `/rewind`",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "新增/undo别名",
+          "summary_en": "Add /undo alias for /rewind",
+          "why_matters": "简化命令记忆，提升操作一致性。",
+          "why_matters_en": "It simplifies command recall and improves command consistency.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Improved `/model` to warn before switching models mid-conversation, since the next response re-reads the full history uncached",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "切模型前先提醒",
+          "summary_en": "Warn before switching models",
+          "why_matters": "帮助用户避免因切换模型导致整段历史重新读取而增加延迟和成本。",
+          "why_matters_en": "It helps users avoid extra latency and cost from re-reading full history after a model switch.",
+          "capability_ids": [
+            "memory_context",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Improved `/resume` picker to default to sessions from the current directory; press `Ctrl+A` to show all projects",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "恢复会话默认当前目录",
+          "summary_en": "Default resume picker to current dir",
+          "why_matters": "让用户更快找到相关会话，减少浏览范围。",
+          "why_matters_en": "It helps users find relevant sessions faster by narrowing the default scope.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Improved error messages: server rate limits are now distinguished from plan usage limits; 5xx/529 errors show a link to status.claude.com; unknown slash commands suggest the closest match",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "错误提示更清晰",
+          "summary_en": "Improve error messages",
+          "why_matters": "更准确的报错和建议能帮助用户更快定位问题并恢复工作。",
+          "why_matters_en": "Clearer errors and hints help users diagnose issues faster and get back to work.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Reduced memory footprint for file reads, edits, and syntax highlighting by loading language grammars on demand",
+          "category": "improvement",
+          "importance": 4,
+          "summary": "按需加载语法内存更省",
+          "summary_en": "Reduce memory with lazy grammars",
+          "why_matters": "降低 CLI 内存占用，提升大文件和多任务场景的稳定性。",
+          "why_matters_en": "It lowers CLI memory usage and improves stability for large-file and multi-task workflows.",
+          "capability_ids": [
+            "execution_workspace",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Added \"verbose\" indicator when viewing the detailed transcript (`Ctrl+O`)",
+          "category": "feat",
+          "importance": 1,
+          "summary": "详细记录增加verbose标记",
+          "summary_en": "Add verbose indicator in transcript",
+          "why_matters": "方便用户识别当前查看的是更详细的对话记录。",
+          "why_matters_en": "It helps users recognize when they are viewing a more detailed transcript.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Added a warning at startup when prompt caching is disabled via `DISABLE_PROMPT_CACHING*` environment variables",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "启动时提示缓存关闭",
+          "summary_en": "Warn when prompt caching is off",
+          "why_matters": "让用户及时发现缓存未启用，避免性能和成本意外退化。",
+          "why_matters_en": "It alerts users when caching is disabled so they can avoid unexpected performance and cost regressions.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed paste not working in the `/login` code prompt (regression in 2.1.105)",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复登录粘贴失效",
+          "summary_en": "Fix paste in /login prompt",
+          "why_matters": "恢复登录流程可用性，避免用户卡在身份验证步骤。",
+          "why_matters_en": "It restores login usability and prevents users from getting stuck during authentication.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed subscribers who set `DISABLE_TELEMETRY` falling back to 5-minute prompt cache TTL instead of 1 hour",
+          "category": "fix",
+          "importance": 3,
+          "summary": "禁用遥测仍用1小时缓存",
+          "summary_en": "Keep 1h cache with telemetry off",
+          "why_matters": "修复订阅用户在关闭遥测时被错误降级缓存TTL的问题。",
+          "why_matters_en": "It fixes an incorrect cache TTL downgrade for subscribers who disabled telemetry.",
+          "capability_ids": [
+            "memory_context",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed Agent tool prompting for permission in auto mode when the safety classifier's transcript exceeded its context window",
+          "category": "fix",
+          "importance": 4,
+          "summary": "自动模式权限误报修复",
+          "summary_en": "Fix false permission prompts in auto mode",
+          "why_matters": "减少自动模式下不必要的权限打断，提高自主执行连续性。",
+          "why_matters_en": "It reduces unnecessary permission interruptions in auto mode and improves autonomous execution continuity.",
+          "capability_ids": [
+            "automation_autonomy",
+            "governance_security",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed Bash tool producing no output when `CLAUDE_ENV_FILE` (e.g. `~/.zprofile`) ends with a `#` comment line",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复Bash无输出问题",
+          "summary_en": "Fix Bash tool missing output",
+          "why_matters": "保证 Bash 工具在常见环境配置下稳定返回结果。",
+          "why_matters_en": "It ensures the Bash tool reliably returns output in common environment setups.",
+          "capability_ids": [
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed `claude --resume <session-id>` losing the session's custom name and color set via `/rename`",
+          "category": "fix",
+          "importance": 2,
+          "summary": "恢复续会话名称和颜色",
+          "summary_en": "Preserve name and color on resume",
+          "why_matters": "让续接会话时保留用户自定义标识，提升一致性。",
+          "why_matters_en": "It preserves user customizations when resuming a session, improving consistency.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed session titles showing placeholder example text when the first message is a short greeting",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复短问候占位标题",
+          "summary_en": "Fix placeholder session titles",
+          "why_matters": "避免会话标题被示例占位文本误导，提升界面可读性和准确性。",
+          "why_matters_en": "Prevents placeholder example text from leaking into session titles, improving clarity and accuracy.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed terminal escape codes appearing as garbage text in the prompt input after `--teleport`",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复 teleport 后乱码输入",
+          "summary_en": "Fix garbled input after teleport",
+          "why_matters": "避免终端控制码污染输入框，减少用户在远程会话中的编辑干扰。",
+          "why_matters_en": "Prevents terminal escape codes from corrupting prompt input, reducing friction in remote sessions.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed `/feedback` retry: pressing Enter to resubmit after a failure now works without first editing the description",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复反馈重试回车提交",
+          "summary_en": "Fix /feedback enter-to-resubmit",
+          "why_matters": "让失败后的反馈重试流程更顺畅，减少额外编辑操作。",
+          "why_matters_en": "Makes retrying failed feedback submissions smoother by removing an unnecessary edit step.",
+          "capability_ids": [
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed `--teleport` and `--resume <id>` precondition errors (e.g. dirty git tree, session not found) exiting silently instead of showing the error message",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复 teleport/resume 错误提示",
+          "summary_en": "Fix teleport/resume error visibility",
+          "why_matters": "让预条件失败时能看到明确原因，便于排查和修复环境问题。",
+          "why_matters_en": "Shows clear failure reasons for precondition errors, making environment issues easier to diagnose.",
+          "capability_ids": [
+            "execution_workspace",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed Remote Control session titles set in the web UI being overwritten by auto-generated titles after the third message",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复远控标题被自动覆盖",
+          "summary_en": "Fix remote title auto-overwrite",
+          "why_matters": "保留用户在网页端设置的会话标题，避免协作时上下文丢失。",
+          "why_matters_en": "Preserves session titles set in the web UI, preventing context loss during collaboration.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `--resume` truncating sessions when the transcript contained a self-referencing message",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复 resume 截断会话记录",
+          "summary_en": "Fix resume transcript truncation",
+          "why_matters": "避免恢复会话时丢失历史内容，保障长对话和编辑上下文完整。",
+          "why_matters_en": "Prevents transcript loss when resuming, preserving long-session and editing context.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed transcript write failures (e.g., disk full) being silently dropped instead of being logged",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复日志写入失败被吞掉",
+          "summary_en": "Fix silent transcript write failures",
+          "why_matters": "让磁盘满等存储问题可见，避免重要会话记录悄悄丢失。",
+          "why_matters_en": "Makes storage failures visible so important session transcripts do not disappear silently.",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed diacritical marks (accents, umlauts, cedillas) being dropped from responses when the `language` setting is configured",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复带重音字符被吞",
+          "summary_en": "Fix dropped accented characters",
+          "why_matters": "确保多语言输出正确保留重音和变音符号，提升国际化质量。",
+          "why_matters_en": "Ensures multilingual output preserves accents and diacritics correctly, improving internationalization quality.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed policy-managed plugins never auto-updating when running from a different project than where they were first installed",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复插件跨项目不自动更新",
+          "summary_en": "Fix plugin auto-update across projects",
+          "why_matters": "让策略管理的插件在不同项目间也能持续更新，减少版本漂移。",
+          "why_matters_en": "Keeps policy-managed plugins updating across projects, reducing version drift.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Pro Max 5x quota exhausted in 1.5 hours despite moderate usage",
+          "points": 748,
+          "url": "https://github.com/anthropics/claude-code/issues/45756"
+        },
+        {
+          "title": "Anthropic downgraded cache TTL on March 6th",
+          "points": 547,
+          "url": "https://github.com/anthropics/claude-code/issues/46829"
+        },
+        {
+          "title": "Claude Code Routines",
+          "points": 488,
+          "url": "https://code.claude.com/docs/en/routines"
+        },
+        {
+          "title": "Reallocating $100/Month Claude Code Spend to Zed and OpenRouter",
+          "points": 349,
+          "url": "https://braw.dev/blog/2026-04-06-reallocating-100-month-claude-spend/"
+        },
+        {
+          "title": "The Vercel plugin on Claude Code wants to read your prompts",
+          "points": 279,
+          "url": "https://akshaychugh.xyz/writings/png/vercel-plugin-telemetry"
+        }
+      ],
+      "highlight_score": 50
+    },
+    {
+      "version": "2.1.107",
+      "date": "2026-04-14",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Show thinking hints sooner during long operations",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "长任务更早显示思考提示",
+          "summary_en": "Show thinking hints earlier in long ops",
+          "why_matters": "让用户在长时间操作中更早看到思考状态，减少等待时的不确定感。",
+          "why_matters_en": "This gives users earlier visibility into progress during long operations, reducing uncertainty while waiting.",
+          "capability_ids": [
+            "reasoning_workflows"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Pro Max 5x quota exhausted in 1.5 hours despite moderate usage",
+          "points": 748,
+          "url": "https://github.com/anthropics/claude-code/issues/45756"
+        },
+        {
+          "title": "Anthropic downgraded cache TTL on March 6th",
+          "points": 547,
+          "url": "https://github.com/anthropics/claude-code/issues/46829"
+        },
+        {
+          "title": "Claude Code Routines",
+          "points": 488,
+          "url": "https://code.claude.com/docs/en/routines"
+        },
+        {
+          "title": "Reallocating $100/Month Claude Code Spend to Zed and OpenRouter",
+          "points": 349,
+          "url": "https://braw.dev/blog/2026-04-06-reallocating-100-month-claude-spend/"
+        },
+        {
+          "title": "The Vercel plugin on Claude Code wants to read your prompts",
+          "points": 279,
+          "url": "https://akshaychugh.xyz/writings/png/vercel-plugin-telemetry"
+        }
+      ],
+      "highlight_score": 30
+    },
     {
       "version": "2.1.105",
       "date": "2026-04-13",
@@ -533,28 +920,28 @@
       "signals": [
         {
           "title": "Issue: Claude Code is unusable for complex engineering tasks with Feb updates",
-          "points": 1358,
+          "points": 1361,
           "url": "https://github.com/anthropics/claude-code/issues/42796"
         },
         {
           "title": "Pro Max 5x quota exhausted in 1.5 hours despite moderate usage",
-          "points": 728,
+          "points": 748,
           "url": "https://github.com/anthropics/claude-code/issues/45756"
         },
         {
           "title": "Anthropic downgraded cache TTL on March 6th",
-          "points": 543,
+          "points": 547,
           "url": "https://github.com/anthropics/claude-code/issues/46829"
         },
         {
-          "title": "Reallocating $100/Month Claude Code Spend to Zed and OpenRouter",
-          "points": 347,
-          "url": "https://braw.dev/blog/2026-04-06-reallocating-100-month-claude-spend/"
+          "title": "Claude Code Routines",
+          "points": 488,
+          "url": "https://code.claude.com/docs/en/routines"
         },
         {
-          "title": "The Vercel plugin on Claude Code wants to read your prompts",
-          "points": 274,
-          "url": "https://akshaychugh.xyz/writings/png/vercel-plugin-telemetry"
+          "title": "Reallocating $100/Month Claude Code Spend to Zed and OpenRouter",
+          "points": 349,
+          "url": "https://braw.dev/blog/2026-04-06-reallocating-100-month-claude-spend/"
         }
       ],
       "highlight_score": 50
@@ -1174,28 +1561,28 @@
       "signals": [
         {
           "title": "Issue: Claude Code is unusable for complex engineering tasks with Feb updates",
-          "points": 1358,
+          "points": 1361,
           "url": "https://github.com/anthropics/claude-code/issues/42796"
         },
         {
           "title": "Tell HN: Anthropic no longer allowing Claude Code subscriptions to use OpenClaw",
-          "points": 1098,
+          "points": 1099,
           "url": "https://news.ycombinator.com/item?id=47633396"
         },
         {
           "title": "Pro Max 5x quota exhausted in 1.5 hours despite moderate usage",
-          "points": 728,
+          "points": 748,
           "url": "https://github.com/anthropics/claude-code/issues/45756"
         },
         {
           "title": "Anthropic downgraded cache TTL on March 6th",
-          "points": 543,
+          "points": 547,
           "url": "https://github.com/anthropics/claude-code/issues/46829"
         },
         {
-          "title": "Claude Code Found a Linux Vulnerability Hidden for 23 Years",
-          "points": 432,
-          "url": "https://mtlynch.io/claude-code-found-linux-vulnerability/"
+          "title": "Claude Code Routines",
+          "points": 488,
+          "url": "https://code.claude.com/docs/en/routines"
         }
       ],
       "highlight_score": 50
@@ -1937,28 +2324,28 @@
       "signals": [
         {
           "title": "Issue: Claude Code is unusable for complex engineering tasks with Feb updates",
-          "points": 1358,
+          "points": 1361,
           "url": "https://github.com/anthropics/claude-code/issues/42796"
         },
         {
           "title": "Tell HN: Anthropic no longer allowing Claude Code subscriptions to use OpenClaw",
-          "points": 1098,
+          "points": 1099,
           "url": "https://news.ycombinator.com/item?id=47633396"
         },
         {
           "title": "Pro Max 5x quota exhausted in 1.5 hours despite moderate usage",
-          "points": 728,
+          "points": 748,
           "url": "https://github.com/anthropics/claude-code/issues/45756"
         },
         {
           "title": "Anthropic downgraded cache TTL on March 6th",
-          "points": 543,
+          "points": 547,
           "url": "https://github.com/anthropics/claude-code/issues/46829"
         },
         {
-          "title": "Claude Code Found a Linux Vulnerability Hidden for 23 Years",
-          "points": 432,
-          "url": "https://mtlynch.io/claude-code-found-linux-vulnerability/"
+          "title": "Claude Code Routines",
+          "points": 488,
+          "url": "https://code.claude.com/docs/en/routines"
         }
       ],
       "highlight_score": 50
@@ -2558,27 +2945,27 @@
       "signals": [
         {
           "title": "Issue: Claude Code is unusable for complex engineering tasks with Feb updates",
-          "points": 1358,
+          "points": 1361,
           "url": "https://github.com/anthropics/claude-code/issues/42796"
         },
         {
           "title": "Claude Code Unpacked : A visual guide",
-          "points": 1126,
+          "points": 1128,
           "url": "https://ccunpacked.dev/"
         },
         {
           "title": "Tell HN: Anthropic no longer allowing Claude Code subscriptions to use OpenClaw",
-          "points": 1098,
+          "points": 1099,
           "url": "https://news.ycombinator.com/item?id=47633396"
         },
         {
           "title": "Pro Max 5x quota exhausted in 1.5 hours despite moderate usage",
-          "points": 728,
+          "points": 748,
           "url": "https://github.com/anthropics/claude-code/issues/45756"
         },
         {
           "title": "Anthropic downgraded cache TTL on March 6th",
-          "points": 543,
+          "points": 547,
           "url": "https://github.com/anthropics/claude-code/issues/46829"
         }
       ],
@@ -2607,27 +2994,27 @@
       "signals": [
         {
           "title": "Issue: Claude Code is unusable for complex engineering tasks with Feb updates",
-          "points": 1358,
+          "points": 1361,
           "url": "https://github.com/anthropics/claude-code/issues/42796"
         },
         {
           "title": "Claude Code Unpacked : A visual guide",
-          "points": 1126,
+          "points": 1128,
           "url": "https://ccunpacked.dev/"
         },
         {
           "title": "Tell HN: Anthropic no longer allowing Claude Code subscriptions to use OpenClaw",
-          "points": 1098,
+          "points": 1099,
           "url": "https://news.ycombinator.com/item?id=47633396"
         },
         {
           "title": "Pro Max 5x quota exhausted in 1.5 hours despite moderate usage",
-          "points": 728,
+          "points": 748,
           "url": "https://github.com/anthropics/claude-code/issues/45756"
         },
         {
           "title": "Anthropic downgraded cache TTL on March 6th",
-          "points": 543,
+          "points": 547,
           "url": "https://github.com/anthropics/claude-code/issues/46829"
         }
       ],
@@ -2964,17 +3351,17 @@
         },
         {
           "title": "Issue: Claude Code is unusable for complex engineering tasks with Feb updates",
-          "points": 1358,
+          "points": 1361,
           "url": "https://github.com/anthropics/claude-code/issues/42796"
         },
         {
           "title": "Claude Code Unpacked : A visual guide",
-          "points": 1126,
+          "points": 1128,
           "url": "https://ccunpacked.dev/"
         },
         {
           "title": "Tell HN: Anthropic no longer allowing Claude Code subscriptions to use OpenClaw",
-          "points": 1098,
+          "points": 1099,
           "url": "https://news.ycombinator.com/item?id=47633396"
         }
       ],
@@ -3239,17 +3626,17 @@
         },
         {
           "title": "Issue: Claude Code is unusable for complex engineering tasks with Feb updates",
-          "points": 1358,
+          "points": 1361,
           "url": "https://github.com/anthropics/claude-code/issues/42796"
         },
         {
           "title": "Claude Code Unpacked : A visual guide",
-          "points": 1126,
+          "points": 1128,
           "url": "https://ccunpacked.dev/"
         },
         {
           "title": "Tell HN: Anthropic no longer allowing Claude Code subscriptions to use OpenClaw",
-          "points": 1098,
+          "points": 1099,
           "url": "https://news.ycombinator.com/item?id=47633396"
         }
       ],
@@ -3435,17 +3822,17 @@
         },
         {
           "title": "Issue: Claude Code is unusable for complex engineering tasks with Feb updates",
-          "points": 1358,
+          "points": 1361,
           "url": "https://github.com/anthropics/claude-code/issues/42796"
         },
         {
           "title": "Claude Code Unpacked : A visual guide",
-          "points": 1126,
+          "points": 1128,
           "url": "https://ccunpacked.dev/"
         },
         {
           "title": "Tell HN: Anthropic no longer allowing Claude Code subscriptions to use OpenClaw",
-          "points": 1098,
+          "points": 1099,
           "url": "https://news.ycombinator.com/item?id=47633396"
         }
       ],
@@ -3719,17 +4106,17 @@
         },
         {
           "title": "Issue: Claude Code is unusable for complex engineering tasks with Feb updates",
-          "points": 1358,
+          "points": 1361,
           "url": "https://github.com/anthropics/claude-code/issues/42796"
         },
         {
           "title": "Claude Code Unpacked : A visual guide",
-          "points": 1126,
+          "points": 1128,
           "url": "https://ccunpacked.dev/"
         },
         {
           "title": "Tell HN: Anthropic no longer allowing Claude Code subscriptions to use OpenClaw",
-          "points": 1098,
+          "points": 1099,
           "url": "https://news.ycombinator.com/item?id=47633396"
         }
       ],
@@ -4409,17 +4796,17 @@
         },
         {
           "title": "Issue: Claude Code is unusable for complex engineering tasks with Feb updates",
-          "points": 1358,
+          "points": 1361,
           "url": "https://github.com/anthropics/claude-code/issues/42796"
         },
         {
           "title": "Claude Code Unpacked : A visual guide",
-          "points": 1126,
+          "points": 1128,
           "url": "https://ccunpacked.dev/"
         },
         {
           "title": "Tell HN: Anthropic no longer allowing Claude Code subscriptions to use OpenClaw",
-          "points": 1098,
+          "points": 1099,
           "url": "https://news.ycombinator.com/item?id=47633396"
         }
       ],
@@ -4458,12 +4845,12 @@
         },
         {
           "title": "Claude Code Unpacked : A visual guide",
-          "points": 1126,
+          "points": 1128,
           "url": "https://ccunpacked.dev/"
         },
         {
           "title": "Tell HN: Anthropic no longer allowing Claude Code subscriptions to use OpenClaw",
-          "points": 1098,
+          "points": 1099,
           "url": "https://news.ycombinator.com/item?id=47633396"
         },
         {
@@ -4825,12 +5212,12 @@
         },
         {
           "title": "Claude Code Unpacked : A visual guide",
-          "points": 1126,
+          "points": 1128,
           "url": "https://ccunpacked.dev/"
         },
         {
           "title": "Tell HN: Anthropic no longer allowing Claude Code subscriptions to use OpenClaw",
-          "points": 1098,
+          "points": 1099,
           "url": "https://news.ycombinator.com/item?id=47633396"
         },
         {
@@ -5244,7 +5631,7 @@
         },
         {
           "title": "Claude Code Unpacked : A visual guide",
-          "points": 1126,
+          "points": 1128,
           "url": "https://ccunpacked.dev/"
         },
         {
@@ -5780,7 +6167,7 @@
         },
         {
           "title": "Claude Code Unpacked : A visual guide",
-          "points": 1126,
+          "points": 1128,
           "url": "https://ccunpacked.dev/"
         },
         {
@@ -13494,11 +13881,6 @@
           "url": "https://boristane.com/blog/how-i-use-claude-code/"
         },
         {
-          "title": "Anthropic officially bans using subscription auth for third party use",
-          "points": 655,
-          "url": "https://code.claude.com/docs/en/legal-and-compliance"
-        },
-        {
           "title": "What Claude Code chooses",
           "points": 611,
           "url": "https://amplifying.ai/research/claude-code-picks"
@@ -13512,6 +13894,11 @@
           "title": "Claude Code Remote Control",
           "points": 544,
           "url": "https://code.claude.com/docs/en/remote-control"
+        },
+        {
+          "title": "Anthropic Cowork feature creates 10GB VM bundle on macOS without warning",
+          "points": 377,
+          "url": "https://github.com/anthropics/claude-code/issues/22543"
         }
       ],
       "highlight_score": 50
@@ -13632,11 +14019,6 @@
           "url": "https://boristane.com/blog/how-i-use-claude-code/"
         },
         {
-          "title": "Anthropic officially bans using subscription auth for third party use",
-          "points": 655,
-          "url": "https://code.claude.com/docs/en/legal-and-compliance"
-        },
-        {
           "title": "What Claude Code chooses",
           "points": 611,
           "url": "https://amplifying.ai/research/claude-code-picks"
@@ -13650,6 +14032,11 @@
           "title": "Claude Code Remote Control",
           "points": 544,
           "url": "https://code.claude.com/docs/en/remote-control"
+        },
+        {
+          "title": "Anthropic Cowork feature creates 10GB VM bundle on macOS without warning",
+          "points": 377,
+          "url": "https://github.com/anthropics/claude-code/issues/22543"
         }
       ],
       "highlight_score": 50
@@ -13682,11 +14069,6 @@
           "url": "https://boristane.com/blog/how-i-use-claude-code/"
         },
         {
-          "title": "Anthropic officially bans using subscription auth for third party use",
-          "points": 655,
-          "url": "https://code.claude.com/docs/en/legal-and-compliance"
-        },
-        {
           "title": "What Claude Code chooses",
           "points": 611,
           "url": "https://amplifying.ai/research/claude-code-picks"
@@ -13700,6 +14082,11 @@
           "title": "Claude Code Remote Control",
           "points": 544,
           "url": "https://code.claude.com/docs/en/remote-control"
+        },
+        {
+          "title": "Anthropic Cowork feature creates 10GB VM bundle on macOS without warning",
+          "points": 377,
+          "url": "https://github.com/anthropics/claude-code/issues/22543"
         }
       ],
       "highlight_score": 50
@@ -13731,11 +14118,6 @@
           "url": "https://boristane.com/blog/how-i-use-claude-code/"
         },
         {
-          "title": "Anthropic officially bans using subscription auth for third party use",
-          "points": 655,
-          "url": "https://code.claude.com/docs/en/legal-and-compliance"
-        },
-        {
           "title": "What Claude Code chooses",
           "points": 611,
           "url": "https://amplifying.ai/research/claude-code-picks"
@@ -13749,6 +14131,11 @@
           "title": "Claude Code Remote Control",
           "points": 544,
           "url": "https://code.claude.com/docs/en/remote-control"
+        },
+        {
+          "title": "Anthropic Cowork feature creates 10GB VM bundle on macOS without warning",
+          "points": 377,
+          "url": "https://github.com/anthropics/claude-code/issues/22543"
         }
       ],
       "highlight_score": 30
@@ -13779,11 +14166,6 @@
           "url": "https://boristane.com/blog/how-i-use-claude-code/"
         },
         {
-          "title": "Anthropic officially bans using subscription auth for third party use",
-          "points": 655,
-          "url": "https://code.claude.com/docs/en/legal-and-compliance"
-        },
-        {
           "title": "What Claude Code chooses",
           "points": 611,
           "url": "https://amplifying.ai/research/claude-code-picks"
@@ -13797,6 +14179,11 @@
           "title": "Claude Code Remote Control",
           "points": 544,
           "url": "https://code.claude.com/docs/en/remote-control"
+        },
+        {
+          "title": "Anthropic Cowork feature creates 10GB VM bundle on macOS without warning",
+          "points": 377,
+          "url": "https://github.com/anthropics/claude-code/issues/22543"
         }
       ],
       "highlight_score": 50
@@ -13918,11 +14305,6 @@
           "url": "https://boristane.com/blog/how-i-use-claude-code/"
         },
         {
-          "title": "Anthropic officially bans using subscription auth for third party use",
-          "points": 655,
-          "url": "https://code.claude.com/docs/en/legal-and-compliance"
-        },
-        {
           "title": "What Claude Code chooses",
           "points": 611,
           "url": "https://amplifying.ai/research/claude-code-picks"
@@ -13936,6 +14318,11 @@
           "title": "Claude Code Remote Control",
           "points": 544,
           "url": "https://code.claude.com/docs/en/remote-control"
+        },
+        {
+          "title": "Anthropic Cowork feature creates 10GB VM bundle on macOS without warning",
+          "points": 377,
+          "url": "https://github.com/anthropics/claude-code/issues/22543"
         }
       ],
       "highlight_score": 50
@@ -13967,11 +14354,6 @@
           "url": "https://boristane.com/blog/how-i-use-claude-code/"
         },
         {
-          "title": "Anthropic officially bans using subscription auth for third party use",
-          "points": 655,
-          "url": "https://code.claude.com/docs/en/legal-and-compliance"
-        },
-        {
           "title": "What Claude Code chooses",
           "points": 611,
           "url": "https://amplifying.ai/research/claude-code-picks"
@@ -13985,6 +14367,11 @@
           "title": "Claude Code Remote Control",
           "points": 544,
           "url": "https://code.claude.com/docs/en/remote-control"
+        },
+        {
+          "title": "Anthropic Cowork feature creates 10GB VM bundle on macOS without warning",
+          "points": 377,
+          "url": "https://github.com/anthropics/claude-code/issues/22543"
         }
       ],
       "highlight_score": 50
@@ -14144,11 +14531,6 @@
           "url": "https://boristane.com/blog/how-i-use-claude-code/"
         },
         {
-          "title": "Anthropic officially bans using subscription auth for third party use",
-          "points": 655,
-          "url": "https://code.claude.com/docs/en/legal-and-compliance"
-        },
-        {
           "title": "What Claude Code chooses",
           "points": 611,
           "url": "https://amplifying.ai/research/claude-code-picks"
@@ -14162,6 +14544,11 @@
           "title": "Claude Code Remote Control",
           "points": 544,
           "url": "https://code.claude.com/docs/en/remote-control"
+        },
+        {
+          "title": "Anthropic Cowork feature creates 10GB VM bundle on macOS without warning",
+          "points": 377,
+          "url": "https://github.com/anthropics/claude-code/issues/22543"
         }
       ],
       "highlight_score": 70
@@ -14506,11 +14893,6 @@
           "url": "https://boristane.com/blog/how-i-use-claude-code/"
         },
         {
-          "title": "Anthropic officially bans using subscription auth for third party use",
-          "points": 655,
-          "url": "https://code.claude.com/docs/en/legal-and-compliance"
-        },
-        {
           "title": "What Claude Code chooses",
           "points": 611,
           "url": "https://amplifying.ai/research/claude-code-picks"
@@ -14524,6 +14906,11 @@
           "title": "Show HN: A real-time strategy game that AI agents can play",
           "points": 220,
           "url": "https://llmskirmish.com/"
+        },
+        {
+          "title": "Show HN: Emdash – Open-source agentic development environment",
+          "points": 206,
+          "url": "https://github.com/generalaction/emdash"
         }
       ],
       "highlight_score": 70
@@ -14884,11 +15271,6 @@
           "url": "https://boristane.com/blog/how-i-use-claude-code/"
         },
         {
-          "title": "Anthropic officially bans using subscription auth for third party use",
-          "points": 655,
-          "url": "https://code.claude.com/docs/en/legal-and-compliance"
-        },
-        {
           "title": "What Claude Code chooses",
           "points": 611,
           "url": "https://amplifying.ai/research/claude-code-picks"
@@ -14897,6 +15279,11 @@
           "title": "Claude Code Remote Control",
           "points": 544,
           "url": "https://code.claude.com/docs/en/remote-control"
+        },
+        {
+          "title": "Show HN: A real-time strategy game that AI agents can play",
+          "points": 220,
+          "url": "https://llmskirmish.com/"
         }
       ],
       "highlight_score": 75
@@ -15784,14 +16171,14 @@
           "url": "https://boristane.com/blog/how-i-use-claude-code/"
         },
         {
-          "title": "Anthropic officially bans using subscription auth for third party use",
-          "points": 655,
-          "url": "https://code.claude.com/docs/en/legal-and-compliance"
-        },
-        {
           "title": "Claude Code Remote Control",
           "points": 544,
           "url": "https://code.claude.com/docs/en/remote-control"
+        },
+        {
+          "title": "Show HN: A real-time strategy game that AI agents can play",
+          "points": 220,
+          "url": "https://llmskirmish.com/"
         }
       ],
       "highlight_score": 70
@@ -16044,14 +16431,14 @@
           "url": "https://boristane.com/blog/how-i-use-claude-code/"
         },
         {
-          "title": "Anthropic officially bans using subscription auth for third party use",
-          "points": 655,
-          "url": "https://code.claude.com/docs/en/legal-and-compliance"
-        },
-        {
           "title": "Show HN: Emdash – Open-source agentic development environment",
           "points": 206,
           "url": "https://github.com/generalaction/emdash"
+        },
+        {
+          "title": "Show HN: cmux - Ghostty-based terminal with vertical tabs and notifications",
+          "points": 198,
+          "url": "https://github.com/manaflow-ai/cmux"
         }
       ],
       "highlight_score": 70
@@ -16104,14 +16491,14 @@
           "url": "https://boristane.com/blog/how-i-use-claude-code/"
         },
         {
-          "title": "Anthropic officially bans using subscription auth for third party use",
-          "points": 655,
-          "url": "https://code.claude.com/docs/en/legal-and-compliance"
-        },
-        {
           "title": "Show HN: AI agents play SimCity through a REST API",
           "points": 216,
           "url": "https://hallucinatingsplines.com"
+        },
+        {
+          "title": "Show HN: cmux - Ghostty-based terminal with vertical tabs and notifications",
+          "points": 198,
+          "url": "https://github.com/manaflow-ai/cmux"
         }
       ],
       "highlight_score": 70
@@ -16246,11 +16633,6 @@
           "url": "https://github.com/tonyyont/peon-ping"
         },
         {
-          "title": "Anthropic officially bans using subscription auth for third party use",
-          "points": 655,
-          "url": "https://code.claude.com/docs/en/legal-and-compliance"
-        },
-        {
           "title": "Show HN: AI agents play SimCity through a REST API",
           "points": 216,
           "url": "https://hallucinatingsplines.com"
@@ -16259,6 +16641,11 @@
           "title": "Show HN: cmux - Ghostty-based terminal with vertical tabs and notifications",
           "points": 198,
           "url": "https://github.com/manaflow-ai/cmux"
+        },
+        {
+          "title": "Show HN: Artifact Keeper – Open-Source Artifactory/Nexus Alternative in Rust",
+          "points": 166,
+          "url": "https://github.com/artifact-keeper"
         }
       ],
       "highlight_score": 30
@@ -16559,11 +16946,6 @@
           "url": "https://github.com/tonyyont/peon-ping"
         },
         {
-          "title": "Anthropic officially bans using subscription auth for third party use",
-          "points": 655,
-          "url": "https://code.claude.com/docs/en/legal-and-compliance"
-        },
-        {
           "title": "Show HN: AI agents play SimCity through a REST API",
           "points": 216,
           "url": "https://hallucinatingsplines.com"
@@ -16572,6 +16954,11 @@
           "title": "Show HN: cmux - Ghostty-based terminal with vertical tabs and notifications",
           "points": 198,
           "url": "https://github.com/manaflow-ai/cmux"
+        },
+        {
+          "title": "Show HN: Artifact Keeper – Open-Source Artifactory/Nexus Alternative in Rust",
+          "points": 166,
+          "url": "https://github.com/artifact-keeper"
         }
       ],
       "highlight_score": 50
@@ -16658,14 +17045,14 @@
           "url": "https://code.claude.com/docs/en/agent-teams"
         },
         {
-          "title": "Claude Code for Infrastructure",
-          "points": 276,
-          "url": "https://www.fluid.sh/"
-        },
-        {
           "title": "Show HN: AI agents play SimCity through a REST API",
           "points": 216,
           "url": "https://hallucinatingsplines.com"
+        },
+        {
+          "title": "Show HN: Artifact Keeper – Open-Source Artifactory/Nexus Alternative in Rust",
+          "points": 166,
+          "url": "https://github.com/artifact-keeper"
         }
       ],
       "highlight_score": 50
@@ -16783,14 +17170,14 @@
           "url": "https://code.claude.com/docs/en/agent-teams"
         },
         {
-          "title": "Claude Code for Infrastructure",
-          "points": 276,
-          "url": "https://www.fluid.sh/"
-        },
-        {
           "title": "Show HN: AI agents play SimCity through a REST API",
           "points": 216,
           "url": "https://hallucinatingsplines.com"
+        },
+        {
+          "title": "Show HN: Artifact Keeper – Open-Source Artifactory/Nexus Alternative in Rust",
+          "points": 166,
+          "url": "https://github.com/artifact-keeper"
         }
       ],
       "highlight_score": 50
@@ -16826,19 +17213,19 @@
           "url": "https://github.com/tonyyont/peon-ping"
         },
         {
-          "title": "Claude Code is suddenly everywhere inside Microsoft",
-          "points": 409,
-          "url": "https://www.theverge.com/tech/865689/microsoft-claude-code-anthropic-partnership-notepad"
-        },
-        {
           "title": "Orchestrate teams of Claude Code sessions",
           "points": 396,
           "url": "https://code.claude.com/docs/en/agent-teams"
         },
         {
-          "title": "Claude Code for Infrastructure",
-          "points": 276,
-          "url": "https://www.fluid.sh/"
+          "title": "Show HN: AI agents play SimCity through a REST API",
+          "points": 216,
+          "url": "https://hallucinatingsplines.com"
+        },
+        {
+          "title": "Show HN: Artifact Keeper – Open-Source Artifactory/Nexus Alternative in Rust",
+          "points": 166,
+          "url": "https://github.com/artifact-keeper"
         }
       ],
       "highlight_score": 30
@@ -16874,19 +17261,19 @@
           "url": "https://github.com/tonyyont/peon-ping"
         },
         {
-          "title": "Claude Code is suddenly everywhere inside Microsoft",
-          "points": 409,
-          "url": "https://www.theverge.com/tech/865689/microsoft-claude-code-anthropic-partnership-notepad"
-        },
-        {
           "title": "Orchestrate teams of Claude Code sessions",
           "points": 396,
           "url": "https://code.claude.com/docs/en/agent-teams"
         },
         {
-          "title": "Claude Code for Infrastructure",
-          "points": 276,
-          "url": "https://www.fluid.sh/"
+          "title": "Show HN: AI agents play SimCity through a REST API",
+          "points": 216,
+          "url": "https://hallucinatingsplines.com"
+        },
+        {
+          "title": "Show HN: Artifact Keeper – Open-Source Artifactory/Nexus Alternative in Rust",
+          "points": 166,
+          "url": "https://github.com/artifact-keeper"
         }
       ],
       "highlight_score": 30
@@ -16935,19 +17322,19 @@
           "url": "https://github.com/tonyyont/peon-ping"
         },
         {
-          "title": "Claude Code is suddenly everywhere inside Microsoft",
-          "points": 409,
-          "url": "https://www.theverge.com/tech/865689/microsoft-claude-code-anthropic-partnership-notepad"
-        },
-        {
           "title": "Orchestrate teams of Claude Code sessions",
           "points": 396,
           "url": "https://code.claude.com/docs/en/agent-teams"
         },
         {
-          "title": "Claude Code for Infrastructure",
-          "points": 276,
-          "url": "https://www.fluid.sh/"
+          "title": "Show HN: AI agents play SimCity through a REST API",
+          "points": 216,
+          "url": "https://hallucinatingsplines.com"
+        },
+        {
+          "title": "Show HN: Artifact Keeper – Open-Source Artifactory/Nexus Alternative in Rust",
+          "points": 166,
+          "url": "https://github.com/artifact-keeper"
         }
       ],
       "highlight_score": 50
@@ -17180,19 +17567,19 @@
           "url": "https://github.com/tonyyont/peon-ping"
         },
         {
-          "title": "Claude Code is suddenly everywhere inside Microsoft",
-          "points": 409,
-          "url": "https://www.theverge.com/tech/865689/microsoft-claude-code-anthropic-partnership-notepad"
-        },
-        {
           "title": "Orchestrate teams of Claude Code sessions",
           "points": 396,
           "url": "https://code.claude.com/docs/en/agent-teams"
         },
         {
-          "title": "Claude Code for Infrastructure",
-          "points": 276,
-          "url": "https://www.fluid.sh/"
+          "title": "Show HN: AI agents play SimCity through a REST API",
+          "points": 216,
+          "url": "https://hallucinatingsplines.com"
+        },
+        {
+          "title": "Show HN: Artifact Keeper – Open-Source Artifactory/Nexus Alternative in Rust",
+          "points": 166,
+          "url": "https://github.com/artifact-keeper"
         }
       ],
       "highlight_score": 50
@@ -17364,19 +17751,19 @@
           "url": "https://github.com/tonyyont/peon-ping"
         },
         {
-          "title": "Claude Code is suddenly everywhere inside Microsoft",
-          "points": 409,
-          "url": "https://www.theverge.com/tech/865689/microsoft-claude-code-anthropic-partnership-notepad"
-        },
-        {
           "title": "Orchestrate teams of Claude Code sessions",
           "points": 396,
           "url": "https://code.claude.com/docs/en/agent-teams"
         },
         {
-          "title": "Claude Code for Infrastructure",
-          "points": 276,
-          "url": "https://www.fluid.sh/"
+          "title": "Show HN: AI agents play SimCity through a REST API",
+          "points": 216,
+          "url": "https://hallucinatingsplines.com"
+        },
+        {
+          "title": "Show HN: Artifact Keeper – Open-Source Artifactory/Nexus Alternative in Rust",
+          "points": 166,
+          "url": "https://github.com/artifact-keeper"
         }
       ],
       "highlight_score": 50
@@ -17539,24 +17926,24 @@
           "url": "https://symmetrybreak.ing/blog/claude-code-is-being-dumbed-down/"
         },
         {
-          "title": "Claude Code is suddenly everywhere inside Microsoft",
-          "points": 409,
-          "url": "https://www.theverge.com/tech/865689/microsoft-claude-code-anthropic-partnership-notepad"
-        },
-        {
           "title": "Orchestrate teams of Claude Code sessions",
           "points": 396,
           "url": "https://code.claude.com/docs/en/agent-teams"
         },
         {
-          "title": "Claude Code for Infrastructure",
-          "points": 276,
-          "url": "https://www.fluid.sh/"
-        },
-        {
           "title": "Show HN: AI agents play SimCity through a REST API",
           "points": 216,
           "url": "https://hallucinatingsplines.com"
+        },
+        {
+          "title": "Show HN: Artifact Keeper – Open-Source Artifactory/Nexus Alternative in Rust",
+          "points": 166,
+          "url": "https://github.com/artifact-keeper"
+        },
+        {
+          "title": "Show HN: JavaScript-first, open-source WYSIWYG DOCX editor",
+          "points": 130,
+          "url": "https://github.com/eigenpal/docx-js-editor"
         }
       ],
       "highlight_score": 50
@@ -17814,19 +18201,9 @@
       ],
       "signals": [
         {
-          "title": "Claude Code is suddenly everywhere inside Microsoft",
-          "points": 409,
-          "url": "https://www.theverge.com/tech/865689/microsoft-claude-code-anthropic-partnership-notepad"
-        },
-        {
           "title": "Orchestrate teams of Claude Code sessions",
           "points": 396,
           "url": "https://code.claude.com/docs/en/agent-teams"
-        },
-        {
-          "title": "Claude Code for Infrastructure",
-          "points": 276,
-          "url": "https://www.fluid.sh/"
         },
         {
           "title": "Show HN: AI agents play SimCity through a REST API",
@@ -17837,6 +18214,16 @@
           "title": "Show HN: Artifact Keeper – Open-Source Artifactory/Nexus Alternative in Rust",
           "points": 166,
           "url": "https://github.com/artifact-keeper"
+        },
+        {
+          "title": "Show HN: JavaScript-first, open-source WYSIWYG DOCX editor",
+          "points": 130,
+          "url": "https://github.com/eigenpal/docx-js-editor"
+        },
+        {
+          "title": "Show HN: Smooth CLI – Token-efficient browser for AI agents",
+          "points": 109,
+          "url": "https://docs.smooth.sh/cli/overview"
         }
       ],
       "highlight_score": 35
@@ -17868,24 +18255,24 @@
           "url": "https://twitter.com/NicerInPerson/status/2014989679796347375"
         },
         {
-          "title": "Claude Code is suddenly everywhere inside Microsoft",
-          "points": 409,
-          "url": "https://www.theverge.com/tech/865689/microsoft-claude-code-anthropic-partnership-notepad"
-        },
-        {
           "title": "Orchestrate teams of Claude Code sessions",
           "points": 396,
           "url": "https://code.claude.com/docs/en/agent-teams"
         },
         {
-          "title": "Claude Code for Infrastructure",
-          "points": 276,
-          "url": "https://www.fluid.sh/"
-        },
-        {
           "title": "Porting 100k lines from TypeScript to Rust using Claude Code in a month",
           "points": 255,
           "url": "https://blog.vjeux.com/2026/analysis/porting-100k-lines-from-typescript-to-rust-using-claude-code-in-a-month.html"
+        },
+        {
+          "title": "Show HN: Artifact Keeper – Open-Source Artifactory/Nexus Alternative in Rust",
+          "points": 166,
+          "url": "https://github.com/artifact-keeper"
+        },
+        {
+          "title": "Show HN: Smooth CLI – Token-efficient browser for AI agents",
+          "points": 109,
+          "url": "https://docs.smooth.sh/cli/overview"
         }
       ],
       "highlight_score": 30
@@ -18018,24 +18405,24 @@
           "url": "https://twitter.com/NicerInPerson/status/2014989679796347375"
         },
         {
-          "title": "Claude Code is suddenly everywhere inside Microsoft",
-          "points": 409,
-          "url": "https://www.theverge.com/tech/865689/microsoft-claude-code-anthropic-partnership-notepad"
-        },
-        {
           "title": "Orchestrate teams of Claude Code sessions",
           "points": 396,
           "url": "https://code.claude.com/docs/en/agent-teams"
         },
         {
-          "title": "Claude Code for Infrastructure",
-          "points": 276,
-          "url": "https://www.fluid.sh/"
-        },
-        {
           "title": "Porting 100k lines from TypeScript to Rust using Claude Code in a month",
           "points": 255,
           "url": "https://blog.vjeux.com/2026/analysis/porting-100k-lines-from-typescript-to-rust-using-claude-code-in-a-month.html"
+        },
+        {
+          "title": "Auto-compact not triggering on Claude.ai despite being marked as fixed",
+          "points": 189,
+          "url": "https://github.com/anthropics/claude-code/issues/18866"
+        },
+        {
+          "title": "Show HN: Artifact Keeper – Open-Source Artifactory/Nexus Alternative in Rust",
+          "points": 166,
+          "url": "https://github.com/artifact-keeper"
         }
       ],
       "highlight_score": 50
@@ -18072,19 +18459,19 @@
           "url": "https://twitter.com/NicerInPerson/status/2014989679796347375"
         },
         {
-          "title": "Claude Code is suddenly everywhere inside Microsoft",
-          "points": 409,
-          "url": "https://www.theverge.com/tech/865689/microsoft-claude-code-anthropic-partnership-notepad"
-        },
-        {
           "title": "Orchestrate teams of Claude Code sessions",
           "points": 396,
           "url": "https://code.claude.com/docs/en/agent-teams"
         },
         {
-          "title": "Claude Code for Infrastructure",
-          "points": 276,
-          "url": "https://www.fluid.sh/"
+          "title": "Porting 100k lines from TypeScript to Rust using Claude Code in a month",
+          "points": 255,
+          "url": "https://blog.vjeux.com/2026/analysis/porting-100k-lines-from-typescript-to-rust-using-claude-code-in-a-month.html"
+        },
+        {
+          "title": "Auto-compact not triggering on Claude.ai despite being marked as fixed",
+          "points": 189,
+          "url": "https://github.com/anthropics/claude-code/issues/18866"
         }
       ],
       "highlight_score": 30
@@ -18246,19 +18633,19 @@
           "url": "https://twitter.com/NicerInPerson/status/2014989679796347375"
         },
         {
-          "title": "Claude Code is suddenly everywhere inside Microsoft",
-          "points": 409,
-          "url": "https://www.theverge.com/tech/865689/microsoft-claude-code-anthropic-partnership-notepad"
-        },
-        {
           "title": "Orchestrate teams of Claude Code sessions",
           "points": 396,
           "url": "https://code.claude.com/docs/en/agent-teams"
         },
         {
-          "title": "Claude Code for Infrastructure",
-          "points": 276,
-          "url": "https://www.fluid.sh/"
+          "title": "Porting 100k lines from TypeScript to Rust using Claude Code in a month",
+          "points": 255,
+          "url": "https://blog.vjeux.com/2026/analysis/porting-100k-lines-from-typescript-to-rust-using-claude-code-in-a-month.html"
+        },
+        {
+          "title": "Auto-compact not triggering on Claude.ai despite being marked as fixed",
+          "points": 189,
+          "url": "https://github.com/anthropics/claude-code/issues/18866"
         }
       ],
       "highlight_score": 50
@@ -18295,19 +18682,19 @@
           "url": "https://twitter.com/NicerInPerson/status/2014989679796347375"
         },
         {
-          "title": "Claude Code is suddenly everywhere inside Microsoft",
-          "points": 409,
-          "url": "https://www.theverge.com/tech/865689/microsoft-claude-code-anthropic-partnership-notepad"
-        },
-        {
-          "title": "Claude Code for Infrastructure",
-          "points": 276,
-          "url": "https://www.fluid.sh/"
-        },
-        {
           "title": "Porting 100k lines from TypeScript to Rust using Claude Code in a month",
           "points": 255,
           "url": "https://blog.vjeux.com/2026/analysis/porting-100k-lines-from-typescript-to-rust-using-claude-code-in-a-month.html"
+        },
+        {
+          "title": "Auto-compact not triggering on Claude.ai despite being marked as fixed",
+          "points": 189,
+          "url": "https://github.com/anthropics/claude-code/issues/18866"
+        },
+        {
+          "title": "Show HN: An interactive map of US lighthouses and navigational aids",
+          "points": 102,
+          "url": "https://www.lighthouses.app/"
         }
       ],
       "highlight_score": 50
@@ -18457,19 +18844,19 @@
           "url": "https://twitter.com/NicerInPerson/status/2014989679796347375"
         },
         {
-          "title": "Claude Code is suddenly everywhere inside Microsoft",
-          "points": 409,
-          "url": "https://www.theverge.com/tech/865689/microsoft-claude-code-anthropic-partnership-notepad"
-        },
-        {
-          "title": "Claude Code for Infrastructure",
-          "points": 276,
-          "url": "https://www.fluid.sh/"
-        },
-        {
           "title": "Porting 100k lines from TypeScript to Rust using Claude Code in a month",
           "points": 255,
           "url": "https://blog.vjeux.com/2026/analysis/porting-100k-lines-from-typescript-to-rust-using-claude-code-in-a-month.html"
+        },
+        {
+          "title": "Auto-compact not triggering on Claude.ai despite being marked as fixed",
+          "points": 189,
+          "url": "https://github.com/anthropics/claude-code/issues/18866"
+        },
+        {
+          "title": "Show HN: An interactive map of US lighthouses and navigational aids",
+          "points": 102,
+          "url": "https://www.lighthouses.app/"
         }
       ],
       "highlight_score": 50
@@ -18837,11 +19224,6 @@
           "url": "https://twitter.com/NicerInPerson/status/2014989679796347375"
         },
         {
-          "title": "Claude Code is suddenly everywhere inside Microsoft",
-          "points": 409,
-          "url": "https://www.theverge.com/tech/865689/microsoft-claude-code-anthropic-partnership-notepad"
-        },
-        {
           "title": "Running Claude Code dangerously (safely)",
           "points": 351,
           "url": "https://blog.emilburzo.com/2026/01/running-claude-code-dangerously-safely/"
@@ -18850,6 +19232,11 @@
           "title": "Porting 100k lines from TypeScript to Rust using Claude Code in a month",
           "points": 255,
           "url": "https://blog.vjeux.com/2026/analysis/porting-100k-lines-from-typescript-to-rust-using-claude-code-in-a-month.html"
+        },
+        {
+          "title": "Claude Chill: Fix Claude Code's flickering in terminal",
+          "points": 192,
+          "url": "https://github.com/davidbeesley/claude-chill"
         }
       ],
       "highlight_score": 50
@@ -39090,8 +39477,8 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 296,
-      "release_count": 125,
+      "change_count": 299,
+      "release_count": 127,
       "avg_importance": 3.11,
       "maturity": {
         "score": 92,
@@ -39102,14 +39489,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-04-13",
-        "version": "2.1.105"
+        "date": "2026-04-14",
+        "version": "2.1.107"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 134
+          "change_count": 137
         },
         {
           "epoch_id": "epoch4",
@@ -39185,8 +39572,8 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 658,
-      "release_count": 164,
+      "change_count": 665,
+      "release_count": 165,
       "avg_importance": 3.22,
       "maturity": {
         "score": 93,
@@ -39197,14 +39584,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-04-13",
-        "version": "2.1.105"
+        "date": "2026-04-14",
+        "version": "2.1.108"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 357
+          "change_count": 364
         },
         {
           "epoch_id": "epoch1",
@@ -39280,9 +39667,9 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 428,
-      "release_count": 122,
-      "avg_importance": 3.23,
+      "change_count": 440,
+      "release_count": 123,
+      "avg_importance": 3.22,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -39292,14 +39679,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-04-13",
-        "version": "2.1.105"
+        "date": "2026-04-14",
+        "version": "2.1.108"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 264
+          "change_count": 276
         },
         {
           "epoch_id": "epoch1",
@@ -39375,8 +39762,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 481,
-      "release_count": 171,
+      "change_count": 485,
+      "release_count": 172,
       "avg_importance": 3.26,
       "maturity": {
         "score": 93,
@@ -39387,14 +39774,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-13",
-        "version": "2.1.105"
+        "date": "2026-04-14",
+        "version": "2.1.108"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 219
+          "change_count": 223
         },
         {
           "epoch_id": "epoch1",
@@ -39470,9 +39857,9 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 230,
-      "release_count": 93,
-      "avg_importance": 3.35,
+      "change_count": 232,
+      "release_count": 94,
+      "avg_importance": 3.34,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -39482,14 +39869,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-13",
-        "version": "2.1.105"
+        "date": "2026-04-14",
+        "version": "2.1.108"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 139
+          "change_count": 141
         },
         {
           "epoch_id": "epoch1",
@@ -39565,9 +39952,9 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 746,
-      "release_count": 196,
-      "avg_importance": 3.17,
+      "change_count": 750,
+      "release_count": 197,
+      "avg_importance": 3.16,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -39577,14 +39964,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-04-13",
-        "version": "2.1.105"
+        "date": "2026-04-14",
+        "version": "2.1.108"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 380
+          "change_count": 384
         },
         {
           "epoch_id": "epoch1",
@@ -39660,8 +40047,8 @@
         "Emacs",
         "web"
       ],
-      "change_count": 472,
-      "release_count": 141,
+      "change_count": 475,
+      "release_count": 142,
       "avg_importance": 2.71,
       "maturity": {
         "score": 91,
@@ -39672,14 +40059,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-13",
-        "version": "2.1.105"
+        "date": "2026-04-14",
+        "version": "2.1.108"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 263
+          "change_count": 266
         },
         {
           "epoch_id": "epoch4",
@@ -39755,8 +40142,8 @@
         "policy",
         "auditing"
       ],
-      "change_count": 480,
-      "release_count": 167,
+      "change_count": 487,
+      "release_count": 168,
       "avg_importance": 3.37,
       "maturity": {
         "score": 93,
@@ -39767,14 +40154,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-13",
-        "version": "2.1.105"
+        "date": "2026-04-14",
+        "version": "2.1.108"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 244
+          "change_count": 251
         },
         {
           "epoch_id": "epoch4",
@@ -39855,7 +40242,7 @@
       },
       {
         "title": "Issue: Claude Code is unusable for complex engineering tasks with Feb updates",
-        "points": 1358,
+        "points": 1361,
         "url": "https://github.com/anthropics/claude-code/issues/42796",
         "date": "2026-04-06"
       },
@@ -39867,13 +40254,13 @@
       },
       {
         "title": "Claude Code Unpacked : A visual guide",
-        "points": 1126,
+        "points": 1128,
         "url": "https://ccunpacked.dev/",
         "date": "2026-04-01"
       },
       {
         "title": "Tell HN: Anthropic no longer allowing Claude Code subscriptions to use OpenClaw",
-        "points": 1098,
+        "points": 1099,
         "url": "https://news.ycombinator.com/item?id=47633396",
         "date": "2026-04-03"
       },
