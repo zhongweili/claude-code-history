@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-04-20T04:18:04.086Z",
+    "generated_at": "2026-04-21T04:10:35.661Z",
     "agent_model": "openai/gpt-5.4-mini",
-    "total_versions": 268,
+    "total_versions": 269,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-04-17"
+      "end": "2026-04-20"
     },
     "highlight_count": 36,
     "capability_count": 8,
@@ -70,11 +70,346 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。与此同时，Opus 4.6 把「思考」变成了可选项，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Meanwhile, Opus 4.6 makes reasoning optional rather than visible, while worktree isolation and a 1M context push the agent toward running for hours, unattended.",
-      "release_count": 52,
+      "release_count": 53,
       "highlight_count": 14
     }
   ],
   "releases": [
+    {
+      "version": "2.1.116",
+      "date": "2026-04-20",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "`/resume` on large sessions is significantly faster (up to 67% on 40MB+ sessions) and handles sessions with many dead-fork entries more efficiently",
+          "category": "perf",
+          "importance": 4,
+          "summary": "/resume 大型会话更快",
+          "summary_en": "Faster /resume on large sessions",
+          "why_matters": "大会话恢复速度明显提升，可减少等待并改善重用长对话的体验。",
+          "why_matters_en": "Faster session resume reduces waiting and improves long-session reuse.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Faster MCP startup when multiple stdio servers are configured; `resources/templates/list` is now deferred to first `@`-mention",
+          "category": "perf",
+          "importance": 3,
+          "summary": "MCP 启动更快",
+          "summary_en": "Faster MCP startup",
+          "why_matters": "多服务配置下启动延迟更低，首次相关资源加载也更按需。",
+          "why_matters_en": "Startup latency is lower with multiple servers, and resource loading is deferred until needed.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Smoother fullscreen scrolling in VS Code, Cursor, and Windsurf terminals — `/terminal-setup` now configures the editor's scroll sensitivity",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "终端滚动更顺滑",
+          "summary_en": "Smoother terminal scrolling",
+          "why_matters": "在主流编辑器终端中的滚动手感更自然，减少浏览长输出时的卡顿感。",
+          "why_matters_en": "Scrolling feels smoother in common editor terminals, reducing friction when reviewing long output.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Thinking spinner now shows progress inline (\"still thinking\", \"thinking more\", \"almost done thinking\"), replacing the separate hint row",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "思考状态提示更紧凑",
+          "summary_en": "More compact thinking progress",
+          "why_matters": "将状态直接显示在同一行，让当前推理进度更清晰，界面也更简洁。",
+          "why_matters_en": "Inline progress makes the model's thinking status clearer and the UI less cluttered.",
+          "capability_ids": [
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "`/config` search now matches option values (e.g. searching \"vim\" finds the Editor mode setting)",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "/config 可按值搜索",
+          "summary_en": "Search config by value",
+          "why_matters": "用户可通过示例值快速定位相关配置项，查找设置更方便。",
+          "why_matters_en": "Users can find relevant settings by example values, making configuration lookup easier.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "`/doctor` can now be opened while Claude is responding, without waiting for the current turn to finish",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "可响应中打开 /doctor",
+          "summary_en": "Open /doctor while responding",
+          "why_matters": "无需等当前回合结束即可排查环境问题，诊断流程更顺畅。",
+          "why_matters_en": "You can diagnose environment issues without waiting for the current turn to finish.",
+          "capability_ids": [
+            "automation_autonomy",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "`/reload-plugins` and background plugin auto-update now auto-install missing plugin dependencies from marketplaces you've already added",
+          "category": "feat",
+          "importance": 3,
+          "summary": "插件依赖可自动补装",
+          "summary_en": "Auto-install missing plugin deps",
+          "why_matters": "更新或自动升级插件时能自动补齐依赖，减少手动修复安装失败。",
+          "why_matters_en": "Plugin updates can automatically fill missing dependencies, reducing manual install fixes.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Bash tool now surfaces a hint when `gh` commands hit GitHub's API rate limit, so agents can back off instead of retrying",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "遇到 GitHub 限流会提示",
+          "summary_en": "Hint on GitHub API rate limits",
+          "why_matters": "代理能识别限流并退避，减少无效重试和任务浪费。",
+          "why_matters_en": "Agents can back off on rate limits, avoiding futile retries and wasted work.",
+          "capability_ids": [
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "The Usage tab in Settings now shows your 5-hour and weekly usage immediately and no longer fails when the usage endpoint is rate-limited",
+          "category": "fix",
+          "importance": 3,
+          "summary": "用量页立即显示数据",
+          "summary_en": "Usage tab shows data immediately",
+          "why_matters": "使用量信息更快可见，且在限流时也不再导致页面失败。",
+          "why_matters_en": "Usage data appears sooner and the page no longer fails when the endpoint is rate-limited.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Agent frontmatter `hooks:` now fire when running as a main-thread agent via `--agent`",
+          "category": "feat",
+          "importance": 2,
+          "summary": "主线程 agent 支持 hooks",
+          "summary_en": "Hooks fire for main-thread agents",
+          "why_matters": "通过 --agent 运行时也能触发生命周期钩子，增强自动化一致性。",
+          "why_matters_en": "Hooks also run under --agent, improving automation consistency.",
+          "capability_ids": [
+            "automation_autonomy",
+            "delegation_collaboration",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Slash command menu now shows \"No commands match\" when your filter has zero results, instead of disappearing",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "无结果时显示空状态",
+          "summary_en": "Show empty state for no matches",
+          "why_matters": "过滤无命令时给出明确反馈，避免菜单莫名消失造成困惑。",
+          "why_matters_en": "Clear feedback appears when no commands match, avoiding confusing menu disappearance.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Security: sandbox auto-allow no longer bypasses the dangerous-path safety check for `rm`/`rmdir` targeting `/`, `$HOME`, or other critical system directories",
+          "category": "security",
+          "importance": 5,
+          "summary": "沙箱自动放行更安全",
+          "summary_en": "Safer sandbox auto-allow",
+          "why_matters": "修复后不会绕过对危险目录的删除保护，降低误删系统关键路径的风险。",
+          "why_matters_en": "The fix preserves dangerous-path checks and reduces the risk of deleting critical system paths.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed Devanagari and other Indic scripts rendering with broken column alignment in the terminal UI",
+          "category": "fix",
+          "importance": 2,
+          "summary": "印地文字终端对齐修复",
+          "summary_en": "Fix Indic script alignment",
+          "why_matters": "终端 UI 中复杂文字的列对齐恢复正常，阅读和排版更准确。",
+          "why_matters_en": "Column alignment for complex scripts is restored, improving readability and layout accuracy.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed Ctrl+- not triggering undo in terminals using the Kitty keyboard protocol (iTerm2, Ghostty, kitty, WezTerm, Windows Terminal)",
+          "category": "fix",
+          "importance": 2,
+          "summary": "Kitty 协议下撤销键修复",
+          "summary_en": "Fix Ctrl+- undo in Kitty protocol",
+          "why_matters": "在多种终端中撤销快捷键恢复可用，减少键盘输入故障。",
+          "why_matters_en": "Undo shortcut works again across several terminals, reducing keyboard workflow breakage.",
+          "capability_ids": [
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed Cmd+Left/Right not jumping to line start/end in terminals that use the Kitty keyboard protocol (Warp fullscreen, kitty, Ghostty, WezTerm)",
+          "category": "fix",
+          "importance": 2,
+          "summary": "Kitty 协议方向键修复",
+          "summary_en": "Fix Cmd+Left/Right line jumps",
+          "why_matters": "行首行尾导航恢复正常，提升在终端中的编辑效率。",
+          "why_matters_en": "Line-start and line-end navigation works again, improving editing efficiency in terminals.",
+          "capability_ids": [
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed Ctrl+Z hanging the terminal when Claude Code is launched via a wrapper process (e.g. `npx`, `bun run`)",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复包装启动时Ctrl+Z卡死",
+          "summary_en": "Fix Ctrl+Z hang under wrapper launch",
+          "why_matters": "避免通过 npx 或 bun run 启动时终端失去响应，提升可用性。",
+          "why_matters_en": "Prevents terminal hangs when launched via wrappers like npx or bun run, improving reliability.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed scrollback duplication in inline mode where resizing the terminal or large output bursts would repeat earlier conversation history",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复内联模式回滚重复输出",
+          "summary_en": "Fix duplicate scrollback in inline mode",
+          "why_matters": "避免终端重绘或大输出时重复历史内容，减少阅读干扰。",
+          "why_matters_en": "Prevents repeated history during resize or large output bursts, reducing visual confusion.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed modal search dialogs overflowing the screen at short terminal heights, hiding the search box and keyboard hints",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复短终端下搜索框被遮挡",
+          "summary_en": "Fix search dialog overflow on short terminals",
+          "why_matters": "让小窗口下的搜索对话框保持可用，避免关键提示被挤出屏幕。",
+          "why_matters_en": "Keeps search dialogs usable in small terminals so the input and hints remain visible.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed scattered blank cells and disappearing composer chrome in the VS Code integrated terminal during scrolling",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复VS Code终端滚动空白和消失",
+          "summary_en": "Fix VS Code terminal blanks while scrolling",
+          "why_matters": "改善集成终端滚动体验，避免界面内容丢失影响操作。",
+          "why_matters_en": "Improves the integrated terminal scrolling experience by preventing missing UI content.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed an intermittent API 400 error related to cache control TTL ordering that could occur when a parallel request completed during request setup",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复并发请求导致的400错误",
+          "summary_en": "Fix intermittent 400 from cache TTL ordering",
+          "why_matters": "减少偶发请求失败，提升并发场景下的稳定性。",
+          "why_matters_en": "Reduces intermittent request failures and improves stability under concurrency.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed `/branch` rejecting conversations with transcripts larger than 50MB",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复/branch大转录拒绝问题",
+          "summary_en": "Fix /branch rejection for large transcripts",
+          "why_matters": "允许更大的会话历史分支，避免用户在长对话中受限。",
+          "why_matters_en": "Allows branching larger conversation histories instead of failing on long sessions.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed `/resume` silently showing an empty conversation on large session files instead of reporting the load error",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复大会话恢复为空白",
+          "summary_en": "Fix empty /resume on large session files",
+          "why_matters": "避免恢复失败却无提示，帮助用户及时发现并处理加载错误。",
+          "why_matters_en": "Prevents silent failures on resume so users can see and address load errors.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed `/plugin` Installed tab showing the same item twice when it appears under Needs attention or Favorites",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复插件列表重复显示",
+          "summary_en": "Fix duplicate items in Installed plugins",
+          "why_matters": "让插件管理列表更准确，减少重复项造成的困惑。",
+          "why_matters_en": "Keeps plugin management lists accurate and avoids confusion from duplicate entries.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed `/update` and `/tui` not working after entering a worktree mid-session",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复进worktree后更新和TUI失效",
+          "summary_en": "Fix /update and /tui after entering worktree",
+          "why_matters": "确保切换到 worktree 后核心命令仍可用，避免工作流中断。",
+          "why_matters_en": "Keeps key commands working after moving into a worktree, preventing workflow breaks.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy",
+            "delegation_collaboration"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Claude Code Routines",
+          "points": 718,
+          "url": "https://code.claude.com/docs/en/routines"
+        },
+        {
+          "title": "Measuring Claude 4.7's tokenizer costs",
+          "points": 710,
+          "url": "https://www.claudecodecamp.com/p/i-measured-claude-4-7-s-new-tokenizer-here-s-what-it-costs-you"
+        },
+        {
+          "title": "Elevated errors on Claude.ai, API, Claude Code",
+          "points": 243,
+          "url": "https://claudestatus.com/"
+        },
+        {
+          "title": "Claude Token Counter, now with model comparisons",
+          "points": 210,
+          "url": "https://simonwillison.net/2026/Apr/20/claude-token-counts/"
+        },
+        {
+          "title": "Show HN: I built a social media management tool in 3 weeks with Claude and Codex",
+          "points": 189,
+          "url": "https://github.com/brightbeanxyz/brightbean-studio"
+        }
+      ],
+      "highlight_score": 50
+    },
     {
       "version": "2.1.114",
       "date": "2026-04-17",
@@ -108,7 +443,7 @@
         },
         {
           "title": "Measuring Claude 4.7's tokenizer costs",
-          "points": 707,
+          "points": 710,
           "url": "https://www.claudecodecamp.com/p/i-measured-claude-4-7-s-new-tokenizer-here-s-what-it-costs-you"
         },
         {
@@ -628,7 +963,7 @@
         },
         {
           "title": "Measuring Claude 4.7's tokenizer costs",
-          "points": 707,
+          "points": 710,
           "url": "https://www.claudecodecamp.com/p/i-measured-claude-4-7-s-new-tokenizer-here-s-what-it-costs-you"
         },
         {
@@ -677,7 +1012,7 @@
         },
         {
           "title": "Measuring Claude 4.7's tokenizer costs",
-          "points": 707,
+          "points": 710,
           "url": "https://www.claudecodecamp.com/p/i-measured-claude-4-7-s-new-tokenizer-here-s-what-it-costs-you"
         },
         {
@@ -1155,7 +1490,7 @@
         },
         {
           "title": "Measuring Claude 4.7's tokenizer costs",
-          "points": 707,
+          "points": 710,
           "url": "https://www.claudecodecamp.com/p/i-measured-claude-4-7-s-new-tokenizer-here-s-what-it-costs-you"
         },
         {
@@ -1612,7 +1947,7 @@
         },
         {
           "title": "Measuring Claude 4.7's tokenizer costs",
-          "points": 707,
+          "points": 710,
           "url": "https://www.claudecodecamp.com/p/i-measured-claude-4-7-s-new-tokenizer-here-s-what-it-costs-you"
         },
         {
@@ -1661,7 +1996,7 @@
         },
         {
           "title": "Measuring Claude 4.7's tokenizer costs",
-          "points": 707,
+          "points": 710,
           "url": "https://www.claudecodecamp.com/p/i-measured-claude-4-7-s-new-tokenizer-here-s-what-it-costs-you"
         },
         {
@@ -2000,7 +2335,7 @@
         },
         {
           "title": "Measuring Claude 4.7's tokenizer costs",
-          "points": 707,
+          "points": 710,
           "url": "https://www.claudecodecamp.com/p/i-measured-claude-4-7-s-new-tokenizer-here-s-what-it-costs-you"
         },
         {
@@ -2048,7 +2383,7 @@
         },
         {
           "title": "Measuring Claude 4.7's tokenizer costs",
-          "points": 707,
+          "points": 710,
           "url": "https://www.claudecodecamp.com/p/i-measured-claude-4-7-s-new-tokenizer-here-s-what-it-costs-you"
         },
         {
@@ -2537,7 +2872,7 @@
         },
         {
           "title": "Measuring Claude 4.7's tokenizer costs",
-          "points": 707,
+          "points": 710,
           "url": "https://www.claudecodecamp.com/p/i-measured-claude-4-7-s-new-tokenizer-here-s-what-it-costs-you"
         },
         {
@@ -3183,7 +3518,7 @@
         },
         {
           "title": "Measuring Claude 4.7's tokenizer costs",
-          "points": 707,
+          "points": 710,
           "url": "https://www.claudecodecamp.com/p/i-measured-claude-4-7-s-new-tokenizer-here-s-what-it-costs-you"
         }
       ],
@@ -41080,9 +41415,9 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 312,
-      "release_count": 131,
-      "avg_importance": 3.12,
+      "change_count": 314,
+      "release_count": 132,
+      "avg_importance": 3.11,
       "maturity": {
         "score": 92,
         "level": "成熟"
@@ -41092,14 +41427,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-04-17",
-        "version": "2.1.113"
+        "date": "2026-04-20",
+        "version": "2.1.116"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 150
+          "change_count": 152
         },
         {
           "epoch_id": "epoch4",
@@ -41175,9 +41510,9 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 686,
-      "release_count": 168,
-      "avg_importance": 3.23,
+      "change_count": 693,
+      "release_count": 169,
+      "avg_importance": 3.22,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -41187,14 +41522,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-04-17",
-        "version": "2.1.113"
+        "date": "2026-04-20",
+        "version": "2.1.116"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 385
+          "change_count": 392
         },
         {
           "epoch_id": "epoch1",
@@ -41270,8 +41605,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 457,
-      "release_count": 126,
+      "change_count": 461,
+      "release_count": 127,
       "avg_importance": 3.2,
       "maturity": {
         "score": 93,
@@ -41282,14 +41617,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-04-17",
-        "version": "2.1.113"
+        "date": "2026-04-20",
+        "version": "2.1.116"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 293
+          "change_count": 297
         },
         {
           "epoch_id": "epoch1",
@@ -41365,8 +41700,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 514,
-      "release_count": 176,
+      "change_count": 520,
+      "release_count": 177,
       "avg_importance": 3.26,
       "maturity": {
         "score": 93,
@@ -41377,14 +41712,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-17",
-        "version": "2.1.113"
+        "date": "2026-04-20",
+        "version": "2.1.116"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 252
+          "change_count": 258
         },
         {
           "epoch_id": "epoch1",
@@ -41460,8 +41795,8 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 247,
-      "release_count": 98,
+      "change_count": 249,
+      "release_count": 99,
       "avg_importance": 3.34,
       "maturity": {
         "score": 93,
@@ -41472,14 +41807,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-17",
-        "version": "2.1.113"
+        "date": "2026-04-20",
+        "version": "2.1.116"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 156
+          "change_count": 158
         },
         {
           "epoch_id": "epoch1",
@@ -41555,9 +41890,9 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 786,
-      "release_count": 201,
-      "avg_importance": 3.17,
+      "change_count": 792,
+      "release_count": 202,
+      "avg_importance": 3.16,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -41567,14 +41902,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-04-17",
-        "version": "2.1.113"
+        "date": "2026-04-20",
+        "version": "2.1.116"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 420
+          "change_count": 426
         },
         {
           "epoch_id": "epoch1",
@@ -41650,8 +41985,8 @@
         "Emacs",
         "web"
       ],
-      "change_count": 514,
-      "release_count": 146,
+      "change_count": 520,
+      "release_count": 147,
       "avg_importance": 2.71,
       "maturity": {
         "score": 91,
@@ -41662,14 +41997,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-17",
-        "version": "2.1.113"
+        "date": "2026-04-20",
+        "version": "2.1.116"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 305
+          "change_count": 311
         },
         {
           "epoch_id": "epoch4",
@@ -41745,8 +42080,8 @@
         "policy",
         "auditing"
       ],
-      "change_count": 511,
-      "release_count": 172,
+      "change_count": 514,
+      "release_count": 173,
       "avg_importance": 3.38,
       "maturity": {
         "score": 94,
@@ -41757,14 +42092,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-17",
-        "version": "2.1.113"
+        "date": "2026-04-20",
+        "version": "2.1.116"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 275
+          "change_count": 278
         },
         {
           "epoch_id": "epoch4",
@@ -41789,6 +42124,14 @@
       ],
       "samples": [
         {
+          "date": "2026-04-20",
+          "version": "2.1.116",
+          "raw": "Security: sandbox auto-allow no longer bypasses the dangerous-path safety check for `rm`/`rmdir` targeting `/`, `$HOME`, or other critical system directories",
+          "summary": "沙箱自动放行更安全",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-04-17",
           "version": "2.1.113",
           "raw": "Added `sandbox.network.deniedDomains` setting to block specific domains even when a broader `allowedDomains` wildcard would otherwise permit them",
@@ -41809,14 +42152,6 @@
           "version": "2.1.113",
           "raw": "Security: `Bash(find:*)` allow rules no longer auto-approve `find -exec`/`-delete`",
           "summary": "限制 find 危险参数自动批准",
-          "importance": 5,
-          "category": "security"
-        },
-        {
-          "date": "2026-04-17",
-          "version": "2.1.113",
-          "raw": "Fixed Bash `dangerouslyDisableSandbox` running commands outside the sandbox without a permission prompt",
-          "summary": "禁用沙箱绕过需提示",
           "importance": 5,
           "category": "security"
         }
