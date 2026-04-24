@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-04-23T04:11:41.206Z",
+    "generated_at": "2026-04-24T04:16:48.199Z",
     "agent_model": "openai/gpt-5.4-mini",
-    "total_versions": 271,
+    "total_versions": 272,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-04-22"
+      "end": "2026-04-23"
     },
     "highlight_count": 36,
     "capability_count": 8,
@@ -70,11 +70,705 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。与此同时，Opus 4.6 把「思考」变成了可选项，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Meanwhile, Opus 4.6 makes reasoning optional rather than visible, while worktree isolation and a 1M context push the agent toward running for hours, unattended.",
-      "release_count": 55,
+      "release_count": 56,
       "highlight_count": 14
     }
   ],
   "releases": [
+    {
+      "version": "2.1.119",
+      "date": "2026-04-23",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "`/config` settings (theme, editor mode, verbose, etc.) now persist to `~/.claude/settings.json` and participate in project/local/policy override precedence",
+          "category": "improvement",
+          "importance": 4,
+          "summary": "设置持久化并支持覆盖优先级",
+          "summary_en": "Persist settings with proper override precedence",
+          "why_matters": "用户的 `/config` 设置会保存下来，并能按项目、全局和策略规则正确生效，更符合实际工作流。",
+          "why_matters_en": "Your `/config` settings now persist and resolve correctly across project, global, and policy layers.",
+          "capability_ids": [
+            "memory_context",
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Added `prUrlTemplate` setting to point the footer PR badge at a custom code-review URL instead of github.com",
+          "category": "feat",
+          "importance": 3,
+          "summary": "PR 页脚支持自定义代码评审链接",
+          "summary_en": "Custom PR badge link template",
+          "why_matters": "可以把 PR 页脚徽标指向内部代码评审系统，而不必固定跳转到 GitHub。",
+          "why_matters_en": "You can point the PR footer badge to your internal review system instead of GitHub.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added `CLAUDE_CODE_HIDE_CWD` environment variable to hide the working directory in the startup logo",
+          "category": "feat",
+          "importance": 2,
+          "summary": "启动时可隐藏工作目录",
+          "summary_en": "Hide the working directory in startup logo",
+          "why_matters": "在演示或共享屏幕时可以减少路径信息暴露，更加简洁。",
+          "why_matters_en": "This reduces path exposure during demos or screen sharing and keeps the startup display cleaner.",
+          "capability_ids": [
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "`--from-pr` now accepts GitLab merge-request, Bitbucket pull-request, and GitHub Enterprise PR URLs",
+          "category": "feat",
+          "importance": 4,
+          "summary": "--from-pr 支持更多平台链接",
+          "summary_en": "Accept GitLab, Bitbucket, GHE PR URLs",
+          "why_matters": "现在可以直接从更多 Git 托管平台的合并请求/拉取请求链接导入上下文。",
+          "why_matters_en": "You can now import context directly from merge/pull request URLs across more Git hosting platforms.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "`--print` mode now honors the agent's `tools:` and `disallowedTools:` frontmatter, matching interactive-mode behavior",
+          "category": "fix",
+          "importance": 4,
+          "summary": "打印模式遵循工具权限配置",
+          "summary_en": "Print mode now honors tool permissions",
+          "why_matters": "非交互模式的行为和交互模式保持一致，避免漏掉工具限制造成意外执行。",
+          "why_matters_en": "Non-interactive runs now match interactive behavior, preventing unexpected tool use due to missing restrictions.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "`--agent <name>` now honors the agent definition's `permissionMode` for built-in agents",
+          "category": "fix",
+          "importance": 3,
+          "summary": "内置代理遵循权限模式",
+          "summary_en": "Built-in agents now honor permissionMode",
+          "why_matters": "内置 agent 的权限策略会按定义生效，减少权限配置不一致的问题。",
+          "why_matters_en": "Built-in agents now respect their defined permission policy, reducing inconsistent access behavior.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "PowerShell tool commands can now be auto-approved in permission mode, matching Bash behavior",
+          "category": "fix",
+          "importance": 3,
+          "summary": "PowerShell 命令可自动审批",
+          "summary_en": "Auto-approve PowerShell commands like Bash",
+          "why_matters": "在合适的权限模式下，PowerShell 工具命令也能像 Bash 一样自动通过，提升效率。",
+          "why_matters_en": "PowerShell tool commands can now be auto-approved in the right permission mode, improving workflow speed.",
+          "capability_ids": [
+            "automation_autonomy",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Hooks: `PostToolUse` and `PostToolUseFailure` hook inputs now include `duration_ms` (tool execution time, excluding permission prompts and PreToolUse hooks)",
+          "category": "feat",
+          "importance": 2,
+          "summary": "钩子增加工具耗时信息",
+          "summary_en": "Hooks now include tool execution duration",
+          "why_matters": "钩子可以更准确地分析工具执行时间，便于监控和优化性能。",
+          "why_matters_en": "Hooks can now measure tool execution time more accurately for monitoring and optimization.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy",
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Subagent and SDK MCP server reconfiguration now connects servers in parallel instead of serially",
+          "category": "perf",
+          "importance": 4,
+          "summary": "MCP 重配改为并行连接",
+          "summary_en": "Parallelize MCP server reconnection",
+          "why_matters": "重新配置子代理和 SDK 的 MCP 服务时更快，减少等待时间。",
+          "why_matters_en": "Reconfiguring subagents and SDK MCP servers is faster because connections happen in parallel.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Plugins pinned by another plugin's version constraint now auto-update to the highest satisfying git tag",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "插件自动升级到合规最高版本",
+          "summary_en": "Auto-update pinned plugins to best matching tag",
+          "why_matters": "被版本约束固定的插件会自动跟进可用的最佳版本，减少手动维护。",
+          "why_matters_en": "Pinned plugins now auto-update to the highest satisfying version, reducing manual maintenance.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Vim mode: Esc in INSERT no longer pulls a queued message back into the input; press Esc again to interrupt",
+          "category": "fix",
+          "importance": 2,
+          "summary": "Vim 模式 Esc 行为修正",
+          "summary_en": "Fix Esc behavior in Vim insert mode",
+          "why_matters": "在 Vim 输入模式下退出更符合预期，避免误把待发送消息拉回输入框。",
+          "why_matters_en": "Exiting insert mode behaves more predictably and avoids pulling queued messages back into the input.",
+          "capability_ids": [
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Slash command suggestions now highlight the characters that matched your query",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "斜杠命令高亮匹配字符",
+          "summary_en": "Highlight matched characters in slash suggestions",
+          "why_matters": "建议项更容易看出为什么被匹配，提升查找效率。",
+          "why_matters_en": "Suggestions now make matches easier to understand, improving command discovery speed.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Slash command picker now wraps long descriptions onto a second line instead of truncating",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "命令列表描述可换行",
+          "summary_en": "Wrap long picker descriptions",
+          "why_matters": "长描述不再被截断，信息展示更完整。",
+          "why_matters_en": "Long descriptions are no longer truncated, so command details stay visible.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "`owner/repo#N` shorthand links in output now use your git remote's host instead of always pointing at github.com",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "仓库链接使用远程主机",
+          "summary_en": "Use git remote host for owner/repo links",
+          "why_matters": "输出中的仓库引用会匹配你的实际远程主机，适配企业 Git 环境。",
+          "why_matters_en": "Repository links in output now match your remote host, which is better for enterprise Git setups.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Security: `blockedMarketplaces` now correctly enforces `hostPattern` and `pathPattern` entries",
+          "category": "security",
+          "importance": 5,
+          "summary": "修复受限市场校验漏洞",
+          "summary_en": "Fix blocked marketplace pattern enforcement",
+          "why_matters": "修复后 `blockedMarketplaces` 会正确按主机和路径规则拦截访问，避免绕过限制。",
+          "why_matters_en": "The `blockedMarketplaces` rules now correctly enforce host and path patterns, preventing policy bypass.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "OpenTelemetry: `tool_result` and `tool_decision` events now include `tool_use_id`; `tool_result` also includes `tool_input_size_bytes`",
+          "category": "feat",
+          "importance": 3,
+          "summary": "追踪工具调用关联信息",
+          "summary_en": "Add tool call correlation data",
+          "why_matters": "这让观测系统能把工具结果和具体调用对应起来，方便排查与分析。",
+          "why_matters_en": "This lets observability systems correlate results with specific tool calls for easier debugging and analysis.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Status line: stdin JSON now includes `effort.level` and `thinking.enabled`",
+          "category": "feat",
+          "importance": 2,
+          "summary": "状态栏支持思考强度信息",
+          "summary_en": "Expose effort and thinking flags",
+          "why_matters": "这让外部集成能根据当前推理配置显示更准确的状态。",
+          "why_matters_en": "This lets integrations display a more accurate status based on current reasoning settings.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed pasting CRLF content (Windows clipboards, Xcode console) inserting an extra blank line between every line",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复粘贴CRLF多出空行",
+          "summary_en": "Fix extra blank lines on CRLF paste",
+          "why_matters": "这避免 Windows 和部分终端粘贴时内容被错误拆行，影响输入准确性。",
+          "why_matters_en": "This prevents pasted content from being split incorrectly on Windows and certain terminals, preserving input accuracy.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed multi-line paste losing newlines in terminals using kitty keyboard protocol sequences inside bracketed paste",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复kitty终端粘贴丢换行",
+          "summary_en": "Fix multiline paste losing newlines",
+          "why_matters": "这保证多行代码或文本在特定终端中粘贴后格式不被破坏。",
+          "why_matters_en": "This keeps multiline code or text formatting intact when pasted in affected terminals.",
+          "capability_ids": [
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed Glob and Grep tools disappearing on native macOS/Linux builds when the Bash tool is denied via permissions",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复受限后工具消失问题",
+          "summary_en": "Keep Glob and Grep when Bash denied",
+          "why_matters": "这确保在权限限制下核心搜索工具仍可使用，避免工作流中断。",
+          "why_matters_en": "This keeps core search tools available under permission restrictions, avoiding workflow breaks.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed scrolling up in fullscreen mode snapping back to the bottom every time a tool finishes",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复全屏回滚到底部",
+          "summary_en": "Fix fullscreen view jumping to bottom",
+          "why_matters": "这让用户在查看历史输出时不会被工具结束事件打断阅读位置。",
+          "why_matters_en": "This prevents tool completions from disrupting the user's scroll position while reviewing history.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed MCP HTTP connections failing with \"Invalid OAuth error response\" when servers returned non-JSON bodies for OAuth discovery requests",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复MCP OAuth发现失败",
+          "summary_en": "Fix MCP OAuth discovery on non-JSON",
+          "why_matters": "这提升了与不返回 JSON 的 MCP 服务交互时的兼容性和连接成功率。",
+          "why_matters_en": "This improves compatibility and connection success with MCP servers that do not return JSON.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed Rewind overlay showing \"(no prompt)\" for messages with image attachments",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复重放层图片消息显示",
+          "summary_en": "Fix rewind overlay for image prompts",
+          "why_matters": "这让带图片附件的消息在回看时能正确展示上下文。",
+          "why_matters_en": "This ensures messages with image attachments display correct context when rewinding.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed auto mode overriding plan mode with conflicting \"Execute immediately\" instructions",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复计划模式被自动执行覆盖",
+          "summary_en": "Fix auto mode overriding plan mode",
+          "why_matters": "这防止自动模式错误抢占计划模式，避免用户意图被误执行。",
+          "why_matters_en": "This prevents auto mode from incorrectly overriding plan mode and executing against user intent.",
+          "capability_ids": [
+            "automation_autonomy",
+            "reasoning_workflows",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed async `PostToolUse` hooks that emit no response payload writing empty entries to the session transcript",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复空Hook残留会话记录",
+          "summary_en": "Fix empty hook entries in transcript",
+          "why_matters": "这避免无内容的钩子响应污染会话记录，保持历史更干净。",
+          "why_matters_en": "This prevents empty hook responses from polluting the session transcript and keeps history clean.",
+          "capability_ids": [
+            "memory_context",
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed spinner staying on when a subagent task notification is orphaned in the queue",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复子代理通知卡住转圈",
+          "summary_en": "Fix spinner stuck on orphaned tasks",
+          "why_matters": "这避免界面因队列异常而一直显示加载状态，让任务完成状态更可信。",
+          "why_matters_en": "This prevents the UI from showing a perpetual loading state when queue notifications get orphaned.",
+          "capability_ids": [
+            "automation_autonomy",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Tool search is now disabled by default on Vertex AI to avoid an unsupported beta header error (opt in with `ENABLE_TOOL_SEARCH`)",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "默认关闭Vertex工具搜索",
+          "summary_en": "Disable tool search by default on Vertex",
+          "why_matters": "这减少了在不支持该 beta 头部时的错误，提升默认可用性。",
+          "why_matters_en": "This avoids unsupported beta-header errors by default and improves out-of-the-box reliability.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed `@`-file Tab completion replacing the entire prompt when used inside a slash command with an absolute path",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复@文件补全覆盖提示词",
+          "summary_en": "Fix @file completion replacing prompt",
+          "why_matters": "这避免在 slash 命令中误把整段输入替换掉，提高补全可靠性。",
+          "why_matters_en": "This prevents accidental prompt replacement inside slash commands and makes completion safer.",
+          "capability_ids": [
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed a stray `p` character appearing at the prompt on startup in macOS Terminal.app via Docker or SSH",
+          "category": "fix",
+          "importance": 1,
+          "summary": "修复启动时多余字符",
+          "summary_en": "Fix stray startup character",
+          "why_matters": "这消除了启动时的可见小瑕疵，改善基础交互体验。",
+          "why_matters_en": "This removes a visible startup glitch and improves the basic interaction experience.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed `${ENV_VAR}` placeholders in `headers` for HTTP/SSE/WebSocket MCP servers not being substituted before requests",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复MCP请求头变量不替换",
+          "summary_en": "Fix env vars in MCP headers",
+          "why_matters": "这确保 MCP 连接能正确注入环境变量，避免认证和配置请求失败。",
+          "why_matters_en": "This ensures MCP connections resolve environment variables correctly, avoiding auth and configuration failures.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed MCP OAuth client secret stored via `--client-secret` not being sent during token exchange for servers requiring `client_secret_post`",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复MCP认证提交方式",
+          "summary_en": "Fix MCP client_secret_post token exchange",
+          "why_matters": "确保需要 `client_secret_post` 的服务器能正常完成 OAuth 令牌交换，避免认证失败。",
+          "why_matters_en": "Ensures OAuth token exchange works for servers requiring `client_secret_post`, preventing auth failures.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed `/skills` Enter key closing the dialog instead of pre-filling `/<skill-name>` in the prompt",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复/skills回车填充",
+          "summary_en": "Fix /skills Enter to prefill skill command",
+          "why_matters": "让技能选择流程更顺畅，减少误关闭对话框带来的操作中断。",
+          "why_matters_en": "Makes skill selection smoother by avoiding accidental dialog closure.",
+          "capability_ids": [
+            "automation_autonomy",
+            "multimodal_interfaces",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed `/agents` detail view mislabeling built-in tools unavailable to subagents as \"Unrecognized\"",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修正子代理工具标注",
+          "summary_en": "Fix tool labels in /agents details",
+          "why_matters": "避免把内置但对子代理不可用的工具误标为未知，提升信息准确性。",
+          "why_matters_en": "Prevents valid built-in tools from being mislabeled as unknown, improving accuracy.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed MCP servers from plugins not spawning on Windows when the plugin cache was incomplete",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复Windows插件MCP启动",
+          "summary_en": "Fix plugin MCP server spawn on Windows",
+          "why_matters": "确保 Windows 上插件来源的 MCP 服务器在缓存不完整时也能正常启动。",
+          "why_matters_en": "Ensures plugin-provided MCP servers can start on Windows even with an incomplete cache.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed `/export` showing the current default model instead of the model the conversation actually used",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复导出显示错误模型",
+          "summary_en": "Fix /export showing wrong model",
+          "why_matters": "让导出内容准确反映会话实际使用的模型，避免记录失真。",
+          "why_matters_en": "Makes exports reflect the model actually used in the conversation, avoiding misleading records.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed verbose output setting not persisting after restart",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复详细输出设置不保存",
+          "summary_en": "Fix verbose setting persistence",
+          "why_matters": "重启后仍能保留用户的输出偏好，减少重复配置。",
+          "why_matters_en": "Keeps the user's output preference after restart, reducing reconfiguration.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed `/usage` progress bars overlapping with their \"Resets …\" labels",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复用量条与标签重叠",
+          "summary_en": "Fix /usage progress bar overlap",
+          "why_matters": "改善 /usage 界面可读性，避免进度条遮挡重置提示。",
+          "why_matters_en": "Improves /usage readability by preventing progress bars from overlapping reset labels.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed plugin MCP servers failing when `${user_config.*}` references an optional field left blank",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复空白可选字段引用",
+          "summary_en": "Fix blank optional field references",
+          "why_matters": "避免插件中的 MCP 配置因可选字段为空而失败，提高配置健壮性。",
+          "why_matters_en": "Prevents plugin MCP configs from failing when optional fields are left blank, improving robustness.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed list items containing a sentence-final number wrapping the number onto its own line",
+          "category": "fix",
+          "importance": 1,
+          "summary": "修复列表末尾数字换行",
+          "summary_en": "Fix wrapped sentence-final numbers",
+          "why_matters": "改善列表排版，让以数字结尾的句子显示更自然。",
+          "why_matters_en": "Improves list typography so sentence-ending numbers render more naturally.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `/plan` and `/plan open` not acting on the existing plan when entering plan mode",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复计划模式切换行为",
+          "summary_en": "Fix /plan existing plan handling",
+          "why_matters": "进入计划模式时会正确作用于已有计划，避免丢失或忽略当前工作内容。",
+          "why_matters_en": "Ensures plan mode acts on the existing plan, avoiding loss or ignoring of current work.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed skills invoked before auto-compaction being re-executed against the next user message",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复压缩前技能重复执行",
+          "summary_en": "Fix skills rerun after compaction",
+          "why_matters": "防止技能在自动压缩后被错误地对下一条消息重复执行，避免重复操作。",
+          "why_matters_en": "Prevents skills from being incorrectly re-executed on the next message after auto-compaction.",
+          "capability_ids": [
+            "memory_context",
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed `/reload-plugins` and `/doctor` reporting load errors for disabled plugins",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复禁用插件误报加载错误",
+          "summary_en": "Fix load errors for disabled plugins",
+          "why_matters": "减少 `/reload-plugins` 和 `/doctor` 中的误报，提升诊断可信度。",
+          "why_matters_en": "Reduces false error reports in `/reload-plugins` and `/doctor`, improving diagnostic trustworthiness.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed Agent tool with `isolation: \"worktree\"` reusing stale worktrees from prior sessions",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复工作树复用旧状态",
+          "summary_en": "Fix stale worktree reuse for Agent tools",
+          "why_matters": "确保隔离工作树不会沿用旧会话状态，避免任务污染和错误结果。",
+          "why_matters_en": "Ensures isolated worktrees do not reuse stale session state, preventing task contamination.",
+          "capability_ids": [
+            "execution_workspace",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed disabled MCP servers appearing as \"failed\" in `/status`",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复禁用MCP显示为失败",
+          "summary_en": "Fix disabled MCP servers shown as failed",
+          "why_matters": "让状态页更准确地区分“禁用”和“失败”，减少无谓排障。",
+          "why_matters_en": "Makes status views accurately distinguish disabled from failed servers, reducing unnecessary troubleshooting.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed `TaskList` returning tasks in arbitrary filesystem order instead of sorted by ID",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复任务列表排序",
+          "summary_en": "Fix TaskList ordering by ID",
+          "why_matters": "按 ID 返回任务可提供稳定顺序，便于比较和自动化处理。",
+          "why_matters_en": "Returning tasks sorted by ID provides a stable order for comparison and automation.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed spurious \"GitHub API rate limit exceeded\" hints when `gh` output contained PR titles mentioning \"rate limit\"",
+          "category": "fix",
+          "importance": 2,
+          "summary": "减少误报 GitHub 限流提示",
+          "summary_en": "Avoid false GitHub rate-limit hints",
+          "why_matters": "避免在正常 PR 标题中出现相关词时误导用户，以免错误判断接口限流问题。",
+          "why_matters_en": "Prevents misleading rate-limit warnings when the text merely appears in PR titles.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed SDK/bridge `read_file` not correctly enforcing size cap on growing files",
+          "category": "fix",
+          "importance": 4,
+          "summary": "严格限制增长文件读取大小",
+          "summary_en": "Enforce file size caps on growing files",
+          "why_matters": "防止读取不断增长的文件时越界或消耗过多资源，提升工具稳定性。",
+          "why_matters_en": "Prevents over-reading or excessive resource use when files grow during reads.",
+          "capability_ids": [
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed PR not linked to session when working in a git worktree",
+          "category": "fix",
+          "importance": 3,
+          "summary": "工作树下正确关联 PR 会话",
+          "summary_en": "Link PRs to sessions in git worktrees",
+          "why_matters": "在 git worktree 场景下保持会话与 PR 关联正确，避免上下文丢失。",
+          "why_matters_en": "Keeps PR/session linkage correct in git worktrees so context is not lost.",
+          "capability_ids": [
+            "memory_context",
+            "integrations_ecosystem",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed `/doctor` warning about MCP server entries overridden by a higher-precedence scope",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修正 /doctor 的 MCP 警告误报",
+          "summary_en": "Fix false /doctor MCP override warning",
+          "why_matters": "减少诊断命令中的假警告，让用户更准确地判断 MCP 配置状态。",
+          "why_matters_en": "Reduces false diagnostics so users can trust MCP configuration warnings.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Windows: removed false-positive \"Windows requires 'cmd /c' wrapper\" MCP config warning",
+          "category": "fix",
+          "importance": 2,
+          "summary": "移除 Windows MCP 配置误警告",
+          "summary_en": "Remove false Windows MCP config warning",
+          "why_matters": "避免 Windows 用户收到无意义的配置提示，降低排障成本。",
+          "why_matters_en": "Prevents meaningless warnings for Windows users and reduces troubleshooting noise.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed voice dictation's first recording producing nothing on macOS while the microphone permission prompt is showing",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复 macOS 语音首录无输出",
+          "summary_en": "Fix first voice dictation recording on macOS",
+          "why_matters": "让首次语音输入在权限弹窗期间也能正常工作，提升交互体验。",
+          "why_matters_en": "Makes first voice dictation work while the mic permission prompt is visible.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "governance_security"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Measuring Claude 4.7's tokenizer costs",
+          "points": 714,
+          "url": "https://www.claudecodecamp.com/p/i-measured-claude-4-7-s-new-tokenizer-here-s-what-it-costs-you"
+        },
+        {
+          "title": "Claude Code to be removed from Anthropic's Pro plan?",
+          "points": 679,
+          "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
+        },
+        {
+          "title": "An update on recent Claude Code quality reports",
+          "points": 606,
+          "url": "https://www.anthropic.com/engineering/april-23-postmortem"
+        },
+        {
+          "title": "Claude Code to be removed from Pro Tier?",
+          "points": 265,
+          "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
+        },
+        {
+          "title": "Claude Token Counter, now with model comparisons",
+          "points": 224,
+          "url": "https://simonwillison.net/2026/Apr/20/claude-token-counts/"
+        }
+      ],
+      "highlight_score": 50
+    },
     {
       "version": "2.1.118",
       "date": "2026-04-22",
@@ -531,8 +1225,13 @@
         },
         {
           "title": "Claude Code to be removed from Anthropic's Pro plan?",
-          "points": 664,
+          "points": 679,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
+        },
+        {
+          "title": "An update on recent Claude Code quality reports",
+          "points": 606,
+          "url": "https://www.anthropic.com/engineering/april-23-postmortem"
         },
         {
           "title": "Claude Code to be removed from Pro Tier?",
@@ -543,11 +1242,6 @@
           "title": "Elevated errors on Claude.ai, API, Claude Code",
           "points": 243,
           "url": "https://claudestatus.com/"
-        },
-        {
-          "title": "Show HN: Faceoff – A terminal UI for following NHL games",
-          "points": 133,
-          "url": "https://www.vincentgregoire.com/faceoff/"
         }
       ],
       "highlight_score": 50
@@ -936,18 +1630,18 @@
         },
         {
           "title": "Claude Code to be removed from Anthropic's Pro plan?",
-          "points": 664,
+          "points": 679,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
+        },
+        {
+          "title": "An update on recent Claude Code quality reports",
+          "points": 606,
+          "url": "https://www.anthropic.com/engineering/april-23-postmortem"
         },
         {
           "title": "Claude Code to be removed from Pro Tier?",
           "points": 265,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
-        },
-        {
-          "title": "Elevated errors on Claude.ai, API, Claude Code",
-          "points": 243,
-          "url": "https://claudestatus.com/"
         }
       ],
       "highlight_score": 50
@@ -1271,18 +1965,18 @@
         },
         {
           "title": "Claude Code to be removed from Anthropic's Pro plan?",
-          "points": 664,
+          "points": 679,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
+        },
+        {
+          "title": "An update on recent Claude Code quality reports",
+          "points": 606,
+          "url": "https://www.anthropic.com/engineering/april-23-postmortem"
         },
         {
           "title": "Claude Code to be removed from Pro Tier?",
           "points": 265,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
-        },
-        {
-          "title": "Elevated errors on Claude.ai, API, Claude Code",
-          "points": 243,
-          "url": "https://claudestatus.com/"
         }
       ],
       "highlight_score": 50
@@ -1325,13 +2019,13 @@
         },
         {
           "title": "Claude Code to be removed from Anthropic's Pro plan?",
-          "points": 664,
+          "points": 679,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
         },
         {
-          "title": "Anthropic downgraded cache TTL on March 6th",
-          "points": 550,
-          "url": "https://github.com/anthropics/claude-code/issues/46829"
+          "title": "An update on recent Claude Code quality reports",
+          "points": 606,
+          "url": "https://www.anthropic.com/engineering/april-23-postmortem"
         }
       ],
       "highlight_score": 50
@@ -1845,13 +2539,13 @@
         },
         {
           "title": "Claude Code to be removed from Anthropic's Pro plan?",
-          "points": 664,
+          "points": 679,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
         },
         {
-          "title": "Anthropic downgraded cache TTL on March 6th",
-          "points": 550,
-          "url": "https://github.com/anthropics/claude-code/issues/46829"
+          "title": "An update on recent Claude Code quality reports",
+          "points": 606,
+          "url": "https://www.anthropic.com/engineering/april-23-postmortem"
         }
       ],
       "highlight_score": 55
@@ -1894,13 +2588,13 @@
         },
         {
           "title": "Claude Code to be removed from Anthropic's Pro plan?",
-          "points": 664,
+          "points": 679,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
         },
         {
-          "title": "Anthropic downgraded cache TTL on March 6th",
-          "points": 550,
-          "url": "https://github.com/anthropics/claude-code/issues/46829"
+          "title": "An update on recent Claude Code quality reports",
+          "points": 606,
+          "url": "https://www.anthropic.com/engineering/april-23-postmortem"
         }
       ],
       "highlight_score": 50
@@ -2372,13 +3066,13 @@
         },
         {
           "title": "Claude Code to be removed from Anthropic's Pro plan?",
-          "points": 664,
+          "points": 679,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
         },
         {
-          "title": "Anthropic downgraded cache TTL on March 6th",
-          "points": 550,
-          "url": "https://github.com/anthropics/claude-code/issues/46829"
+          "title": "An update on recent Claude Code quality reports",
+          "points": 606,
+          "url": "https://www.anthropic.com/engineering/april-23-postmortem"
         }
       ],
       "highlight_score": 50
@@ -2829,12 +3523,12 @@
         },
         {
           "title": "Claude Code to be removed from Anthropic's Pro plan?",
-          "points": 664,
+          "points": 679,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
         },
         {
           "title": "Anthropic downgraded cache TTL on March 6th",
-          "points": 550,
+          "points": 551,
           "url": "https://github.com/anthropics/claude-code/issues/46829"
         }
       ],
@@ -2878,12 +3572,12 @@
         },
         {
           "title": "Claude Code to be removed from Anthropic's Pro plan?",
-          "points": 664,
+          "points": 679,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
         },
         {
           "title": "Anthropic downgraded cache TTL on March 6th",
-          "points": 550,
+          "points": 551,
           "url": "https://github.com/anthropics/claude-code/issues/46829"
         }
       ],
@@ -3217,12 +3911,12 @@
         },
         {
           "title": "Claude Code to be removed from Anthropic's Pro plan?",
-          "points": 664,
+          "points": 679,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
         },
         {
           "title": "Anthropic downgraded cache TTL on March 6th",
-          "points": 550,
+          "points": 551,
           "url": "https://github.com/anthropics/claude-code/issues/46829"
         }
       ],
@@ -3265,12 +3959,12 @@
         },
         {
           "title": "Claude Code to be removed from Anthropic's Pro plan?",
-          "points": 664,
+          "points": 679,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
         },
         {
           "title": "Anthropic downgraded cache TTL on March 6th",
-          "points": 550,
+          "points": 551,
           "url": "https://github.com/anthropics/claude-code/issues/46829"
         }
       ],
@@ -3754,7 +4448,7 @@
         },
         {
           "title": "Anthropic downgraded cache TTL on March 6th",
-          "points": 550,
+          "points": 551,
           "url": "https://github.com/anthropics/claude-code/issues/46829"
         }
       ],
@@ -5158,7 +5852,7 @@
         },
         {
           "title": "Anthropic downgraded cache TTL on March 6th",
-          "points": 550,
+          "points": 551,
           "url": "https://github.com/anthropics/claude-code/issues/46829"
         }
       ],
@@ -8454,9 +9148,9 @@
           "url": "https://cc.storyfox.cz"
         },
         {
-          "title": "Push events into a running session with channels",
-          "points": 400,
-          "url": "https://code.claude.com/docs/en/channels"
+          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
+          "points": 489,
+          "url": "https://github.com/itigges22/ATLAS"
         }
       ],
       "highlight_score": 50
@@ -8990,9 +9684,9 @@
           "url": "https://cc.storyfox.cz"
         },
         {
-          "title": "Push events into a running session with channels",
-          "points": 400,
-          "url": "https://code.claude.com/docs/en/channels"
+          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
+          "points": 489,
+          "url": "https://github.com/itigges22/ATLAS"
         }
       ],
       "highlight_score": 50
@@ -9998,14 +10692,14 @@
           "url": "https://cc.storyfox.cz"
         },
         {
+          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
+          "points": 489,
+          "url": "https://github.com/itigges22/ATLAS"
+        },
+        {
           "title": "Push events into a running session with channels",
           "points": 400,
           "url": "https://code.claude.com/docs/en/channels"
-        },
-        {
-          "title": "Claude Code users hitting usage limits 'way faster than expected'",
-          "points": 331,
-          "url": "https://www.theregister.com/2026/03/31/anthropic_claude_code_limits/"
         }
       ],
       "highlight_score": 55
@@ -10380,6 +11074,11 @@
           "url": "https://cc.storyfox.cz"
         },
         {
+          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
+          "points": 489,
+          "url": "https://github.com/itigges22/ATLAS"
+        },
+        {
           "title": "Push events into a running session with channels",
           "points": 400,
           "url": "https://code.claude.com/docs/en/channels"
@@ -10393,11 +11092,6 @@
           "title": "Cook: A simple CLI for orchestrating Claude Code",
           "points": 307,
           "url": "https://rjcorwin.github.io/cook/"
-        },
-        {
-          "title": "Schedule tasks on the web",
-          "points": 298,
-          "url": "https://code.claude.com/docs/en/web-scheduled-tasks"
         }
       ],
       "highlight_score": 50
@@ -10632,6 +11326,11 @@
           "url": "https://cc.storyfox.cz"
         },
         {
+          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
+          "points": 489,
+          "url": "https://github.com/itigges22/ATLAS"
+        },
+        {
           "title": "Push events into a running session with channels",
           "points": 400,
           "url": "https://code.claude.com/docs/en/channels"
@@ -10645,11 +11344,6 @@
           "title": "Cook: A simple CLI for orchestrating Claude Code",
           "points": 307,
           "url": "https://rjcorwin.github.io/cook/"
-        },
-        {
-          "title": "How I'm Productive with Claude Code",
-          "points": 281,
-          "url": "https://neilkakkar.com/productive-with-claude-code.html"
         }
       ],
       "highlight_score": 50
@@ -19455,11 +20149,6 @@
           "title": "What is happening to writing? Cognitive debt, Claude Code, the space around AI",
           "points": 135,
           "url": "https://resobscura.substack.com/p/what-is-happening-to-writing"
-        },
-        {
-          "title": "Show HN: I built a tool to un-dumb Claude Code's CLI output (Local Log Viewer)",
-          "points": 69,
-          "url": "https://github.com/matt1398/claude-devtools"
         }
       ],
       "highlight_score": 8
@@ -19768,11 +20457,6 @@
           "title": "What is happening to writing? Cognitive debt, Claude Code, the space around AI",
           "points": 135,
           "url": "https://resobscura.substack.com/p/what-is-happening-to-writing"
-        },
-        {
-          "title": "Show HN: I built a tool to un-dumb Claude Code's CLI output (Local Log Viewer)",
-          "points": 69,
-          "url": "https://github.com/matt1398/claude-devtools"
         }
       ],
       "highlight_score": 28
@@ -19847,11 +20531,6 @@
           "title": "Show HN: Skill that lets Claude Code/Codex spin up VMs and GPUs",
           "points": 138,
           "url": "https://cloudrouter.dev/"
-        },
-        {
-          "title": "Show HN: I built a tool to un-dumb Claude Code's CLI output (Local Log Viewer)",
-          "points": 69,
-          "url": "https://github.com/matt1398/claude-devtools"
         }
       ],
       "highlight_score": 28
@@ -19957,11 +20636,6 @@
           "title": "Show HN: Skill that lets Claude Code/Codex spin up VMs and GPUs",
           "points": 138,
           "url": "https://cloudrouter.dev/"
-        },
-        {
-          "title": "Show HN: I built a tool to un-dumb Claude Code's CLI output (Local Log Viewer)",
-          "points": 69,
-          "url": "https://github.com/matt1398/claude-devtools"
         }
       ],
       "highlight_score": 28
@@ -19990,11 +20664,6 @@
           "title": "Show HN: Skill that lets Claude Code/Codex spin up VMs and GPUs",
           "points": 138,
           "url": "https://cloudrouter.dev/"
-        },
-        {
-          "title": "Show HN: I built a tool to un-dumb Claude Code's CLI output (Local Log Viewer)",
-          "points": 69,
-          "url": "https://github.com/matt1398/claude-devtools"
         }
       ],
       "highlight_score": 8
@@ -20023,11 +20692,6 @@
           "title": "Show HN: Skill that lets Claude Code/Codex spin up VMs and GPUs",
           "points": 138,
           "url": "https://cloudrouter.dev/"
-        },
-        {
-          "title": "Show HN: I built a tool to un-dumb Claude Code's CLI output (Local Log Viewer)",
-          "points": 69,
-          "url": "https://github.com/matt1398/claude-devtools"
         }
       ],
       "highlight_score": 8
@@ -20069,11 +20733,6 @@
           "title": "Show HN: Skill that lets Claude Code/Codex spin up VMs and GPUs",
           "points": 138,
           "url": "https://cloudrouter.dev/"
-        },
-        {
-          "title": "Show HN: I built a tool to un-dumb Claude Code's CLI output (Local Log Viewer)",
-          "points": 69,
-          "url": "https://github.com/matt1398/claude-devtools"
         }
       ],
       "highlight_score": 28
@@ -20299,11 +20958,6 @@
           "title": "Show HN: Skill that lets Claude Code/Codex spin up VMs and GPUs",
           "points": 138,
           "url": "https://cloudrouter.dev/"
-        },
-        {
-          "title": "Show HN: I built a tool to un-dumb Claude Code's CLI output (Local Log Viewer)",
-          "points": 69,
-          "url": "https://github.com/matt1398/claude-devtools"
         }
       ],
       "highlight_score": 28
@@ -42181,8 +42835,8 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 325,
-      "release_count": 134,
+      "change_count": 331,
+      "release_count": 135,
       "avg_importance": 3.12,
       "maturity": {
         "score": 92,
@@ -42193,14 +42847,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-04-22",
-        "version": "2.1.118"
+        "date": "2026-04-23",
+        "version": "2.1.119"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 163
+          "change_count": 169
         },
         {
           "epoch_id": "epoch4",
@@ -42276,9 +42930,9 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 703,
-      "release_count": 171,
-      "avg_importance": 3.21,
+      "change_count": 713,
+      "release_count": 172,
+      "avg_importance": 3.22,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -42288,14 +42942,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-04-22",
-        "version": "2.1.118"
+        "date": "2026-04-23",
+        "version": "2.1.119"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 402
+          "change_count": 412
         },
         {
           "epoch_id": "epoch1",
@@ -42371,9 +43025,9 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 474,
-      "release_count": 129,
-      "avg_importance": 3.22,
+      "change_count": 481,
+      "release_count": 130,
+      "avg_importance": 3.21,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -42383,14 +43037,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-04-22",
-        "version": "2.1.118"
+        "date": "2026-04-23",
+        "version": "2.1.119"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 310
+          "change_count": 317
         },
         {
           "epoch_id": "epoch1",
@@ -42466,8 +43120,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 535,
-      "release_count": 179,
+      "change_count": 548,
+      "release_count": 180,
       "avg_importance": 3.24,
       "maturity": {
         "score": 93,
@@ -42478,14 +43132,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-22",
-        "version": "2.1.118"
+        "date": "2026-04-23",
+        "version": "2.1.119"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 273
+          "change_count": 286
         },
         {
           "epoch_id": "epoch1",
@@ -42561,9 +43215,9 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 259,
-      "release_count": 101,
-      "avg_importance": 3.34,
+      "change_count": 263,
+      "release_count": 102,
+      "avg_importance": 3.33,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -42573,14 +43227,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-22",
-        "version": "2.1.118"
+        "date": "2026-04-23",
+        "version": "2.1.119"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 168
+          "change_count": 172
         },
         {
           "epoch_id": "epoch1",
@@ -42656,9 +43310,9 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 825,
-      "release_count": 204,
-      "avg_importance": 3.17,
+      "change_count": 850,
+      "release_count": 205,
+      "avg_importance": 3.16,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -42668,14 +43322,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-04-22",
-        "version": "2.1.118"
+        "date": "2026-04-23",
+        "version": "2.1.119"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 459
+          "change_count": 484
         },
         {
           "epoch_id": "epoch1",
@@ -42700,6 +43354,14 @@
       ],
       "samples": [
         {
+          "date": "2026-04-23",
+          "version": "2.1.119",
+          "raw": "Security: `blockedMarketplaces` now correctly enforces `hostPattern` and `pathPattern` entries",
+          "summary": "修复受限市场校验漏洞",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-04-22",
           "version": "2.1.118",
           "raw": "Fixed MCP OAuth refresh proceeding without its cross-process lock under contention",
@@ -42722,14 +43384,6 @@
           "summary": "切换为原生 Claude Code 二进制",
           "importance": 5,
           "category": "breaking"
-        },
-        {
-          "date": "2026-04-16",
-          "version": "2.1.111",
-          "raw": "Added `/ultrareview` for running comprehensive code review in the cloud using parallel multi-agent analysis and critique — invoke with no arguments to review your current branch, or `/ultrareview <PR#>` to fetch and review a specific GitHub PR",
-          "summary": "新增云端超强审查",
-          "importance": 5,
-          "category": "feat"
         }
       ]
     },
@@ -42751,8 +43405,8 @@
         "Emacs",
         "web"
       ],
-      "change_count": 530,
-      "release_count": 149,
+      "change_count": 543,
+      "release_count": 150,
       "avg_importance": 2.7,
       "maturity": {
         "score": 91,
@@ -42763,14 +43417,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-22",
-        "version": "2.1.118"
+        "date": "2026-04-23",
+        "version": "2.1.119"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 321
+          "change_count": 334
         },
         {
           "epoch_id": "epoch4",
@@ -42846,9 +43500,9 @@
         "policy",
         "auditing"
       ],
-      "change_count": 535,
-      "release_count": 175,
-      "avg_importance": 3.4,
+      "change_count": 554,
+      "release_count": 176,
+      "avg_importance": 3.39,
       "maturity": {
         "score": 94,
         "level": "成熟"
@@ -42858,14 +43512,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-22",
-        "version": "2.1.118"
+        "date": "2026-04-23",
+        "version": "2.1.119"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 299
+          "change_count": 318
         },
         {
           "epoch_id": "epoch4",
@@ -42890,6 +43544,14 @@
       ],
       "samples": [
         {
+          "date": "2026-04-23",
+          "version": "2.1.119",
+          "raw": "Security: `blockedMarketplaces` now correctly enforces `hostPattern` and `pathPattern` entries",
+          "summary": "修复受限市场校验漏洞",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-04-22",
           "version": "2.1.118",
           "raw": "Fixed MCP OAuth refresh proceeding without its cross-process lock under contention",
@@ -42912,14 +43574,6 @@
           "summary": "修复凭据保存崩溃",
           "importance": 5,
           "category": "fix"
-        },
-        {
-          "date": "2026-04-20",
-          "version": "2.1.116",
-          "raw": "Security: sandbox auto-allow no longer bypasses the dangerous-path safety check for `rm`/`rmdir` targeting `/`, `$HOME`, or other critical system directories",
-          "summary": "沙箱自动放行更安全",
-          "importance": 5,
-          "category": "security"
         }
       ]
     }
