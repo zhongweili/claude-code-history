@@ -1,13 +1,13 @@
 {
   "meta": {
-    "generated_at": "2026-04-27T04:28:50.236Z",
+    "generated_at": "2026-04-28T04:32:44.422Z",
     "agent_model": "openai/gpt-5.4-mini",
-    "total_versions": 272,
+    "total_versions": 274,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-04-23"
+      "end": "2026-04-27"
     },
-    "highlight_count": 36,
+    "highlight_count": 35,
     "capability_count": 8,
     "hn_signal_count": 18,
     "blog_post_count": 7
@@ -59,7 +59,7 @@
       "summary": "2.1 把插件、技能、权限治理一齐推到前台。Cowork 扩出了代码之外的地盘，Anthropic 同时悄悄收紧了第三方使用订阅这件事。平台化往往是一次权力的再分配。",
       "summary_en": "2.1 pushes plugins, skills, and permission governance to the foreground. Cowork extends the brand beyond code, while Anthropic quietly clamps down on third-party use of subscriptions. Platformization, as always, is a redistribution of power.",
       "release_count": 55,
-      "highlight_count": 11
+      "highlight_count": 10
     },
     {
       "id": "epoch5",
@@ -70,11 +70,858 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。与此同时，Opus 4.6 把「思考」变成了可选项，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Meanwhile, Opus 4.6 makes reasoning optional rather than visible, while worktree isolation and a 1M context push the agent toward running for hours, unattended.",
-      "release_count": 56,
+      "release_count": 58,
       "highlight_count": 14
     }
   ],
   "releases": [
+    {
+      "version": "2.1.121",
+      "date": "2026-04-27",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added `alwaysLoad` option to MCP server config — when `true`, all tools from that server skip tool-search deferral and are always available",
+          "category": "feat",
+          "importance": 4,
+          "summary": "MCP服务器可常驻加载工具",
+          "summary_en": "Always load MCP server tools",
+          "why_matters": "让指定MCP服务器的工具始终可用，减少搜索延迟带来的调用中断。",
+          "why_matters_en": "Keeps selected MCP tools always available, avoiding deferral delays during use.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added `claude plugin prune` to remove orphaned auto-installed plugin dependencies; `plugin uninstall --prune` cascades",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "清理孤儿插件依赖",
+          "summary_en": "Prune orphaned plugin dependencies",
+          "why_matters": "卸载插件时可顺带清理无用依赖，减少环境污染和维护成本。",
+          "why_matters_en": "Cascading prune removes unused dependencies and keeps the environment cleaner.",
+          "capability_ids": [
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added a type-to-filter search box to `/skills` so you can find a skill in long lists without scrolling",
+          "category": "feat",
+          "importance": 2,
+          "summary": "技能列表支持搜索过滤",
+          "summary_en": "Add filter search to /skills",
+          "why_matters": "在长技能列表中快速定位目标，提升查找效率。",
+          "why_matters_en": "Makes it easier to find a skill in long lists without scrolling.",
+          "capability_ids": [
+            "memory_context",
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "PostToolUse hooks can now replace tool output for all tools via `hookSpecificOutput.updatedToolOutput` (previously MCP-only)",
+          "category": "feat",
+          "importance": 4,
+          "summary": "工具输出可被钩子替换",
+          "summary_en": "Allow hooks to replace tool output",
+          "why_matters": "允许统一改写所有工具输出，增强后处理和自动化控制能力。",
+          "why_matters_en": "Lets hooks rewrite output for any tool, enabling stronger post-processing and control.",
+          "capability_ids": [
+            "automation_autonomy",
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fullscreen mode: typing into the prompt no longer jumps scroll back to the bottom after you've scrolled up to read earlier output",
+          "category": "fix",
+          "importance": 3,
+          "summary": "全屏模式输入不再回到底部",
+          "summary_en": "Fix fullscreen scroll jumping",
+          "why_matters": "阅读上方内容时输入提示不会打断滚动位置，改善大输出场景体验。",
+          "why_matters_en": "Typing no longer snaps you back to the bottom, improving readability in long outputs.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Dialogs that overflow the terminal are now scrollable with arrow keys, PgUp/PgDn, home/end, and mouse wheel in both fullscreen and non-fullscreen modes",
+          "category": "feat",
+          "importance": 3,
+          "summary": "溢出对话可滚动查看",
+          "summary_en": "Scrollable overflow dialogs",
+          "why_matters": "能更方便浏览超出终端高度的对话内容，避免信息被截断。",
+          "why_matters_en": "Makes long dialogs navigable when they exceed terminal height.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Clicking any line of a long URL that wraps across rows in fullscreen mode now opens the full URL",
+          "category": "fix",
+          "importance": 2,
+          "summary": "长URL换行仍可点击",
+          "summary_en": "Clickable wrapped long URLs",
+          "why_matters": "避免长链接换行后失去可点击性，减少打开链接的摩擦。",
+          "why_matters_en": "Wrapped URLs remain clickable, making it easier to open long links.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "SDK and `claude -p`: `CLAUDE_CODE_FORK_SUBAGENT=1` now works in non-interactive sessions",
+          "category": "fix",
+          "importance": 3,
+          "summary": "非交互会话也支持分叉子代理",
+          "summary_en": "Fork subagents in non-interactive mode",
+          "why_matters": "让SDK和批处理调用也能使用分叉子代理能力，提升自动化一致性。",
+          "why_matters_en": "Extends subagent forking to non-interactive sessions for more consistent automation.",
+          "capability_ids": [
+            "automation_autonomy",
+            "execution_workspace",
+            "reasoning_workflows",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "`--dangerously-skip-permissions` no longer prompts for writes to `.claude/skills/`, `.claude/agents/`, and `.claude/commands/`",
+          "category": "security",
+          "importance": 4,
+          "summary": "跳过权限时放行技能与代理写入",
+          "summary_en": "Skip permission prompts for .claude paths",
+          "why_matters": "在明确跳过权限模式下减少不必要提示，避免阻塞技能和代理安装流程。",
+          "why_matters_en": "Reduces unnecessary prompts in skip-permissions mode for skills, agents, and commands.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy",
+            "delegation_collaboration",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "`/terminal-setup` now enables iTerm2's \"Applications in terminal may access clipboard\" setting so `/copy` works, including from tmux",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "自动启用iTerm2剪贴板权限",
+          "summary_en": "Enable iTerm2 clipboard access for /copy",
+          "why_matters": "减少手动配置步骤，让复制功能在iTerm2和tmux中更可靠可用。",
+          "why_matters_en": "Cuts manual setup and makes /copy work more reliably in iTerm2 and tmux.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "MCP servers that hit a transient error during startup now auto-retry up to 3 times instead of staying disconnected",
+          "category": "improvement",
+          "importance": 4,
+          "summary": "MCP启动失败可自动重试",
+          "summary_en": "Auto-retry transient MCP startup failures",
+          "why_matters": "临时故障不再直接导致服务器离线，提升连接稳定性和可用性。",
+          "why_matters_en": "Transient startup errors no longer leave servers disconnected, improving reliability.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "The terminal tab session title is now generated in your configured `language` setting",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "会话标题使用本地语言",
+          "summary_en": "Session title respects language setting",
+          "why_matters": "终端标签更符合用户语言习惯，提升可读性。",
+          "why_matters_en": "Terminal tab titles now match the configured language for better readability.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Claude.ai connectors with the same upstream URL are now deduplicated instead of appearing as duplicates",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "相同连接器URL自动去重",
+          "summary_en": "Deduplicate connectors by upstream URL",
+          "why_matters": "减少重复连接器条目，简化管理和选择。",
+          "why_matters_en": "Avoids duplicate connector entries and simplifies selection.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Vertex AI: support X.509 certificate-based Workload Identity Federation (mTLS ADC)",
+          "category": "feat",
+          "importance": 4,
+          "summary": "Vertex AI支持证书联邦认证",
+          "summary_en": "Support Vertex AI certificate federation",
+          "why_matters": "扩展企业身份认证方式，满足mTLS和联邦身份场景。",
+          "why_matters_en": "Adds enterprise authentication support for mTLS-based workload federation.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Faster startup after upgrading: removed the Recent Activity panel from the release-notes splash",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "升级后启动更快",
+          "summary_en": "Faster startup after upgrade",
+          "why_matters": "减少升级后的启动等待时间，改善首次进入体验。",
+          "why_matters_en": "Shortens startup time after upgrading, improving the initial user experience.",
+          "capability_ids": [
+            "performance",
+            "other"
+          ]
+        },
+        {
+          "raw": "LSP diagnostic summaries now expand on click/ctrl+o and show the expand hint",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "LSP诊断可点击展开",
+          "summary_en": "Clickable expandable LSP diagnostics",
+          "why_matters": "用户可以直接展开查看更完整的诊断信息，减少来回跳转和漏看细节。",
+          "why_matters_en": "Users can expand diagnostics in place, reducing context switching and missed details.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "SDK: `mcp_authenticate` now supports `redirectUri` for custom scheme completion and claude.ai connectors",
+          "category": "feat",
+          "importance": 3,
+          "summary": "MCP认证支持redirectUri",
+          "summary_en": "mcp_authenticate supports redirectUri",
+          "why_matters": "这让自定义 scheme 完成和 claude.ai 连接器的 OAuth 流程更顺畅。",
+          "why_matters_en": "This enables smoother OAuth completion for custom schemes and claude.ai connectors.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "OpenTelemetry: added `stop_reason`, `gen_ai.response.finish_reasons`, and `user_system_prompt` (gated behind `OTEL_LOG_USER_PROMPTS`) to LLM request spans",
+          "category": "feat",
+          "importance": 2,
+          "summary": "LLM追踪增加更多OTel字段",
+          "summary_en": "More OpenTelemetry fields for LLM spans",
+          "why_matters": "新增埋点字段有助于更准确地分析模型请求与响应行为。",
+          "why_matters_en": "The new span fields improve observability and analysis of model requests and responses.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "[VSCode] Voice dictation now respects the `accessibility.voice.speechLanguage` setting when no Claude Code language is configured",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "语音听写遵循系统语言设置",
+          "summary_en": "Voice dictation follows system language",
+          "why_matters": "当未配置 Claude Code 语言时，语音识别会更符合用户系统设置。",
+          "why_matters_en": "Voice recognition better matches the user's system setting when no app language is set.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "accessibility_security"
+          ]
+        },
+        {
+          "raw": "[VSCode] `/context` now opens a native token usage dialog",
+          "category": "feat",
+          "importance": 2,
+          "summary": "上下文页改为原生用量弹窗",
+          "summary_en": "Context opens a native usage dialog",
+          "why_matters": "原生对话框通常更清晰、更符合平台交互习惯，提升查看用量体验。",
+          "why_matters_en": "A native dialog improves clarity and matches platform UX for viewing token usage.",
+          "capability_ids": [
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed unbounded memory growth (multi-GB RSS) when processing many images in a session",
+          "category": "fix",
+          "importance": 5,
+          "summary": "修复多图处理内存暴涨",
+          "summary_en": "Fixed runaway memory growth with many images",
+          "why_matters": "这能避免会话中处理大量图片时占用数 GB 内存并拖垮系统。",
+          "why_matters_en": "This prevents multi-GB memory usage when handling many images in a session.",
+          "capability_ids": [
+            "execution_workspace",
+            "memory_context",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `/usage` leaking up to ~2GB of memory on machines with large transcript histories",
+          "category": "fix",
+          "importance": 5,
+          "summary": "/usage不再泄漏大内存",
+          "summary_en": "/usage no longer leaks large memory",
+          "why_matters": "在长历史记录机器上查看用量不再导致高达 2GB 的内存泄漏。",
+          "why_matters_en": "Viewing usage on large transcript histories no longer leaks up to ~2GB of memory.",
+          "capability_ids": [
+            "execution_workspace",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed memory leak when long-running tools fail to emit a clear progress event",
+          "category": "fix",
+          "importance": 4,
+          "summary": "长工具失败不再泄漏内存",
+          "summary_en": "Long-running tool failures no longer leak",
+          "why_matters": "工具异常退出时，进程不会因为缺少进度事件而持续占用更多内存。",
+          "why_matters_en": "Failed tools no longer cause memory leaks when progress events are missing.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed Bash tool becoming permanently unusable when the directory Claude was started in is deleted or moved mid-session",
+          "category": "fix",
+          "importance": 5,
+          "summary": "Bash工具目录丢失后可恢复",
+          "summary_en": "Bash tool survives deleted start dir",
+          "why_matters": "即使启动目录被移动或删除，Bash 工具也不会永久失效。",
+          "why_matters_en": "The Bash tool no longer becomes permanently unusable if the start directory is moved or deleted.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed `--resume` crashing on startup in external builds",
+          "category": "fix",
+          "importance": 4,
+          "summary": "外部构建--resume不再崩溃",
+          "summary_en": "--resume no longer crashes in external builds",
+          "why_matters": "恢复会话在外部构建环境中更稳定，不会一启动就失败。",
+          "why_matters_en": "Resuming sessions is now stable in external builds instead of crashing on startup.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed `--resume` failing on large sessions when a transcript line was corrupted by an unclean shutdown — the corrupt line is now skipped",
+          "category": "fix",
+          "importance": 4,
+          "summary": "坏行被跳过，长会话可恢复",
+          "summary_en": "Corrupt transcript lines are skipped on resume",
+          "why_matters": "即使非正常关机导致日志损坏，长会话也更容易恢复。",
+          "why_matters_en": "Even with corrupted transcript lines after an unclean shutdown, large sessions can still resume.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed `thinking.type.enabled is not supported` error when using Bedrock application inference profile ARNs",
+          "category": "fix",
+          "importance": 3,
+          "summary": "Bedrock ARN兼容thinking配置",
+          "summary_en": "Bedrock ARN compatibility fixed for thinking",
+          "why_matters": "使用 Bedrock 应用推理配置时不会再因为参数不支持而报错。",
+          "why_matters_en": "Using Bedrock application inference profile ARNs no longer fails on unsupported thinking config.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed Microsoft 365 MCP OAuth failing with duplicate or unsupported `prompt` parameter",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复M365 MCP OAuth参数冲突",
+          "summary_en": "Fixed M365 MCP OAuth prompt parameter issue",
+          "why_matters": "Microsoft 365 的 OAuth 登录流程不再因为重复或不支持的参数而失败。",
+          "why_matters_en": "Microsoft 365 MCP OAuth no longer fails due to duplicate or unsupported prompt parameters.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed scrollback duplication when pressing Ctrl+L or triggering a redraw in non-fullscreen mode on tmux, GNOME Terminal, Windows Terminal, and Konsole",
+          "category": "fix",
+          "importance": 2,
+          "summary": "非全屏重绘不再重复回显",
+          "summary_en": "No duplicate scrollback on redraw",
+          "why_matters": "在多个终端里刷新界面时，输出不再重复显示，减少干扰。",
+          "why_matters_en": "Redrawing in several terminals no longer duplicates scrollback, reducing visual noise.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed claude.ai MCP connectors silently disappearing when the connector-list fetch hits a transient auth error at startup",
+          "category": "fix",
+          "importance": 3,
+          "summary": "claude.ai连接器不再静默消失",
+          "summary_en": "claude.ai connectors no longer vanish silently",
+          "why_matters": "启动时遇到临时认证错误也能保留连接器列表，避免用户误以为丢失。",
+          "why_matters_en": "Transient auth errors at startup no longer make claude.ai connectors disappear silently.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed \"Always allow\" rules for built-in tools in remote sessions not surviving worker restarts",
+          "category": "fix",
+          "importance": 4,
+          "summary": "远程会话保留工具授权",
+          "summary_en": "Keep built-in tool approvals",
+          "why_matters": "避免 worker 重启后重复授权，减少远程会话中断。",
+          "why_matters_en": "Prevents approvals from being lost after worker restarts, reducing interruptions in remote sessions.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed `NO_PROXY` not being respected for all HTTP clients when set via `managed-settings.json` under the native build",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复代理设置对所有客户端生效",
+          "summary_en": "Respect NO_PROXY across clients",
+          "why_matters": "确保企业代理环境下所有 HTTP 请求都按预期绕过代理。",
+          "why_matters_en": "Ensures all HTTP traffic correctly bypasses the proxy in enterprise proxy setups.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed managed settings approval prompt exiting the session even when accepted — now applies settings and continues",
+          "category": "fix",
+          "importance": 4,
+          "summary": "管理配置可继续会话",
+          "summary_en": "Apply managed settings without exit",
+          "why_matters": "接受管理设置后不再退出会话，减少配置变更带来的打断。",
+          "why_matters_en": "Accepting managed settings no longer exits the session, reducing disruption during configuration changes.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed `/usage` returning \"rate limited\" after a stale OAuth token — now refreshes automatically",
+          "category": "fix",
+          "importance": 3,
+          "summary": "自动刷新过期登录令牌",
+          "summary_en": "Auto-refresh stale OAuth token",
+          "why_matters": "避免因旧 OAuth 令牌导致 /usage 误报限流并影响使用状态查看。",
+          "why_matters_en": "Prevents stale OAuth tokens from causing false rate-limit errors in /usage.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed invalid legacy enum values in `settings.json` invalidating the entire settings file",
+          "category": "fix",
+          "importance": 4,
+          "summary": "忽略旧配置枚举错误",
+          "summary_en": "Ignore invalid legacy enum values",
+          "why_matters": "避免单个旧枚举值损坏整个配置文件，提升向后兼容性。",
+          "why_matters_en": "Prevents a single legacy enum value from invalidating the whole settings file, improving backward compatibility.",
+          "capability_ids": [
+            "memory_context",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed `/usage` dialog content being clipped when no-flicker mode is off",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复使用量弹窗显示裁剪",
+          "summary_en": "Fix clipped /usage dialog content",
+          "why_matters": "让使用量信息完整可见，提升界面可读性。",
+          "why_matters_en": "Keeps /usage information fully visible, improving readability.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `/focus` showing \"Unknown command\" when the fullscreen renderer is off — now explains how to enable it",
+          "category": "fix",
+          "importance": 2,
+          "summary": "提示如何启用全屏聚焦",
+          "summary_en": "Explain how to enable /focus",
+          "why_matters": "避免全屏渲染关闭时出现误导性命令错误。",
+          "why_matters_en": "Avoids misleading unknown-command errors when fullscreen rendering is disabled.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed embedded grep/find/rg shell wrappers failing when the running binary is deleted mid-session — now falls back to installed tools",
+          "category": "fix",
+          "importance": 4,
+          "summary": "删除二进制后仍可用搜索命令",
+          "summary_en": "Fallback when binary is deleted",
+          "why_matters": "即使运行中的程序被删除，搜索类 shell 功能也能继续工作。",
+          "why_matters_en": "Search shell wrappers keep working even if the running binary is deleted mid-session.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Reduced peak file descriptor usage during `find` in the Bash tool on large directory trees",
+          "category": "perf",
+          "importance": 3,
+          "summary": "降低大目录查找句柄占用",
+          "summary_en": "Reduce file descriptor usage in find",
+          "why_matters": "在大型目录树中降低资源消耗，减少失败风险并提升稳定性。",
+          "why_matters_en": "Lowers resource usage in large directory trees, reducing failure risk and improving stability.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "An update on recent Claude Code quality reports",
+          "points": 940,
+          "url": "https://www.anthropic.com/engineering/april-23-postmortem"
+        },
+        {
+          "title": "Claude Code to be removed from Anthropic's Pro plan?",
+          "points": 680,
+          "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
+        },
+        {
+          "title": "Claude Code to be removed from Pro Tier?",
+          "points": 265,
+          "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
+        },
+        {
+          "title": "Show HN: A Karpathy-style LLM wiki your agents maintain (Markdown and Git)",
+          "points": 258,
+          "url": "https://github.com/nex-crm/wuphf"
+        },
+        {
+          "title": "Show HN: How LLMs Work – Interactive visual guide based on Karpathy's lecture",
+          "points": 244,
+          "url": "https://ynarwal.github.io/how-llms-work/"
+        }
+      ],
+      "highlight_score": 50
+    },
+    {
+      "version": "2.1.120",
+      "date": "2026-04-24",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Windows: Git for Windows (Git Bash) is no longer required — when absent, Claude Code uses PowerShell as the shell tool",
+          "category": "improvement",
+          "importance": 4,
+          "summary": "Windows可用PowerShell运行",
+          "summary_en": "Use PowerShell when Git Bash is absent",
+          "why_matters": "这让 Windows 用户在未安装 Git for Windows 时也能直接使用 Claude Code，减少环境依赖。",
+          "why_matters_en": "This lets Windows users run Claude Code without Git for Windows, reducing setup friction.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Added `claude ultrareview [target]` subcommand to run `/ultrareview` non-interactively from CI or scripts — prints findings to stdout (`--json` for raw output) and exits 0 on completion or 1 on failure",
+          "category": "feat",
+          "importance": 5,
+          "summary": "新增CLI非交互审查命令",
+          "summary_en": "Add non-interactive ultrareview CLI",
+          "why_matters": "这使得 CI 和脚本可以自动执行审查并获取结果，提升自动化工作流能力。",
+          "why_matters_en": "This enables CI and scripts to run reviews automatically and consume results, improving automation workflows.",
+          "capability_ids": [
+            "automation_autonomy",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Skills can now reference the current effort level with `${CLAUDE_EFFORT}` in their content",
+          "category": "feat",
+          "importance": 2,
+          "summary": "技能支持读取努力等级",
+          "summary_en": "Skills can reference current effort level",
+          "why_matters": "技能内容可以根据当前努力等级自适应输出，更灵活地配合不同任务场景。",
+          "why_matters_en": "Skills can adapt their content to the current effort level, making them more flexible across tasks.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "memory_context",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Set `AI_AGENT` environment variable for subprocesses so `gh` can attribute traffic to Claude Code",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "子进程标记Claude身份",
+          "summary_en": "Tag subprocesses with AI_AGENT",
+          "why_matters": "这帮助外部服务识别流量来源，提升第三方集成的归因准确性。",
+          "why_matters_en": "This helps external services identify traffic source and improves attribution for integrations.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Spinner tips that recommend installing the desktop app or creating skills/agents are now hidden when you already have them",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "隐藏已拥有的安装提示",
+          "summary_en": "Hide install tips when already available",
+          "why_matters": "减少重复提示，避免打扰已经完成相关设置的用户。",
+          "why_matters_en": "This reduces repetitive tips and avoids distracting users who already have the recommended setup.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Show a \"use PgUp/PgDn to scroll\" hint when the terminal sends arrow keys instead of scroll events",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "滚动提示更明确",
+          "summary_en": "Show PgUp/PgDn scroll hint",
+          "why_matters": "这能帮助终端环境下的用户更快找到正确的翻页操作方式。",
+          "why_matters_en": "This helps terminal users discover the right keys for scrolling more quickly.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Faster session start when you have many claude.ai connectors configured but not authorized",
+          "category": "perf",
+          "importance": 3,
+          "summary": "加快多连接启动",
+          "summary_en": "Faster start with many unauthorized connectors",
+          "why_matters": "当配置了很多未授权连接器时，启动速度更快，改善大配置用户体验。",
+          "why_matters_en": "Startup is faster when many configured connectors are not authorized, improving the experience for large setups.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "The auto mode denial message now links to the configuration docs",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "拒绝提示链接文档",
+          "summary_en": "Deny message links to docs",
+          "why_matters": "用户在遇到自动模式拒绝时可以直接查看配置说明，降低排查成本。",
+          "why_matters_en": "Users can open the config docs directly when auto mode is denied, reducing troubleshooting effort.",
+          "capability_ids": []
+        },
+        {
+          "raw": "`claude plugin validate` now accepts `$schema`, `version`, and `description` at the top level of `marketplace.json` and `$schema` in `plugin.json`",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "插件校验支持更多字段",
+          "summary_en": "Plugin validation accepts more schema fields",
+          "why_matters": "这让插件和市场元数据更兼容，减少因字段校验过严导致的误报。",
+          "why_matters_en": "This improves compatibility for plugins and marketplace metadata, reducing false validation errors.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Auto-compact in auto mode now displays `auto` (lowercase, no token count) instead of a misleading token value",
+          "category": "fix",
+          "importance": 2,
+          "summary": "自动压缩显示更准确",
+          "summary_en": "Auto compact now shows auto correctly",
+          "why_matters": "这避免了误导性的 token 数显示，让用户更清楚当前处于自动模式。",
+          "why_matters_en": "This avoids misleading token values and makes it clear that auto mode is active.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed pressing Esc during a stdio MCP tool call closing the entire server connection (regression in 2.1.105)",
+          "category": "fix",
+          "importance": 4,
+          "summary": "Esc不再断开MCP连接",
+          "summary_en": "Esc no longer closes stdio MCP server",
+          "why_matters": "这修复了一个会中断工具调用的回归，避免在使用 MCP 时意外丢失连接。",
+          "why_matters_en": "This fixes a regression that interrupted tool calls and prevented accidental MCP connection loss.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed `/rewind` and other interactive overlays not responding to keyboard input after launching with `claude --resume`",
+          "category": "fix",
+          "importance": 4,
+          "summary": "恢复模式下覆盖层可输入",
+          "summary_en": "Interactive overlays work after resume",
+          "why_matters": "这修复了恢复会话后无法操作覆盖层的问题，保证交互流程可继续使用。",
+          "why_matters_en": "This fixes overlays becoming unresponsive after resuming a session, keeping interactive flows usable.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed terminal scrollback duplication in non-fullscreen mode (resize, dialog dismiss, long sessions)",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复滚动回显重复",
+          "summary_en": "Fix duplicate scrollback in non-fullscreen",
+          "why_matters": "这避免终端输出重复，提升长会话和窗口变化时的可读性。",
+          "why_matters_en": "This prevents duplicated terminal output and improves readability during long sessions and resizes.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed `DISABLE_TELEMETRY` / `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC` not suppressing usage metrics telemetry for API and enterprise users",
+          "category": "fix",
+          "importance": 4,
+          "summary": "尊重禁用遥测设置",
+          "summary_en": "Telemetry disable env vars now work",
+          "why_matters": "这确保企业和 API 用户的隐私/合规配置真正生效，减少不必要的数据发送。",
+          "why_matters_en": "This ensures privacy and compliance settings actually work for enterprise and API users, reducing unnecessary data transmission.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed false-positive \"Dangerous rm operation\" permission prompts in auto mode for multi-line bash commands containing both a pipe and a redirect",
+          "category": "fix",
+          "importance": 4,
+          "summary": "减少误报危险rm提示",
+          "summary_en": "Reduce false dangerous rm prompts",
+          "why_matters": "这减少了自动模式中不必要的权限打断，让多行命令执行更顺畅。",
+          "why_matters_en": "This reduces unnecessary permission interruptions in auto mode, making multiline command execution smoother.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed long selection menus clipping below the terminal in fullscreen mode — the focused option now stays on screen as you scroll",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复全屏菜单裁切",
+          "summary_en": "Fix fullscreen menu clipping",
+          "why_matters": "长菜单在全屏下不再被截断，浏览和选择选项更顺畅。",
+          "why_matters_en": "Long menus stay visible in fullscreen, making option selection smoother.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed Write tool output collapsing instead of expanding when clicking \"+N lines\" in fullscreen",
+          "category": "fix",
+          "importance": 3,
+          "summary": "展开代码块不再收起",
+          "summary_en": "Expand write output correctly",
+          "why_matters": "点击“+N lines”时能正确展开内容，便于查看完整输出。",
+          "why_matters_en": "Clicking “+N lines” now expands the content properly for full inspection.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed slash command picker jumping while typing, and improved highlight to only match contiguous substrings in blue",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复斜杠菜单抖动",
+          "summary_en": "Fix slash picker jumping",
+          "why_matters": "输入时菜单不再跳动，匹配高亮也更准确，提升命令选择体验。",
+          "why_matters_en": "The picker no longer jumps while typing, and highlighting is clearer for faster command selection.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed `/plugin` marketplace failing to load when one entry uses an unrecognized source format — that entry is shown but installing it prompts you to update",
+          "category": "fix",
+          "importance": 3,
+          "summary": "插件市场可继续加载",
+          "summary_en": "Keep plugin marketplace loading",
+          "why_matters": "单个异常插件源不会拖垮整个市场，用户仍可查看并处理可疑项。",
+          "why_matters_en": "One malformed plugin source no longer blocks the whole marketplace, so users can still inspect entries.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] `/usage` now opens the native Account & Usage dialog instead of returning plain-text session cost",
+          "category": "feat",
+          "importance": 2,
+          "summary": "Usage 打开原生账户页",
+          "summary_en": "Open native usage dialog",
+          "why_matters": "在 VSCode 中可直接打开原生账户与用量界面，查看信息更直观。",
+          "why_matters_en": "In VSCode, usage now opens the native account and usage dialog for a clearer view.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Voice dictation now respects the `language` setting in `~/.claude/settings.json`",
+          "category": "fix",
+          "importance": 2,
+          "summary": "语音识别遵循语言设置",
+          "summary_en": "Respect dictation language setting",
+          "why_matters": "语音输入会按配置语言识别，减少转写错误并提升可用性。",
+          "why_matters_en": "Voice dictation follows the configured language, reducing transcription errors.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed `find` in the Bash tool exhausting open file descriptors on large directory trees, causing host-wide crashes (macOS/Linux native builds)",
+          "category": "fix",
+          "importance": 5,
+          "summary": "修复 find 句柄泄漏",
+          "summary_en": "Fix find file descriptor leak",
+          "why_matters": "大目录下不再耗尽文件描述符，避免主机级崩溃，影响严重。",
+          "why_matters_en": "Large directory scans no longer exhaust file descriptors, preventing host-wide crashes.",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "An update on recent Claude Code quality reports",
+          "points": 940,
+          "url": "https://www.anthropic.com/engineering/april-23-postmortem"
+        },
+        {
+          "title": "Measuring Claude 4.7's tokenizer costs",
+          "points": 714,
+          "url": "https://www.claudecodecamp.com/p/i-measured-claude-4-7-s-new-tokenizer-here-s-what-it-costs-you"
+        },
+        {
+          "title": "Claude Code to be removed from Anthropic's Pro plan?",
+          "points": 680,
+          "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
+        },
+        {
+          "title": "Claude Code to be removed from Pro Tier?",
+          "points": 265,
+          "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
+        },
+        {
+          "title": "Show HN: A Karpathy-style LLM wiki your agents maintain (Markdown and Git)",
+          "points": 258,
+          "url": "https://github.com/nex-crm/wuphf"
+        }
+      ],
+      "highlight_score": 50
+    },
     {
       "version": "2.1.119",
       "date": "2026-04-23",
@@ -743,7 +1590,7 @@
       "signals": [
         {
           "title": "An update on recent Claude Code quality reports",
-          "points": 936,
+          "points": 940,
           "url": "https://www.anthropic.com/engineering/april-23-postmortem"
         },
         {
@@ -763,7 +1610,7 @@
         },
         {
           "title": "Show HN: A Karpathy-style LLM wiki your agents maintain (Markdown and Git)",
-          "points": 252,
+          "points": 258,
           "url": "https://github.com/nex-crm/wuphf"
         }
       ],
@@ -1220,7 +2067,7 @@
       "signals": [
         {
           "title": "An update on recent Claude Code quality reports",
-          "points": 936,
+          "points": 940,
           "url": "https://www.anthropic.com/engineering/april-23-postmortem"
         },
         {
@@ -1240,7 +2087,7 @@
         },
         {
           "title": "Show HN: A Karpathy-style LLM wiki your agents maintain (Markdown and Git)",
-          "points": 252,
+          "points": 258,
           "url": "https://github.com/nex-crm/wuphf"
         }
       ],
@@ -1620,7 +2467,7 @@
       "signals": [
         {
           "title": "An update on recent Claude Code quality reports",
-          "points": 936,
+          "points": 940,
           "url": "https://www.anthropic.com/engineering/april-23-postmortem"
         },
         {
@@ -1955,7 +2802,7 @@
       "signals": [
         {
           "title": "An update on recent Claude Code quality reports",
-          "points": 936,
+          "points": 940,
           "url": "https://www.anthropic.com/engineering/april-23-postmortem"
         },
         {
@@ -2004,7 +2851,7 @@
       "signals": [
         {
           "title": "An update on recent Claude Code quality reports",
-          "points": 936,
+          "points": 940,
           "url": "https://www.anthropic.com/engineering/april-23-postmortem"
         },
         {
@@ -2524,7 +3371,7 @@
       "signals": [
         {
           "title": "An update on recent Claude Code quality reports",
-          "points": 936,
+          "points": 940,
           "url": "https://www.anthropic.com/engineering/april-23-postmortem"
         },
         {
@@ -2573,7 +3420,7 @@
       "signals": [
         {
           "title": "An update on recent Claude Code quality reports",
-          "points": 936,
+          "points": 940,
           "url": "https://www.anthropic.com/engineering/april-23-postmortem"
         },
         {
@@ -3051,7 +3898,7 @@
       "signals": [
         {
           "title": "An update on recent Claude Code quality reports",
-          "points": 936,
+          "points": 940,
           "url": "https://www.anthropic.com/engineering/april-23-postmortem"
         },
         {
@@ -17292,11 +18139,6 @@
           "url": "https://news.ycombinator.com/item?id=47282777"
         },
         {
-          "title": "How I use Claude Code: Separation of planning and execution",
-          "points": 976,
-          "url": "https://boristane.com/blog/how-i-use-claude-code/"
-        },
-        {
           "title": "What Claude Code chooses",
           "points": 611,
           "url": "https://amplifying.ai/research/claude-code-picks"
@@ -17310,6 +18152,11 @@
           "title": "Claude Code Remote Control",
           "points": 544,
           "url": "https://code.claude.com/docs/en/remote-control"
+        },
+        {
+          "title": "Anthropic Cowork feature creates 10GB VM bundle on macOS without warning",
+          "points": 377,
+          "url": "https://github.com/anthropics/claude-code/issues/22543"
         }
       ],
       "highlight_score": 50
@@ -17335,11 +18182,6 @@
       ],
       "signals": [
         {
-          "title": "How I use Claude Code: Separation of planning and execution",
-          "points": 976,
-          "url": "https://boristane.com/blog/how-i-use-claude-code/"
-        },
-        {
           "title": "What Claude Code chooses",
           "points": 611,
           "url": "https://amplifying.ai/research/claude-code-picks"
@@ -17358,6 +18200,11 @@
           "title": "Anthropic Cowork feature creates 10GB VM bundle on macOS without warning",
           "points": 377,
           "url": "https://github.com/anthropics/claude-code/issues/22543"
+        },
+        {
+          "title": "Show HN: Emdash – Open-source agentic development environment",
+          "points": 206,
+          "url": "https://github.com/generalaction/emdash"
         }
       ],
       "highlight_score": 30
@@ -17384,11 +18231,6 @@
       ],
       "signals": [
         {
-          "title": "How I use Claude Code: Separation of planning and execution",
-          "points": 976,
-          "url": "https://boristane.com/blog/how-i-use-claude-code/"
-        },
-        {
           "title": "What Claude Code chooses",
           "points": 611,
           "url": "https://amplifying.ai/research/claude-code-picks"
@@ -17407,6 +18249,11 @@
           "title": "Anthropic Cowork feature creates 10GB VM bundle on macOS without warning",
           "points": 377,
           "url": "https://github.com/anthropics/claude-code/issues/22543"
+        },
+        {
+          "title": "Show HN: Emdash – Open-source agentic development environment",
+          "points": 206,
+          "url": "https://github.com/generalaction/emdash"
         }
       ],
       "highlight_score": 50
@@ -17522,11 +18369,6 @@
       ],
       "signals": [
         {
-          "title": "How I use Claude Code: Separation of planning and execution",
-          "points": 976,
-          "url": "https://boristane.com/blog/how-i-use-claude-code/"
-        },
-        {
           "title": "What Claude Code chooses",
           "points": 611,
           "url": "https://amplifying.ai/research/claude-code-picks"
@@ -17545,6 +18387,11 @@
           "title": "Anthropic Cowork feature creates 10GB VM bundle on macOS without warning",
           "points": 377,
           "url": "https://github.com/anthropics/claude-code/issues/22543"
+        },
+        {
+          "title": "Show HN: Emdash – Open-source agentic development environment",
+          "points": 206,
+          "url": "https://github.com/generalaction/emdash"
         }
       ],
       "highlight_score": 50
@@ -17572,11 +18419,6 @@
       ],
       "signals": [
         {
-          "title": "How I use Claude Code: Separation of planning and execution",
-          "points": 976,
-          "url": "https://boristane.com/blog/how-i-use-claude-code/"
-        },
-        {
           "title": "What Claude Code chooses",
           "points": 611,
           "url": "https://amplifying.ai/research/claude-code-picks"
@@ -17595,6 +18437,11 @@
           "title": "Anthropic Cowork feature creates 10GB VM bundle on macOS without warning",
           "points": 377,
           "url": "https://github.com/anthropics/claude-code/issues/22543"
+        },
+        {
+          "title": "Show HN: Emdash – Open-source agentic development environment",
+          "points": 206,
+          "url": "https://github.com/generalaction/emdash"
         }
       ],
       "highlight_score": 50
@@ -17621,11 +18468,6 @@
       ],
       "signals": [
         {
-          "title": "How I use Claude Code: Separation of planning and execution",
-          "points": 976,
-          "url": "https://boristane.com/blog/how-i-use-claude-code/"
-        },
-        {
           "title": "What Claude Code chooses",
           "points": 611,
           "url": "https://amplifying.ai/research/claude-code-picks"
@@ -17644,6 +18486,11 @@
           "title": "Anthropic Cowork feature creates 10GB VM bundle on macOS without warning",
           "points": 377,
           "url": "https://github.com/anthropics/claude-code/issues/22543"
+        },
+        {
+          "title": "Show HN: Emdash – Open-source agentic development environment",
+          "points": 206,
+          "url": "https://github.com/generalaction/emdash"
         }
       ],
       "highlight_score": 30
@@ -17669,11 +18516,6 @@
       ],
       "signals": [
         {
-          "title": "How I use Claude Code: Separation of planning and execution",
-          "points": 976,
-          "url": "https://boristane.com/blog/how-i-use-claude-code/"
-        },
-        {
           "title": "What Claude Code chooses",
           "points": 611,
           "url": "https://amplifying.ai/research/claude-code-picks"
@@ -17692,6 +18534,11 @@
           "title": "Anthropic Cowork feature creates 10GB VM bundle on macOS without warning",
           "points": 377,
           "url": "https://github.com/anthropics/claude-code/issues/22543"
+        },
+        {
+          "title": "Show HN: Emdash – Open-source agentic development environment",
+          "points": 206,
+          "url": "https://github.com/generalaction/emdash"
         }
       ],
       "highlight_score": 50
@@ -17808,11 +18655,6 @@
       ],
       "signals": [
         {
-          "title": "How I use Claude Code: Separation of planning and execution",
-          "points": 976,
-          "url": "https://boristane.com/blog/how-i-use-claude-code/"
-        },
-        {
           "title": "What Claude Code chooses",
           "points": 611,
           "url": "https://amplifying.ai/research/claude-code-picks"
@@ -17831,6 +18673,11 @@
           "title": "Anthropic Cowork feature creates 10GB VM bundle on macOS without warning",
           "points": 377,
           "url": "https://github.com/anthropics/claude-code/issues/22543"
+        },
+        {
+          "title": "Show HN: Emdash – Open-source agentic development environment",
+          "points": 206,
+          "url": "https://github.com/generalaction/emdash"
         }
       ],
       "highlight_score": 50
@@ -17857,11 +18704,6 @@
       ],
       "signals": [
         {
-          "title": "How I use Claude Code: Separation of planning and execution",
-          "points": 976,
-          "url": "https://boristane.com/blog/how-i-use-claude-code/"
-        },
-        {
           "title": "What Claude Code chooses",
           "points": 611,
           "url": "https://amplifying.ai/research/claude-code-picks"
@@ -17880,6 +18722,11 @@
           "title": "Anthropic Cowork feature creates 10GB VM bundle on macOS without warning",
           "points": 377,
           "url": "https://github.com/anthropics/claude-code/issues/22543"
+        },
+        {
+          "title": "Show HN: Emdash – Open-source agentic development environment",
+          "points": 206,
+          "url": "https://github.com/generalaction/emdash"
         }
       ],
       "highlight_score": 50
@@ -18034,11 +18881,6 @@
       ],
       "signals": [
         {
-          "title": "How I use Claude Code: Separation of planning and execution",
-          "points": 976,
-          "url": "https://boristane.com/blog/how-i-use-claude-code/"
-        },
-        {
           "title": "What Claude Code chooses",
           "points": 611,
           "url": "https://amplifying.ai/research/claude-code-picks"
@@ -18057,6 +18899,11 @@
           "title": "Anthropic Cowork feature creates 10GB VM bundle on macOS without warning",
           "points": 377,
           "url": "https://github.com/anthropics/claude-code/issues/22543"
+        },
+        {
+          "title": "Show HN: Emdash – Open-source agentic development environment",
+          "points": 206,
+          "url": "https://github.com/generalaction/emdash"
         }
       ],
       "highlight_score": 70
@@ -18396,11 +19243,6 @@
       ],
       "signals": [
         {
-          "title": "How I use Claude Code: Separation of planning and execution",
-          "points": 976,
-          "url": "https://boristane.com/blog/how-i-use-claude-code/"
-        },
-        {
           "title": "What Claude Code chooses",
           "points": 611,
           "url": "https://amplifying.ai/research/claude-code-picks"
@@ -18419,6 +19261,11 @@
           "title": "Implementing a Z80 / ZX Spectrum emulator with Claude Code",
           "points": 151,
           "url": "https://antirez.com/news/160"
+        },
+        {
+          "title": "Show HN: Claude-File-Recovery, recover files from your ~/.claude sessions",
+          "points": 99,
+          "url": "https://github.com/hjtenklooster/claude-file-recovery"
         }
       ],
       "highlight_score": 70
@@ -18769,11 +19616,6 @@
       ],
       "signals": [
         {
-          "title": "How I use Claude Code: Separation of planning and execution",
-          "points": 976,
-          "url": "https://boristane.com/blog/how-i-use-claude-code/"
-        },
-        {
           "title": "What Claude Code chooses",
           "points": 611,
           "url": "https://amplifying.ai/research/claude-code-picks"
@@ -18792,6 +19634,11 @@
           "title": "Implementing a Z80 / ZX Spectrum emulator with Claude Code",
           "points": 151,
           "url": "https://antirez.com/news/160"
+        },
+        {
+          "title": "Show HN: Context Mode – 315 KB of MCP output becomes 5.4 KB in Claude Code",
+          "points": 84,
+          "url": "https://github.com/mksglu/claude-context-mode"
         }
       ],
       "highlight_score": 75
@@ -19664,11 +20511,6 @@
       ],
       "signals": [
         {
-          "title": "How I use Claude Code: Separation of planning and execution",
-          "points": 976,
-          "url": "https://boristane.com/blog/how-i-use-claude-code/"
-        },
-        {
           "title": "Claude Code Remote Control",
           "points": 544,
           "url": "https://code.claude.com/docs/en/remote-control"
@@ -19924,17 +20766,12 @@
       ],
       "signals": [
         {
-          "title": "How I use Claude Code: Separation of planning and execution",
-          "points": 976,
-          "url": "https://boristane.com/blog/how-i-use-claude-code/"
-        },
-        {
           "title": "Show HN: Emdash – Open-source agentic development environment",
           "points": 206,
           "url": "https://github.com/generalaction/emdash"
         }
       ],
-      "highlight_score": 70
+      "highlight_score": 55
     },
     {
       "version": "2.1.44",
@@ -19967,14 +20804,8 @@
           ]
         }
       ],
-      "signals": [
-        {
-          "title": "How I use Claude Code: Separation of planning and execution",
-          "points": 976,
-          "url": "https://boristane.com/blog/how-i-use-claude-code/"
-        }
-      ],
-      "highlight_score": 70
+      "signals": [],
+      "highlight_score": 40
     },
     {
       "version": "2.1.43",
@@ -41681,67 +42512,6 @@
       }
     },
     {
-      "version": "2.1.44",
-      "date": "2026-02-16",
-      "epoch_id": "epoch4",
-      "highlight_score": 70,
-      "highlight_title": "鉴权别再掉链子",
-      "highlight_title_en": "Auth, Stop Dropping",
-      "highlight_summary": "两条修复：auth refresh 偶发报错，深嵌目录下的 ENAMETOOLONG。没有新功能，没有发布博客，就是把上周让人骂街的两件事按住。这一天也是平台化纪元的最后一次发布——第二天 Sonnet 4.6 就要登场，自主化纪元开始。HN 上「Claude Code is being dumbed down?」当时正挂在 1085 分，社区紧张感已经在那里了。",
-      "highlight_summary_en": "Two fixes: flaky auth refresh, and ENAMETOOLONG on deeply nested paths. No new features, no blog post — just pinning down the two things people had been swearing at all week. It's also the last release of the Platformization epoch; Sonnet 4.6 lands the next day and Autonomization begins. \"Claude Code is being dumbed down?\" was sitting at 1085 on HN that week — the nerves were already in the air.",
-      "highlight_why": "平台化纪元的最后一次发布——只修了鉴权和路径，明天 Sonnet 4.6 就到。",
-      "highlight_why_en": "The final release of the Platformization epoch — just auth and paths, before Sonnet 4.6 lands tomorrow.",
-      "capability_ids": [
-        "execution_workspace",
-        "governance_security"
-      ],
-      "evidence": {
-        "hn_signals": [
-          {
-            "title": "Claude Code is being dumbed down?",
-            "points": 1085,
-            "url": "https://symmetrybreak.ing/blog/claude-code-is-being-dumbed-down/"
-          },
-          {
-            "title": "Warcraft III Peon Voice Notifications for Claude Code",
-            "points": 1006,
-            "url": "https://github.com/tonyyont/peon-ping"
-          },
-          {
-            "title": "How I use Claude Code: Separation of planning and execution",
-            "points": 976,
-            "url": "https://boristane.com/blog/how-i-use-claude-code/"
-          },
-          {
-            "title": "Anthropic officially bans using subscription auth for third party use",
-            "points": 655,
-            "url": "https://code.claude.com/docs/en/legal-and-compliance"
-          },
-          {
-            "title": "Show HN: AI agents play SimCity through a REST API",
-            "points": 216,
-            "url": "https://hallucinatingsplines.com"
-          }
-        ],
-        "blog_post": {
-          "title": "Claude Sonnet 4.6",
-          "url": "https://www.anthropic.com/news/claude-sonnet-4-6"
-        },
-        "top_changes": [
-          {
-            "raw": "Fixed auth refresh errors",
-            "summary": "修复认证刷新失败",
-            "importance": 4
-          },
-          {
-            "raw": "Fixed ENAMETOOLONG errors for deeply-nested directory paths",
-            "summary": "修复深层目录路径过长错误",
-            "importance": 3
-          }
-        ]
-      }
-    },
-    {
       "version": "2.1.45",
       "date": "2026-02-17",
       "epoch_id": "epoch5",
@@ -42722,9 +43492,9 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 331,
-      "release_count": 135,
-      "avg_importance": 3.12,
+      "change_count": 334,
+      "release_count": 137,
+      "avg_importance": 3.11,
       "maturity": {
         "score": 92,
         "level": "成熟"
@@ -42734,14 +43504,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-04-23",
-        "version": "2.1.119"
+        "date": "2026-04-27",
+        "version": "2.1.121"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 169
+          "change_count": 172
         },
         {
           "epoch_id": "epoch4",
@@ -42817,9 +43587,9 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 713,
-      "release_count": 172,
-      "avg_importance": 3.22,
+      "change_count": 730,
+      "release_count": 174,
+      "avg_importance": 3.23,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -42829,14 +43599,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-04-23",
-        "version": "2.1.119"
+        "date": "2026-04-27",
+        "version": "2.1.121"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 412
+          "change_count": 429
         },
         {
           "epoch_id": "epoch1",
@@ -42861,36 +43631,36 @@
       ],
       "samples": [
         {
-          "date": "2026-04-17",
-          "version": "2.1.113",
-          "raw": "Changed the CLI to spawn a native Claude Code binary (via a per-platform optional dependency) instead of bundled JavaScript",
-          "summary": "切换为原生 Claude Code 二进制",
-          "importance": 5,
-          "category": "breaking"
-        },
-        {
-          "date": "2026-04-17",
-          "version": "2.1.113",
-          "raw": "Fixed Bash `dangerouslyDisableSandbox` running commands outside the sandbox without a permission prompt",
-          "summary": "禁用沙箱绕过需提示",
-          "importance": 5,
-          "category": "security"
-        },
-        {
-          "date": "2026-04-15",
-          "version": "2.1.110",
-          "raw": "Fixed non-streaming fallback retries causing multi-minute hangs when the API is unreachable",
-          "summary": "API 不可达时重试不再长挂",
+          "date": "2026-04-27",
+          "version": "2.1.121",
+          "raw": "Fixed unbounded memory growth (multi-GB RSS) when processing many images in a session",
+          "summary": "修复多图处理内存暴涨",
           "importance": 5,
           "category": "fix"
         },
         {
-          "date": "2026-04-13",
-          "version": "2.1.105",
-          "raw": "Fixed crash on resume when session contains malformed text blocks",
-          "summary": "恢复时不再因脏文本崩溃",
+          "date": "2026-04-27",
+          "version": "2.1.121",
+          "raw": "Fixed `/usage` leaking up to ~2GB of memory on machines with large transcript histories",
+          "summary": "/usage不再泄漏大内存",
           "importance": 5,
           "category": "fix"
+        },
+        {
+          "date": "2026-04-27",
+          "version": "2.1.121",
+          "raw": "Fixed Bash tool becoming permanently unusable when the directory Claude was started in is deleted or moved mid-session",
+          "summary": "Bash工具目录丢失后可恢复",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
+          "date": "2026-04-24",
+          "version": "2.1.120",
+          "raw": "Added `claude ultrareview [target]` subcommand to run `/ultrareview` non-interactively from CI or scripts — prints findings to stdout (`--json` for raw output) and exits 0 on completion or 1 on failure",
+          "summary": "新增CLI非交互审查命令",
+          "importance": 5,
+          "category": "feat"
         }
       ]
     },
@@ -42912,8 +43682,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 481,
-      "release_count": 130,
+      "change_count": 494,
+      "release_count": 132,
       "avg_importance": 3.21,
       "maturity": {
         "score": 93,
@@ -42924,14 +43694,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-04-23",
-        "version": "2.1.119"
+        "date": "2026-04-27",
+        "version": "2.1.121"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 317
+          "change_count": 330
         },
         {
           "epoch_id": "epoch1",
@@ -42956,6 +43726,22 @@
       ],
       "samples": [
         {
+          "date": "2026-04-27",
+          "version": "2.1.121",
+          "raw": "Fixed unbounded memory growth (multi-GB RSS) when processing many images in a session",
+          "summary": "修复多图处理内存暴涨",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
+          "date": "2026-04-27",
+          "version": "2.1.121",
+          "raw": "Fixed `/usage` leaking up to ~2GB of memory on machines with large transcript histories",
+          "summary": "/usage不再泄漏大内存",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-04-22",
           "version": "2.1.118",
           "raw": "Fixed macOS keychain race where a concurrent MCP token refresh could overwrite a freshly-refreshed OAuth token, causing unexpected \"Please run /login\" prompts",
@@ -42968,22 +43754,6 @@
           "version": "2.1.118",
           "raw": "Fixed credential save crash on Linux/Windows corrupting `~/.claude/.credentials.json`",
           "summary": "修复凭据保存崩溃",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-04-21",
-          "version": "2.1.117",
-          "raw": "Fixed Opus 4.7 sessions showing inflated `/context` percentages and autocompacting too early — Claude Code was computing against a 200K context window instead of Opus 4.7's native 1M",
-          "summary": "Opus 4.7 上下文计数正确",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-04-13",
-          "version": "2.1.105",
-          "raw": "Fixed crash on resume when session contains malformed text blocks",
-          "summary": "恢复时不再因脏文本崩溃",
           "importance": 5,
           "category": "fix"
         }
@@ -43007,9 +43777,9 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 548,
-      "release_count": 180,
-      "avg_importance": 3.24,
+      "change_count": 562,
+      "release_count": 182,
+      "avg_importance": 3.25,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -43019,14 +43789,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-23",
-        "version": "2.1.119"
+        "date": "2026-04-27",
+        "version": "2.1.121"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 286
+          "change_count": 300
         },
         {
           "epoch_id": "epoch1",
@@ -43051,6 +43821,22 @@
       ],
       "samples": [
         {
+          "date": "2026-04-27",
+          "version": "2.1.121",
+          "raw": "Fixed Bash tool becoming permanently unusable when the directory Claude was started in is deleted or moved mid-session",
+          "summary": "Bash工具目录丢失后可恢复",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
+          "date": "2026-04-24",
+          "version": "2.1.120",
+          "raw": "Added `claude ultrareview [target]` subcommand to run `/ultrareview` non-interactively from CI or scripts — prints findings to stdout (`--json` for raw output) and exits 0 on completion or 1 on failure",
+          "summary": "新增CLI非交互审查命令",
+          "importance": 5,
+          "category": "feat"
+        },
+        {
           "date": "2026-04-17",
           "version": "2.1.113",
           "raw": "Security: `Bash(find:*)` allow rules no longer auto-approve `find -exec`/`-delete`",
@@ -43065,22 +43851,6 @@
           "summary": "新增云端超强审查",
           "importance": 5,
           "category": "feat"
-        },
-        {
-          "date": "2026-04-15",
-          "version": "2.1.110",
-          "raw": "Fixed MCP tool calls hanging indefinitely when the server connection drops mid-response on SSE/HTTP transports",
-          "summary": "MCP 断连时不再卡死",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-04-15",
-          "version": "2.1.110",
-          "raw": "Fixed non-streaming fallback retries causing multi-minute hangs when the API is unreachable",
-          "summary": "API 不可达时重试不再长挂",
-          "importance": 5,
-          "category": "fix"
         }
       ]
     },
@@ -43102,9 +43872,9 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 263,
-      "release_count": 102,
-      "avg_importance": 3.33,
+      "change_count": 265,
+      "release_count": 104,
+      "avg_importance": 3.32,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -43114,14 +43884,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-23",
-        "version": "2.1.119"
+        "date": "2026-04-27",
+        "version": "2.1.121"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 172
+          "change_count": 174
         },
         {
           "epoch_id": "epoch1",
@@ -43197,9 +43967,9 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 850,
-      "release_count": 205,
-      "avg_importance": 3.16,
+      "change_count": 877,
+      "release_count": 207,
+      "avg_importance": 3.15,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -43209,14 +43979,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-04-23",
-        "version": "2.1.119"
+        "date": "2026-04-27",
+        "version": "2.1.121"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 484
+          "change_count": 511
         },
         {
           "epoch_id": "epoch1",
@@ -43292,9 +44062,9 @@
         "Emacs",
         "web"
       ],
-      "change_count": 543,
-      "release_count": 150,
-      "avg_importance": 2.7,
+      "change_count": 559,
+      "release_count": 152,
+      "avg_importance": 2.69,
       "maturity": {
         "score": 91,
         "level": "成熟"
@@ -43304,14 +44074,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-23",
-        "version": "2.1.119"
+        "date": "2026-04-27",
+        "version": "2.1.121"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 334
+          "change_count": 350
         },
         {
           "epoch_id": "epoch4",
@@ -43336,6 +44106,22 @@
       ],
       "samples": [
         {
+          "date": "2026-04-27",
+          "version": "2.1.121",
+          "raw": "Fixed unbounded memory growth (multi-GB RSS) when processing many images in a session",
+          "summary": "修复多图处理内存暴涨",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
+          "date": "2026-04-24",
+          "version": "2.1.120",
+          "raw": "Fixed `find` in the Bash tool exhausting open file descriptors on large directory trees, causing host-wide crashes (macOS/Linux native builds)",
+          "summary": "修复 find 句柄泄漏",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-04-17",
           "version": "2.1.113",
           "raw": "Fixed Bash `dangerouslyDisableSandbox` running commands outside the sandbox without a permission prompt",
@@ -43350,22 +44136,6 @@
           "summary": "子进程自动清理敏感环境变量",
           "importance": 5,
           "category": "security"
-        },
-        {
-          "date": "2026-03-16",
-          "version": "2.1.77",
-          "raw": "Fixed Claude Desktop sessions incorrectly using the terminal CLI's configured API key instead of OAuth",
-          "summary": "修复桌面会话认证串用",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-03-14",
-          "version": "2.1.76",
-          "raw": "Fixed several Remote Control issues: sessions silently dying when the server reaps an idle environment, rapid messages being queued one-at-a-time instead of batched, and stale work items causing redelivery after JWT refresh",
-          "summary": "修复远控会话与消息重发问题",
-          "importance": 5,
-          "category": "fix"
         }
       ]
     },
@@ -43387,8 +44157,8 @@
         "policy",
         "auditing"
       ],
-      "change_count": 554,
-      "release_count": 176,
+      "change_count": 570,
+      "release_count": 178,
       "avg_importance": 3.39,
       "maturity": {
         "score": 94,
@@ -43399,14 +44169,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-23",
-        "version": "2.1.119"
+        "date": "2026-04-27",
+        "version": "2.1.121"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 318
+          "change_count": 334
         },
         {
           "epoch_id": "epoch4",
@@ -43431,6 +44201,14 @@
       ],
       "samples": [
         {
+          "date": "2026-04-24",
+          "version": "2.1.120",
+          "raw": "Fixed `find` in the Bash tool exhausting open file descriptors on large directory trees, causing host-wide crashes (macOS/Linux native builds)",
+          "summary": "修复 find 句柄泄漏",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-04-23",
           "version": "2.1.119",
           "raw": "Security: `blockedMarketplaces` now correctly enforces `hostPattern` and `pathPattern` entries",
@@ -43451,14 +44229,6 @@
           "version": "2.1.118",
           "raw": "Fixed macOS keychain race where a concurrent MCP token refresh could overwrite a freshly-refreshed OAuth token, causing unexpected \"Please run /login\" prompts",
           "summary": "修复Keychain刷新覆盖令牌",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-04-22",
-          "version": "2.1.118",
-          "raw": "Fixed credential save crash on Linux/Windows corrupting `~/.claude/.credentials.json`",
-          "summary": "修复凭据保存崩溃",
           "importance": 5,
           "category": "fix"
         }
@@ -43516,14 +44286,8 @@
         "date": "2026-03-07"
       },
       {
-        "title": "How I use Claude Code: Separation of planning and execution",
-        "points": 976,
-        "url": "https://boristane.com/blog/how-i-use-claude-code/",
-        "date": "2026-02-22"
-      },
-      {
         "title": "An update on recent Claude Code quality reports",
-        "points": 936,
+        "points": 940,
         "url": "https://www.anthropic.com/engineering/april-23-postmortem",
         "date": "2026-04-23"
       },
@@ -43574,6 +44338,12 @@
         "points": 749,
         "url": "https://jackhopkins.github.io/factorio-learning-environment/",
         "date": "2025-03-11"
+      },
+      {
+        "title": "I was banned from Claude for scaffolding a Claude.md file?",
+        "points": 749,
+        "url": "https://hugodaniel.com/posts/claude-code-banned-me/",
+        "date": "2026-01-22"
       }
     ],
     "blog_posts": [
