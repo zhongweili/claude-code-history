@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-04-28T04:32:44.422Z",
+    "generated_at": "2026-04-29T04:28:06.485Z",
     "agent_model": "openai/gpt-5.4-mini",
-    "total_versions": 274,
+    "total_versions": 276,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-04-27"
+      "end": "2026-04-29"
     },
     "highlight_count": 35,
     "capability_count": 8,
@@ -70,11 +70,330 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。与此同时，Opus 4.6 把「思考」变成了可选项，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Meanwhile, Opus 4.6 makes reasoning optional rather than visible, while worktree isolation and a 1M context push the agent toward running for hours, unattended.",
-      "release_count": 58,
+      "release_count": 60,
       "highlight_count": 14
     }
   ],
   "releases": [
+    {
+      "version": "2.1.123",
+      "date": "2026-04-29",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Fixed OAuth authentication failing with a 401 retry loop when `CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS=1` is set",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复 OAuth 401 重试死循环",
+          "summary_en": "Fix OAuth 401 retry loop",
+          "why_matters": "当禁用实验性 betas 时，OAuth 认证不再卡在 401 重试循环中，避免登录失败。",
+          "why_matters_en": "OAuth authentication no longer gets stuck in a 401 retry loop when experimental betas are disabled, preventing sign-in failures.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "An update on recent Claude Code quality reports",
+          "points": 941,
+          "url": "https://www.anthropic.com/engineering/april-23-postmortem"
+        },
+        {
+          "title": "Who owns the code Claude Code wrote?",
+          "points": 295,
+          "url": "https://legallayer.substack.com/p/who-owns-the-claude-code-wrote"
+        },
+        {
+          "title": "Show HN: A Karpathy-style LLM wiki your agents maintain (Markdown and Git)",
+          "points": 258,
+          "url": "https://github.com/nex-crm/wuphf"
+        },
+        {
+          "title": "Show HN: How LLMs Work – Interactive visual guide based on Karpathy's lecture",
+          "points": 244,
+          "url": "https://ynarwal.github.io/how-llms-work/"
+        },
+        {
+          "title": "Regression: malware reminder on every read still causes subagent refusals",
+          "points": 174,
+          "url": "https://github.com/anthropics/claude-code/issues/49363"
+        }
+      ],
+      "highlight_score": 50
+    },
+    {
+      "version": "2.1.122",
+      "date": "2026-04-28",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added `ANTHROPIC_BEDROCK_SERVICE_TIER` environment variable to select a Bedrock service tier (`default`, `flex`, or `priority`), sent as the `X-Amzn-Bedrock-Service-Tier` header",
+          "category": "feat",
+          "importance": 3,
+          "summary": "可选 Bedrock 服务层级",
+          "summary_en": "Select Bedrock service tier via env",
+          "why_matters": "让用户可通过环境变量选择 Bedrock 服务层级，便于匹配不同性能和成本需求。",
+          "why_matters_en": "Lets users pick a Bedrock service tier via env var to match performance and cost needs.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Pasting a PR URL into the `/resume` search box now finds the session that created that PR (GitHub, GitHub Enterprise, GitLab, and Bitbucket)",
+          "category": "feat",
+          "importance": 4,
+          "summary": "粘贴 PR 链接可找回会话",
+          "summary_en": "Paste PR URL to find its creating session",
+          "why_matters": "用户可直接用 PR 链接定位生成该 PR 的历史会话，减少手动搜索成本。",
+          "why_matters_en": "Users can find the session that created a PR directly from its URL, saving manual search time.",
+          "capability_ids": [
+            "memory_context",
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "`/mcp` now shows claude.ai connectors hidden by a manually-added server with the same URL, with a hint to remove the duplicate",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "/mcp 显示重复连接提示",
+          "summary_en": "/mcp now shows duplicate connector hint",
+          "why_matters": "帮助用户发现被同 URL 手动服务器遮蔽的 claude.ai 连接器，方便排查配置冲突。",
+          "why_matters_en": "Helps users spot claude.ai connectors hidden by duplicate servers and resolve config conflicts.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Clarified the `/mcp` message shown when an MCP server is still unauthorized after the browser sign-in flow",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "MCP 未授权提示更清晰",
+          "summary_en": "Clearer MCP unauthorized message",
+          "why_matters": "浏览器登录后仍未授权时提示更明确，减少用户对状态的困惑。",
+          "why_matters_en": "A clearer message reduces confusion when an MCP server is still unauthorized after browser sign-in.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "OpenTelemetry: numeric attributes on `api_request`/`api_error` log events are now emitted as numbers, not strings",
+          "category": "fix",
+          "importance": 2,
+          "summary": "OTel 数值属性改为数字",
+          "summary_en": "OTel numeric attrs emitted as numbers",
+          "why_matters": "修复日志属性类型，便于 OpenTelemetry 后端正确聚合和查询数值指标。",
+          "why_matters_en": "Fixes log attribute types so OpenTelemetry backends can aggregate and query numeric metrics correctly.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "OpenTelemetry: added `claude_code.at_mention` log event for `@`-mention resolution",
+          "category": "feat",
+          "importance": 2,
+          "summary": "新增 @ 提及解析日志",
+          "summary_en": "Added @-mention resolution log event",
+          "why_matters": "为 @ 提及解析增加可观测性，方便排查上下文引用和自动解析问题。",
+          "why_matters_en": "Adds observability for @-mention resolution to help diagnose context reference and parsing issues.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed `/branch` producing forks that fail with \"tool_use ids were found without tool_result blocks\" when the source session contained entries from rewound timelines",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复 /branch 分叉失败",
+          "summary_en": "Fixed /branch fork failure on rewound timelines",
+          "why_matters": "避免从回退时间线生成的分支因 tool result 不匹配而失败，保证分叉可用。",
+          "why_matters_en": "Prevents /branch forks from failing on rewound timelines, keeping branch creation reliable.",
+          "capability_ids": [
+            "memory_context",
+            "reasoning_workflows",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed `/model` not showing the Effort option for Bedrock application inference profile ARNs, and those ARNs not receiving `output_config.effort`",
+          "category": "fix",
+          "importance": 4,
+          "summary": "Bedrock 模型预算选项修复",
+          "summary_en": "Fixed Effort option for Bedrock ARNs",
+          "why_matters": "让 Bedrock 应用推理 profile 正确显示并接收 Effort 配置，保证模型设置生效。",
+          "why_matters_en": "Ensures Bedrock application inference profiles show and receive Effort settings correctly.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed Vertex AI / Bedrock returning `invalid_request_error: output_config: Extra inputs are not permitted` on session-title generation and other structured-output queries",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复结构化输出请求报错",
+          "summary_en": "Fixed structured-output request errors",
+          "why_matters": "Vertex AI 和 Bedrock 的标题生成等结构化查询不再因额外字段而失败。",
+          "why_matters_en": "Prevents Vertex AI and Bedrock structured-output queries from failing on extra config fields.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed Vertex AI `count_tokens` endpoint returning 400 errors for users behind proxy gateways",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复 Vertex 统计 token 400",
+          "summary_en": "Fixed Vertex count_tokens 400s behind proxy",
+          "why_matters": "代理网关环境下统计 token 不再报 400，提升企业网络可用性。",
+          "why_matters_en": "Token counting now works behind proxy gateways, improving reliability in enterprise networks.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed `spinnerTipsOverride.excludeDefault` not suppressing the time-based spinner tips",
+          "category": "fix",
+          "importance": 2,
+          "summary": "Spinner 提示排除项生效",
+          "summary_en": "spinnerTipsOverride.excludeDefault now works",
+          "why_matters": "用户自定义 spinner 提示可真正关闭默认时间提示，增强界面可控性。",
+          "why_matters_en": "Custom spinner tips can now fully suppress default time-based tips, improving UI control.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed ToolSearch missing MCP tools that connected after session start in nonblocking mode",
+          "category": "fix",
+          "importance": 3,
+          "summary": "非阻塞模式补抓 MCP 工具",
+          "summary_en": "ToolSearch now catches late MCP tools",
+          "why_matters": "会话开始后才连接的 MCP 工具也能被发现，减少工具漏检。",
+          "why_matters_en": "Tools connected after session start are now discoverable, reducing missed MCP tools.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed `!exit` / `!quit` in bash mode terminating the CLI instead of running as a shell command",
+          "category": "fix",
+          "importance": 3,
+          "summary": "bash 下 !exit 不再退出 CLI",
+          "summary_en": "!exit / !quit no longer exits CLI in bash mode",
+          "why_matters": "在 bash 模式里用户可把它们当 shell 命令执行，避免误退出命令行。",
+          "why_matters_en": "In bash mode, these commands now behave like shell commands instead of accidentally exiting the CLI.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed images sent to newer models being resized to 2576px per side instead of the correct 2000px maximum",
+          "category": "fix",
+          "importance": 2,
+          "summary": "图片缩放上限修正",
+          "summary_en": "Fixed image resize limit to 2000px",
+          "why_matters": "发送给新模型的图片不会被过度缩放，减少质量损失。",
+          "why_matters_en": "Images sent to newer models are no longer over-resized, preserving more visual quality.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed remote control session idle status redrawing twice per second, which could flood `tmux -CC` control pipes and pause the terminal",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复远控空闲状态刷新过频",
+          "summary_en": "Fixed remote idle redraw flooding tmux",
+          "why_matters": "避免 tmux 控制管道被刷新淹没导致终端卡顿或暂停。",
+          "why_matters_en": "Prevents idle redraws from flooding tmux control pipes and stalling the terminal.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy",
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed assistant messages appearing blank in some sessions due to a stale view preference",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复消息空白显示问题",
+          "summary_en": "Fix blank assistant messages",
+          "why_matters": "避免某些会话中助手消息显示为空，保证对话内容可见。",
+          "why_matters_en": "Prevents assistant messages from appearing blank in some sessions, keeping responses visible.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed a malformed hooks entry in `settings.json` no longer invalidating the entire file",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复设置文件被整份失效",
+          "summary_en": "Fix settings file from invalidating",
+          "why_matters": "避免单个 hooks 配置格式错误导致整个 settings.json 失效，降低配置故障风险。",
+          "why_matters_en": "Prevents one malformed hooks entry from invalidating the entire settings.json file.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Voice mode: keybindings bound to Caps Lock now show an error since terminals don't deliver Caps Lock as a key event",
+          "category": "fix",
+          "importance": 2,
+          "summary": "Caps Lock 绑定报错提示",
+          "summary_en": "Show error for Caps Lock bindings",
+          "why_matters": "让用户及时知道 Caps Lock 不能作为按键事件使用，减少无效绑定配置。",
+          "why_matters_en": "Lets users know Caps Lock cannot be used as a key event, avoiding ineffective bindings.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "An update on recent Claude Code quality reports",
+          "points": 941,
+          "url": "https://www.anthropic.com/engineering/april-23-postmortem"
+        },
+        {
+          "title": "Claude Code to be removed from Anthropic's Pro plan?",
+          "points": 681,
+          "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
+        },
+        {
+          "title": "Who owns the code Claude Code wrote?",
+          "points": 295,
+          "url": "https://legallayer.substack.com/p/who-owns-the-claude-code-wrote"
+        },
+        {
+          "title": "Claude Code to be removed from Pro Tier?",
+          "points": 265,
+          "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
+        },
+        {
+          "title": "Show HN: A Karpathy-style LLM wiki your agents maintain (Markdown and Git)",
+          "points": 258,
+          "url": "https://github.com/nex-crm/wuphf"
+        }
+      ],
+      "highlight_score": 50
+    },
     {
       "version": "2.1.121",
       "date": "2026-04-27",
@@ -594,13 +913,18 @@
       "signals": [
         {
           "title": "An update on recent Claude Code quality reports",
-          "points": 940,
+          "points": 941,
           "url": "https://www.anthropic.com/engineering/april-23-postmortem"
         },
         {
           "title": "Claude Code to be removed from Anthropic's Pro plan?",
-          "points": 680,
+          "points": 681,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
+        },
+        {
+          "title": "Who owns the code Claude Code wrote?",
+          "points": 295,
+          "url": "https://legallayer.substack.com/p/who-owns-the-claude-code-wrote"
         },
         {
           "title": "Claude Code to be removed from Pro Tier?",
@@ -611,11 +935,6 @@
           "title": "Show HN: A Karpathy-style LLM wiki your agents maintain (Markdown and Git)",
           "points": 258,
           "url": "https://github.com/nex-crm/wuphf"
-        },
-        {
-          "title": "Show HN: How LLMs Work – Interactive visual guide based on Karpathy's lecture",
-          "points": 244,
-          "url": "https://ynarwal.github.io/how-llms-work/"
         }
       ],
       "highlight_score": 50
@@ -896,7 +1215,7 @@
       "signals": [
         {
           "title": "An update on recent Claude Code quality reports",
-          "points": 940,
+          "points": 941,
           "url": "https://www.anthropic.com/engineering/april-23-postmortem"
         },
         {
@@ -906,18 +1225,18 @@
         },
         {
           "title": "Claude Code to be removed from Anthropic's Pro plan?",
-          "points": 680,
+          "points": 681,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
+        },
+        {
+          "title": "Who owns the code Claude Code wrote?",
+          "points": 295,
+          "url": "https://legallayer.substack.com/p/who-owns-the-claude-code-wrote"
         },
         {
           "title": "Claude Code to be removed from Pro Tier?",
           "points": 265,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
-        },
-        {
-          "title": "Show HN: A Karpathy-style LLM wiki your agents maintain (Markdown and Git)",
-          "points": 258,
-          "url": "https://github.com/nex-crm/wuphf"
         }
       ],
       "highlight_score": 50
@@ -1590,7 +1909,7 @@
       "signals": [
         {
           "title": "An update on recent Claude Code quality reports",
-          "points": 940,
+          "points": 941,
           "url": "https://www.anthropic.com/engineering/april-23-postmortem"
         },
         {
@@ -1600,18 +1919,18 @@
         },
         {
           "title": "Claude Code to be removed from Anthropic's Pro plan?",
-          "points": 680,
+          "points": 681,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
+        },
+        {
+          "title": "Who owns the code Claude Code wrote?",
+          "points": 295,
+          "url": "https://legallayer.substack.com/p/who-owns-the-claude-code-wrote"
         },
         {
           "title": "Claude Code to be removed from Pro Tier?",
           "points": 265,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
-        },
-        {
-          "title": "Show HN: A Karpathy-style LLM wiki your agents maintain (Markdown and Git)",
-          "points": 258,
-          "url": "https://github.com/nex-crm/wuphf"
         }
       ],
       "highlight_score": 50
@@ -2067,7 +2386,7 @@
       "signals": [
         {
           "title": "An update on recent Claude Code quality reports",
-          "points": 940,
+          "points": 941,
           "url": "https://www.anthropic.com/engineering/april-23-postmortem"
         },
         {
@@ -2077,18 +2396,18 @@
         },
         {
           "title": "Claude Code to be removed from Anthropic's Pro plan?",
-          "points": 680,
+          "points": 681,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
+        },
+        {
+          "title": "Who owns the code Claude Code wrote?",
+          "points": 295,
+          "url": "https://legallayer.substack.com/p/who-owns-the-claude-code-wrote"
         },
         {
           "title": "Claude Code to be removed from Pro Tier?",
           "points": 265,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
-        },
-        {
-          "title": "Show HN: A Karpathy-style LLM wiki your agents maintain (Markdown and Git)",
-          "points": 258,
-          "url": "https://github.com/nex-crm/wuphf"
         }
       ],
       "highlight_score": 50
@@ -2467,7 +2786,7 @@
       "signals": [
         {
           "title": "An update on recent Claude Code quality reports",
-          "points": 940,
+          "points": 941,
           "url": "https://www.anthropic.com/engineering/april-23-postmortem"
         },
         {
@@ -2482,13 +2801,13 @@
         },
         {
           "title": "Claude Code to be removed from Anthropic's Pro plan?",
-          "points": 680,
+          "points": 681,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
         },
         {
-          "title": "Claude Code to be removed from Pro Tier?",
-          "points": 265,
-          "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
+          "title": "Who owns the code Claude Code wrote?",
+          "points": 295,
+          "url": "https://legallayer.substack.com/p/who-owns-the-claude-code-wrote"
         }
       ],
       "highlight_score": 50
@@ -2802,7 +3121,7 @@
       "signals": [
         {
           "title": "An update on recent Claude Code quality reports",
-          "points": 940,
+          "points": 941,
           "url": "https://www.anthropic.com/engineering/april-23-postmortem"
         },
         {
@@ -2817,7 +3136,7 @@
         },
         {
           "title": "Claude Code to be removed from Anthropic's Pro plan?",
-          "points": 680,
+          "points": 681,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
         },
         {
@@ -2851,7 +3170,7 @@
       "signals": [
         {
           "title": "An update on recent Claude Code quality reports",
-          "points": 940,
+          "points": 941,
           "url": "https://www.anthropic.com/engineering/april-23-postmortem"
         },
         {
@@ -2871,7 +3190,7 @@
         },
         {
           "title": "Claude Code to be removed from Anthropic's Pro plan?",
-          "points": 680,
+          "points": 681,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
         }
       ],
@@ -3371,7 +3690,7 @@
       "signals": [
         {
           "title": "An update on recent Claude Code quality reports",
-          "points": 940,
+          "points": 941,
           "url": "https://www.anthropic.com/engineering/april-23-postmortem"
         },
         {
@@ -3391,7 +3710,7 @@
         },
         {
           "title": "Claude Code to be removed from Anthropic's Pro plan?",
-          "points": 680,
+          "points": 681,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
         }
       ],
@@ -3420,7 +3739,7 @@
       "signals": [
         {
           "title": "An update on recent Claude Code quality reports",
-          "points": 940,
+          "points": 941,
           "url": "https://www.anthropic.com/engineering/april-23-postmortem"
         },
         {
@@ -3440,7 +3759,7 @@
         },
         {
           "title": "Claude Code to be removed from Anthropic's Pro plan?",
-          "points": 680,
+          "points": 681,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
         }
       ],
@@ -3898,7 +4217,7 @@
       "signals": [
         {
           "title": "An update on recent Claude Code quality reports",
-          "points": 940,
+          "points": 941,
           "url": "https://www.anthropic.com/engineering/april-23-postmortem"
         },
         {
@@ -3918,7 +4237,7 @@
         },
         {
           "title": "Claude Code to be removed from Anthropic's Pro plan?",
-          "points": 680,
+          "points": 681,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
         }
       ],
@@ -4370,7 +4689,7 @@
         },
         {
           "title": "Claude Code to be removed from Anthropic's Pro plan?",
-          "points": 680,
+          "points": 681,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
         },
         {
@@ -4419,7 +4738,7 @@
         },
         {
           "title": "Claude Code to be removed from Anthropic's Pro plan?",
-          "points": 680,
+          "points": 681,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
         },
         {
@@ -4758,7 +5077,7 @@
         },
         {
           "title": "Claude Code to be removed from Anthropic's Pro plan?",
-          "points": 680,
+          "points": 681,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
         },
         {
@@ -4806,7 +5125,7 @@
         },
         {
           "title": "Claude Code to be removed from Anthropic's Pro plan?",
-          "points": 680,
+          "points": 681,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
         },
         {
@@ -43492,9 +43811,9 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 334,
-      "release_count": 137,
-      "avg_importance": 3.11,
+      "change_count": 337,
+      "release_count": 138,
+      "avg_importance": 3.12,
       "maturity": {
         "score": 92,
         "level": "成熟"
@@ -43504,14 +43823,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-04-27",
-        "version": "2.1.121"
+        "date": "2026-04-28",
+        "version": "2.1.122"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 172
+          "change_count": 175
         },
         {
           "epoch_id": "epoch4",
@@ -43587,8 +43906,8 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 730,
-      "release_count": 174,
+      "change_count": 733,
+      "release_count": 175,
       "avg_importance": 3.23,
       "maturity": {
         "score": 93,
@@ -43599,14 +43918,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-04-27",
-        "version": "2.1.121"
+        "date": "2026-04-28",
+        "version": "2.1.122"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 429
+          "change_count": 432
         },
         {
           "epoch_id": "epoch1",
@@ -43682,9 +44001,9 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 494,
-      "release_count": 132,
-      "avg_importance": 3.21,
+      "change_count": 497,
+      "release_count": 133,
+      "avg_importance": 3.22,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -43694,14 +44013,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-04-27",
-        "version": "2.1.121"
+        "date": "2026-04-28",
+        "version": "2.1.122"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 330
+          "change_count": 333
         },
         {
           "epoch_id": "epoch1",
@@ -43777,8 +44096,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 562,
-      "release_count": 182,
+      "change_count": 566,
+      "release_count": 183,
       "avg_importance": 3.25,
       "maturity": {
         "score": 93,
@@ -43789,14 +44108,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-27",
-        "version": "2.1.121"
+        "date": "2026-04-28",
+        "version": "2.1.122"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 300
+          "change_count": 304
         },
         {
           "epoch_id": "epoch1",
@@ -43872,8 +44191,8 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 265,
-      "release_count": 104,
+      "change_count": 267,
+      "release_count": 105,
       "avg_importance": 3.32,
       "maturity": {
         "score": 93,
@@ -43884,14 +44203,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-27",
-        "version": "2.1.121"
+        "date": "2026-04-28",
+        "version": "2.1.122"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 174
+          "change_count": 176
         },
         {
           "epoch_id": "epoch1",
@@ -43967,8 +44286,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 877,
-      "release_count": 207,
+      "change_count": 889,
+      "release_count": 209,
       "avg_importance": 3.15,
       "maturity": {
         "score": 93,
@@ -43979,14 +44298,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-04-27",
-        "version": "2.1.121"
+        "date": "2026-04-29",
+        "version": "2.1.123"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 511
+          "change_count": 523
         },
         {
           "epoch_id": "epoch1",
@@ -44062,8 +44381,8 @@
         "Emacs",
         "web"
       ],
-      "change_count": 559,
-      "release_count": 152,
+      "change_count": 564,
+      "release_count": 153,
       "avg_importance": 2.69,
       "maturity": {
         "score": 91,
@@ -44074,14 +44393,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-27",
-        "version": "2.1.121"
+        "date": "2026-04-28",
+        "version": "2.1.122"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 350
+          "change_count": 355
         },
         {
           "epoch_id": "epoch4",
@@ -44157,8 +44476,8 @@
         "policy",
         "auditing"
       ],
-      "change_count": 570,
-      "release_count": 178,
+      "change_count": 576,
+      "release_count": 180,
       "avg_importance": 3.39,
       "maturity": {
         "score": 94,
@@ -44169,14 +44488,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-27",
-        "version": "2.1.121"
+        "date": "2026-04-29",
+        "version": "2.1.123"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 334
+          "change_count": 340
         },
         {
           "epoch_id": "epoch4",
@@ -44287,7 +44606,7 @@
       },
       {
         "title": "An update on recent Claude Code quality reports",
-        "points": 940,
+        "points": 941,
         "url": "https://www.anthropic.com/engineering/april-23-postmortem",
         "date": "2026-04-23"
       },
