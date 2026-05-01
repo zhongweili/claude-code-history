@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-04-30T04:30:17.877Z",
+    "generated_at": "2026-05-01T04:47:07.410Z",
     "agent_model": "openai/gpt-5.4-mini",
-    "total_versions": 276,
+    "total_versions": 277,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-04-29"
+      "end": "2026-04-30"
     },
     "highlight_count": 35,
     "capability_count": 8,
@@ -70,11 +70,457 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。与此同时，Opus 4.6 把「思考」变成了可选项，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Meanwhile, Opus 4.6 makes reasoning optional rather than visible, while worktree isolation and a 1M context push the agent toward running for hours, unattended.",
-      "release_count": 60,
+      "release_count": 61,
       "highlight_count": 14
     }
   ],
   "releases": [
+    {
+      "version": "2.1.126",
+      "date": "2026-04-30",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "The `/model` picker now lists models from your gateway's `/v1/models` endpoint when `ANTHROPIC_BASE_URL` points at an Anthropic-compatible gateway",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "模型列表读取网关可用模型",
+          "summary_en": "Model picker uses gateway /v1/models",
+          "why_matters": "用户在接入 Anthropic 兼容网关时可以直接选择网关实际提供的模型，更符合真实可用能力。",
+          "why_matters_en": "Users can pick the models actually available from an Anthropic-compatible gateway, improving correctness and convenience.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "- Added `claude project purge [path]` to delete all Claude Code state for a project (transcripts, tasks, file history, config entry) — supports `--dry-run`, `-y/--yes`, `-i/--interactive`, and `--all`",
+          "category": "feat",
+          "importance": 4,
+          "summary": "新增项目清理命令",
+          "summary_en": "Added project purge command",
+          "why_matters": "用户可以一键清除某个项目的 Claude Code 本地状态，便于重置、迁移或彻底删除痕迹。",
+          "why_matters_en": "Users can fully remove Claude Code state for a project, which is useful for resets, migrations, and cleanup.",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "`--dangerously-skip-permissions` now bypasses prompts for writes to `.claude/`, `.git/`, `.vscode/`, shell config files, and other previously-protected paths (catastrophic removal commands still prompt as a safety net)",
+          "category": "improvement",
+          "importance": 5,
+          "summary": "跳过权限更彻底",
+          "summary_en": "Skip-permissions covers more protected paths",
+          "why_matters": "在明确关闭权限检查时，工具能更一致地执行写入操作，减少不必要的阻塞。",
+          "why_matters_en": "When permission checks are intentionally bypassed, the tool now behaves more consistently and blocks less often.",
+          "capability_ids": [
+            "automation_autonomy",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "`claude auth login` now accepts the OAuth code pasted into the terminal when the browser callback can't reach localhost (WSL2, SSH, containers)",
+          "category": "improvement",
+          "importance": 4,
+          "summary": "登录支持手动输入验证码",
+          "summary_en": "Auth login accepts pasted OAuth code",
+          "why_matters": "在 WSL2、SSH 或容器等本地回调不可达的环境里，用户仍可完成 OAuth 登录。",
+          "why_matters_en": "Users can still complete OAuth login in environments where localhost callbacks are unavailable, like WSL2, SSH, or containers.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "`claude_code.skill_activated` OpenTelemetry event now fires for user-typed slash commands and carries a new `invocation_trigger` attribute (`\"user-slash\"`, `\"claude-proactive\"`, or `\"nested-skill\"`)",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "技能激活事件更完整",
+          "summary_en": "Skill activation telemetry now includes user slash",
+          "why_matters": "遥测能更准确地区分技能是由用户、Claude 主动还是嵌套技能触发，便于分析使用行为。",
+          "why_matters_en": "Telemetry can now distinguish whether a skill was triggered by the user, Claude, or a nested skill, improving usage analysis.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Auto mode: the spinner now turns red when a permission check stalls, instead of looking like the tool is running",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "卡住时自动模式提示更清晰",
+          "summary_en": "Auto mode spinner turns red on stalls",
+          "why_matters": "用户更容易判断当前是在等待权限而不是程序仍在正常运行，减少误解和误操作。",
+          "why_matters_en": "Users can tell the tool is stalled on permission checks instead of still actively running, reducing confusion.",
+          "capability_ids": [
+            "automation_autonomy",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Host-managed deployments (`CLAUDE_CODE_PROVIDER_MANAGED_BY_HOST`) no longer auto-disable analytics on Bedrock/Vertex/Foundry",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "托管部署不再误关分析",
+          "summary_en": "Host-managed deployments keep analytics on",
+          "why_matters": "由宿主管理的部署在相关平台上可以继续保留分析数据，避免无意中丢失可观测性。",
+          "why_matters_en": "Host-managed deployments can keep analytics enabled on supported platforms, preserving observability.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Windows: PowerShell 7 installed via the Microsoft Store, MSI without PATH, or `.NET global tool` is now detected",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "Windows 新装 PowerShell 可识别",
+          "summary_en": "Detect more PowerShell 7 installation types",
+          "why_matters": "Windows 用户在更多安装方式下都能被正确识别并获得一致的 shell 体验。",
+          "why_matters_en": "Windows users get consistent shell detection across more PowerShell 7 installation methods.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Windows: when the PowerShell tool is enabled, Claude now treats PowerShell as the primary shell instead of defaulting to Bash",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "Windows 优先用 PowerShell",
+          "summary_en": "Use PowerShell as primary shell on Windows",
+          "why_matters": "启用 PowerShell 工具后，Claude 会更符合 Windows 用户习惯地使用主 shell。",
+          "why_matters_en": "When the PowerShell tool is enabled, Claude now uses the shell Windows users expect as primary.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Read tool: removed the per-file malware-assessment reminder that could cause spurious refusals and \"this is not malware\" commentary on legacy models",
+          "category": "fix",
+          "importance": 2,
+          "summary": "移除误报式恶意软件提醒",
+          "summary_en": "Removed spurious malware reminder in Read tool",
+          "why_matters": "减少不必要的拒绝和无关说明，让读取文件更自然、更少打断工作流。",
+          "why_matters_en": "This reduces unnecessary refusals and irrelevant commentary, making file reads smoother.",
+          "capability_ids": [
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "**Security:** Fixed `allowManagedDomainsOnly` / `allowManagedReadPathsOnly` being ignored when a higher-priority managed-settings source lacked a `sandbox` block",
+          "category": "security",
+          "importance": 5,
+          "summary": "受管域与路径限制修复",
+          "summary_en": "Managed domain/path restrictions now enforced",
+          "why_matters": "即使高优先级配置缺少 sandbox，也不会绕过受管域名和受管读取路径限制，避免策略失效。",
+          "why_matters_en": "Managed domain and read-path restrictions now remain enforced even when higher-priority settings omit a sandbox block.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed pasting an image larger than 2000px breaking the session — images are now downscaled on paste, and oversized images in history are automatically removed and the request retried",
+          "category": "fix",
+          "importance": 4,
+          "summary": "大图粘贴不再中断会话",
+          "summary_en": "Large pasted images no longer break sessions",
+          "why_matters": "用户粘贴超大图片时会自动降采样并重试，避免整个会话失败。",
+          "why_matters_en": "Large pasted images are now downscaled and retried, preventing the session from breaking.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed showing the login screen for \"OAuth not allowed for organization\" errors — now shows guidance to contact your admin",
+          "category": "fix",
+          "importance": 2,
+          "summary": "组织禁用 OAuth 时给出指引",
+          "summary_en": "OAuth org restriction shows admin guidance",
+          "why_matters": "用户遇到组织级限制时不会再看到误导性的登录页，而是知道该联系管理员。",
+          "why_matters_en": "Users now get clear admin guidance instead of a misleading login screen when OAuth is blocked by organization policy.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed OAuth login failing with timeout on slow or proxied connections, in IPv6-only devcontainers, and when the browser callback can't reach localhost",
+          "category": "fix",
+          "importance": 4,
+          "summary": "慢网络下 OAuth 登录更稳",
+          "summary_en": "OAuth login fixed on slow or proxied networks",
+          "why_matters": "在慢连接、代理、IPv6-only 容器等环境中，登录不再容易超时失败。",
+          "why_matters_en": "OAuth login is now reliable in slow, proxied, and IPv6-only environments where it previously timed out.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed a rare race where a concurrent credential write could clear a valid OAuth refresh token",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复刷新令牌被误清空",
+          "summary_en": "Fix rare refresh token wipe race",
+          "why_matters": "避免并发写入时把有效登录状态清掉，减少用户被意外登出的风险。",
+          "why_matters_en": "This prevents valid OAuth refresh tokens from being lost during concurrent writes, reducing unexpected sign-outs.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed API retry countdown sticking at \"0s\" instead of counting down between attempts",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复API重试倒计时显示",
+          "summary_en": "Fix API retry countdown display",
+          "why_matters": "避免重试状态看起来卡住，提升用户对请求恢复过程的感知。",
+          "why_matters_en": "Prevents retries from looking stuck and improves visibility into request recovery.",
+          "capability_ids": [
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed \"Stream idle timeout\" error after waking Mac from sleep mid-request",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复睡眠唤醒后超时误报",
+          "summary_en": "Fix timeout after Mac sleep wake",
+          "why_matters": "减少设备休眠后请求被误判失败，提升长请求稳定性。",
+          "why_matters_en": "Reduces false failures after sleep and improves stability for long requests.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed background and remote sessions falsely aborting with \"Stream idle timeout\" during long model thinking pauses",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复长思考暂停误超时",
+          "summary_en": "Fix idle timeout during long thinking",
+          "why_matters": "避免模型长时间推理时会话被错误中断，保障远程与后台任务连续性。",
+          "why_matters_en": "Prevents sessions from being cut off during long reasoning pauses and preserves continuity for remote and background tasks.",
+          "capability_ids": [
+            "automation_autonomy",
+            "delegation_collaboration",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed a hang where the assistant could finish thinking but show no output after a run of empty turns",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复空轮次后无输出卡住",
+          "summary_en": "Fix no-output hang after empty turns",
+          "why_matters": "避免助手思考完成却不显示结果，减少交互卡顿和困惑。",
+          "why_matters_en": "Prevents the assistant from finishing silently and reduces confusing UI stalls.",
+          "capability_ids": [
+            "execution_workspace",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed overly fast trackpad scrolling in Cursor and VS Code 1.92–1.104 integrated terminals",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复集成终端滚动过快",
+          "summary_en": "Fix overly fast integrated terminal scroll",
+          "why_matters": "改善在编辑器集成终端中的滚动体验，提升可用性。",
+          "why_matters_en": "Improves scrolling usability in integrated terminals inside editors.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed claude.ai MCP connectors being suppressed by manual servers stuck in needs-auth state",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复MCP连接器被错误屏蔽",
+          "summary_en": "Fix MCP connectors wrongly suppressed",
+          "why_matters": "确保可用连接器不会被异常的认证状态挡住，恢复集成能力。",
+          "why_matters_en": "Ensures available connectors are not blocked by stale auth state and restores integrations.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed Japanese/Korean/Chinese text rendering as garbled characters on Windows in no-flicker mode",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复Windows乱码显示",
+          "summary_en": "Fix garbled CJK text on Windows",
+          "why_matters": "避免中文、日文、韩文在无闪烁模式下显示异常，提升国际化体验。",
+          "why_matters_en": "Prevents CJK text corruption in no-flicker mode and improves localization quality.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `Ctrl+L` clearing the prompt input — it now only forces a screen redraw, matching readline behavior",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复Ctrl+L清空输入框",
+          "summary_en": "Fix Ctrl+L clearing prompt input",
+          "why_matters": "保持与 readline 行为一致，避免误删用户正在输入的内容。",
+          "why_matters_en": "Aligns with readline behavior and prevents accidental loss of typed input.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed deferred tools (WebSearch, WebFetch, etc.) not being available to skills with `context: fork` and other subagents on their first turn",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复子代理首轮缺少工具",
+          "summary_en": "Fix missing deferred tools for subagents",
+          "why_matters": "让子代理和技能首轮就能使用所需工具，提升自动化执行成功率。",
+          "why_matters_en": "Lets subagents use required tools on the first turn and improves automation success.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "delegation_collaboration",
+            "automation_autonomy",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed plan-mode tools being unavailable in interactive sessions launched with `--channels`",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复channels会话计划工具缺失",
+          "summary_en": "Fix plan-mode tools in --channels sessions",
+          "why_matters": "确保交互式会话中可用的计划工具正常出现，避免功能缺失。",
+          "why_matters_en": "Ensures plan-mode tools are available in interactive sessions and avoids missing functionality.",
+          "capability_ids": [
+            "automation_autonomy",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed `/plugin` Uninstall reporting \"Enabled\" instead of \"Uninstalled\"",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复插件卸载状态显示错误",
+          "summary_en": "Fix plugin uninstall status text",
+          "why_matters": "让用户更准确知道插件是否已移除，减少状态误解。",
+          "why_matters_en": "Makes plugin removal status accurate and reduces user confusion.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Bounded total size of file-modified reminders when a linter touches many files at once",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "限制修改提醒总大小",
+          "summary_en": "Bound total modified-reminder size",
+          "why_matters": "防止大量文件变更时提醒内容过大，提升性能和可读性。",
+          "why_matters_en": "Prevents reminder bloat when many files change and improves performance and readability.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed `/remote-control` retries appearing stuck on \"connecting…\" — each retry now shows its result",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复远控重试卡在连接中",
+          "summary_en": "Fix remote-control retry stuck on connecting",
+          "why_matters": "让每次重试结果都可见，便于判断远程控制是否真正恢复。",
+          "why_matters_en": "Makes each retry outcome visible so users can tell whether remote control is actually recovering.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed Remote Control failure notification not showing the error reason for initial connection failures",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复远控失败原因不显示",
+          "summary_en": "Show remote-control failure reason",
+          "why_matters": "帮助用户快速定位首次连接失败原因，减少排障时间。",
+          "why_matters_en": "Helps users quickly diagnose initial connection failures and reduces troubleshooting time.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "automation_autonomy",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Windows: clipboard writes no longer expose copied content in process command-line arguments visible to EDR/SIEM telemetry; also fixes >22KB selections not reaching the clipboard",
+          "category": "security",
+          "importance": 5,
+          "summary": "Windows剪贴板保护敏感内容",
+          "summary_en": "Protect clipboard content on Windows",
+          "why_matters": "避免复制内容暴露在进程命令行和EDR/SIEM遥测中，降低敏感信息泄露风险。",
+          "why_matters_en": "Prevents copied content from leaking into command-line telemetry and reduces sensitive data exposure.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "PowerShell tool: bare `--` (e.g. `git diff -- file`) is no longer mis-flagged as the `--%` stop-parsing token",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修正PowerShell参数解析误判",
+          "summary_en": "Fix PowerShell bare -- parsing",
+          "why_matters": "避免把普通的 `--` 误识别为停止解析标记，减少命令执行错误。",
+          "why_matters_en": "Prevents a normal `--` from being mistaken for stop-parsing, reducing command errors.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed Agent SDK hang when the model emits a malformed tool name in a parallel tool call batch",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复并行工具调用卡死",
+          "summary_en": "Fix SDK hang on malformed tool name",
+          "why_matters": "当模型输出非法工具名时不再卡住，提升代理调用的稳定性。",
+          "why_matters_en": "Prevents hangs when the model emits an invalid tool name, improving agent call reliability.",
+          "capability_ids": [
+            "automation_autonomy",
+            "delegation_collaboration",
+            "reasoning_workflows",
+            "integrations_ecosystem"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "HERMES.md in commit messages causes requests to route to extra usage billing",
+          "points": 1231,
+          "url": "https://github.com/anthropics/claude-code/issues/53262"
+        },
+        {
+          "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
+          "points": 1032,
+          "url": "https://twitter.com/theo/status/2049645973350363168"
+        },
+        {
+          "title": "An update on recent Claude Code quality reports",
+          "points": 941,
+          "url": "https://www.anthropic.com/engineering/april-23-postmortem"
+        },
+        {
+          "title": "Who owns the code Claude Code wrote?",
+          "points": 550,
+          "url": "https://legallayer.substack.com/p/who-owns-the-claude-code-wrote"
+        },
+        {
+          "title": "Show HN: A Karpathy-style LLM wiki your agents maintain (Markdown and Git)",
+          "points": 258,
+          "url": "https://github.com/nex-crm/wuphf"
+        }
+      ],
+      "highlight_score": 50
+    },
     {
       "version": "2.1.123",
       "date": "2026-04-29",
@@ -98,8 +544,13 @@
       "signals": [
         {
           "title": "HERMES.md in commit messages causes requests to route to extra usage billing",
-          "points": 1041,
+          "points": 1231,
           "url": "https://github.com/anthropics/claude-code/issues/53262"
+        },
+        {
+          "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
+          "points": 1032,
+          "url": "https://twitter.com/theo/status/2049645973350363168"
         },
         {
           "title": "An update on recent Claude Code quality reports",
@@ -108,18 +559,13 @@
         },
         {
           "title": "Who owns the code Claude Code wrote?",
-          "points": 540,
+          "points": 550,
           "url": "https://legallayer.substack.com/p/who-owns-the-claude-code-wrote"
         },
         {
           "title": "Show HN: A Karpathy-style LLM wiki your agents maintain (Markdown and Git)",
           "points": 258,
           "url": "https://github.com/nex-crm/wuphf"
-        },
-        {
-          "title": "Regression: malware reminder on every read still causes subagent refusals",
-          "points": 248,
-          "url": "https://github.com/anthropics/claude-code/issues/49363"
         }
       ],
       "highlight_score": 50
@@ -368,8 +814,13 @@
       "signals": [
         {
           "title": "HERMES.md in commit messages causes requests to route to extra usage billing",
-          "points": 1041,
+          "points": 1231,
           "url": "https://github.com/anthropics/claude-code/issues/53262"
+        },
+        {
+          "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
+          "points": 1032,
+          "url": "https://twitter.com/theo/status/2049645973350363168"
         },
         {
           "title": "An update on recent Claude Code quality reports",
@@ -383,13 +834,8 @@
         },
         {
           "title": "Who owns the code Claude Code wrote?",
-          "points": 540,
+          "points": 550,
           "url": "https://legallayer.substack.com/p/who-owns-the-claude-code-wrote"
-        },
-        {
-          "title": "Claude Code to be removed from Pro Tier?",
-          "points": 265,
-          "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
         }
       ],
       "highlight_score": 50
@@ -913,8 +1359,13 @@
       "signals": [
         {
           "title": "HERMES.md in commit messages causes requests to route to extra usage billing",
-          "points": 1041,
+          "points": 1231,
           "url": "https://github.com/anthropics/claude-code/issues/53262"
+        },
+        {
+          "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
+          "points": 1032,
+          "url": "https://twitter.com/theo/status/2049645973350363168"
         },
         {
           "title": "An update on recent Claude Code quality reports",
@@ -928,13 +1379,8 @@
         },
         {
           "title": "Who owns the code Claude Code wrote?",
-          "points": 540,
+          "points": 550,
           "url": "https://legallayer.substack.com/p/who-owns-the-claude-code-wrote"
-        },
-        {
-          "title": "Claude Code to be removed from Pro Tier?",
-          "points": 265,
-          "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
         }
       ],
       "highlight_score": 50
@@ -1215,8 +1661,13 @@
       "signals": [
         {
           "title": "HERMES.md in commit messages causes requests to route to extra usage billing",
-          "points": 1041,
+          "points": 1231,
           "url": "https://github.com/anthropics/claude-code/issues/53262"
+        },
+        {
+          "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
+          "points": 1032,
+          "url": "https://twitter.com/theo/status/2049645973350363168"
         },
         {
           "title": "An update on recent Claude Code quality reports",
@@ -1232,11 +1683,6 @@
           "title": "Claude Code to be removed from Anthropic's Pro plan?",
           "points": 682,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
-        },
-        {
-          "title": "Who owns the code Claude Code wrote?",
-          "points": 540,
-          "url": "https://legallayer.substack.com/p/who-owns-the-claude-code-wrote"
         }
       ],
       "highlight_score": 50
@@ -1909,8 +2355,13 @@
       "signals": [
         {
           "title": "HERMES.md in commit messages causes requests to route to extra usage billing",
-          "points": 1041,
+          "points": 1231,
           "url": "https://github.com/anthropics/claude-code/issues/53262"
+        },
+        {
+          "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
+          "points": 1032,
+          "url": "https://twitter.com/theo/status/2049645973350363168"
         },
         {
           "title": "An update on recent Claude Code quality reports",
@@ -1926,11 +2377,6 @@
           "title": "Claude Code to be removed from Anthropic's Pro plan?",
           "points": 682,
           "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a"
-        },
-        {
-          "title": "Who owns the code Claude Code wrote?",
-          "points": 540,
-          "url": "https://legallayer.substack.com/p/who-owns-the-claude-code-wrote"
         }
       ],
       "highlight_score": 50
@@ -2386,7 +2832,7 @@
       "signals": [
         {
           "title": "HERMES.md in commit messages causes requests to route to extra usage billing",
-          "points": 1041,
+          "points": 1231,
           "url": "https://github.com/anthropics/claude-code/issues/53262"
         },
         {
@@ -2406,7 +2852,7 @@
         },
         {
           "title": "Who owns the code Claude Code wrote?",
-          "points": 540,
+          "points": 550,
           "url": "https://legallayer.substack.com/p/who-owns-the-claude-code-wrote"
         }
       ],
@@ -2806,7 +3252,7 @@
         },
         {
           "title": "Who owns the code Claude Code wrote?",
-          "points": 540,
+          "points": 550,
           "url": "https://legallayer.substack.com/p/who-owns-the-claude-code-wrote"
         }
       ],
@@ -43811,8 +44257,8 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 337,
-      "release_count": 138,
+      "change_count": 344,
+      "release_count": 139,
       "avg_importance": 3.12,
       "maturity": {
         "score": 92,
@@ -43823,14 +44269,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-04-28",
-        "version": "2.1.122"
+        "date": "2026-04-30",
+        "version": "2.1.126"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 175
+          "change_count": 182
         },
         {
           "epoch_id": "epoch4",
@@ -43906,8 +44352,8 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 733,
-      "release_count": 175,
+      "change_count": 743,
+      "release_count": 176,
       "avg_importance": 3.23,
       "maturity": {
         "score": 93,
@@ -43918,14 +44364,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-04-28",
-        "version": "2.1.122"
+        "date": "2026-04-30",
+        "version": "2.1.126"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 432
+          "change_count": 442
         },
         {
           "epoch_id": "epoch1",
@@ -44096,9 +44542,9 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 566,
-      "release_count": 183,
-      "avg_importance": 3.25,
+      "change_count": 576,
+      "release_count": 184,
+      "avg_importance": 3.26,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -44108,14 +44554,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-28",
-        "version": "2.1.122"
+        "date": "2026-04-30",
+        "version": "2.1.126"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 304
+          "change_count": 314
         },
         {
           "epoch_id": "epoch1",
@@ -44140,6 +44586,14 @@
       ],
       "samples": [
         {
+          "date": "2026-04-30",
+          "version": "2.1.126",
+          "raw": "`--dangerously-skip-permissions` now bypasses prompts for writes to `.claude/`, `.git/`, `.vscode/`, shell config files, and other previously-protected paths (catastrophic removal commands still prompt as a safety net)",
+          "summary": "跳过权限更彻底",
+          "importance": 5,
+          "category": "improvement"
+        },
+        {
           "date": "2026-04-27",
           "version": "2.1.121",
           "raw": "Fixed Bash tool becoming permanently unusable when the directory Claude was started in is deleted or moved mid-session",
@@ -44162,14 +44616,6 @@
           "summary": "限制 find 危险参数自动批准",
           "importance": 5,
           "category": "security"
-        },
-        {
-          "date": "2026-04-16",
-          "version": "2.1.111",
-          "raw": "Added `/ultrareview` for running comprehensive code review in the cloud using parallel multi-agent analysis and critique — invoke with no arguments to review your current branch, or `/ultrareview <PR#>` to fetch and review a specific GitHub PR",
-          "summary": "新增云端超强审查",
-          "importance": 5,
-          "category": "feat"
         }
       ]
     },
@@ -44191,8 +44637,8 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 267,
-      "release_count": 105,
+      "change_count": 272,
+      "release_count": 106,
       "avg_importance": 3.32,
       "maturity": {
         "score": 93,
@@ -44203,14 +44649,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-28",
-        "version": "2.1.122"
+        "date": "2026-04-30",
+        "version": "2.1.126"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 176
+          "change_count": 181
         },
         {
           "epoch_id": "epoch1",
@@ -44286,8 +44732,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 889,
-      "release_count": 209,
+      "change_count": 899,
+      "release_count": 210,
       "avg_importance": 3.15,
       "maturity": {
         "score": 93,
@@ -44298,14 +44744,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-04-29",
-        "version": "2.1.123"
+        "date": "2026-04-30",
+        "version": "2.1.126"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 523
+          "change_count": 533
         },
         {
           "epoch_id": "epoch1",
@@ -44381,8 +44827,8 @@
         "Emacs",
         "web"
       ],
-      "change_count": 564,
-      "release_count": 153,
+      "change_count": 571,
+      "release_count": 154,
       "avg_importance": 2.69,
       "maturity": {
         "score": 91,
@@ -44393,14 +44839,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-28",
-        "version": "2.1.122"
+        "date": "2026-04-30",
+        "version": "2.1.126"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 355
+          "change_count": 362
         },
         {
           "epoch_id": "epoch4",
@@ -44476,8 +44922,8 @@
         "policy",
         "auditing"
       ],
-      "change_count": 576,
-      "release_count": 180,
+      "change_count": 585,
+      "release_count": 181,
       "avg_importance": 3.39,
       "maturity": {
         "score": 94,
@@ -44488,14 +44934,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-04-29",
-        "version": "2.1.123"
+        "date": "2026-04-30",
+        "version": "2.1.126"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 340
+          "change_count": 349
         },
         {
           "epoch_id": "epoch4",
@@ -44520,34 +44966,34 @@
       ],
       "samples": [
         {
-          "date": "2026-04-24",
-          "version": "2.1.120",
-          "raw": "Fixed `find` in the Bash tool exhausting open file descriptors on large directory trees, causing host-wide crashes (macOS/Linux native builds)",
-          "summary": "修复 find 句柄泄漏",
+          "date": "2026-04-30",
+          "version": "2.1.126",
+          "raw": "`--dangerously-skip-permissions` now bypasses prompts for writes to `.claude/`, `.git/`, `.vscode/`, shell config files, and other previously-protected paths (catastrophic removal commands still prompt as a safety net)",
+          "summary": "跳过权限更彻底",
           "importance": 5,
-          "category": "fix"
+          "category": "improvement"
         },
         {
-          "date": "2026-04-23",
-          "version": "2.1.119",
-          "raw": "Security: `blockedMarketplaces` now correctly enforces `hostPattern` and `pathPattern` entries",
-          "summary": "修复受限市场校验漏洞",
+          "date": "2026-04-30",
+          "version": "2.1.126",
+          "raw": "**Security:** Fixed `allowManagedDomainsOnly` / `allowManagedReadPathsOnly` being ignored when a higher-priority managed-settings source lacked a `sandbox` block",
+          "summary": "受管域与路径限制修复",
           "importance": 5,
           "category": "security"
         },
         {
-          "date": "2026-04-22",
-          "version": "2.1.118",
-          "raw": "Fixed MCP OAuth refresh proceeding without its cross-process lock under contention",
-          "summary": "修复MCP刷新锁竞争",
+          "date": "2026-04-30",
+          "version": "2.1.126",
+          "raw": "Windows: clipboard writes no longer expose copied content in process command-line arguments visible to EDR/SIEM telemetry; also fixes >22KB selections not reaching the clipboard",
+          "summary": "Windows剪贴板保护敏感内容",
           "importance": 5,
-          "category": "fix"
+          "category": "security"
         },
         {
-          "date": "2026-04-22",
-          "version": "2.1.118",
-          "raw": "Fixed macOS keychain race where a concurrent MCP token refresh could overwrite a freshly-refreshed OAuth token, causing unexpected \"Please run /login\" prompts",
-          "summary": "修复Keychain刷新覆盖令牌",
+          "date": "2026-04-24",
+          "version": "2.1.120",
+          "raw": "Fixed `find` in the Bash tool exhausting open file descriptors on large directory trees, causing host-wide crashes (macOS/Linux native builds)",
+          "summary": "修复 find 句柄泄漏",
           "importance": 5,
           "category": "fix"
         }
@@ -44587,6 +45033,12 @@
         "date": "2026-01-12"
       },
       {
+        "title": "HERMES.md in commit messages causes requests to route to extra usage billing",
+        "points": 1231,
+        "url": "https://github.com/anthropics/claude-code/issues/53262",
+        "date": "2026-04-29"
+      },
+      {
         "title": "Claude Code Unpacked : A visual guide",
         "points": 1128,
         "url": "https://ccunpacked.dev/",
@@ -44605,10 +45057,10 @@
         "date": "2026-03-07"
       },
       {
-        "title": "HERMES.md in commit messages causes requests to route to extra usage billing",
-        "points": 1041,
-        "url": "https://github.com/anthropics/claude-code/issues/53262",
-        "date": "2026-04-29"
+        "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
+        "points": 1032,
+        "url": "https://twitter.com/theo/status/2049645973350363168",
+        "date": "2026-04-30"
       },
       {
         "title": "An update on recent Claude Code quality reports",
@@ -44657,12 +45109,6 @@
         "points": 759,
         "url": "https://github.com/anthropics/claude-code/issues/45756",
         "date": "2026-04-12"
-      },
-      {
-        "title": "Show HN: Factorio Learning Environment – Agents Build Factories",
-        "points": 749,
-        "url": "https://jackhopkins.github.io/factorio-learning-environment/",
-        "date": "2025-03-11"
       }
     ],
     "blog_posts": [
