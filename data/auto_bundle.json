@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-05-05T04:14:59.799Z",
+    "generated_at": "2026-05-06T04:32:20.929Z",
     "agent_model": "openai/gpt-5.4-mini",
-    "total_versions": 278,
+    "total_versions": 279,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-05-04"
+      "end": "2026-05-05"
     },
     "highlight_count": 35,
     "capability_count": 8,
@@ -70,11 +70,394 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。与此同时，Opus 4.6 把「思考」变成了可选项，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Meanwhile, Opus 4.6 makes reasoning optional rather than visible, while worktree isolation and a 1M context push the agent toward running for hours, unattended.",
-      "release_count": 62,
+      "release_count": 63,
       "highlight_count": 14
     }
   ],
   "releases": [
+    {
+      "version": "2.1.129",
+      "date": "2026-05-05",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added `--plugin-url <url>` flag to fetch a plugin `.zip` archive from a URL for the current session",
+          "category": "feat",
+          "importance": 4,
+          "summary": "支持从URL安装插件",
+          "summary_en": "Install plugins from a URL zip",
+          "why_matters": "用户可以直接从远程地址获取插件，减少手动下载和分发步骤。",
+          "why_matters_en": "Users can fetch a plugin directly from a remote URL, reducing manual download and distribution steps.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Added `CLAUDE_CODE_FORCE_SYNC_OUTPUT=1` env var to force-enable synchronized output on terminals that auto-detection misses (e.g. Emacs `eat`)",
+          "category": "feat",
+          "importance": 2,
+          "summary": "强制开启同步输出",
+          "summary_en": "Force synchronized terminal output",
+          "why_matters": "在自动检测失效的终端里也能保持输出稳定，避免显示错乱。",
+          "why_matters_en": "Keeps output stable even in terminals where auto-detection fails, avoiding display glitches.",
+          "capability_ids": [
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Added `CLAUDE_CODE_PACKAGE_MANAGER_AUTO_UPDATE`: when set on Homebrew or WinGet installations, Claude Code runs the upgrade command in the background and prompts to restart",
+          "category": "feat",
+          "importance": 3,
+          "summary": "支持包管理器后台更新",
+          "summary_en": "Background package manager updates",
+          "why_matters": "用户可自动获取新版本并在需要时重启，减少升级维护成本。",
+          "why_matters_en": "Users can get updates automatically and restart when needed, reducing upgrade overhead.",
+          "capability_ids": [
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Plugin manifests: `themes` and `monitors` should now be declared under `\"experimental\": { ... }`. Top-level declarations still work but `claude plugin validate` will warn",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "插件清单实验字段规范化",
+          "summary_en": "Move plugin manifest fields under experimental",
+          "why_matters": "有助于统一插件清单结构，并提前提示不推荐的旧写法。",
+          "why_matters_en": "This helps standardize plugin manifests and warns about deprecated top-level fields.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Gateway `/v1/models` discovery for the `/model` picker is now opt-in via `CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1` (was automatic in 2.1.126–2.1.128)",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "模型发现改为可选开启",
+          "summary_en": "Make gateway model discovery opt-in",
+          "why_matters": "减少对网关模型列表的自动探测，给用户更明确的控制权。",
+          "why_matters_en": "This reduces automatic probing of gateway model lists and gives users clearer control.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Ctrl+R history picker now defaults to searching all prompts across all projects, matching pre-2.1.124 behavior. Press Ctrl+S to narrow to the current project or session",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "历史搜索默认覆盖所有项目",
+          "summary_en": "Search history across all projects by default",
+          "why_matters": "更接近旧行为，用户更容易找到跨项目的历史提示词。",
+          "why_matters_en": "This matches the older behavior, making it easier to find prompts across projects.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Third-party deployments (Bedrock, Vertex, Foundry, or `ANTHROPIC_BASE_URL` gateway) no longer see spinner tips pointing at first-party Anthropic surfaces",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "第三方部署提示更准确",
+          "summary_en": "Better tips for third-party deployments",
+          "why_matters": "避免向非 Anthropic 部署展示不适用的引导内容，减少困惑。",
+          "why_matters_en": "This avoids showing irrelevant first-party guidance in non-Anthropic deployments, reducing confusion.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "`skillOverrides` setting now works: `off` hides from model and `/`, `user-invocable-only` hides from model only, `name-only` collapses description",
+          "category": "feat",
+          "importance": 3,
+          "summary": "支持技能可见性覆盖",
+          "summary_en": "Support skill visibility overrides",
+          "why_matters": "用户可以更细粒度控制技能对模型和界面的展示方式。",
+          "why_matters_en": "Users can control how skills are exposed to the model and UI with finer granularity.",
+          "capability_ids": [
+            "governance_security",
+            "reasoning_workflows",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "The `claude_code.pull_request.count` OTel metric now counts PRs/MRs created via MCP tools, not just shell commands",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "PR指标统计更完整",
+          "summary_en": "PR metric counts MCP-created PRs",
+          "why_matters": "遥测数据更准确，能更好反映实际通过工具创建的 PR 数量。",
+          "why_matters_en": "Telemetry is more accurate and better reflects PRs created through tools.",
+          "capability_ids": [
+            "automation_autonomy",
+            "delegation_collaboration",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Policy refusal error messages now include the API Request ID for easier support debugging",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "拒绝信息加入请求ID",
+          "summary_en": "Add request ID to policy refusals",
+          "why_matters": "排查策略拒绝问题时更容易定位到具体请求。",
+          "why_matters_en": "This makes it easier to trace and debug policy refusals for a specific request.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed API errors with unrecognized 400 status codes showing raw JSON instead of the underlying error message",
+          "category": "fix",
+          "importance": 2,
+          "summary": "400错误显示真实信息",
+          "summary_en": "Show underlying message for 400 errors",
+          "why_matters": "用户能看到更有用的错误原因，而不是难以理解的原始 JSON。",
+          "why_matters_en": "Users see the real error cause instead of an unhelpful raw JSON payload.",
+          "capability_ids": [
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `/clear` not resetting the terminal tab title after a conversation",
+          "category": "fix",
+          "importance": 1,
+          "summary": "清空后恢复终端标题",
+          "summary_en": "Reset terminal title after /clear",
+          "why_matters": "清空会话后终端标题会同步恢复，减少界面残留状态。",
+          "why_matters_en": "The terminal title now resets correctly after clearing a conversation, avoiding stale UI state.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed session title chip from `/rename` disappearing while a permission or other dialog is active",
+          "category": "fix",
+          "importance": 1,
+          "summary": "重命名标签在弹窗时不消失",
+          "summary_en": "Keep renamed session chip visible in dialogs",
+          "why_matters": "在权限或其他弹窗打开时，标题信息不会丢失，界面更稳定。",
+          "why_matters_en": "The session title remains visible during dialogs, making the UI more stable.",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed agent panel below the prompt being hidden when subagents are running (regression in 2.1.122)",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复子代理面板遮挡",
+          "summary_en": "Fix hidden agent panel during subagents",
+          "why_matters": "子代理运行时用户仍能看到下方面板，便于持续查看状态。",
+          "why_matters_en": "Users can still see the lower agent panel while subagents run, improving visibility into status.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed external-editor handoff (Ctrl+G) blanking the conversation history above the prompt",
+          "category": "fix",
+          "importance": 2,
+          "summary": "外部编辑器返回不丢历史",
+          "summary_en": "Preserve history after external editor handoff",
+          "why_matters": "切换到外部编辑器后，原会话上下文不会被意外清空。",
+          "why_matters_en": "Handoffs to an external editor no longer accidentally clear the prior conversation context.",
+          "capability_ids": [
+            "execution_workspace",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed `/context` dumping its rendered ASCII visualization grid into the conversation, wasting ~1.6k tokens per call",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复/context浪费上下文",
+          "summary_en": "Stop /context from wasting tokens",
+          "why_matters": "避免每次运行都额外消耗大量 token，提升交互效率和成本控制。",
+          "why_matters_en": "Prevents unnecessary token waste on every call, improving efficiency and cost control.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed `/agents` Library list arrow-key navigation: the highlighted agent now stays visible when the list exceeds the viewport",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复/agents列表滚动可见",
+          "summary_en": "Keep /agents selection visible",
+          "why_matters": "长列表中更容易用键盘选择代理，减少操作误差。",
+          "why_matters_en": "Makes keyboard navigation reliable in long lists, reducing selection mistakes.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed `/branch` success message not including the new branch's session id for `/resume`",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复分支会话ID缺失",
+          "summary_en": "Include branch session id for /resume",
+          "why_matters": "让用户能直接恢复刚创建的分支会话，减少查找和手动补救。",
+          "why_matters_en": "Lets users resume the newly created branch session without extra lookup or manual recovery.",
+          "capability_ids": [
+            "memory_context",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed bold headers with keycap/ZWJ/skin-tone emoji losing trailing characters in fullscreen mode",
+          "category": "fix",
+          "importance": 1,
+          "summary": "修复表头emoji截断",
+          "summary_en": "Fix truncated bold emoji headers",
+          "why_matters": "改善全屏模式下的文本显示完整性，避免视觉缺失。",
+          "why_matters_en": "Improves text rendering fidelity in fullscreen mode and avoids visual truncation.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed server-managed settings policy not applying for enterprise/team users whose stored OAuth credentials lacked the `user:inference` scope",
+          "category": "fix",
+          "importance": 5,
+          "summary": "修复企业策略权限失效",
+          "summary_en": "Apply server policy for enterprise users",
+          "why_matters": "确保企业/团队用户的安全与管理策略真正生效，避免越权使用。",
+          "why_matters_en": "Ensures enterprise and team policy controls actually apply, preventing unauthorized behavior.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed OAuth refresh race after wake-from-sleep that could log out all running sessions",
+          "category": "fix",
+          "importance": 5,
+          "summary": "修复唤醒后OAuth掉线",
+          "summary_en": "Fix OAuth refresh race after sleep",
+          "why_matters": "防止运行中的会话集体失效，避免长任务中断。",
+          "why_matters_en": "Prevents all active sessions from being logged out, avoiding interruptions to long-running work.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "automation_autonomy",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed 1-hour prompt cache TTL being silently downgraded to 5 minutes",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复缓存TTL被降级",
+          "summary_en": "Preserve 1-hour prompt cache TTL",
+          "why_matters": "保持缓存命中时间更长，减少重复请求和延迟。",
+          "why_matters_en": "Keeps the cache hot longer, reducing repeated requests and latency.",
+          "capability_ids": [
+            "memory_context",
+            "performance"
+          ]
+        },
+        {
+          "raw": "Fixed cache-miss warning appearing spuriously after `/clear` or compaction when changing `/effort` or `/model`",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复清空后误报缓存缺失",
+          "summary_en": "Stop false cache-miss warnings",
+          "why_matters": "减少无意义告警，让用户更容易判断真实问题。",
+          "why_matters_en": "Reduces noisy warnings so users can better identify real issues.",
+          "capability_ids": [
+            "memory_context",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed `Bash(mkdir *)`, `Bash(touch *)` and similar allow rules not being honored for in-project paths",
+          "category": "fix",
+          "importance": 5,
+          "summary": "修复项目内允许规则失效",
+          "summary_en": "Honor allow rules for in-project paths",
+          "why_matters": "确保预期允许的命令能正常执行，避免工作流被错误拦截。",
+          "why_matters_en": "Ensures intended allow rules work correctly, preventing valid project commands from being blocked.",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed `deniedMcpServers` patterns with a `*://` scheme wildcard not matching mixed-case hostnames",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复MCP服务器匹配大小写",
+          "summary_en": "Match mixed-case hosts in MCP patterns",
+          "why_matters": "让禁用规则更可靠，避免遗漏应拦截的服务。",
+          "why_matters_en": "Makes deny rules more reliable and avoids missing servers that should be blocked.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed harmless WebSocket warning being logged as an error in `--debug` during voice mode",
+          "category": "fix",
+          "importance": 1,
+          "summary": "修复语音模式误报日志",
+          "summary_en": "Downgrade harmless voice-mode WebSocket log",
+          "why_matters": "减少调试日志噪音，帮助用户专注真实错误。",
+          "why_matters_en": "Reduces debug log noise so real errors are easier to spot.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed `/clear` not clearing the conversation context and displayed transcript",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复VSCode清空上下文",
+          "summary_en": "Make /clear clear VSCode context",
+          "why_matters": "保证清空命令在编辑器集成中行为一致，避免残留上下文干扰对话。",
+          "why_matters_en": "Keeps /clear consistent in the editor integration and prevents stale context from affecting chats.",
+          "capability_ids": [
+            "memory_context",
+            "integrations_ecosystem"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
+          "points": 1341,
+          "url": "https://twitter.com/theo/status/2049645973350363168"
+        },
+        {
+          "title": "HERMES.md in commit messages causes requests to route to extra usage billing",
+          "points": 1249,
+          "url": "https://github.com/anthropics/claude-code/issues/53262"
+        },
+        {
+          "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
+          "points": 670,
+          "url": "https://github.com/aattaran/deepclaude"
+        },
+        {
+          "title": "Who owns the code Claude Code wrote?",
+          "points": 555,
+          "url": "https://legallayer.substack.com/p/who-owns-the-claude-code-wrote"
+        },
+        {
+          "title": "Uber torches 2026 AI budget on Claude Code in four months",
+          "points": 401,
+          "url": "https://www.briefs.co/news/uber-torches-entire-2026-ai-budget-on-claude-code-in-four-months/"
+        }
+      ],
+      "highlight_score": 50
+    },
     {
       "version": "2.1.128",
       "date": "2026-05-04",
@@ -530,7 +913,7 @@
       "signals": [
         {
           "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
-          "points": 1338,
+          "points": 1341,
           "url": "https://twitter.com/theo/status/2049645973350363168"
         },
         {
@@ -540,7 +923,7 @@
         },
         {
           "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-          "points": 653,
+          "points": 670,
           "url": "https://github.com/aattaran/deepclaude"
         },
         {
@@ -976,7 +1359,7 @@
       "signals": [
         {
           "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
-          "points": 1338,
+          "points": 1341,
           "url": "https://twitter.com/theo/status/2049645973350363168"
         },
         {
@@ -991,7 +1374,7 @@
         },
         {
           "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-          "points": 653,
+          "points": 670,
           "url": "https://github.com/aattaran/deepclaude"
         },
         {
@@ -1025,7 +1408,7 @@
       "signals": [
         {
           "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
-          "points": 1338,
+          "points": 1341,
           "url": "https://twitter.com/theo/status/2049645973350363168"
         },
         {
@@ -1040,7 +1423,7 @@
         },
         {
           "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-          "points": 653,
+          "points": 670,
           "url": "https://github.com/aattaran/deepclaude"
         },
         {
@@ -1295,7 +1678,7 @@
       "signals": [
         {
           "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
-          "points": 1338,
+          "points": 1341,
           "url": "https://twitter.com/theo/status/2049645973350363168"
         },
         {
@@ -1315,7 +1698,7 @@
         },
         {
           "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-          "points": 653,
+          "points": 670,
           "url": "https://github.com/aattaran/deepclaude"
         }
       ],
@@ -1840,7 +2223,7 @@
       "signals": [
         {
           "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
-          "points": 1338,
+          "points": 1341,
           "url": "https://twitter.com/theo/status/2049645973350363168"
         },
         {
@@ -1860,7 +2243,7 @@
         },
         {
           "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-          "points": 653,
+          "points": 670,
           "url": "https://github.com/aattaran/deepclaude"
         }
       ],
@@ -2142,7 +2525,7 @@
       "signals": [
         {
           "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
-          "points": 1338,
+          "points": 1341,
           "url": "https://twitter.com/theo/status/2049645973350363168"
         },
         {
@@ -2836,7 +3219,7 @@
       "signals": [
         {
           "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
-          "points": 1338,
+          "points": 1341,
           "url": "https://twitter.com/theo/status/2049645973350363168"
         },
         {
@@ -28251,6 +28634,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Show HN: Z80-μLM, a 'Conversational AI' That Fits in 40KB",
           "points": 514,
           "url": "https://github.com/HarryR/z80ai"
@@ -28269,11 +28657,6 @@
           "title": "Show HN: Vibe coding a bookshelf with Claude Code",
           "points": 284,
           "url": "https://balajmarius.com/writings/vibe-coding-a-bookshelf-with-claude-code/"
-        },
-        {
-          "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
-          "points": 216,
-          "url": "https://github.com/DeepMyst/Mysti"
         }
       ],
       "highlight_score": 30
@@ -28297,6 +28680,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -28315,11 +28703,6 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
-        },
-        {
-          "title": "Codex vs. Claude Code (today)",
-          "points": 104,
-          "url": "https://build.ms/2025/12/22/codex-vs-claude-code-today/"
         }
       ],
       "highlight_score": 30
@@ -28497,6 +28880,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -28515,11 +28903,6 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
-        },
-        {
-          "title": "Codex vs. Claude Code (today)",
-          "points": 104,
-          "url": "https://build.ms/2025/12/22/codex-vs-claude-code-today/"
         }
       ],
       "highlight_score": 50
@@ -28646,6 +29029,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -28664,11 +29052,6 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
-        },
-        {
-          "title": "Show HN: Superset – Terminal to run 10 parallel coding agents",
-          "points": 96,
-          "url": "https://superset.sh/"
         }
       ],
       "highlight_score": 50
@@ -28811,6 +29194,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -28829,11 +29217,6 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
-        },
-        {
-          "title": "Show HN: Superset – Terminal to run 10 parallel coding agents",
-          "points": 96,
-          "url": "https://superset.sh/"
         }
       ],
       "highlight_score": 55
@@ -28932,6 +29315,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -28950,11 +29338,6 @@
           "title": "Show HN: Local Privacy Firewall-blocks PII and secrets before ChatGPT sees them",
           "points": 111,
           "url": "https://github.com/privacyshield-ai/privacy-firewall"
-        },
-        {
-          "title": "Show HN: Superset – Terminal to run 10 parallel coding agents",
-          "points": 96,
-          "url": "https://superset.sh/"
         }
       ],
       "highlight_score": 50
@@ -29120,6 +29503,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -29138,11 +29526,6 @@
           "title": "Show HN: Local Privacy Firewall-blocks PII and secrets before ChatGPT sees them",
           "points": 111,
           "url": "https://github.com/privacyshield-ai/privacy-firewall"
-        },
-        {
-          "title": "Show HN: I open-sourced my Go and Next B2B SaaS Starter (deploy anywhere, MIT)",
-          "points": 83,
-          "url": "https://github.com/moasq/production-saas-starter"
         }
       ],
       "highlight_score": 55
@@ -44738,8 +45121,8 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 348,
-      "release_count": 140,
+      "change_count": 350,
+      "release_count": 141,
       "avg_importance": 3.11,
       "maturity": {
         "score": 92,
@@ -44750,14 +45133,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-05-04",
-        "version": "2.1.128"
+        "date": "2026-05-05",
+        "version": "2.1.129"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 186
+          "change_count": 188
         },
         {
           "epoch_id": "epoch4",
@@ -44833,9 +45216,9 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 747,
-      "release_count": 177,
-      "avg_importance": 3.23,
+      "change_count": 755,
+      "release_count": 178,
+      "avg_importance": 3.22,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -44845,14 +45228,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-05-04",
-        "version": "2.1.128"
+        "date": "2026-05-05",
+        "version": "2.1.129"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 446
+          "change_count": 454
         },
         {
           "epoch_id": "epoch1",
@@ -44877,6 +45260,14 @@
       ],
       "samples": [
         {
+          "date": "2026-05-05",
+          "version": "2.1.129",
+          "raw": "Fixed `Bash(mkdir *)`, `Bash(touch *)` and similar allow rules not being honored for in-project paths",
+          "summary": "修复项目内允许规则失效",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-05-04",
           "version": "2.1.128",
           "raw": "Fixed crash loop when piping very large input (>10 MB) to `claude -p` via stdin",
@@ -44897,14 +45288,6 @@
           "version": "2.1.121",
           "raw": "Fixed `/usage` leaking up to ~2GB of memory on machines with large transcript histories",
           "summary": "/usage不再泄漏大内存",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-04-27",
-          "version": "2.1.121",
-          "raw": "Fixed Bash tool becoming permanently unusable when the directory Claude was started in is deleted or moved mid-session",
-          "summary": "Bash工具目录丢失后可恢复",
           "importance": 5,
           "category": "fix"
         }
@@ -44928,9 +45311,9 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 501,
-      "release_count": 134,
-      "avg_importance": 3.22,
+      "change_count": 508,
+      "release_count": 135,
+      "avg_importance": 3.21,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -44940,14 +45323,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-05-04",
-        "version": "2.1.128"
+        "date": "2026-05-05",
+        "version": "2.1.129"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 337
+          "change_count": 344
         },
         {
           "epoch_id": "epoch1",
@@ -45023,8 +45406,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 578,
-      "release_count": 185,
+      "change_count": 583,
+      "release_count": 186,
       "avg_importance": 3.25,
       "maturity": {
         "score": 93,
@@ -45035,14 +45418,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-04",
-        "version": "2.1.128"
+        "date": "2026-05-05",
+        "version": "2.1.129"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 316
+          "change_count": 321
         },
         {
           "epoch_id": "epoch1",
@@ -45067,6 +45450,14 @@
       ],
       "samples": [
         {
+          "date": "2026-05-05",
+          "version": "2.1.129",
+          "raw": "Fixed OAuth refresh race after wake-from-sleep that could log out all running sessions",
+          "summary": "修复唤醒后OAuth掉线",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-04-30",
           "version": "2.1.126",
           "raw": "`--dangerously-skip-permissions` now bypasses prompts for writes to `.claude/`, `.git/`, `.vscode/`, shell config files, and other previously-protected paths (catastrophic removal commands still prompt as a safety net)",
@@ -45089,14 +45480,6 @@
           "summary": "新增CLI非交互审查命令",
           "importance": 5,
           "category": "feat"
-        },
-        {
-          "date": "2026-04-17",
-          "version": "2.1.113",
-          "raw": "Security: `Bash(find:*)` allow rules no longer auto-approve `find -exec`/`-delete`",
-          "summary": "限制 find 危险参数自动批准",
-          "importance": 5,
-          "category": "security"
         }
       ]
     },
@@ -45118,9 +45501,9 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 275,
-      "release_count": 107,
-      "avg_importance": 3.32,
+      "change_count": 278,
+      "release_count": 108,
+      "avg_importance": 3.31,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -45130,14 +45513,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-04",
-        "version": "2.1.128"
+        "date": "2026-05-05",
+        "version": "2.1.129"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 184
+          "change_count": 187
         },
         {
           "epoch_id": "epoch1",
@@ -45213,8 +45596,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 913,
-      "release_count": 211,
+      "change_count": 923,
+      "release_count": 212,
       "avg_importance": 3.14,
       "maturity": {
         "score": 93,
@@ -45225,14 +45608,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-05-04",
-        "version": "2.1.128"
+        "date": "2026-05-05",
+        "version": "2.1.129"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 547
+          "change_count": 557
         },
         {
           "epoch_id": "epoch1",
@@ -45257,6 +45640,22 @@
       ],
       "samples": [
         {
+          "date": "2026-05-05",
+          "version": "2.1.129",
+          "raw": "Fixed server-managed settings policy not applying for enterprise/team users whose stored OAuth credentials lacked the `user:inference` scope",
+          "summary": "修复企业策略权限失效",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
+          "date": "2026-05-05",
+          "version": "2.1.129",
+          "raw": "Fixed OAuth refresh race after wake-from-sleep that could log out all running sessions",
+          "summary": "修复唤醒后OAuth掉线",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-04-23",
           "version": "2.1.119",
           "raw": "Security: `blockedMarketplaces` now correctly enforces `hostPattern` and `pathPattern` entries",
@@ -45271,22 +45670,6 @@
           "summary": "修复MCP刷新锁竞争",
           "importance": 5,
           "category": "fix"
-        },
-        {
-          "date": "2026-04-22",
-          "version": "2.1.118",
-          "raw": "Fixed macOS keychain race where a concurrent MCP token refresh could overwrite a freshly-refreshed OAuth token, causing unexpected \"Please run /login\" prompts",
-          "summary": "修复Keychain刷新覆盖令牌",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-04-17",
-          "version": "2.1.113",
-          "raw": "Changed the CLI to spawn a native Claude Code binary (via a per-platform optional dependency) instead of bundled JavaScript",
-          "summary": "切换为原生 Claude Code 二进制",
-          "importance": 5,
-          "category": "breaking"
         }
       ]
     },
@@ -45308,9 +45691,9 @@
         "Emacs",
         "web"
       ],
-      "change_count": 582,
-      "release_count": 155,
-      "avg_importance": 2.68,
+      "change_count": 587,
+      "release_count": 156,
+      "avg_importance": 2.67,
       "maturity": {
         "score": 91,
         "level": "成熟"
@@ -45320,14 +45703,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-04",
-        "version": "2.1.128"
+        "date": "2026-05-05",
+        "version": "2.1.129"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 373
+          "change_count": 378
         },
         {
           "epoch_id": "epoch4",
@@ -45403,9 +45786,9 @@
         "policy",
         "auditing"
       ],
-      "change_count": 586,
-      "release_count": 182,
-      "avg_importance": 3.39,
+      "change_count": 595,
+      "release_count": 183,
+      "avg_importance": 3.38,
       "maturity": {
         "score": 94,
         "level": "成熟"
@@ -45415,14 +45798,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-04",
-        "version": "2.1.128"
+        "date": "2026-05-05",
+        "version": "2.1.129"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 350
+          "change_count": 359
         },
         {
           "epoch_id": "epoch4",
@@ -45447,36 +45830,36 @@
       ],
       "samples": [
         {
+          "date": "2026-05-05",
+          "version": "2.1.129",
+          "raw": "Fixed server-managed settings policy not applying for enterprise/team users whose stored OAuth credentials lacked the `user:inference` scope",
+          "summary": "修复企业策略权限失效",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
+          "date": "2026-05-05",
+          "version": "2.1.129",
+          "raw": "Fixed OAuth refresh race after wake-from-sleep that could log out all running sessions",
+          "summary": "修复唤醒后OAuth掉线",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
+          "date": "2026-05-05",
+          "version": "2.1.129",
+          "raw": "Fixed `Bash(mkdir *)`, `Bash(touch *)` and similar allow rules not being honored for in-project paths",
+          "summary": "修复项目内允许规则失效",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-04-30",
           "version": "2.1.126",
           "raw": "`--dangerously-skip-permissions` now bypasses prompts for writes to `.claude/`, `.git/`, `.vscode/`, shell config files, and other previously-protected paths (catastrophic removal commands still prompt as a safety net)",
           "summary": "跳过权限更彻底",
           "importance": 5,
           "category": "improvement"
-        },
-        {
-          "date": "2026-04-30",
-          "version": "2.1.126",
-          "raw": "**Security:** Fixed `allowManagedDomainsOnly` / `allowManagedReadPathsOnly` being ignored when a higher-priority managed-settings source lacked a `sandbox` block",
-          "summary": "受管域与路径限制修复",
-          "importance": 5,
-          "category": "security"
-        },
-        {
-          "date": "2026-04-30",
-          "version": "2.1.126",
-          "raw": "Windows: clipboard writes no longer expose copied content in process command-line arguments visible to EDR/SIEM telemetry; also fixes >22KB selections not reaching the clipboard",
-          "summary": "Windows剪贴板保护敏感内容",
-          "importance": 5,
-          "category": "security"
-        },
-        {
-          "date": "2026-04-24",
-          "version": "2.1.120",
-          "raw": "Fixed `find` in the Bash tool exhausting open file descriptors on large directory trees, causing host-wide crashes (macOS/Linux native builds)",
-          "summary": "修复 find 句柄泄漏",
-          "importance": 5,
-          "category": "fix"
         }
       ]
     }
@@ -45509,7 +45892,7 @@
       },
       {
         "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
-        "points": 1338,
+        "points": 1341,
         "url": "https://twitter.com/theo/status/2049645973350363168",
         "date": "2026-04-30"
       },
