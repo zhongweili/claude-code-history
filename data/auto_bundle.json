@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-05-06T04:32:20.929Z",
+    "generated_at": "2026-05-07T04:32:49.559Z",
     "agent_model": "openai/gpt-5.4-mini",
-    "total_versions": 279,
+    "total_versions": 281,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-05-05"
+      "end": "2026-05-06"
     },
     "highlight_count": 35,
     "capability_count": 8,
@@ -70,11 +70,467 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。与此同时，Opus 4.6 把「思考」变成了可选项，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Meanwhile, Opus 4.6 makes reasoning optional rather than visible, while worktree isolation and a 1M context push the agent toward running for hours, unattended.",
-      "release_count": 63,
+      "release_count": 65,
       "highlight_count": 14
     }
   ],
   "releases": [
+    {
+      "version": "2.1.132",
+      "date": "2026-05-06",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added `CLAUDE_CODE_SESSION_ID` environment variable to the Bash tool subprocess environment, matching the `session_id` passed to hooks",
+          "category": "feat",
+          "importance": 3,
+          "summary": "透传会话ID到Bash子进程",
+          "summary_en": "Pass session ID to Bash subprocess",
+          "why_matters": "让工具子进程能和钩子保持同一会话标识，便于联动追踪与自动化处理。",
+          "why_matters_en": "This lets Bash subprocesses share the same session identity as hooks for better tracing and automation.",
+          "capability_ids": [
+            "automation_autonomy",
+            "delegation_collaboration",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added `CLAUDE_CODE_DISABLE_ALTERNATE_SCREEN=1` env var to opt out of the fullscreen alternate-screen renderer and keep the conversation in the terminal's native scrollback",
+          "category": "feat",
+          "importance": 3,
+          "summary": "可关闭全屏替代屏幕",
+          "summary_en": "Optional native terminal scrollback",
+          "why_matters": "用户可以保留终端原生滚动回看，提升兼容性和可读性。",
+          "why_matters_en": "Users can keep the terminal's native scrollback, improving compatibility and readability.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Added a \"Pasting…\" footer hint while a Ctrl+V image paste is being read from the clipboard",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "粘贴图片时显示提示",
+          "summary_en": "Show hint while pasting images",
+          "why_matters": "让用户知道系统正在读取剪贴板，减少粘贴时的等待不确定感。",
+          "why_matters_en": "This reassures users that clipboard input is being processed during image paste.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed external SIGINT (e.g. IDE stop button, `kill -INT`) not running graceful shutdown — terminal modes are now restored and the `--resume` hint is printed instead of an abrupt exit",
+          "category": "fix",
+          "importance": 5,
+          "summary": "外部中断也能优雅退出",
+          "summary_en": "Graceful shutdown on external SIGINT",
+          "why_matters": "避免被停止按钮或 kill 中断后终端状态异常，并保留可继续会话的提示。",
+          "why_matters_en": "This prevents broken terminal state after external interrupts and preserves the resume hint.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy",
+            "memory_context",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed an uncaught exception when the terminal is closed or SSH disconnects mid-session under the native build",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复断线关闭崩溃",
+          "summary_en": "Fix crash on terminal close or SSH loss",
+          "why_matters": "提升在终端关闭或 SSH 断开时的稳定性，避免 native 版本异常退出。",
+          "why_matters_en": "This improves stability when the terminal closes or SSH disconnects mid-session.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed `--resume` failing with `no low surrogate in string` when a tool error truncation split an emoji; pre-corrupted sessions are sanitized on load",
+          "category": "fix",
+          "importance": 4,
+          "summary": "恢复时清理损坏表情",
+          "summary_en": "Sanitize corrupted sessions on resume",
+          "why_matters": "避免因截断表情导致恢复失败，让历史会话更可靠地可继续。",
+          "why_matters_en": "This prevents resume failures caused by truncated emoji in past sessions.",
+          "capability_ids": [
+            "memory_context",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `--permission-mode` flag being ignored when resuming a plan-mode session with `-p --continue`/`--resume`, and plan mode not being re-applied after `ExitPlanMode` within the same session",
+          "category": "fix",
+          "importance": 4,
+          "summary": "继续会话时保留计划模式",
+          "summary_en": "Respect plan mode on resume/continue",
+          "why_matters": "确保恢复会话后权限和计划模式行为一致，减少模式丢失带来的误操作。",
+          "why_matters_en": "This keeps plan-mode behavior consistent after resuming, reducing unexpected permission changes.",
+          "capability_ids": [
+            "governance_security",
+            "memory_context",
+            "automation_autonomy",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed fullscreen mode showing a blank screen after laptop sleep/wake or Ctrl+Z/`fg` until the next keystroke or stream output",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复睡眠唤醒后黑屏",
+          "summary_en": "Fix blank screen after sleep or fg",
+          "why_matters": "避免恢复终端后界面空白，减少用户等待和手动刷新成本。",
+          "why_matters_en": "This prevents a blank fullscreen UI after sleep/wake or fg, reducing user disruption.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed cursor landing mid-grapheme on Ctrl+E/A/K/U/arrow keys when an Indic conjunct or ZWJ emoji wraps across lines",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复跨行字素光标错位",
+          "summary_en": "Fix cursor on wrapped grapheme clusters",
+          "why_matters": "让复杂文字输入和编辑更准确，避免光标落在错误位置。",
+          "why_matters_en": "This makes editing complex scripts and emoji more accurate by keeping the cursor aligned.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed vim operators corrupting text containing decomposed (NFD) accented characters",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复分解重音字符编辑损坏",
+          "summary_en": "Fix NFD accented text corruption",
+          "why_matters": "避免 vim 操作破坏带重音的组合字符，提升文本编辑可靠性。",
+          "why_matters_en": "This prevents vim operations from corrupting decomposed accented characters.",
+          "capability_ids": [
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed pasting text starting with `/` silently swallowing the input or triggering an unknown-command reply",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复以斜杠开头的粘贴",
+          "summary_en": "Fix pasted text starting with slash",
+          "why_matters": "避免普通粘贴被误判为命令，防止输入丢失或触发错误回复。",
+          "why_matters_en": "This stops pasted text from being mistaken for a command, preventing input loss or wrong replies.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed pasting dumping stray escape sequences into the prompt when focus events or mouse-tracking reports interleave with the bracketed paste",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复粘贴混入转义序列",
+          "summary_en": "Fix stray escape codes in paste",
+          "why_matters": "让粘贴内容更干净，避免焦点事件或鼠标报告污染输入。",
+          "why_matters_en": "This keeps pasted text clean when focus or mouse-tracking events interleave with bracketed paste.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed mouse wheel scrolling being too fast in Cursor and VS Code 1.92–1.104 due to an upstream xterm.js bug",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复滚轮过快滚动",
+          "summary_en": "Fix overly fast mouse wheel scrolling",
+          "why_matters": "改善在 Cursor 和 VS Code 终端中的滚动体验，减少误滚。",
+          "why_matters_en": "This improves scrolling behavior in Cursor and VS Code terminals affected by an upstream bug.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed scroll-wheel handling in JetBrains IDE 2025.2 terminals (spurious arrow keys, wrong-direction events, runaway acceleration)",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复 JetBrains 终端滚轮异常",
+          "summary_en": "Fix JetBrains terminal wheel bugs",
+          "why_matters": "减少 JetBrains 终端里的误方向、误按键和加速异常，提升可用性。",
+          "why_matters_en": "This fixes errant arrows, reversed direction, and runaway acceleration in JetBrains terminals.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `/usage` Ctrl+S hanging when copying the stats screenshot to the clipboard on Linux/X11",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复统计截图复制卡住",
+          "summary_en": "Fix /usage screenshot copy hang",
+          "why_matters": "避免在 Linux/X11 上复制统计截图时界面卡死，提升命令可用性。",
+          "why_matters_en": "This prevents hangs when copying the /usage stats screenshot on Linux/X11.",
+          "capability_ids": [
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed `/terminal-setup` showing a contradictory error in Windows Terminal — Shift+Enter is natively supported there",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修正 Windows Terminal 误报",
+          "summary_en": "Fix contradictory Windows Terminal error",
+          "why_matters": "避免在 Windows Terminal 中给用户展示错误提示，减少对快捷键可用性的误解。",
+          "why_matters_en": "Prevents misleading errors in Windows Terminal and clarifies that the shortcut already works.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed `/effort` picker not reflecting the `CLAUDE_CODE_EFFORT_LEVEL` env var override",
+          "category": "fix",
+          "importance": 3,
+          "summary": "偏好等级正确跟随环境变量",
+          "summary_en": "Honor CLAUDE_CODE_EFFORT_LEVEL override",
+          "why_matters": "确保界面选择与环境变量配置一致，避免用户误以为设置没有生效。",
+          "why_matters_en": "Keeps the UI picker in sync with environment-based configuration so users can trust the active setting.",
+          "capability_ids": [
+            "memory_context",
+            "reasoning_workflows",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `/status` showing the wrong default model for some users",
+          "category": "fix",
+          "importance": 3,
+          "summary": "状态页显示正确默认模型",
+          "summary_en": "Show the correct default model in /status",
+          "why_matters": "让用户快速确认当前默认模型，减少配置排查成本。",
+          "why_matters_en": "Helps users verify their active default model and reduces configuration confusion.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed slash command autocomplete popup being capped at ~3–5 visible commands instead of scaling with terminal height",
+          "category": "fix",
+          "importance": 2,
+          "summary": "自动补全菜单随终端增高",
+          "summary_en": "Scale slash autocomplete with terminal height",
+          "why_matters": "在更高的终端里能直接看到更多命令，提升查找和选择效率。",
+          "why_matters_en": "Lets users see more commands in taller terminals, making command discovery faster.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed statusline `context_window` token counts reflecting cumulative session totals instead of current context usage",
+          "category": "fix",
+          "importance": 3,
+          "summary": "状态栏上下文计数更准确",
+          "summary_en": "Show current context usage in statusline",
+          "why_matters": "用户能看到真正的当前上下文占用，而不是累计总量，便于控制会话长度。",
+          "why_matters_en": "Users can track actual current context usage instead of cumulative totals, which helps manage session limits.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed Alt+T (thinking toggle) not working on macOS terminals without \"Option as Meta\" enabled (iTerm2, Terminal.app defaults)",
+          "category": "fix",
+          "importance": 3,
+          "summary": "macOS 终端思考切换可用",
+          "summary_en": "Restore Alt+T in macOS terminals",
+          "why_matters": "修复默认 macOS 终端下快捷键失效问题，让思考模式切换更可靠。",
+          "why_matters_en": "Restores a broken shortcut in default macOS terminals so thinking mode toggling works reliably.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed dead keyboard input on Windows after re-opening a background session from `claude agents`",
+          "category": "fix",
+          "importance": 4,
+          "summary": "恢复后台会话键盘输入",
+          "summary_en": "Fix keyboard input after reopening sessions",
+          "why_matters": "避免 Windows 上重新打开后台会话后无法输入，防止工作流中断。",
+          "why_matters_en": "Prevents input from breaking after reopening a background session on Windows, avoiding workflow disruption.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed unbounded memory growth (10GB+ RSS) when a stdio MCP server writes non-protocol data to stdout",
+          "category": "fix",
+          "importance": 5,
+          "summary": "防止 MCP 误写 stdout 占满内存",
+          "summary_en": "Prevent memory blowups from bad MCP stdout",
+          "why_matters": "避免异常 MCP 输出导致进程内存暴涨甚至崩溃，显著提升稳定性。",
+          "why_matters_en": "Stops malformed MCP output from causing huge memory growth or crashes, greatly improving reliability.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed MCP servers that connect but fail `tools/list` silently showing 0 tools — they now retry once and show \"connected · tools fetch failed\" in `/mcp`",
+          "category": "fix",
+          "importance": 4,
+          "summary": "MCP 工具失败可重试并提示",
+          "summary_en": "Retry failed MCP tools/list and show status",
+          "why_matters": "减少“连接成功但工具为 0”的误导，帮助用户更快定位集成问题。",
+          "why_matters_en": "Avoids misleading zero-tool states and makes MCP integration failures easier to diagnose.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed unauthorized claude.ai MCP connectors showing as \"failed\" instead of \"needs auth\", and headless `-p` mode retrying non-transient 4xx connection failures",
+          "category": "fix",
+          "importance": 4,
+          "summary": "授权失败改为需登录提示",
+          "summary_en": "Mark claude.ai auth failures as needs auth",
+          "why_matters": "把认证问题与连接故障区分开，降低排障成本，并改善无头模式重试行为。",
+          "why_matters_en": "Distinguishes auth problems from connection failures, reducing debugging effort and improving headless retry behavior.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem",
+            "automation_autonomy",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Improved visual consistency in slash command dialogs and `/login`, `/upgrade`, `/extra-usage` dialog spacing",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "对话框间距更统一美观",
+          "summary_en": "Improve dialog spacing consistency",
+          "why_matters": "让登录和命令对话界面更整洁，提升整体使用体验。",
+          "why_matters_en": "Makes login and command dialogs look cleaner and more consistent, improving the overall UX.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Updated the `/tui fullscreen` startup banner to describe additional renderer benefits (lower memory usage, mouse support, auto-copy on select)",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "全屏启动说明更完整",
+          "summary_en": "Expand fullscreen startup banner benefits",
+          "why_matters": "帮助用户更快了解全屏渲染器的附加优势，便于选择合适模式。",
+          "why_matters_en": "Helps users understand the renderer's extra benefits so they can choose the right mode faster.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed Bedrock and Vertex 400 errors when `ENABLE_PROMPT_CACHING_1H` is set",
+          "category": "fix",
+          "importance": 4,
+          "summary": "Bedrock/Vertex 1h 缓存报错修复",
+          "summary_en": "Fix Bedrock and Vertex 400s with prompt caching",
+          "why_matters": "修复启用 1 小时提示缓存时的 API 错误，保障云模型调用可用。",
+          "why_matters_en": "Fixes API errors when 1-hour prompt caching is enabled, keeping cloud model requests working.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
+          "points": 1342,
+          "url": "https://twitter.com/theo/status/2049645973350363168"
+        },
+        {
+          "title": "HERMES.md in commit messages causes requests to route to extra usage billing",
+          "points": 1250,
+          "url": "https://github.com/anthropics/claude-code/issues/53262"
+        },
+        {
+          "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
+          "points": 672,
+          "url": "https://github.com/aattaran/deepclaude"
+        },
+        {
+          "title": "Uber torches 2026 AI budget on Claude Code in four months",
+          "points": 401,
+          "url": "https://www.briefs.co/news/uber-torches-entire-2026-ai-budget-on-claude-code-in-four-months/"
+        },
+        {
+          "title": "Wiki Builder: Skill to Build LLM Knowledge Bases",
+          "points": 121,
+          "url": "https://academy.dair.ai/blog/wiki-builder-claude-code-plugin"
+        }
+      ],
+      "highlight_score": 50
+    },
+    {
+      "version": "2.1.131",
+      "date": "2026-05-06",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Fixed VS Code extension failing to activate on Windows due to a hardcoded build path in the bundled SDK (`createRequire` polyfill bug)",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复 VS Code Windows 激活失败",
+          "summary_en": "Fix VS Code activation on Windows",
+          "why_matters": "解决 Windows 上因 SDK 路径硬编码导致的扩展无法启动问题，恢复编辑器内可用性。",
+          "why_matters_en": "Fixes a Windows-specific activation failure caused by a hardcoded SDK path, restoring editor availability.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed Mantle endpoint authentication failing with missing `x-api-key` header",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复 Mantle 认证缺少密钥头",
+          "summary_en": "Fix Mantle auth missing API key header",
+          "why_matters": "补上缺失的 x-api-key 请求头，确保对 Mantle 端点的鉴权请求能够正常通过。",
+          "why_matters_en": "Adds the missing x-api-key header so authentication requests to Mantle endpoints succeed reliably.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
+          "points": 1342,
+          "url": "https://twitter.com/theo/status/2049645973350363168"
+        },
+        {
+          "title": "HERMES.md in commit messages causes requests to route to extra usage billing",
+          "points": 1250,
+          "url": "https://github.com/anthropics/claude-code/issues/53262"
+        },
+        {
+          "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
+          "points": 672,
+          "url": "https://github.com/aattaran/deepclaude"
+        },
+        {
+          "title": "Uber torches 2026 AI budget on Claude Code in four months",
+          "points": 401,
+          "url": "https://www.briefs.co/news/uber-torches-entire-2026-ai-budget-on-claude-code-in-four-months/"
+        },
+        {
+          "title": "Wiki Builder: Skill to Build LLM Knowledge Bases",
+          "points": 121,
+          "url": "https://academy.dair.ai/blog/wiki-builder-claude-code-plugin"
+        }
+      ],
+      "highlight_score": 50
+    },
     {
       "version": "2.1.129",
       "date": "2026-05-05",
@@ -432,17 +888,17 @@
       "signals": [
         {
           "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
-          "points": 1341,
+          "points": 1342,
           "url": "https://twitter.com/theo/status/2049645973350363168"
         },
         {
           "title": "HERMES.md in commit messages causes requests to route to extra usage billing",
-          "points": 1249,
+          "points": 1250,
           "url": "https://github.com/anthropics/claude-code/issues/53262"
         },
         {
           "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-          "points": 670,
+          "points": 672,
           "url": "https://github.com/aattaran/deepclaude"
         },
         {
@@ -913,17 +1369,17 @@
       "signals": [
         {
           "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
-          "points": 1341,
+          "points": 1342,
           "url": "https://twitter.com/theo/status/2049645973350363168"
         },
         {
           "title": "HERMES.md in commit messages causes requests to route to extra usage billing",
-          "points": 1249,
+          "points": 1250,
           "url": "https://github.com/anthropics/claude-code/issues/53262"
         },
         {
           "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-          "points": 670,
+          "points": 672,
           "url": "https://github.com/aattaran/deepclaude"
         },
         {
@@ -1359,12 +1815,12 @@
       "signals": [
         {
           "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
-          "points": 1341,
+          "points": 1342,
           "url": "https://twitter.com/theo/status/2049645973350363168"
         },
         {
           "title": "HERMES.md in commit messages causes requests to route to extra usage billing",
-          "points": 1249,
+          "points": 1250,
           "url": "https://github.com/anthropics/claude-code/issues/53262"
         },
         {
@@ -1374,7 +1830,7 @@
         },
         {
           "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-          "points": 670,
+          "points": 672,
           "url": "https://github.com/aattaran/deepclaude"
         },
         {
@@ -1408,12 +1864,12 @@
       "signals": [
         {
           "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
-          "points": 1341,
+          "points": 1342,
           "url": "https://twitter.com/theo/status/2049645973350363168"
         },
         {
           "title": "HERMES.md in commit messages causes requests to route to extra usage billing",
-          "points": 1249,
+          "points": 1250,
           "url": "https://github.com/anthropics/claude-code/issues/53262"
         },
         {
@@ -1423,7 +1879,7 @@
         },
         {
           "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-          "points": 670,
+          "points": 672,
           "url": "https://github.com/aattaran/deepclaude"
         },
         {
@@ -1678,12 +2134,12 @@
       "signals": [
         {
           "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
-          "points": 1341,
+          "points": 1342,
           "url": "https://twitter.com/theo/status/2049645973350363168"
         },
         {
           "title": "HERMES.md in commit messages causes requests to route to extra usage billing",
-          "points": 1249,
+          "points": 1250,
           "url": "https://github.com/anthropics/claude-code/issues/53262"
         },
         {
@@ -1698,7 +2154,7 @@
         },
         {
           "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-          "points": 670,
+          "points": 672,
           "url": "https://github.com/aattaran/deepclaude"
         }
       ],
@@ -2223,12 +2679,12 @@
       "signals": [
         {
           "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
-          "points": 1341,
+          "points": 1342,
           "url": "https://twitter.com/theo/status/2049645973350363168"
         },
         {
           "title": "HERMES.md in commit messages causes requests to route to extra usage billing",
-          "points": 1249,
+          "points": 1250,
           "url": "https://github.com/anthropics/claude-code/issues/53262"
         },
         {
@@ -2243,7 +2699,7 @@
         },
         {
           "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-          "points": 670,
+          "points": 672,
           "url": "https://github.com/aattaran/deepclaude"
         }
       ],
@@ -2525,12 +2981,12 @@
       "signals": [
         {
           "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
-          "points": 1341,
+          "points": 1342,
           "url": "https://twitter.com/theo/status/2049645973350363168"
         },
         {
           "title": "HERMES.md in commit messages causes requests to route to extra usage billing",
-          "points": 1249,
+          "points": 1250,
           "url": "https://github.com/anthropics/claude-code/issues/53262"
         },
         {
@@ -3219,12 +3675,12 @@
       "signals": [
         {
           "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
-          "points": 1341,
+          "points": 1342,
           "url": "https://twitter.com/theo/status/2049645973350363168"
         },
         {
           "title": "HERMES.md in commit messages causes requests to route to extra usage billing",
-          "points": 1249,
+          "points": 1250,
           "url": "https://github.com/anthropics/claude-code/issues/53262"
         },
         {
@@ -3696,7 +4152,7 @@
       "signals": [
         {
           "title": "HERMES.md in commit messages causes requests to route to extra usage billing",
-          "points": 1249,
+          "points": 1250,
           "url": "https://github.com/anthropics/claude-code/issues/53262"
         },
         {
@@ -28634,11 +29090,6 @@
       ],
       "signals": [
         {
-          "title": "A guide to local coding models",
-          "points": 607,
-          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
-        },
-        {
           "title": "Show HN: Z80-μLM, a 'Conversational AI' That Fits in 40KB",
           "points": 514,
           "url": "https://github.com/HarryR/z80ai"
@@ -28657,6 +29108,11 @@
           "title": "Show HN: Vibe coding a bookshelf with Claude Code",
           "points": 284,
           "url": "https://balajmarius.com/writings/vibe-coding-a-bookshelf-with-claude-code/"
+        },
+        {
+          "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
+          "points": 216,
+          "url": "https://github.com/DeepMyst/Mysti"
         }
       ],
       "highlight_score": 30
@@ -28680,11 +29136,6 @@
       ],
       "signals": [
         {
-          "title": "A guide to local coding models",
-          "points": 607,
-          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
-        },
-        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -28703,6 +29154,11 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
+        },
+        {
+          "title": "Codex vs. Claude Code (today)",
+          "points": 104,
+          "url": "https://build.ms/2025/12/22/codex-vs-claude-code-today/"
         }
       ],
       "highlight_score": 30
@@ -28880,11 +29336,6 @@
       ],
       "signals": [
         {
-          "title": "A guide to local coding models",
-          "points": 607,
-          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
-        },
-        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -28903,6 +29354,11 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
+        },
+        {
+          "title": "Codex vs. Claude Code (today)",
+          "points": 104,
+          "url": "https://build.ms/2025/12/22/codex-vs-claude-code-today/"
         }
       ],
       "highlight_score": 50
@@ -29029,11 +29485,6 @@
       ],
       "signals": [
         {
-          "title": "A guide to local coding models",
-          "points": 607,
-          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
-        },
-        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -29052,6 +29503,11 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
+        },
+        {
+          "title": "Show HN: Superset – Terminal to run 10 parallel coding agents",
+          "points": 96,
+          "url": "https://superset.sh/"
         }
       ],
       "highlight_score": 50
@@ -29194,11 +29650,6 @@
       ],
       "signals": [
         {
-          "title": "A guide to local coding models",
-          "points": 607,
-          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
-        },
-        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -29217,6 +29668,11 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
+        },
+        {
+          "title": "Show HN: Superset – Terminal to run 10 parallel coding agents",
+          "points": 96,
+          "url": "https://superset.sh/"
         }
       ],
       "highlight_score": 55
@@ -29315,11 +29771,6 @@
       ],
       "signals": [
         {
-          "title": "A guide to local coding models",
-          "points": 607,
-          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
-        },
-        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -29338,6 +29789,11 @@
           "title": "Show HN: Local Privacy Firewall-blocks PII and secrets before ChatGPT sees them",
           "points": 111,
           "url": "https://github.com/privacyshield-ai/privacy-firewall"
+        },
+        {
+          "title": "Show HN: Superset – Terminal to run 10 parallel coding agents",
+          "points": 96,
+          "url": "https://superset.sh/"
         }
       ],
       "highlight_score": 50
@@ -29503,11 +29959,6 @@
       ],
       "signals": [
         {
-          "title": "A guide to local coding models",
-          "points": 607,
-          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
-        },
-        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -29526,6 +29977,11 @@
           "title": "Show HN: Local Privacy Firewall-blocks PII and secrets before ChatGPT sees them",
           "points": 111,
           "url": "https://github.com/privacyshield-ai/privacy-firewall"
+        },
+        {
+          "title": "Show HN: I open-sourced my Go and Next B2B SaaS Starter (deploy anywhere, MIT)",
+          "points": 83,
+          "url": "https://github.com/moasq/production-saas-starter"
         }
       ],
       "highlight_score": 55
@@ -45121,8 +45577,8 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 350,
-      "release_count": 141,
+      "change_count": 353,
+      "release_count": 142,
       "avg_importance": 3.11,
       "maturity": {
         "score": 92,
@@ -45133,14 +45589,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-05-05",
-        "version": "2.1.129"
+        "date": "2026-05-06",
+        "version": "2.1.132"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 188
+          "change_count": 191
         },
         {
           "epoch_id": "epoch4",
@@ -45216,8 +45672,8 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 755,
-      "release_count": 178,
+      "change_count": 766,
+      "release_count": 179,
       "avg_importance": 3.22,
       "maturity": {
         "score": 93,
@@ -45228,14 +45684,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-05-05",
-        "version": "2.1.129"
+        "date": "2026-05-06",
+        "version": "2.1.132"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 454
+          "change_count": 465
         },
         {
           "epoch_id": "epoch1",
@@ -45260,6 +45716,14 @@
       ],
       "samples": [
         {
+          "date": "2026-05-06",
+          "version": "2.1.132",
+          "raw": "Fixed external SIGINT (e.g. IDE stop button, `kill -INT`) not running graceful shutdown — terminal modes are now restored and the `--resume` hint is printed instead of an abrupt exit",
+          "summary": "外部中断也能优雅退出",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-05-05",
           "version": "2.1.129",
           "raw": "Fixed `Bash(mkdir *)`, `Bash(touch *)` and similar allow rules not being honored for in-project paths",
@@ -45280,14 +45744,6 @@
           "version": "2.1.121",
           "raw": "Fixed unbounded memory growth (multi-GB RSS) when processing many images in a session",
           "summary": "修复多图处理内存暴涨",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-04-27",
-          "version": "2.1.121",
-          "raw": "Fixed `/usage` leaking up to ~2GB of memory on machines with large transcript histories",
-          "summary": "/usage不再泄漏大内存",
           "importance": 5,
           "category": "fix"
         }
@@ -45311,9 +45767,9 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 508,
-      "release_count": 135,
-      "avg_importance": 3.21,
+      "change_count": 516,
+      "release_count": 136,
+      "avg_importance": 3.22,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -45323,14 +45779,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-05-05",
-        "version": "2.1.129"
+        "date": "2026-05-06",
+        "version": "2.1.132"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 344
+          "change_count": 352
         },
         {
           "epoch_id": "epoch1",
@@ -45355,6 +45811,22 @@
       ],
       "samples": [
         {
+          "date": "2026-05-06",
+          "version": "2.1.132",
+          "raw": "Fixed external SIGINT (e.g. IDE stop button, `kill -INT`) not running graceful shutdown — terminal modes are now restored and the `--resume` hint is printed instead of an abrupt exit",
+          "summary": "外部中断也能优雅退出",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
+          "date": "2026-05-06",
+          "version": "2.1.132",
+          "raw": "Fixed unbounded memory growth (10GB+ RSS) when a stdio MCP server writes non-protocol data to stdout",
+          "summary": "防止 MCP 误写 stdout 占满内存",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-05-04",
           "version": "2.1.128",
           "raw": "Fixed sessions on 1M-context models with a smaller autocompact window being falsely blocked with \"Prompt is too long\" before reaching the actual API limit",
@@ -45367,22 +45839,6 @@
           "version": "2.1.121",
           "raw": "Fixed unbounded memory growth (multi-GB RSS) when processing many images in a session",
           "summary": "修复多图处理内存暴涨",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-04-27",
-          "version": "2.1.121",
-          "raw": "Fixed `/usage` leaking up to ~2GB of memory on machines with large transcript histories",
-          "summary": "/usage不再泄漏大内存",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-04-22",
-          "version": "2.1.118",
-          "raw": "Fixed macOS keychain race where a concurrent MCP token refresh could overwrite a freshly-refreshed OAuth token, causing unexpected \"Please run /login\" prompts",
-          "summary": "修复Keychain刷新覆盖令牌",
           "importance": 5,
           "category": "fix"
         }
@@ -45406,9 +45862,9 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 583,
-      "release_count": 186,
-      "avg_importance": 3.25,
+      "change_count": 587,
+      "release_count": 187,
+      "avg_importance": 3.26,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -45418,14 +45874,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-05",
-        "version": "2.1.129"
+        "date": "2026-05-06",
+        "version": "2.1.132"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 321
+          "change_count": 325
         },
         {
           "epoch_id": "epoch1",
@@ -45450,6 +45906,14 @@
       ],
       "samples": [
         {
+          "date": "2026-05-06",
+          "version": "2.1.132",
+          "raw": "Fixed external SIGINT (e.g. IDE stop button, `kill -INT`) not running graceful shutdown — terminal modes are now restored and the `--resume` hint is printed instead of an abrupt exit",
+          "summary": "外部中断也能优雅退出",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-05-05",
           "version": "2.1.129",
           "raw": "Fixed OAuth refresh race after wake-from-sleep that could log out all running sessions",
@@ -45472,14 +45936,6 @@
           "summary": "Bash工具目录丢失后可恢复",
           "importance": 5,
           "category": "fix"
-        },
-        {
-          "date": "2026-04-24",
-          "version": "2.1.120",
-          "raw": "Added `claude ultrareview [target]` subcommand to run `/ultrareview` non-interactively from CI or scripts — prints findings to stdout (`--json` for raw output) and exits 0 on completion or 1 on failure",
-          "summary": "新增CLI非交互审查命令",
-          "importance": 5,
-          "category": "feat"
         }
       ]
     },
@@ -45501,9 +45957,9 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 278,
-      "release_count": 108,
-      "avg_importance": 3.31,
+      "change_count": 279,
+      "release_count": 109,
+      "avg_importance": 3.3,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -45513,14 +45969,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-05",
-        "version": "2.1.129"
+        "date": "2026-05-06",
+        "version": "2.1.132"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 187
+          "change_count": 188
         },
         {
           "epoch_id": "epoch1",
@@ -45596,9 +46052,9 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 923,
-      "release_count": 212,
-      "avg_importance": 3.14,
+      "change_count": 933,
+      "release_count": 214,
+      "avg_importance": 3.15,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -45608,14 +46064,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-05-05",
-        "version": "2.1.129"
+        "date": "2026-05-06",
+        "version": "2.1.131"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 557
+          "change_count": 567
         },
         {
           "epoch_id": "epoch1",
@@ -45640,6 +46096,14 @@
       ],
       "samples": [
         {
+          "date": "2026-05-06",
+          "version": "2.1.132",
+          "raw": "Fixed unbounded memory growth (10GB+ RSS) when a stdio MCP server writes non-protocol data to stdout",
+          "summary": "防止 MCP 误写 stdout 占满内存",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-05-05",
           "version": "2.1.129",
           "raw": "Fixed server-managed settings policy not applying for enterprise/team users whose stored OAuth credentials lacked the `user:inference` scope",
@@ -45662,14 +46126,6 @@
           "summary": "修复受限市场校验漏洞",
           "importance": 5,
           "category": "security"
-        },
-        {
-          "date": "2026-04-22",
-          "version": "2.1.118",
-          "raw": "Fixed MCP OAuth refresh proceeding without its cross-process lock under contention",
-          "summary": "修复MCP刷新锁竞争",
-          "importance": 5,
-          "category": "fix"
         }
       ]
     },
@@ -45691,9 +46147,9 @@
         "Emacs",
         "web"
       ],
-      "change_count": 587,
-      "release_count": 156,
-      "avg_importance": 2.67,
+      "change_count": 601,
+      "release_count": 158,
+      "avg_importance": 2.68,
       "maturity": {
         "score": 91,
         "level": "成熟"
@@ -45703,14 +46159,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-05",
-        "version": "2.1.129"
+        "date": "2026-05-06",
+        "version": "2.1.131"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 378
+          "change_count": 392
         },
         {
           "epoch_id": "epoch4",
@@ -45735,6 +46191,14 @@
       ],
       "samples": [
         {
+          "date": "2026-05-06",
+          "version": "2.1.132",
+          "raw": "Fixed external SIGINT (e.g. IDE stop button, `kill -INT`) not running graceful shutdown — terminal modes are now restored and the `--resume` hint is printed instead of an abrupt exit",
+          "summary": "外部中断也能优雅退出",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-04-27",
           "version": "2.1.121",
           "raw": "Fixed unbounded memory growth (multi-GB RSS) when processing many images in a session",
@@ -45755,14 +46219,6 @@
           "version": "2.1.113",
           "raw": "Fixed Bash `dangerouslyDisableSandbox` running commands outside the sandbox without a permission prompt",
           "summary": "禁用沙箱绕过需提示",
-          "importance": 5,
-          "category": "security"
-        },
-        {
-          "date": "2026-03-24",
-          "version": "2.1.83",
-          "raw": "Added `CLAUDE_CODE_SUBPROCESS_ENV_SCRUB=1` to strip Anthropic and cloud provider credentials from subprocess environments (Bash tool, hooks, MCP stdio servers)",
-          "summary": "子进程自动清理敏感环境变量",
           "importance": 5,
           "category": "security"
         }
@@ -45786,9 +46242,9 @@
         "policy",
         "auditing"
       ],
-      "change_count": 595,
-      "release_count": 183,
-      "avg_importance": 3.38,
+      "change_count": 599,
+      "release_count": 185,
+      "avg_importance": 3.39,
       "maturity": {
         "score": 94,
         "level": "成熟"
@@ -45798,14 +46254,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-05",
-        "version": "2.1.129"
+        "date": "2026-05-06",
+        "version": "2.1.131"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 359
+          "change_count": 363
         },
         {
           "epoch_id": "epoch4",
@@ -45830,6 +46286,14 @@
       ],
       "samples": [
         {
+          "date": "2026-05-06",
+          "version": "2.1.132",
+          "raw": "Fixed unbounded memory growth (10GB+ RSS) when a stdio MCP server writes non-protocol data to stdout",
+          "summary": "防止 MCP 误写 stdout 占满内存",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-05-05",
           "version": "2.1.129",
           "raw": "Fixed server-managed settings policy not applying for enterprise/team users whose stored OAuth credentials lacked the `user:inference` scope",
@@ -45852,14 +46316,6 @@
           "summary": "修复项目内允许规则失效",
           "importance": 5,
           "category": "fix"
-        },
-        {
-          "date": "2026-04-30",
-          "version": "2.1.126",
-          "raw": "`--dangerously-skip-permissions` now bypasses prompts for writes to `.claude/`, `.git/`, `.vscode/`, shell config files, and other previously-protected paths (catastrophic removal commands still prompt as a safety net)",
-          "summary": "跳过权限更彻底",
-          "importance": 5,
-          "category": "improvement"
         }
       ]
     }
@@ -45892,7 +46348,7 @@
       },
       {
         "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
-        "points": 1341,
+        "points": 1342,
         "url": "https://twitter.com/theo/status/2049645973350363168",
         "date": "2026-04-30"
       },
@@ -45904,7 +46360,7 @@
       },
       {
         "title": "HERMES.md in commit messages causes requests to route to extra usage billing",
-        "points": 1249,
+        "points": 1250,
         "url": "https://github.com/anthropics/claude-code/issues/53262",
         "date": "2026-04-29"
       },
