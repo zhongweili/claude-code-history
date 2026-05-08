@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-05-07T04:32:49.559Z",
+    "generated_at": "2026-05-08T04:14:37.484Z",
     "agent_model": "openai/gpt-5.4-mini",
-    "total_versions": 281,
+    "total_versions": 282,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-05-06"
+      "end": "2026-05-07"
     },
     "highlight_count": 35,
     "capability_count": 8,
@@ -70,11 +70,269 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。与此同时，Opus 4.6 把「思考」变成了可选项，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Meanwhile, Opus 4.6 makes reasoning optional rather than visible, while worktree isolation and a 1M context push the agent toward running for hours, unattended.",
-      "release_count": 65,
+      "release_count": 66,
       "highlight_count": 14
     }
   ],
   "releases": [
+    {
+      "version": "2.1.133",
+      "date": "2026-05-07",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added `worktree.baseRef` setting (`fresh` | `head`) to choose whether `--worktree`, `EnterWorktree`, and agent-isolation worktrees branch from `origin/<default>` or local `HEAD`. **Note:** the default `fresh` changes `EnterWorktree`'s base back to `origin/<default>` (it has been local `HEAD` since 2.1.128) — set `worktree.baseRef: \"head\"` to keep unpushed commits in new worktrees",
+          "category": "feat",
+          "importance": 4,
+          "summary": "支持选择工作树基准分支",
+          "summary_en": "Choose worktree base branch source",
+          "why_matters": "用户可以保留未推送提交，避免新工作树从错误基线分叉。",
+          "why_matters_en": "Users can keep unpushed commits by ensuring new worktrees branch from the desired base.",
+          "capability_ids": [
+            "execution_workspace",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Added `sandbox.bwrapPath` and `sandbox.socatPath` managed settings (Linux/WSL) to specify custom bubblewrap and socat binary locations",
+          "category": "feat",
+          "importance": 3,
+          "summary": "可自定义沙箱二进制路径",
+          "summary_en": "Custom sandbox binary paths",
+          "why_matters": "Linux/WSL 用户可指定 bubblewrap 和 socat 路径，提升兼容性。",
+          "why_matters_en": "Linux/WSL users can point to custom bubblewrap and socat binaries for better compatibility.",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Added `parentSettingsBehavior` admin-tier key (`'first-wins' | 'merge'`) to let admins opt SDK `managedSettings` (parent tier) into the policy merge",
+          "category": "feat",
+          "importance": 3,
+          "summary": "父级管理配置可参与合并",
+          "summary_en": "Allow parent managed settings to merge",
+          "why_matters": "管理员可将 SDK 的受管设置纳入策略合并，增强集中管控能力。",
+          "why_matters_en": "Admins can include SDK managed settings in policy merging for stronger centralized control.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Hooks now receive the active effort level via the `effort.level` JSON input field and the `$CLAUDE_EFFORT` environment variable, and Bash tool commands can read `$CLAUDE_EFFORT`",
+          "category": "feat",
+          "importance": 3,
+          "summary": "钩子可读取努力等级",
+          "summary_en": "Hooks can read effort level",
+          "why_matters": "自动化脚本能根据当前努力等级调整行为，提高联动精度。",
+          "why_matters_en": "Automation scripts can adapt behavior based on the current effort level for better coordination.",
+          "capability_ids": [
+            "automation_autonomy",
+            "integrations_ecosystem",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Improved focus mode behavior",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "优化专注模式体验",
+          "summary_en": "Improved focus mode behavior",
+          "why_matters": "用户在专注模式下会获得更顺畅、更符合预期的交互体验。",
+          "why_matters_en": "Users get a smoother and more predictable experience in focus mode.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Improved memory usage by releasing warm-spare background workers under memory pressure",
+          "category": "perf",
+          "importance": 3,
+          "summary": "内存压力下释放备用进程",
+          "summary_en": "Release spare workers under pressure",
+          "why_matters": "减少内存占用，降低大项目或长会话中的卡顿和崩溃风险。",
+          "why_matters_en": "This reduces memory use and lowers the risk of lag or crashes in large projects or long sessions.",
+          "capability_ids": [
+            "execution_workspace",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed parallel sessions all dead-ending at 401 after a refresh-token race wiped shared credentials",
+          "category": "fix",
+          "importance": 5,
+          "summary": "修复刷新令牌竞态致会话失效",
+          "summary_en": "Fix token race causing 401 session failures",
+          "why_matters": "并发会话不再因凭据被清空而集体失效，直接影响可用性。",
+          "why_matters_en": "Parallel sessions no longer all fail after credentials are wiped, which directly affects availability.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed `Edit`/`Write` allow rules scoped to a drive root (`C:\\`) or POSIX `/` matching incorrectly and always prompting",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复根目录权限规则误判",
+          "summary_en": "Fix root-scoped allow rules",
+          "why_matters": "对根目录的读写编辑权限将按预期生效，减少误拦截。",
+          "why_matters_en": "Read/write/edit permissions for root-scoped paths now work as expected, reducing false prompts.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed an unhandled rejection (`ECOMPROMISED`) when a history or session-log file lock is compromised by clock skew or slow disk",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复损坏锁文件导致崩溃",
+          "summary_en": "Fix lock-compromise unhandled rejection",
+          "why_matters": "避免因时钟偏差或慢盘导致的未处理错误，提升稳定性。",
+          "why_matters_en": "This avoids unhandled errors from clock skew or slow disks and improves stability.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed pressing Esc during conversation compaction showing a spurious \"Error compacting conversation\" notification",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复压缩时误报错误提示",
+          "summary_en": "Fix false compacting error toast",
+          "why_matters": "用户按 Esc 取消压缩时不会再看到误导性的报错通知。",
+          "why_matters_en": "Users no longer see a misleading error notification when cancelling compaction with Esc.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed `HTTP(S)_PROXY` / `NO_PROXY` / mTLS not being respected for the full MCP OAuth flow including discovery, dynamic client registration, token exchange, and token refresh",
+          "category": "fix",
+          "importance": 4,
+          "summary": "代理与 mTLS 贯穿 OAuth 流程",
+          "summary_en": "Respect proxy and mTLS in OAuth flow",
+          "why_matters": "企业网络环境下的认证与刷新流程更可靠，减少登录失败。",
+          "why_matters_en": "Authentication and refresh flows are more reliable in enterprise networks, reducing sign-in failures.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed Read/Write/Edit being denied on mapped network drives passed via `--add-dir` / SDK `additionalDirectories`",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复网络盘目录权限识别",
+          "summary_en": "Fix permissions on mapped network drives",
+          "why_matters": "通过额外目录加入的网络盘现在可正常读写编辑，提升远程文件可用性。",
+          "why_matters_en": "Mapped network drives added via extra directories can now be read, written, and edited properly.",
+          "capability_ids": [
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed Remote Control stop/interrupt from claude.ai not fully canceling the CLI session the same way local Esc does, causing queued messages to never advance after interrupting a stuck tool or prompt",
+          "category": "fix",
+          "importance": 5,
+          "summary": "远控中断可彻底停止会话",
+          "summary_en": "Remote stop now fully cancels session",
+          "why_matters": "远程中断行为与本地 Esc 一致，避免卡住的会话继续堆积消息。",
+          "why_matters_en": "Remote interrupts now behave like local Esc, preventing stuck sessions from continuing to queue messages.",
+          "capability_ids": [
+            "automation_autonomy",
+            "multimodal_interfaces",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed `/effort` in one session unexpectedly changing the effort level of other concurrent sessions, and a related issue where an IDE effort change could be silently dropped",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复跨会话努力值串扰",
+          "summary_en": "Fix effort level leaking across sessions",
+          "why_matters": "不同会话的努力设置互不干扰，IDE 修改也不会悄悄丢失。",
+          "why_matters_en": "Effort settings stay isolated per session, and IDE changes are no longer silently dropped.",
+          "capability_ids": [
+            "automation_autonomy",
+            "memory_context",
+            "reasoning_workflows",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed subagents not discovering project, user, or plugin skills via the Skill tool",
+          "category": "fix",
+          "importance": 3,
+          "summary": "子代理可发现技能",
+          "summary_en": "Subagents can discover skills",
+          "why_matters": "子代理能正确获取项目、用户和插件技能，提升协作执行能力。",
+          "why_matters_en": "Subagents can now access project, user, and plugin skills correctly, improving collaborative execution.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "`claude --help` now lists `--remote-control` alongside `--remote-control-session-name-prefix`",
+          "category": "feat",
+          "importance": 3,
+          "summary": "帮助中新增远程控制选项",
+          "summary_en": "Help now shows remote control flag",
+          "why_matters": "用户更容易发现并使用远程控制相关功能。",
+          "why_matters_en": "Users can more easily discover and use remote control features.",
+          "capability_ids": [
+            "automation_autonomy",
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed `claudeCode.claudeProcessWrapper` failing with \"Unsupported platform\" when the extension build doesn't bundle a Claude binary",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复 VSCode 未捆绑二进制报错",
+          "summary_en": "Fixed VSCode wrapper without bundled binary",
+          "why_matters": "避免扩展未包含 Claude 二进制时出现“Unsupported platform”错误。",
+          "why_matters_en": "This prevents the “Unsupported platform” error when the extension lacks a bundled Claude binary.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "execution_workspace"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
+          "points": 1342,
+          "url": "https://twitter.com/theo/status/2049645973350363168"
+        },
+        {
+          "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
+          "points": 673,
+          "url": "https://github.com/aattaran/deepclaude"
+        },
+        {
+          "title": "Uber torches 2026 AI budget on Claude Code in four months",
+          "points": 401,
+          "url": "https://www.briefs.co/news/uber-torches-entire-2026-ai-budget-on-claude-code-in-four-months/"
+        },
+        {
+          "title": "Kimi K2.6 just beat Claude, GPT-5.5, and Gemini in a coding challenge",
+          "points": 378,
+          "url": "https://thinkpol.ca/2026/04/30/an-open-weights-chinese-model-just-beat-claude-gpt-5-5-and-gemini-in-a-programming-challenge/"
+        },
+        {
+          "title": "Wiki Builder: Skill to Build LLM Knowledge Bases",
+          "points": 131,
+          "url": "https://academy.dair.ai/blog/wiki-builder-claude-code-plugin"
+        }
+      ],
+      "highlight_score": 50
+    },
     {
       "version": "2.1.132",
       "date": "2026-05-06",
@@ -453,7 +711,7 @@
         },
         {
           "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-          "points": 672,
+          "points": 673,
           "url": "https://github.com/aattaran/deepclaude"
         },
         {
@@ -462,9 +720,9 @@
           "url": "https://www.briefs.co/news/uber-torches-entire-2026-ai-budget-on-claude-code-in-four-months/"
         },
         {
-          "title": "Wiki Builder: Skill to Build LLM Knowledge Bases",
-          "points": 121,
-          "url": "https://academy.dair.ai/blog/wiki-builder-claude-code-plugin"
+          "title": "Kimi K2.6 just beat Claude, GPT-5.5, and Gemini in a coding challenge",
+          "points": 378,
+          "url": "https://thinkpol.ca/2026/04/30/an-open-weights-chinese-model-just-beat-claude-gpt-5-5-and-gemini-in-a-programming-challenge/"
         }
       ],
       "highlight_score": 50
@@ -515,7 +773,7 @@
         },
         {
           "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-          "points": 672,
+          "points": 673,
           "url": "https://github.com/aattaran/deepclaude"
         },
         {
@@ -524,9 +782,9 @@
           "url": "https://www.briefs.co/news/uber-torches-entire-2026-ai-budget-on-claude-code-in-four-months/"
         },
         {
-          "title": "Wiki Builder: Skill to Build LLM Knowledge Bases",
-          "points": 121,
-          "url": "https://academy.dair.ai/blog/wiki-builder-claude-code-plugin"
+          "title": "Kimi K2.6 just beat Claude, GPT-5.5, and Gemini in a coding challenge",
+          "points": 378,
+          "url": "https://thinkpol.ca/2026/04/30/an-open-weights-chinese-model-just-beat-claude-gpt-5-5-and-gemini-in-a-programming-challenge/"
         }
       ],
       "highlight_score": 50
@@ -898,7 +1156,7 @@
         },
         {
           "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-          "points": 672,
+          "points": 673,
           "url": "https://github.com/aattaran/deepclaude"
         },
         {
@@ -1379,7 +1637,7 @@
         },
         {
           "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-          "points": 672,
+          "points": 673,
           "url": "https://github.com/aattaran/deepclaude"
         },
         {
@@ -1830,7 +2088,7 @@
         },
         {
           "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-          "points": 672,
+          "points": 673,
           "url": "https://github.com/aattaran/deepclaude"
         },
         {
@@ -1879,7 +2137,7 @@
         },
         {
           "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-          "points": 672,
+          "points": 673,
           "url": "https://github.com/aattaran/deepclaude"
         },
         {
@@ -2154,7 +2412,7 @@
         },
         {
           "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-          "points": 672,
+          "points": 673,
           "url": "https://github.com/aattaran/deepclaude"
         }
       ],
@@ -2699,7 +2957,7 @@
         },
         {
           "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-          "points": 672,
+          "points": 673,
           "url": "https://github.com/aattaran/deepclaude"
         }
       ],
@@ -45577,9 +45835,9 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 353,
-      "release_count": 142,
-      "avg_importance": 3.11,
+      "change_count": 355,
+      "release_count": 143,
+      "avg_importance": 3.12,
       "maturity": {
         "score": 92,
         "level": "成熟"
@@ -45589,14 +45847,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-05-06",
-        "version": "2.1.132"
+        "date": "2026-05-07",
+        "version": "2.1.133"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 191
+          "change_count": 193
         },
         {
           "epoch_id": "epoch4",
@@ -45672,9 +45930,9 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 766,
-      "release_count": 179,
-      "avg_importance": 3.22,
+      "change_count": 773,
+      "release_count": 180,
+      "avg_importance": 3.23,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -45684,14 +45942,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-05-06",
-        "version": "2.1.132"
+        "date": "2026-05-07",
+        "version": "2.1.133"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 465
+          "change_count": 472
         },
         {
           "epoch_id": "epoch1",
@@ -45767,8 +46025,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 516,
-      "release_count": 136,
+      "change_count": 519,
+      "release_count": 137,
       "avg_importance": 3.22,
       "maturity": {
         "score": 93,
@@ -45779,14 +46037,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-05-06",
-        "version": "2.1.132"
+        "date": "2026-05-07",
+        "version": "2.1.133"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 352
+          "change_count": 355
         },
         {
           "epoch_id": "epoch1",
@@ -45862,8 +46120,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 587,
-      "release_count": 187,
+      "change_count": 593,
+      "release_count": 188,
       "avg_importance": 3.26,
       "maturity": {
         "score": 93,
@@ -45874,14 +46132,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-06",
-        "version": "2.1.132"
+        "date": "2026-05-07",
+        "version": "2.1.133"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 325
+          "change_count": 331
         },
         {
           "epoch_id": "epoch1",
@@ -45906,6 +46164,22 @@
       ],
       "samples": [
         {
+          "date": "2026-05-07",
+          "version": "2.1.133",
+          "raw": "Fixed parallel sessions all dead-ending at 401 after a refresh-token race wiped shared credentials",
+          "summary": "修复刷新令牌竞态致会话失效",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
+          "date": "2026-05-07",
+          "version": "2.1.133",
+          "raw": "Fixed Remote Control stop/interrupt from claude.ai not fully canceling the CLI session the same way local Esc does, causing queued messages to never advance after interrupting a stuck tool or prompt",
+          "summary": "远控中断可彻底停止会话",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-05-06",
           "version": "2.1.132",
           "raw": "Fixed external SIGINT (e.g. IDE stop button, `kill -INT`) not running graceful shutdown — terminal modes are now restored and the `--resume` hint is printed instead of an abrupt exit",
@@ -45918,22 +46192,6 @@
           "version": "2.1.129",
           "raw": "Fixed OAuth refresh race after wake-from-sleep that could log out all running sessions",
           "summary": "修复唤醒后OAuth掉线",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-04-30",
-          "version": "2.1.126",
-          "raw": "`--dangerously-skip-permissions` now bypasses prompts for writes to `.claude/`, `.git/`, `.vscode/`, shell config files, and other previously-protected paths (catastrophic removal commands still prompt as a safety net)",
-          "summary": "跳过权限更彻底",
-          "importance": 5,
-          "category": "improvement"
-        },
-        {
-          "date": "2026-04-27",
-          "version": "2.1.121",
-          "raw": "Fixed Bash tool becoming permanently unusable when the directory Claude was started in is deleted or moved mid-session",
-          "summary": "Bash工具目录丢失后可恢复",
           "importance": 5,
           "category": "fix"
         }
@@ -45957,9 +46215,9 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 279,
-      "release_count": 109,
-      "avg_importance": 3.3,
+      "change_count": 283,
+      "release_count": 110,
+      "avg_importance": 3.31,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -45969,14 +46227,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-06",
-        "version": "2.1.132"
+        "date": "2026-05-07",
+        "version": "2.1.133"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 188
+          "change_count": 192
         },
         {
           "epoch_id": "epoch1",
@@ -46001,6 +46259,14 @@
       ],
       "samples": [
         {
+          "date": "2026-05-07",
+          "version": "2.1.133",
+          "raw": "Fixed Remote Control stop/interrupt from claude.ai not fully canceling the CLI session the same way local Esc does, causing queued messages to never advance after interrupting a stuck tool or prompt",
+          "summary": "远控中断可彻底停止会话",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-04-16",
           "version": "2.1.111",
           "raw": "Added `/ultrareview` for running comprehensive code review in the cloud using parallel multi-agent analysis and critique — invoke with no arguments to review your current branch, or `/ultrareview <PR#>` to fetch and review a specific GitHub PR",
@@ -46021,14 +46287,6 @@
           "version": "2.1.76",
           "raw": "Fixed several Remote Control issues: sessions silently dying when the server reaps an idle environment, rapid messages being queued one-at-a-time instead of batched, and stale work items causing redelivery after JWT refresh",
           "summary": "修复远控会话与消息重发问题",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-02-28",
-          "version": "2.1.63",
-          "raw": "Fixed memory leak where long-running teammates retained all messages in AppState even after conversation compaction",
-          "summary": "修复长会话中队友消息泄漏",
           "importance": 5,
           "category": "fix"
         }
@@ -46052,8 +46310,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 933,
-      "release_count": 214,
+      "change_count": 940,
+      "release_count": 215,
       "avg_importance": 3.15,
       "maturity": {
         "score": 93,
@@ -46064,14 +46322,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-05-06",
-        "version": "2.1.131"
+        "date": "2026-05-07",
+        "version": "2.1.133"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 567
+          "change_count": 574
         },
         {
           "epoch_id": "epoch1",
@@ -46096,6 +46354,14 @@
       ],
       "samples": [
         {
+          "date": "2026-05-07",
+          "version": "2.1.133",
+          "raw": "Fixed parallel sessions all dead-ending at 401 after a refresh-token race wiped shared credentials",
+          "summary": "修复刷新令牌竞态致会话失效",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-05-06",
           "version": "2.1.132",
           "raw": "Fixed unbounded memory growth (10GB+ RSS) when a stdio MCP server writes non-protocol data to stdout",
@@ -46118,14 +46384,6 @@
           "summary": "修复唤醒后OAuth掉线",
           "importance": 5,
           "category": "fix"
-        },
-        {
-          "date": "2026-04-23",
-          "version": "2.1.119",
-          "raw": "Security: `blockedMarketplaces` now correctly enforces `hostPattern` and `pathPattern` entries",
-          "summary": "修复受限市场校验漏洞",
-          "importance": 5,
-          "category": "security"
         }
       ]
     },
@@ -46147,8 +46405,8 @@
         "Emacs",
         "web"
       ],
-      "change_count": 601,
-      "release_count": 158,
+      "change_count": 604,
+      "release_count": 159,
       "avg_importance": 2.68,
       "maturity": {
         "score": 91,
@@ -46159,14 +46417,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-06",
-        "version": "2.1.131"
+        "date": "2026-05-07",
+        "version": "2.1.133"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 392
+          "change_count": 395
         },
         {
           "epoch_id": "epoch4",
@@ -46191,6 +46449,14 @@
       ],
       "samples": [
         {
+          "date": "2026-05-07",
+          "version": "2.1.133",
+          "raw": "Fixed Remote Control stop/interrupt from claude.ai not fully canceling the CLI session the same way local Esc does, causing queued messages to never advance after interrupting a stuck tool or prompt",
+          "summary": "远控中断可彻底停止会话",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-05-06",
           "version": "2.1.132",
           "raw": "Fixed external SIGINT (e.g. IDE stop button, `kill -INT`) not running graceful shutdown — terminal modes are now restored and the `--resume` hint is printed instead of an abrupt exit",
@@ -46213,14 +46479,6 @@
           "summary": "修复 find 句柄泄漏",
           "importance": 5,
           "category": "fix"
-        },
-        {
-          "date": "2026-04-17",
-          "version": "2.1.113",
-          "raw": "Fixed Bash `dangerouslyDisableSandbox` running commands outside the sandbox without a permission prompt",
-          "summary": "禁用沙箱绕过需提示",
-          "importance": 5,
-          "category": "security"
         }
       ]
     },
@@ -46242,8 +46500,8 @@
         "policy",
         "auditing"
       ],
-      "change_count": 599,
-      "release_count": 185,
+      "change_count": 603,
+      "release_count": 186,
       "avg_importance": 3.39,
       "maturity": {
         "score": 94,
@@ -46254,14 +46512,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-06",
-        "version": "2.1.131"
+        "date": "2026-05-07",
+        "version": "2.1.133"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 363
+          "change_count": 367
         },
         {
           "epoch_id": "epoch4",
