@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-05-12T04:34:29.848Z",
+    "generated_at": "2026-05-13T04:40:29.339Z",
     "agent_model": "openai/gpt-5.4-mini",
-    "total_versions": 286,
+    "total_versions": 287,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-05-11"
+      "end": "2026-05-12"
     },
     "highlight_count": 36,
     "capability_count": 8,
@@ -70,11 +70,212 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。与此同时，Opus 4.6 把「思考」变成了可选项，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Meanwhile, Opus 4.6 makes reasoning optional rather than visible, while worktree isolation and a 1M context push the agent toward running for hours, unattended.",
-      "release_count": 70,
+      "release_count": 71,
       "highlight_count": 15
     }
   ],
   "releases": [
+    {
+      "version": "2.1.140",
+      "date": "2026-05-12",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Improved Agent tool `subagent_type` matching to accept case- and separator-insensitive values (e.g. `\"Code Reviewer\"` resolves to `code-reviewer`)",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "Agent类型匹配更宽松",
+          "summary_en": "More flexible agent type matching",
+          "why_matters": "用户可用更自然的名称指定子代理，减少配置出错和匹配失败。",
+          "why_matters_en": "Users can specify subagents with more natural names, reducing config errors and match failures.",
+          "capability_ids": [
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Updated agent color palette",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "更新代理颜色主题",
+          "summary_en": "Updated agent color palette",
+          "why_matters": "界面配色更新主要提升可读性和视觉体验。",
+          "why_matters_en": "The palette update mainly improves readability and visual experience.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed `/goal` silently hanging when `disableAllHooks` or `allowManagedHooksOnly` is set — now shows a clear message instead of an indicator that never resolves",
+          "category": "fix",
+          "importance": 4,
+          "summary": "/goal不再无提示卡住",
+          "summary_en": "/goal now shows a clear error",
+          "why_matters": "相关钩子被禁用时会明确提示，而不是让命令看起来永久挂起。",
+          "why_matters_en": "When hooks are disabled, the command now explains the issue instead of appearing to hang forever.",
+          "capability_ids": [
+            "automation_autonomy",
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed a regression in settings hot-reload where symlinked settings files caused misattributed change events and spurious `ConfigChange` hooks",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复热重载误触发钩子",
+          "summary_en": "Fixed misattributed hot-reload events",
+          "why_matters": "符号链接设置文件不再产生错误的配置变更事件和额外钩子执行。",
+          "why_matters_en": "Symlinked settings files no longer cause wrong config change events or extra hook runs.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed `claude --bg` failing with \"connection dropped mid-request\" when the background service was about to idle-exit",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复后台模式断连",
+          "summary_en": "Fixed bg request drop on idle exit",
+          "why_matters": "后台命令在服务即将空闲退出时不再失败，提升可靠性。",
+          "why_matters_en": "Background commands no longer fail when the service is about to idle-exit, improving reliability.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed background service startup failing on machines with enterprise endpoint security by allowing more time",
+          "category": "fix",
+          "importance": 3,
+          "summary": "提升企业环境启动成功率",
+          "summary_en": "Improved startup reliability on secured machines",
+          "why_matters": "在企业终端安全软件环境下，后台服务有更多启动时间，减少启动失败。",
+          "why_matters_en": "The background service gets more time to start on enterprise endpoint security machines, reducing startup failures.",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed remote managed settings not retrying on 401 — now retries once with a force-refreshed token",
+          "category": "fix",
+          "importance": 4,
+          "summary": "管理设置401后自动重试",
+          "summary_en": "Managed settings now retry after 401",
+          "why_matters": "远程托管设置在认证失效时会自动刷新令牌重试，减少人工干预。",
+          "why_matters_en": "Remote managed settings now retry with a refreshed token when auth fails, reducing manual intervention.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed managed `extraKnownMarketplaces` auto-update policy not being persisted to `known_marketplaces.json`",
+          "category": "fix",
+          "importance": 2,
+          "summary": "托管市场自动更新已持久化",
+          "summary_en": "Persisted managed marketplace policy",
+          "why_matters": "自动更新策略现在会正确保存到本地文件，避免重启后丢失配置。",
+          "why_matters_en": "The auto-update policy is now saved correctly to disk, avoiding config loss after restart.",
+          "capability_ids": [
+            "memory_context",
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed `/loop` scheduling redundant wakeups to poll for background tasks that already notify on completion",
+          "category": "fix",
+          "importance": 2,
+          "summary": "/loop减少重复唤醒",
+          "summary_en": "Reduced redundant wakeups in /loop",
+          "why_matters": "已能主动通知完成的后台任务不再被重复轮询，降低资源浪费。",
+          "why_matters_en": "Background tasks that already notify on completion are no longer polled redundantly, saving resources.",
+          "capability_ids": [
+            "automation_autonomy",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed a recurring event-loop stall on Windows when a missing executable (e.g. `gh`) triggered synchronous `where.exe` re-spawns on every check",
+          "category": "fix",
+          "importance": 5,
+          "summary": "修复Windows事件循环卡顿",
+          "summary_en": "Fixed Windows event loop stalls",
+          "why_matters": "缺失可执行文件时不再反复同步重启查找进程，避免整机卡顿。",
+          "why_matters_en": "Missing executables no longer trigger repeated synchronous respawns, preventing Windows stalls.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed `Read` tool calls failing validation when `offset` is passed as a whitespace-padded or `+`-prefixed string",
+          "category": "fix",
+          "importance": 3,
+          "summary": "Read偏移参数验证更宽松",
+          "summary_en": "Read offset validation accepts padded strings",
+          "why_matters": "偏移值带空格或加号时也能正常解析，减少工具调用失败。",
+          "why_matters_en": "Offset values with spaces or a plus sign now parse correctly, reducing tool call failures.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed native terminal cursor not staying at the input caret when the terminal loses focus",
+          "category": "fix",
+          "importance": 2,
+          "summary": "终端失焦后光标更稳定",
+          "summary_en": "Cursor stays at caret after focus loss",
+          "why_matters": "原生终端光标不会在窗口失焦后偏离输入位置，提升输入体验。",
+          "why_matters_en": "The terminal cursor now stays at the input caret after focus loss, improving typing experience.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Plugins now warn when a default component folder (e.g. `commands/`) is silently ignored because `plugin.json` sets the matching key. Shown in `/doctor`, `claude plugin list`, and `/plugin`.",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "插件默认目录冲突可见化",
+          "summary_en": "Plugins now warn on ignored default folders",
+          "why_matters": "当插件配置覆盖默认目录时会给出提示，帮助用户发现被忽略的组件。",
+          "why_matters_en": "Users now get a warning when plugin config overrides a default folder, helping them spot ignored components.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Using Claude Code: The unreasonable effectiveness of HTML",
+          "points": 525,
+          "url": "https://twitter.com/trq212/status/2052809885763747935"
+        },
+        {
+          "title": "Show HN: Git for AI Agents",
+          "points": 124,
+          "url": "https://github.com/regent-vcs/re_gent"
+        },
+        {
+          "title": "Show HN: Statewright – Visual state machines that make AI agents reliable",
+          "points": 84,
+          "url": "https://github.com/statewright/statewright"
+        },
+        {
+          "title": "Academic Research Skills for Claude Code",
+          "points": 82,
+          "url": "https://github.com/Imbad0202/academic-research-skills"
+        },
+        {
+          "title": "Show HN: adamsreview – better multi-agent PR reviews for Claude Code",
+          "points": 81,
+          "url": "https://github.com/adamjgmiller/adamsreview"
+        }
+      ],
+      "highlight_score": 50
+    },
     {
       "version": "2.1.139",
       "date": "2026-05-11",
@@ -698,28 +899,28 @@
       "signals": [
         {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
-          "points": 522,
+          "points": 525,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
           "title": "Show HN: Git for AI Agents",
-          "points": 121,
+          "points": 124,
           "url": "https://github.com/regent-vcs/re_gent"
         },
         {
+          "title": "Show HN: Statewright – Visual state machines that make AI agents reliable",
+          "points": 84,
+          "url": "https://github.com/statewright/statewright"
+        },
+        {
           "title": "Academic Research Skills for Claude Code",
-          "points": 81,
+          "points": 82,
           "url": "https://github.com/Imbad0202/academic-research-skills"
         },
         {
           "title": "Show HN: adamsreview – better multi-agent PR reviews for Claude Code",
-          "points": 75,
+          "points": 81,
           "url": "https://github.com/adamjgmiller/adamsreview"
-        },
-        {
-          "title": "Claude Code CVE-2026-39861:sandbox escape via symlink",
-          "points": 51,
-          "url": "https://github.com/advisories/GHSA-vp62-r36r-9xqp"
         }
       ],
       "highlight_score": 50
@@ -749,13 +950,8 @@
         },
         {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
-          "points": 522,
+          "points": 525,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
-        },
-        {
-          "title": "Kimi K2.6 just beat Claude, GPT-5.5, and Gemini in a coding challenge",
-          "points": 380,
-          "url": "https://thinkpol.ca/2026/04/30/an-open-weights-chinese-model-just-beat-claude-gpt-5-5-and-gemini-in-a-programming-challenge/"
         },
         {
           "title": "Wiki Builder: Skill to Build LLM Knowledge Bases",
@@ -764,8 +960,13 @@
         },
         {
           "title": "Show HN: Git for AI Agents",
-          "points": 121,
+          "points": 124,
           "url": "https://github.com/regent-vcs/re_gent"
+        },
+        {
+          "title": "Show HN: Agent-desktop – Native desktop automation CLI for AI agents",
+          "points": 99,
+          "url": "https://github.com/lahfir/agent-desktop"
         }
       ],
       "highlight_score": 30
@@ -797,13 +998,8 @@
         },
         {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
-          "points": 522,
+          "points": 525,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
-        },
-        {
-          "title": "Kimi K2.6 just beat Claude, GPT-5.5, and Gemini in a coding challenge",
-          "points": 380,
-          "url": "https://thinkpol.ca/2026/04/30/an-open-weights-chinese-model-just-beat-claude-gpt-5-5-and-gemini-in-a-programming-challenge/"
         },
         {
           "title": "Wiki Builder: Skill to Build LLM Knowledge Bases",
@@ -812,8 +1008,13 @@
         },
         {
           "title": "Show HN: Git for AI Agents",
-          "points": 121,
+          "points": 124,
           "url": "https://github.com/regent-vcs/re_gent"
+        },
+        {
+          "title": "Show HN: Agent-desktop – Native desktop automation CLI for AI agents",
+          "points": 99,
+          "url": "https://github.com/lahfir/agent-desktop"
         }
       ],
       "highlight_score": 50
@@ -1442,7 +1643,7 @@
         },
         {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
-          "points": 522,
+          "points": 525,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
@@ -1451,14 +1652,14 @@
           "url": "https://www.briefs.co/news/uber-torches-entire-2026-ai-budget-on-claude-code-in-four-months/"
         },
         {
-          "title": "Kimi K2.6 just beat Claude, GPT-5.5, and Gemini in a coding challenge",
-          "points": 380,
-          "url": "https://thinkpol.ca/2026/04/30/an-open-weights-chinese-model-just-beat-claude-gpt-5-5-and-gemini-in-a-programming-challenge/"
-        },
-        {
           "title": "Wiki Builder: Skill to Build LLM Knowledge Bases",
           "points": 134,
           "url": "https://academy.dair.ai/blog/wiki-builder-claude-code-plugin"
+        },
+        {
+          "title": "Show HN: Git for AI Agents",
+          "points": 124,
+          "url": "https://github.com/regent-vcs/re_gent"
         }
       ],
       "highlight_score": 55
@@ -1705,7 +1906,7 @@
         },
         {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
-          "points": 522,
+          "points": 525,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
@@ -1714,9 +1915,9 @@
           "url": "https://www.briefs.co/news/uber-torches-entire-2026-ai-budget-on-claude-code-in-four-months/"
         },
         {
-          "title": "Kimi K2.6 just beat Claude, GPT-5.5, and Gemini in a coding challenge",
-          "points": 380,
-          "url": "https://thinkpol.ca/2026/04/30/an-open-weights-chinese-model-just-beat-claude-gpt-5-5-and-gemini-in-a-programming-challenge/"
+          "title": "Wiki Builder: Skill to Build LLM Knowledge Bases",
+          "points": 134,
+          "url": "https://academy.dair.ai/blog/wiki-builder-claude-code-plugin"
         }
       ],
       "highlight_score": 50
@@ -2104,7 +2305,7 @@
         },
         {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
-          "points": 522,
+          "points": 525,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
@@ -2166,7 +2367,7 @@
         },
         {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
-          "points": 522,
+          "points": 525,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
@@ -2554,7 +2755,7 @@
         },
         {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
-          "points": 522,
+          "points": 525,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         }
       ],
@@ -3035,7 +3236,7 @@
         },
         {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
-          "points": 522,
+          "points": 525,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         }
       ],
@@ -32632,11 +32833,6 @@
           "url": "https://sinelaw.github.io/fresh/"
         },
         {
-          "title": "Show HN: Runprompt – run .prompt files from the command line",
-          "points": 134,
-          "url": "https://github.com/chr15m/runprompt"
-        },
-        {
           "title": "Launch HN: Nia (YC S25) – Give better context to coding agents",
           "points": 131,
           "url": "https://www.trynia.ai/"
@@ -32650,6 +32846,11 @@
           "title": "Anthropic Acquires Bun",
           "points": 99,
           "url": "https://www.anthropic.com/news/anthropic-acquires-bun-as-claude-code-reaches-usd1b-milestone"
+        },
+        {
+          "title": "Show HN: Era – Open-source local sandbox for AI agents",
+          "points": 62,
+          "url": "https://github.com/BinSquare/ERA"
         }
       ],
       "highlight_score": 28
@@ -32703,11 +32904,6 @@
           "url": "https://sinelaw.github.io/fresh/"
         },
         {
-          "title": "Show HN: Runprompt – run .prompt files from the command line",
-          "points": 134,
-          "url": "https://github.com/chr15m/runprompt"
-        },
-        {
           "title": "Launch HN: Nia (YC S25) – Give better context to coding agents",
           "points": 131,
           "url": "https://www.trynia.ai/"
@@ -32721,6 +32917,11 @@
           "title": "Anthropic Acquires Bun",
           "points": 99,
           "url": "https://www.anthropic.com/news/anthropic-acquires-bun-as-claude-code-reaches-usd1b-milestone"
+        },
+        {
+          "title": "Show HN: Era – Open-source local sandbox for AI agents",
+          "points": 62,
+          "url": "https://github.com/BinSquare/ERA"
         }
       ],
       "highlight_score": 33
@@ -32766,11 +32967,6 @@
           "url": "https://sinelaw.github.io/fresh/"
         },
         {
-          "title": "Show HN: Runprompt – run .prompt files from the command line",
-          "points": 134,
-          "url": "https://github.com/chr15m/runprompt"
-        },
-        {
           "title": "Launch HN: Nia (YC S25) – Give better context to coding agents",
           "points": 131,
           "url": "https://www.trynia.ai/"
@@ -32784,6 +32980,11 @@
           "title": "Anthropic Acquires Bun",
           "points": 99,
           "url": "https://www.anthropic.com/news/anthropic-acquires-bun-as-claude-code-reaches-usd1b-milestone"
+        },
+        {
+          "title": "Show HN: Era – Open-source local sandbox for AI agents",
+          "points": 62,
+          "url": "https://github.com/BinSquare/ERA"
         }
       ],
       "highlight_score": 8
@@ -32830,11 +33031,6 @@
           "url": "https://sinelaw.github.io/fresh/"
         },
         {
-          "title": "Show HN: Runprompt – run .prompt files from the command line",
-          "points": 134,
-          "url": "https://github.com/chr15m/runprompt"
-        },
-        {
           "title": "Launch HN: Nia (YC S25) – Give better context to coding agents",
           "points": 131,
           "url": "https://www.trynia.ai/"
@@ -32843,6 +33039,11 @@
           "title": "Anthropic Acquires Bun",
           "points": 99,
           "url": "https://www.anthropic.com/news/anthropic-acquires-bun-as-claude-code-reaches-usd1b-milestone"
+        },
+        {
+          "title": "Show HN: Era – Open-source local sandbox for AI agents",
+          "points": 62,
+          "url": "https://github.com/BinSquare/ERA"
         }
       ],
       "highlight_score": 15
@@ -32919,11 +33120,6 @@
           "url": "https://sinelaw.github.io/fresh/"
         },
         {
-          "title": "Show HN: Runprompt – run .prompt files from the command line",
-          "points": 134,
-          "url": "https://github.com/chr15m/runprompt"
-        },
-        {
           "title": "Anthropic Acquires Bun",
           "points": 99,
           "url": "https://www.anthropic.com/news/anthropic-acquires-bun-as-claude-code-reaches-usd1b-milestone"
@@ -32974,11 +33170,6 @@
           "title": "Launch HN: Onyx (YC W24) – Open-source chat UI",
           "points": 254,
           "url": "https://news.ycombinator.com/item?id=46045987"
-        },
-        {
-          "title": "Show HN: Runprompt – run .prompt files from the command line",
-          "points": 134,
-          "url": "https://github.com/chr15m/runprompt"
         },
         {
           "title": "Show HN: RowboatX – open-source Claude Code for everyday automations",
@@ -33054,11 +33245,6 @@
           "title": "Launch HN: Onyx (YC W24) – Open-source chat UI",
           "points": 254,
           "url": "https://news.ycombinator.com/item?id=46045987"
-        },
-        {
-          "title": "Show HN: Runprompt – run .prompt files from the command line",
-          "points": 134,
-          "url": "https://github.com/chr15m/runprompt"
         },
         {
           "title": "Show HN: RowboatX – open-source Claude Code for everyday automations",
@@ -33201,11 +33387,6 @@
           "url": "https://news.ycombinator.com/item?id=46045987"
         },
         {
-          "title": "Show HN: Runprompt – run .prompt files from the command line",
-          "points": 134,
-          "url": "https://github.com/chr15m/runprompt"
-        },
-        {
           "title": "Show HN: RowboatX – open-source Claude Code for everyday automations",
           "points": 131,
           "url": "https://github.com/rowboatlabs/rowboat"
@@ -33286,11 +33467,6 @@
           "url": "https://github.com/AnandChowdhary/continuous-claude"
         },
         {
-          "title": "Show HN: Runprompt – run .prompt files from the command line",
-          "points": 134,
-          "url": "https://github.com/chr15m/runprompt"
-        },
-        {
           "title": "Show HN: RowboatX – open-source Claude Code for everyday automations",
           "points": 131,
           "url": "https://github.com/rowboatlabs/rowboat"
@@ -33357,11 +33533,6 @@
           "title": "Show HN: Continuous Claude – run Claude Code in a loop",
           "points": 170,
           "url": "https://github.com/AnandChowdhary/continuous-claude"
-        },
-        {
-          "title": "Show HN: Runprompt – run .prompt files from the command line",
-          "points": 134,
-          "url": "https://github.com/chr15m/runprompt"
         },
         {
           "title": "Show HN: RowboatX – open-source Claude Code for everyday automations",
@@ -47321,8 +47492,8 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 364,
-      "release_count": 145,
+      "change_count": 365,
+      "release_count": 146,
       "avg_importance": 3.12,
       "maturity": {
         "score": 92,
@@ -47333,14 +47504,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-05-11",
-        "version": "2.1.139"
+        "date": "2026-05-12",
+        "version": "2.1.140"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 202
+          "change_count": 203
         },
         {
           "epoch_id": "epoch4",
@@ -47416,8 +47587,8 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 786,
-      "release_count": 182,
+      "change_count": 791,
+      "release_count": 183,
       "avg_importance": 3.22,
       "maturity": {
         "score": 93,
@@ -47428,14 +47599,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-05-11",
-        "version": "2.1.139"
+        "date": "2026-05-12",
+        "version": "2.1.140"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 485
+          "change_count": 490
         },
         {
           "epoch_id": "epoch1",
@@ -47460,6 +47631,14 @@
       ],
       "samples": [
         {
+          "date": "2026-05-12",
+          "version": "2.1.140",
+          "raw": "Fixed a recurring event-loop stall on Windows when a missing executable (e.g. `gh`) triggered synchronous `where.exe` re-spawns on every check",
+          "summary": "修复Windows事件循环卡顿",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-05-11",
           "version": "2.1.139",
           "raw": "Added `/goal` command: set a completion condition and Claude keeps working across turns until it's met. Works in interactive, `-p`, and Remote Control. Shows live elapsed/turns/tokens as an overlay panel",
@@ -47480,14 +47659,6 @@
           "version": "2.1.129",
           "raw": "Fixed `Bash(mkdir *)`, `Bash(touch *)` and similar allow rules not being honored for in-project paths",
           "summary": "修复项目内允许规则失效",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-05-04",
-          "version": "2.1.128",
-          "raw": "Fixed crash loop when piping very large input (>10 MB) to `claude -p` via stdin",
-          "summary": "修复大stdin输入崩溃循环",
           "importance": 5,
           "category": "fix"
         }
@@ -47511,8 +47682,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 536,
-      "release_count": 139,
+      "change_count": 537,
+      "release_count": 140,
       "avg_importance": 3.21,
       "maturity": {
         "score": 93,
@@ -47523,14 +47694,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-05-11",
-        "version": "2.1.139"
+        "date": "2026-05-12",
+        "version": "2.1.140"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 372
+          "change_count": 373
         },
         {
           "epoch_id": "epoch1",
@@ -47606,8 +47777,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 607,
-      "release_count": 190,
+      "change_count": 610,
+      "release_count": 191,
       "avg_importance": 3.27,
       "maturity": {
         "score": 93,
@@ -47618,14 +47789,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-11",
-        "version": "2.1.139"
+        "date": "2026-05-12",
+        "version": "2.1.140"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 345
+          "change_count": 348
         },
         {
           "epoch_id": "epoch1",
@@ -47701,8 +47872,8 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 290,
-      "release_count": 112,
+      "change_count": 291,
+      "release_count": 113,
       "avg_importance": 3.31,
       "maturity": {
         "score": 93,
@@ -47713,14 +47884,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-11",
-        "version": "2.1.139"
+        "date": "2026-05-12",
+        "version": "2.1.140"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 199
+          "change_count": 200
         },
         {
           "epoch_id": "epoch1",
@@ -47796,8 +47967,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 972,
-      "release_count": 218,
+      "change_count": 977,
+      "release_count": 219,
       "avg_importance": 3.14,
       "maturity": {
         "score": 93,
@@ -47808,14 +47979,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-05-11",
-        "version": "2.1.139"
+        "date": "2026-05-12",
+        "version": "2.1.140"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 606
+          "change_count": 611
         },
         {
           "epoch_id": "epoch1",
@@ -47891,8 +48062,8 @@
         "Emacs",
         "web"
       ],
-      "change_count": 627,
-      "release_count": 161,
+      "change_count": 628,
+      "release_count": 162,
       "avg_importance": 2.67,
       "maturity": {
         "score": 91,
@@ -47903,14 +48074,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-11",
-        "version": "2.1.139"
+        "date": "2026-05-12",
+        "version": "2.1.140"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 418
+          "change_count": 419
         },
         {
           "epoch_id": "epoch4",
@@ -47986,8 +48157,8 @@
         "policy",
         "auditing"
       ],
-      "change_count": 619,
-      "release_count": 188,
+      "change_count": 625,
+      "release_count": 189,
       "avg_importance": 3.39,
       "maturity": {
         "score": 94,
@@ -47998,14 +48169,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-11",
-        "version": "2.1.139"
+        "date": "2026-05-12",
+        "version": "2.1.140"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 383
+          "change_count": 389
         },
         {
           "epoch_id": "epoch4",
