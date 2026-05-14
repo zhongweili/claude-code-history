@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-05-13T04:40:29.339Z",
+    "generated_at": "2026-05-14T04:41:24.767Z",
     "agent_model": "openai/gpt-5.4-mini",
-    "total_versions": 287,
+    "total_versions": 288,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-05-12"
+      "end": "2026-05-13"
     },
     "highlight_count": 36,
     "capability_count": 8,
@@ -70,11 +70,821 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。与此同时，Opus 4.6 把「思考」变成了可选项，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Meanwhile, Opus 4.6 makes reasoning optional rather than visible, while worktree isolation and a 1M context push the agent toward running for hours, unattended.",
-      "release_count": 71,
+      "release_count": 72,
       "highlight_count": 15
     }
   ],
   "releases": [
+    {
+      "version": "2.1.141",
+      "date": "2026-05-13",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added `terminalSequence` field to hook JSON output so hooks can emit desktop notifications, window titles, and bells without a controlling terminal",
+          "category": "feat",
+          "importance": 2,
+          "summary": "钩子可发系统通知",
+          "summary_en": "Hooks can emit desktop notifications",
+          "why_matters": "让 hooks 在无控制终端时也能发出桌面通知、标题和提示音，增强自动化反馈。",
+          "why_matters_en": "This lets hooks trigger desktop notifications, titles, and bells even without a controlling terminal.",
+          "capability_ids": [
+            "automation_autonomy",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Added `CLAUDE_CODE_PLUGIN_PREFER_HTTPS` to clone GitHub plugin sources over HTTPS instead of SSH, for environments without a GitHub SSH key",
+          "category": "feat",
+          "importance": 2,
+          "summary": "插件支持优先HTTPS拉取",
+          "summary_en": "Prefer HTTPS when cloning plugin sources",
+          "why_matters": "在没有 GitHub SSH key 的环境中也能拉取插件源码，减少安装和配置阻碍。",
+          "why_matters_en": "This enables plugin cloning in environments without a GitHub SSH key, reducing setup friction.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added `ANTHROPIC_WORKSPACE_ID` environment variable for workload identity federation — scopes the minted token to a specific workspace when the federation rule covers more than one",
+          "category": "feat",
+          "importance": 3,
+          "summary": "联邦令牌可绑定工作区",
+          "summary_en": "Scope federated tokens to a workspace",
+          "why_matters": "为联合身份登录增加工作区级约束，降低跨工作区误用和权限扩散风险。",
+          "why_matters_en": "This adds workspace-level scoping to federated auth, reducing accidental cross-workspace access.",
+          "capability_ids": [
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Added `claude agents --cwd <path>` to scope the session list to a directory",
+          "category": "feat",
+          "importance": 2,
+          "summary": "agents 列表可按目录过滤",
+          "summary_en": "Filter agent sessions by working directory",
+          "why_matters": "可以只查看某个目录下的会话，方便在多项目环境中定位相关任务。",
+          "why_matters_en": "This lets users narrow sessions to a directory, which is helpful in multi-project workflows.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "`/feedback` can now include recent sessions (last 24 hours or 7 days) for issues spanning more than the current session",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "反馈可附近期会话",
+          "summary_en": "Feedback can include recent sessions",
+          "why_matters": "提交问题时可带上最近会话上下文，提升跨会话问题定位效率。",
+          "why_matters_en": "Including recent sessions gives better context for issues that span multiple sessions.",
+          "capability_ids": [
+            "memory_context",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Rewind menu: added \"Summarize up to here\" to compress earlier context while keeping recent turns intact",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "回溯菜单可压缩前文",
+          "summary_en": "Rewind can summarize earlier context",
+          "why_matters": "既能保留近期对话，又能压缩早期上下文，帮助延长可用上下文窗口。",
+          "why_matters_en": "This preserves recent turns while compressing earlier context to extend usable context length.",
+          "capability_ids": [
+            "memory_context",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Auto mode permission dialog now explains when a `permissions.ask` rule caused the prompt",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "权限提示解释规则来源",
+          "summary_en": "Permission prompts explain rule source",
+          "why_matters": "让用户知道弹窗由哪条权限规则触发，减少权限决策的困惑。",
+          "why_matters_en": "This clarifies which permission rule caused the prompt, making access decisions easier.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Restored the \"view diff in your IDE\" option on file-edit permission prompts when an IDE is connected",
+          "category": "fix",
+          "importance": 2,
+          "summary": "恢复 IDE 差异查看",
+          "summary_en": "Restore IDE diff view in prompts",
+          "why_matters": "重新提供在 IDE 中查看差异的入口，提升编辑权限确认时的可视化体验。",
+          "why_matters_en": "This restores a convenient IDE diff option, improving review flow for edit permissions.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Background agents launched via `/bg` or `←←` now preserve the current permission mode instead of reverting to default",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "后台代理保留权限模式",
+          "summary_en": "Background agents keep current permission mode",
+          "why_matters": "后台启动的代理不再回落到默认权限模式，避免行为不一致和额外审批。",
+          "why_matters_en": "Background agents now keep the active permission mode, avoiding inconsistent behavior and extra prompts.",
+          "capability_ids": [
+            "automation_autonomy",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "`claude agents`: agents that finish work but leave a background shell running now move to Completed instead of staying under Working",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "完成的代理状态更准确",
+          "summary_en": "Completed agents now show correct status",
+          "why_matters": "后台 shell 仍在运行时也会把已完成任务标为 Completed，减少状态误判。",
+          "why_matters_en": "Agents that finished work now move to Completed even if a background shell remains, reducing status confusion.",
+          "capability_ids": [
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Improved spinner feedback during long thinking periods — the spinner now warms to amber after 10 seconds to signal Claude is still working",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "长思考时旋钮变暖色",
+          "summary_en": "Spinner warms to amber on long waits",
+          "why_matters": "在长时间思考时提供更明确的进行中信号，减少用户误以为卡住。",
+          "why_matters_en": "A warmer spinner color signals continued progress during long thinking, so users are less likely to think it froze.",
+          "capability_ids": [
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Improved plugin menu navigation: `→`/Tab switch tabs, `↑` moves to the tab strip, and tab headers and search box are clickable in fullscreen mode",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "插件菜单导航更顺手",
+          "summary_en": "Plugin menu navigation is smoother",
+          "why_matters": "增强了键盘和鼠标在全屏插件菜单中的操作效率，降低切换成本。",
+          "why_matters_en": "This improves keyboard and mouse navigation in the fullscreen plugin menu, reducing interaction friction.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed background side-queries sending an unavailable Haiku model ID on Bedrock/Vertex/Foundry/gateway when no `ANTHROPIC_SMALL_FAST_MODEL` override is set — now falls back to the main-loop model",
+          "category": "fix",
+          "importance": 4,
+          "summary": "侧查询回退到主模型",
+          "summary_en": "Side queries fall back to main model",
+          "why_matters": "修复云环境下发送不存在的小模型 ID 问题，避免后台查询失败。",
+          "why_matters_en": "This fixes failures caused by an unavailable small-model ID, so background side queries work reliably.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "automation_autonomy",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `claude daemon status` and `/doctor` on Windows throwing when the daemon pipe key file is locked or unreadable — now shows the underlying error instead of an opaque failure",
+          "category": "fix",
+          "importance": 3,
+          "summary": "Windows 诊断错误更清楚",
+          "summary_en": "Windows daemon errors are clearer",
+          "why_matters": "当守护进程管道文件被锁定或不可读时，可直接看到底层错误，便于排障。",
+          "why_matters_en": "Users now see the underlying error when the daemon pipe key file is locked or unreadable, making troubleshooting easier.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed `claude agents` showing the agent-type list instead of the dashboard when launched through a wrapper that adds flags",
+          "category": "fix",
+          "importance": 2,
+          "summary": "agents 包装器下显示仪表盘",
+          "summary_en": "Agents launched via wrappers show dashboard",
+          "why_matters": "通过带参数的包装器启动时能进入正确界面，避免误落到类型列表。",
+          "why_matters_en": "When started through a wrapper that adds flags, agents now open the dashboard instead of the type list.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed `claude agents` opening a crashed session firing redundant dispatches when the working directory was deleted",
+          "category": "fix",
+          "importance": 4,
+          "summary": "避免已崩溃会话重复派发",
+          "summary_en": "Avoid duplicate dispatches in crashed sessions",
+          "why_matters": "修复工作目录被删除后恢复崩溃会话时的重复请求，避免产生多余操作和潜在混乱。",
+          "why_matters_en": "Fixes redundant dispatches when recovering a crashed session after the working directory is deleted, preventing extra actions and confusion.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed background jobs on a custom `ANTHROPIC_BASE_URL` gateway not getting auto-named — the namer now uses the main model when no Haiku model is configured",
+          "category": "fix",
+          "importance": 3,
+          "summary": "自定义网关背景任务自动命名",
+          "summary_en": "Auto-name background jobs on custom gateway",
+          "why_matters": "在未配置 Haiku 模型时改用主模型命名后台任务，提升自定义网关下的可用性。",
+          "why_matters_en": "Uses the main model for naming when no Haiku model is configured, improving usability on custom gateways.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed `/model` in one session silently changing the autocompact threshold in other concurrent sessions",
+          "category": "fix",
+          "importance": 4,
+          "summary": "/model不再影响其他会话",
+          "summary_en": "/model no longer affects other sessions",
+          "why_matters": "修复单个会话修改自动压缩阈值却影响并发会话的问题，避免会话间配置串扰。",
+          "why_matters_en": "Prevents one session's /model change from silently affecting concurrent sessions, avoiding cross-session config leakage.",
+          "capability_ids": [
+            "memory_context",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed switching permission mode while a tool-permission prompt is open not auto-dismissing the prompt when the new setting permits the tool",
+          "category": "fix",
+          "importance": 4,
+          "summary": "权限变更后自动关闭弹窗",
+          "summary_en": "Auto-dismiss permission prompt after mode change",
+          "why_matters": "当新权限设置已允许工具时自动关闭提示，减少用户被无效权限弹窗阻塞。",
+          "why_matters_en": "Automatically dismisses the prompt when the new permission setting allows the tool, reducing unnecessary blocking.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed pressing Enter while a permission/dialog prompt is open also submitting text in the input box",
+          "category": "fix",
+          "importance": 3,
+          "summary": "回车不再误提交输入",
+          "summary_en": "Enter no longer submits input by mistake",
+          "why_matters": "修复权限对话框打开时按回车误提交文本的问题，避免意外发送消息。",
+          "why_matters_en": "Fixes Enter in an open permission/dialog prompt from also submitting the input box, preventing accidental sends.",
+          "capability_ids": [
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed hooks receiving a non-existent `transcript_path` after `EnterWorktree` switches the working directory",
+          "category": "fix",
+          "importance": 3,
+          "summary": "切换工作目录后钩子路径正确",
+          "summary_en": "Hooks get correct path after directory switch",
+          "why_matters": "修复 EnterWorktree 切换目录后传入不存在的 transcript_path，保证钩子可正常运行。",
+          "why_matters_en": "Fixes hooks receiving a non-existent transcript_path after EnterWorktree switches directories, keeping hooks working reliably.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy",
+            "delegation_collaboration",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed markdown tables with cell wrapping falling back to the vertical key-value layout instead of rendering as a bordered grid (regression in 2.1.136)",
+          "category": "fix",
+          "importance": 2,
+          "summary": "可换行表格恢复边框渲染",
+          "summary_en": "Wrapped markdown tables render as bordered grids",
+          "why_matters": "修复换行表格退回键值布局的问题，让 Markdown 表格在终端中更易读。",
+          "why_matters_en": "Fixes wrapped tables falling back to key-value layout, so Markdown tables stay readable in the terminal.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed cancelled prompts being removed from Up-arrow history when auto-restored into the input box, avoiding duplicate entries",
+          "category": "fix",
+          "importance": 2,
+          "summary": "取消的提示词保留历史",
+          "summary_en": "Cancelled prompts stay in history",
+          "why_matters": "避免自动恢复到输入框的取消提示从历史中丢失，减少重复输入和历史混乱。",
+          "why_matters_en": "Keeps auto-restored cancelled prompts in Up-arrow history, avoiding duplicate entries and history loss.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed prompts cancelled with Ctrl+C/Esc before any response being dropped from Up-arrow history",
+          "category": "fix",
+          "importance": 2,
+          "summary": "首次取消的提示也进入历史",
+          "summary_en": "First-cancelled prompts stay in history",
+          "why_matters": "修复在未产生回复前用 Ctrl+C/Esc 取消的提示被丢弃的问题，方便后续复用。",
+          "why_matters_en": "Fixes prompts cancelled with Ctrl+C/Esc before any response from being dropped from history, making them reusable later.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed Ctrl+C not interrupting a running turn while in vim INSERT/VISUAL mode",
+          "category": "fix",
+          "importance": 3,
+          "summary": "Vim模式下Ctrl+C可中断运行",
+          "summary_en": "Ctrl+C interrupts running turns in Vim mode",
+          "why_matters": "在 vim INSERT/VISUAL 模式下也能及时中断运行中的回合，提升控制感和响应性。",
+          "why_matters_en": "Allows Ctrl+C to interrupt a running turn even in vim INSERT/VISUAL mode, improving control and responsiveness.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed alternative `chat:submit` keybindings (e.g. `meta+enter`, `ctrl+enter`) not working when `enter` is rebound to `chat:newline`",
+          "category": "fix",
+          "importance": 2,
+          "summary": "提交快捷键与换行键兼容",
+          "summary_en": "Submit shortcuts work with newline remap",
+          "why_matters": "修复将 Enter 绑定为换行后，其他提交快捷键失效的问题，保留自定义键位灵活性。",
+          "why_matters_en": "Fixes alternate submit keybindings when Enter is remapped to newline, preserving keyboard customization.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed prompt suggestions being silently disabled when an output style was configured",
+          "category": "fix",
+          "importance": 2,
+          "summary": "输出风格不再禁用建议",
+          "summary_en": "Prompt suggestions stay enabled with output styles",
+          "why_matters": "修复配置输出样式后提示建议被静默关闭的问题，避免影响交互效率。",
+          "why_matters_en": "Prevents prompt suggestions from being silently disabled when an output style is configured, preserving workflow efficiency.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `spinnerVerbs` setting not being honored in turn-completion messages",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "完成消息用自定义动词",
+          "summary_en": "Turn-completion messages use custom verbs",
+          "why_matters": "让 turn 完成提示遵循 spinnerVerbs 配置，增强界面一致性和可定制性。",
+          "why_matters_en": "Makes turn-completion messages honor spinnerVerbs, improving UI consistency and customization.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed AskUserQuestion popup hiding the last line of preceding chat content",
+          "category": "fix",
+          "importance": 2,
+          "summary": "提问弹窗不遮挡上一行",
+          "summary_en": "AskUserQuestion popup no longer hides content",
+          "why_matters": "避免弹窗遮住前文最后一行，减少上下文阅读干扰。",
+          "why_matters_en": "Prevents the popup from hiding the last line of prior chat content, improving context readability.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed Web Search status showing \"Did 0 searches\" when searches returned errors",
+          "category": "fix",
+          "importance": 2,
+          "summary": "搜索失败不再显示零结果",
+          "summary_en": "Web search errors no longer show 0 searches",
+          "why_matters": "让搜索状态正确反映错误而非误导性的“Did 0 searches”，提升结果可解释性。",
+          "why_matters_en": "Makes web search status reflect errors correctly instead of misleadingly saying 'Did 0 searches', improving clarity.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "automation_autonomy",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed multi-line statusline output dropping or corrupting rows when any line exceeds terminal width",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复长状态栏行错位",
+          "summary_en": "Fix long statusline row corruption",
+          "why_matters": "避免终端状态栏在内容过长时显示错乱或丢行，提升可读性。",
+          "why_matters_en": "Prevents statusline corruption or missing rows when lines exceed terminal width.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed light-ansi theme using invisible white for diff context lines on light backgrounds — now uses black",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复浅色主题差异线不可见",
+          "summary_en": "Fix invisible diff context on light theme",
+          "why_matters": "让浅色背景下的 diff 上下文更清晰可见，便于审查代码。",
+          "why_matters_en": "Improves diff readability on light backgrounds by making context lines visible.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed error overlay dumping minified bundle source that hid the original error message",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复错误覆盖层丢失原始报错",
+          "summary_en": "Fix error overlay hiding original error",
+          "why_matters": "帮助用户直接看到真正的错误信息，减少排障时间。",
+          "why_matters_en": "Lets users see the real error message instead of a minified bundle dump.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed pressing Enter after typing a feedback survey rating digit submitting it as a chat message instead of the rating",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复评分回车误发聊天消息",
+          "summary_en": "Fix rating Enter submitting chat",
+          "why_matters": "避免反馈评分被误当成聊天发送，减少交互误操作。",
+          "why_matters_en": "Prevents a feedback rating from being accidentally sent as a chat message.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed pressing `x` on a selected subagent in the agent panel typing into the prompt instead of stopping the agent",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复子代理选择键误输入提示",
+          "summary_en": "Fix x key typing into prompt",
+          "why_matters": "让代理面板快捷键真正执行停止操作，而不是污染输入框。",
+          "why_matters_en": "Ensures the agent panel shortcut stops the agent instead of typing into the prompt.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed session title being derived from plugin monitor notifications before the user's first prompt",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复会话标题过早取自通知",
+          "summary_en": "Fix early session title selection",
+          "why_matters": "避免会话标题被插件通知误导，保持标题更符合用户首个提问内容。",
+          "why_matters_en": "Prevents plugin notifications from setting the session title before the first prompt.",
+          "capability_ids": [
+            "memory_context",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed \"Allowed by PermissionRequest hook\" repeating once per tool call under a collapsed read/search group",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复权限提示重复显示",
+          "summary_en": "Fix repeated permission notice",
+          "why_matters": "减少折叠工具调用组中的重复提示，提升日志可读性。",
+          "why_matters_en": "Reduces repeated permission messages in collapsed tool-call groups and improves readability.",
+          "capability_ids": [
+            "governance_security",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed `/tui` silently dropping running background shells and subagents — now refuses and asks to wait for them to finish",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复/tui误丢后台任务",
+          "summary_en": "Fix /tui dropping running jobs",
+          "why_matters": "防止切换 TUI 时丢失运行中的 shell 和子代理，避免任务中断。",
+          "why_matters_en": "Prevents /tui from dropping active background shells and subagents, avoiding task interruption.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed welcome banner showing \"API Usage Billing\" on Bedrock, Vertex, Foundry, and other third-party providers — now shows the provider name",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复欢迎横幅误写计费",
+          "summary_en": "Fix wrong billing banner text",
+          "why_matters": "在第三方模型提供商下显示正确名称，避免用户对计费归属产生误解。",
+          "why_matters_en": "Shows the correct provider name and avoids confusion about billing on third-party providers.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `/mcp` server list not keeping the focused server visible in short terminals in fullscreen mode",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复短终端服务器列表不可见",
+          "summary_en": "Fix MCP list focus visibility",
+          "why_matters": "确保全屏下焦点项始终可见，方便管理 MCP 服务器。",
+          "why_matters_en": "Keeps the focused MCP server visible in fullscreen mode, making navigation easier.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed redaction in `/feedback` bundles producing invalid JSON for quoted values like session IDs",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复反馈包 JSON 转义错误",
+          "summary_en": "Fix invalid feedback JSON redaction",
+          "why_matters": "保证反馈包可被正确解析，避免因格式错误导致上传失败。",
+          "why_matters_en": "Ensures feedback bundles remain valid JSON and can be processed reliably.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed desktop and third-party provider sessions incorrectly inheriting `apiKeyHelper`/`ANTHROPIC_AUTH_TOKEN` from host managed-settings",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复继承错误认证配置",
+          "summary_en": "Fix inherited auth env leak",
+          "why_matters": "避免桌面和第三方会话错误继承宿主认证信息，提升隔离与安全性。",
+          "why_matters_en": "Prevents desktop and third-party sessions from inheriting host auth settings, improving isolation and security.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed early analytics events being silently dropped when fired before logger initialization",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复早期分析事件丢失",
+          "summary_en": "Fix dropped early analytics events",
+          "why_matters": "确保初始化前触发的分析事件也能被记录，提升数据完整性。",
+          "why_matters_en": "Ensures analytics events fired before logger init are still recorded for better data completeness.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed `claude plugin install` failing for plugins whose marketplace `ref` no longer exists upstream when a `sha` is also pinned",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复插件安装回退失败",
+          "summary_en": "Fix plugin install fallback",
+          "why_matters": "当 marketplace ref 失效但已锁定 sha 时，仍能顺利安装插件。",
+          "why_matters_en": "Allows plugin installation to succeed even if the upstream marketplace ref is gone when a sha is pinned.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed plugin details pane showing 0 MCP servers for plugins that declare them via `.mcp.json`",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复插件详情MCP数量错误",
+          "summary_en": "Fix plugin MCP count display",
+          "why_matters": "让插件详情页正确显示通过 .mcp.json 声明的 MCP 服务器数量。",
+          "why_matters_en": "Shows the correct MCP server count for plugins that declare them via .mcp.json.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed plugin MCP servers with unset config variables showing a generic connection failure instead of a \"config issue\" message with a fix-it hint; malformed `.mcp.json` entries no longer drop other MCP servers",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复MCP配置报错提示与解析",
+          "summary_en": "Fix MCP config errors and parsing",
+          "why_matters": "让用户更快定位配置问题，并避免一个坏配置影响其他服务器。",
+          "why_matters_en": "This helps users diagnose config issues faster and prevents one bad entry from breaking other servers.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed MCP server configs using POSIX shell parameter expansions (e.g. `${var%pattern}`) being incorrectly flagged as missing environment variables",
+          "category": "fix",
+          "importance": 3,
+          "summary": "正确识别Shell变量展开",
+          "summary_en": "Properly handle shell parameter expansion",
+          "why_matters": "避免把合法的POSIX参数展开误判为缺失环境变量。",
+          "why_matters_en": "This prevents valid POSIX parameter expansions from being misclassified as missing environment variables.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed MCP HTTP/SSE servers returning 403 on connect showing as \"failed\" instead of \"needs auth\"",
+          "category": "fix",
+          "importance": 3,
+          "summary": "403连接显示需认证",
+          "summary_en": "Show auth-needed for 403 MCP connects",
+          "why_matters": "让用户更准确知道问题是权限不足，而不是普通连接失败。",
+          "why_matters_en": "This gives users a clearer signal that the issue is authorization, not a generic connection failure.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed remote MCP servers disconnecting unnecessarily when the optional server-events stream failed to reconnect — tool calls continue over POST",
+          "category": "fix",
+          "importance": 4,
+          "summary": "SSE断线不再中断远程MCP",
+          "summary_en": "Keep remote MCP running if SSE reconnect fails",
+          "why_matters": "即使事件流异常，工具调用仍可继续，减少远程集成中断。",
+          "why_matters_en": "Tool calls can continue even if the event stream fails, reducing interruptions in remote integrations.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed Remote Control MCP connectors all failing with 401 when the worker session token rotated mid-session",
+          "category": "fix",
+          "importance": 5,
+          "summary": "修复远程控制令牌轮换401",
+          "summary_en": "Fix 401s when remote control tokens rotate",
+          "why_matters": "避免会话中途失效，保障远程控制连接持续可用。",
+          "why_matters_en": "This prevents mid-session failures and keeps remote control connections usable.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem",
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed Remote Control automatically re-enrolling a trusted device when the server rejects a stale token, instead of looping through `/login`",
+          "category": "fix",
+          "importance": 4,
+          "summary": "过期信任设备自动重新登记",
+          "summary_en": "Auto re-enroll trusted devices on stale tokens",
+          "why_matters": "减少反复登录，提升受信设备在令牌过期后的恢复能力。",
+          "why_matters_en": "This avoids repeated logins and improves recovery for trusted devices after token expiry.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy",
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed a race where early OTel spans could be silently dropped in SDK/headless mode with beta tracing enabled",
+          "category": "fix",
+          "importance": 3,
+          "summary": "避免早期OTel span丢失",
+          "summary_en": "Prevent early OTel spans from being dropped",
+          "why_matters": "保证调试和可观测性数据更完整，便于排查问题。",
+          "why_matters_en": "This keeps observability data more complete, making debugging and troubleshooting easier.",
+          "capability_ids": [
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed custom `voice:pushToTalk` keybindings and `\"space\": null` unbinds being silently ignored",
+          "category": "fix",
+          "importance": 2,
+          "summary": "自定义按键绑定生效",
+          "summary_en": "Make custom keybindings work",
+          "why_matters": "让用户的语音快捷键和按键解绑设置真正按预期工作。",
+          "why_matters_en": "This ensures custom voice shortcuts and unbind settings behave as expected.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed Windows Alt+V image paste reporting \"no image found\" when the clipboard contains a screenshot",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复Windows截图粘贴识别",
+          "summary_en": "Fix Windows screenshot paste detection",
+          "why_matters": "让从剪贴板粘贴截图的流程更可靠，减少误报。",
+          "why_matters_en": "This makes pasting screenshots from the clipboard more reliable and reduces false errors.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed SDK \"Claude Code native binary not found\" on Linux when both glibc and musl platform packages are installed",
+          "category": "fix",
+          "importance": 4,
+          "summary": "Linux双包安装可找到二进制",
+          "summary_en": "Find native binary on Linux with both packages",
+          "why_matters": "避免SDK在常见Linux安装组合下无法启动。",
+          "why_matters_en": "This prevents the SDK from failing to start in a common Linux installation setup.",
+          "capability_ids": [
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Bedrock: `awsCredentialExport` now always runs when configured instead of being skipped when ambient AWS credentials resolve, fixing auth for cross-account access",
+          "category": "fix",
+          "importance": 4,
+          "summary": "Bedrock始终导出AWS凭据",
+          "summary_en": "Always export AWS creds for Bedrock auth",
+          "why_matters": "修复跨账号访问场景下的认证问题，确保Bedrock可用。",
+          "why_matters_en": "This fixes authentication for cross-account access and keeps Bedrock usable.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed in-chat mic showing no feedback when the microphone produced only silence — now shows \"No audio detected\"",
+          "category": "fix",
+          "importance": 1,
+          "summary": "静音时提示无音频",
+          "summary_en": "Show no-audio feedback when mic is silent",
+          "why_matters": "让用户更清楚知道麦克风没有输入，而不是误以为功能失效。",
+          "why_matters_en": "This tells users the mic has no input instead of making them think the feature is broken.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Voice mode: the WSL error now suggests installing `sox libsox-fmt-pulse` for WSLg users",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "WSL语音错误给出安装建议",
+          "summary_en": "Suggest WSL voice deps in error message",
+          "why_matters": "帮助WSLg用户更快补齐依赖并恢复语音功能。",
+          "why_matters_en": "This helps WSLg users install the right dependencies and restore voice features faster.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "`claude agents`: launching a session no longer fails when the pre-warmed background worker is unhealthy — now falls back to a fresh launch",
+          "category": "fix",
+          "importance": 4,
+          "summary": "worker异常时可新建agents会话",
+          "summary_en": "Fallback to fresh agent launch if worker is bad",
+          "why_matters": "避免预热 worker 异常导致 agents 无法启动。",
+          "why_matters_en": "This prevents a bad pre-warmed worker from blocking agent session startup.",
+          "capability_ids": [
+            "automation_autonomy",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "`claude agents` no longer shows empty placeholder sessions left over from backgrounding a fresh REPL, and shows onboarding text when entered via ← with no other agents",
+          "category": "fix",
+          "importance": 2,
+          "summary": "清理空agents占位并显示引导",
+          "summary_en": "Remove empty agent placeholders and show onboarding",
+          "why_matters": "让agents列表更干净，新用户进入时也能看到正确引导。",
+          "why_matters_en": "This keeps the agents list clean and shows the right onboarding for new users.",
+          "capability_ids": [
+            "automation_autonomy",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Empty idle background sessions left over from `←` are now automatically retired by the daemon after 5 minutes",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "自动回收空闲后台会话",
+          "summary_en": "Auto-retire idle background sessions",
+          "why_matters": "减少因返回后台会话残留带来的资源占用和管理负担。",
+          "why_matters_en": "This reduces resource waste and cleanup burden from leftover background sessions.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Using Claude Code: The unreasonable effectiveness of HTML",
+          "points": 526,
+          "url": "https://twitter.com/trq212/status/2052809885763747935"
+        },
+        {
+          "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
+          "points": 231,
+          "url": "https://news.ycombinator.com/item?id=48128003"
+        },
+        {
+          "title": "Show HN: Git for AI Agents",
+          "points": 125,
+          "url": "https://github.com/regent-vcs/re_gent"
+        },
+        {
+          "title": "Show HN: Statewright – Visual state machines that make AI agents reliable",
+          "points": 112,
+          "url": "https://github.com/statewright/statewright"
+        },
+        {
+          "title": "Show HN: adamsreview – better multi-agent PR reviews for Claude Code",
+          "points": 84,
+          "url": "https://github.com/adamjgmiller/adamsreview"
+        }
+      ],
+      "highlight_score": 50
+    },
     {
       "version": "2.1.140",
       "date": "2026-05-12",
@@ -250,27 +1060,27 @@
       "signals": [
         {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
-          "points": 525,
+          "points": 526,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
+          "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
+          "points": 231,
+          "url": "https://news.ycombinator.com/item?id=48128003"
+        },
+        {
           "title": "Show HN: Git for AI Agents",
-          "points": 124,
+          "points": 125,
           "url": "https://github.com/regent-vcs/re_gent"
         },
         {
           "title": "Show HN: Statewright – Visual state machines that make AI agents reliable",
-          "points": 84,
+          "points": 112,
           "url": "https://github.com/statewright/statewright"
         },
         {
-          "title": "Academic Research Skills for Claude Code",
-          "points": 82,
-          "url": "https://github.com/Imbad0202/academic-research-skills"
-        },
-        {
           "title": "Show HN: adamsreview – better multi-agent PR reviews for Claude Code",
-          "points": 81,
+          "points": 84,
           "url": "https://github.com/adamjgmiller/adamsreview"
         }
       ],
@@ -899,27 +1709,27 @@
       "signals": [
         {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
-          "points": 525,
+          "points": 526,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
+          "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
+          "points": 231,
+          "url": "https://news.ycombinator.com/item?id=48128003"
+        },
+        {
           "title": "Show HN: Git for AI Agents",
-          "points": 124,
+          "points": 125,
           "url": "https://github.com/regent-vcs/re_gent"
         },
         {
           "title": "Show HN: Statewright – Visual state machines that make AI agents reliable",
-          "points": 84,
+          "points": 112,
           "url": "https://github.com/statewright/statewright"
         },
         {
-          "title": "Academic Research Skills for Claude Code",
-          "points": 82,
-          "url": "https://github.com/Imbad0202/academic-research-skills"
-        },
-        {
           "title": "Show HN: adamsreview – better multi-agent PR reviews for Claude Code",
-          "points": 81,
+          "points": 84,
           "url": "https://github.com/adamjgmiller/adamsreview"
         }
       ],
@@ -950,23 +1760,23 @@
         },
         {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
-          "points": 525,
+          "points": 526,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
+        },
+        {
+          "title": "Kimi K2.6 just beat Claude, GPT-5.5, and Gemini in a coding challenge",
+          "points": 380,
+          "url": "https://thinkpol.ca/2026/04/30/an-open-weights-chinese-model-just-beat-claude-gpt-5-5-and-gemini-in-a-programming-challenge/"
+        },
+        {
+          "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
+          "points": 231,
+          "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
           "title": "Wiki Builder: Skill to Build LLM Knowledge Bases",
           "points": 134,
           "url": "https://academy.dair.ai/blog/wiki-builder-claude-code-plugin"
-        },
-        {
-          "title": "Show HN: Git for AI Agents",
-          "points": 124,
-          "url": "https://github.com/regent-vcs/re_gent"
-        },
-        {
-          "title": "Show HN: Agent-desktop – Native desktop automation CLI for AI agents",
-          "points": 99,
-          "url": "https://github.com/lahfir/agent-desktop"
         }
       ],
       "highlight_score": 30
@@ -998,23 +1808,23 @@
         },
         {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
-          "points": 525,
+          "points": 526,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
+        },
+        {
+          "title": "Kimi K2.6 just beat Claude, GPT-5.5, and Gemini in a coding challenge",
+          "points": 380,
+          "url": "https://thinkpol.ca/2026/04/30/an-open-weights-chinese-model-just-beat-claude-gpt-5-5-and-gemini-in-a-programming-challenge/"
+        },
+        {
+          "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
+          "points": 231,
+          "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
           "title": "Wiki Builder: Skill to Build LLM Knowledge Bases",
           "points": 134,
           "url": "https://academy.dair.ai/blog/wiki-builder-claude-code-plugin"
-        },
-        {
-          "title": "Show HN: Git for AI Agents",
-          "points": 124,
-          "url": "https://github.com/regent-vcs/re_gent"
-        },
-        {
-          "title": "Show HN: Agent-desktop – Native desktop automation CLI for AI agents",
-          "points": 99,
-          "url": "https://github.com/lahfir/agent-desktop"
         }
       ],
       "highlight_score": 50
@@ -1643,23 +2453,23 @@
         },
         {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
-          "points": 525,
+          "points": 526,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
           "title": "Uber torches 2026 AI budget on Claude Code in four months",
-          "points": 401,
+          "points": 402,
           "url": "https://www.briefs.co/news/uber-torches-entire-2026-ai-budget-on-claude-code-in-four-months/"
         },
         {
-          "title": "Wiki Builder: Skill to Build LLM Knowledge Bases",
-          "points": 134,
-          "url": "https://academy.dair.ai/blog/wiki-builder-claude-code-plugin"
+          "title": "Kimi K2.6 just beat Claude, GPT-5.5, and Gemini in a coding challenge",
+          "points": 380,
+          "url": "https://thinkpol.ca/2026/04/30/an-open-weights-chinese-model-just-beat-claude-gpt-5-5-and-gemini-in-a-programming-challenge/"
         },
         {
-          "title": "Show HN: Git for AI Agents",
-          "points": 124,
-          "url": "https://github.com/regent-vcs/re_gent"
+          "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
+          "points": 231,
+          "url": "https://news.ycombinator.com/item?id=48128003"
         }
       ],
       "highlight_score": 55
@@ -1906,18 +2716,18 @@
         },
         {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
-          "points": 525,
+          "points": 526,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
           "title": "Uber torches 2026 AI budget on Claude Code in four months",
-          "points": 401,
+          "points": 402,
           "url": "https://www.briefs.co/news/uber-torches-entire-2026-ai-budget-on-claude-code-in-four-months/"
         },
         {
-          "title": "Wiki Builder: Skill to Build LLM Knowledge Bases",
-          "points": 134,
-          "url": "https://academy.dair.ai/blog/wiki-builder-claude-code-plugin"
+          "title": "Kimi K2.6 just beat Claude, GPT-5.5, and Gemini in a coding challenge",
+          "points": 380,
+          "url": "https://thinkpol.ca/2026/04/30/an-open-weights-chinese-model-just-beat-claude-gpt-5-5-and-gemini-in-a-programming-challenge/"
         }
       ],
       "highlight_score": 50
@@ -2305,12 +3115,12 @@
         },
         {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
-          "points": 525,
+          "points": 526,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
           "title": "Uber torches 2026 AI budget on Claude Code in four months",
-          "points": 401,
+          "points": 402,
           "url": "https://www.briefs.co/news/uber-torches-entire-2026-ai-budget-on-claude-code-in-four-months/"
         }
       ],
@@ -2367,12 +3177,12 @@
         },
         {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
-          "points": 525,
+          "points": 526,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
           "title": "Uber torches 2026 AI budget on Claude Code in four months",
-          "points": 401,
+          "points": 402,
           "url": "https://www.briefs.co/news/uber-torches-entire-2026-ai-budget-on-claude-code-in-four-months/"
         }
       ],
@@ -2755,7 +3565,7 @@
         },
         {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
-          "points": 525,
+          "points": 526,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         }
       ],
@@ -3236,7 +4046,7 @@
         },
         {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
-          "points": 525,
+          "points": 526,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         }
       ],
@@ -34899,9 +35709,9 @@
           "url": "https://github.com/anthropics/claude-code/issues/8036"
         },
         {
-          "title": "Show HN: Erdos – open-source, AI data science IDE",
-          "points": 86,
-          "url": "https://www.lotas.ai/erdos"
+          "title": "Show HN: Git for LLMs – A context management interface",
+          "points": 106,
+          "url": "https://twigg.ai"
         }
       ],
       "highlight_score": 55
@@ -35150,9 +35960,9 @@
           "url": "https://ben.page/claude-code-web"
         },
         {
-          "title": "Show HN: Erdos – open-source, AI data science IDE",
-          "points": 86,
-          "url": "https://www.lotas.ai/erdos"
+          "title": "Show HN: Git for LLMs – A context management interface",
+          "points": 106,
+          "url": "https://twigg.ai"
         }
       ],
       "highlight_score": 50
@@ -35288,9 +36098,9 @@
           "url": "https://www.aiengineering.report/p/claude-code-vs-codex-sentiment-analysis-reddit"
         },
         {
-          "title": "Show HN: Erdos – open-source, AI data science IDE",
-          "points": 86,
-          "url": "https://www.lotas.ai/erdos"
+          "title": "Show HN: Git for LLMs – A context management interface",
+          "points": 106,
+          "url": "https://twigg.ai"
         }
       ],
       "highlight_score": 50
@@ -35376,9 +36186,9 @@
           "url": "https://www.aiengineering.report/p/claude-code-vs-codex-sentiment-analysis-reddit"
         },
         {
-          "title": "Show HN: Inkeep (YC W23) – Agent Builder to create agents in code or visually",
-          "points": 79,
-          "url": "https://github.com/inkeep/agents"
+          "title": "Show HN: Git for LLMs – A context management interface",
+          "points": 106,
+          "url": "https://twigg.ai"
         }
       ],
       "highlight_score": 50
@@ -35478,9 +36288,9 @@
           "url": "https://www.aiengineering.report/p/claude-code-vs-codex-sentiment-analysis-reddit"
         },
         {
-          "title": "Show HN: Inkeep (YC W23) – Agent Builder to create agents in code or visually",
-          "points": 79,
-          "url": "https://github.com/inkeep/agents"
+          "title": "Show HN: Git for LLMs – A context management interface",
+          "points": 106,
+          "url": "https://twigg.ai"
         }
       ],
       "highlight_score": 50
@@ -35527,9 +36337,9 @@
           "url": "https://www.aiengineering.report/p/claude-code-vs-codex-sentiment-analysis-reddit"
         },
         {
-          "title": "Show HN: Inkeep (YC W23) – Agent Builder to create agents in code or visually",
-          "points": 79,
-          "url": "https://github.com/inkeep/agents"
+          "title": "Show HN: Git for LLMs – A context management interface",
+          "points": 106,
+          "url": "https://twigg.ai"
         }
       ],
       "highlight_score": 50
@@ -47492,9 +48302,9 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 365,
-      "release_count": 146,
-      "avg_importance": 3.12,
+      "change_count": 371,
+      "release_count": 147,
+      "avg_importance": 3.11,
       "maturity": {
         "score": 92,
         "level": "成熟"
@@ -47504,14 +48314,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-05-12",
-        "version": "2.1.140"
+        "date": "2026-05-13",
+        "version": "2.1.141"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 203
+          "change_count": 209
         },
         {
           "epoch_id": "epoch4",
@@ -47587,8 +48397,8 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 791,
-      "release_count": 183,
+      "change_count": 801,
+      "release_count": 184,
       "avg_importance": 3.22,
       "maturity": {
         "score": 93,
@@ -47599,14 +48409,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-05-12",
-        "version": "2.1.140"
+        "date": "2026-05-13",
+        "version": "2.1.141"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 490
+          "change_count": 500
         },
         {
           "epoch_id": "epoch1",
@@ -47682,9 +48492,9 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 537,
-      "release_count": 140,
-      "avg_importance": 3.21,
+      "change_count": 546,
+      "release_count": 141,
+      "avg_importance": 3.19,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -47694,14 +48504,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-05-12",
-        "version": "2.1.140"
+        "date": "2026-05-13",
+        "version": "2.1.141"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 373
+          "change_count": 382
         },
         {
           "epoch_id": "epoch1",
@@ -47777,9 +48587,9 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 610,
-      "release_count": 191,
-      "avg_importance": 3.27,
+      "change_count": 630,
+      "release_count": 192,
+      "avg_importance": 3.26,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -47789,14 +48599,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-12",
-        "version": "2.1.140"
+        "date": "2026-05-13",
+        "version": "2.1.141"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 348
+          "change_count": 368
         },
         {
           "epoch_id": "epoch1",
@@ -47872,9 +48682,9 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 291,
-      "release_count": 113,
-      "avg_importance": 3.31,
+      "change_count": 296,
+      "release_count": 114,
+      "avg_importance": 3.32,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -47884,14 +48694,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-12",
-        "version": "2.1.140"
+        "date": "2026-05-13",
+        "version": "2.1.141"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 200
+          "change_count": 205
         },
         {
           "epoch_id": "epoch1",
@@ -47916,6 +48726,14 @@
       ],
       "samples": [
         {
+          "date": "2026-05-13",
+          "version": "2.1.141",
+          "raw": "Fixed Remote Control MCP connectors all failing with 401 when the worker session token rotated mid-session",
+          "summary": "修复远程控制令牌轮换401",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-05-11",
           "version": "2.1.139",
           "raw": "Added `/goal` command: set a completion condition and Claude keeps working across turns until it's met. Works in interactive, `-p`, and Remote Control. Shows live elapsed/turns/tokens as an overlay panel",
@@ -47938,14 +48756,6 @@
           "summary": "新增云端超强审查",
           "importance": 5,
           "category": "feat"
-        },
-        {
-          "date": "2026-03-16",
-          "version": "2.1.77",
-          "raw": "Fixed a race condition where stale-worktree cleanup could delete an agent worktree just resumed from a previous crash",
-          "summary": "修复工作树清理误删",
-          "importance": 5,
-          "category": "fix"
         }
       ]
     },
@@ -47967,9 +48777,9 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 977,
-      "release_count": 219,
-      "avg_importance": 3.14,
+      "change_count": 999,
+      "release_count": 220,
+      "avg_importance": 3.13,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -47979,14 +48789,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-05-12",
-        "version": "2.1.140"
+        "date": "2026-05-13",
+        "version": "2.1.141"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 611
+          "change_count": 633
         },
         {
           "epoch_id": "epoch1",
@@ -48011,6 +48821,14 @@
       ],
       "samples": [
         {
+          "date": "2026-05-13",
+          "version": "2.1.141",
+          "raw": "Fixed Remote Control MCP connectors all failing with 401 when the worker session token rotated mid-session",
+          "summary": "修复远程控制令牌轮换401",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-05-11",
           "version": "2.1.139",
           "raw": "Fixed unbounded memory growth when an HTTP/SSE MCP server streams non-protocol data — response bodies now capped at 16 MB per SSE frame",
@@ -48031,14 +48849,6 @@
           "version": "2.1.136",
           "raw": "Fixed MCP OAuth refresh tokens being lost when multiple servers refresh concurrently — users with several remote MCP servers should no longer need daily re-authentication",
           "summary": "并发刷新保留MCP令牌",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-05-07",
-          "version": "2.1.133",
-          "raw": "Fixed parallel sessions all dead-ending at 401 after a refresh-token race wiped shared credentials",
-          "summary": "修复刷新令牌竞态致会话失效",
           "importance": 5,
           "category": "fix"
         }
@@ -48062,8 +48872,8 @@
         "Emacs",
         "web"
       ],
-      "change_count": 628,
-      "release_count": 162,
+      "change_count": 649,
+      "release_count": 163,
       "avg_importance": 2.67,
       "maturity": {
         "score": 91,
@@ -48074,14 +48884,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-12",
-        "version": "2.1.140"
+        "date": "2026-05-13",
+        "version": "2.1.141"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 419
+          "change_count": 440
         },
         {
           "epoch_id": "epoch4",
@@ -48106,6 +48916,14 @@
       ],
       "samples": [
         {
+          "date": "2026-05-13",
+          "version": "2.1.141",
+          "raw": "Fixed Remote Control MCP connectors all failing with 401 when the worker session token rotated mid-session",
+          "summary": "修复远程控制令牌轮换401",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-05-11",
           "version": "2.1.139",
           "raw": "Added `/goal` command: set a completion condition and Claude keeps working across turns until it's met. Works in interactive, `-p`, and Remote Control. Shows live elapsed/turns/tokens as an overlay panel",
@@ -48126,14 +48944,6 @@
           "version": "2.1.132",
           "raw": "Fixed external SIGINT (e.g. IDE stop button, `kill -INT`) not running graceful shutdown — terminal modes are now restored and the `--resume` hint is printed instead of an abrupt exit",
           "summary": "外部中断也能优雅退出",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-04-27",
-          "version": "2.1.121",
-          "raw": "Fixed unbounded memory growth (multi-GB RSS) when processing many images in a session",
-          "summary": "修复多图处理内存暴涨",
           "importance": 5,
           "category": "fix"
         }
@@ -48157,9 +48967,9 @@
         "policy",
         "auditing"
       ],
-      "change_count": 625,
-      "release_count": 189,
-      "avg_importance": 3.39,
+      "change_count": 638,
+      "release_count": 190,
+      "avg_importance": 3.38,
       "maturity": {
         "score": 94,
         "level": "成熟"
@@ -48169,14 +48979,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-12",
-        "version": "2.1.140"
+        "date": "2026-05-13",
+        "version": "2.1.141"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 389
+          "change_count": 402
         },
         {
           "epoch_id": "epoch4",
@@ -48201,6 +49011,14 @@
       ],
       "samples": [
         {
+          "date": "2026-05-13",
+          "version": "2.1.141",
+          "raw": "Fixed Remote Control MCP connectors all failing with 401 when the worker session token rotated mid-session",
+          "summary": "修复远程控制令牌轮换401",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-05-11",
           "version": "2.1.139",
           "raw": "Fixed a deadlock where expired credentials and the `forceRemoteSettingsRefresh` policy setting blocked `claude auth login`/`logout`/`status` with no way to recover",
@@ -48221,14 +49039,6 @@
           "version": "2.1.136",
           "raw": "Fixed a rare login loop where a concurrent credential write could overwrite a freshly-rotated OAuth token and force re-login",
           "summary": "修复OAuth登录死循环",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-05-08",
-          "version": "2.1.136",
-          "raw": "Fixed MCP OAuth refresh tokens being lost when multiple servers refresh concurrently — users with several remote MCP servers should no longer need daily re-authentication",
-          "summary": "并发刷新保留MCP令牌",
           "importance": 5,
           "category": "fix"
         }
