@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-05-14T04:41:24.767Z",
+    "generated_at": "2026-05-15T04:46:32.990Z",
     "agent_model": "openai/gpt-5.4-mini",
-    "total_versions": 288,
+    "total_versions": 289,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-05-13"
+      "end": "2026-05-14"
     },
     "highlight_count": 36,
     "capability_count": 8,
@@ -70,11 +70,352 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。与此同时，Opus 4.6 把「思考」变成了可选项，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Meanwhile, Opus 4.6 makes reasoning optional rather than visible, while worktree isolation and a 1M context push the agent toward running for hours, unattended.",
-      "release_count": 72,
+      "release_count": 73,
       "highlight_count": 15
     }
   ],
   "releases": [
+    {
+      "version": "2.1.142",
+      "date": "2026-05-14",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added new `claude agents` flags: `--add-dir`, `--settings`, `--mcp-config`, `--plugin-dir`, `--permission-mode`, `--model`, `--effort`, and `--dangerously-skip-permissions` to configure dispatched background sessions",
+          "category": "feat",
+          "importance": 4,
+          "summary": "新增后台会话配置参数",
+          "summary_en": "New flags to configure background sessions",
+          "why_matters": "让分派到后台的会话更灵活，便于按场景定制运行环境和权限。",
+          "why_matters_en": "This makes dispatched background sessions much more configurable for different workflows and permission needs.",
+          "capability_ids": [
+            "automation_autonomy",
+            "execution_workspace",
+            "governance_security",
+            "integrations_ecosystem",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fast mode now uses Opus 4.7 by default (previously Opus 4.6). Set `CLAUDE_CODE_OPUS_4_6_FAST_MODE_OVERRIDE=1` to pin fast mode to Opus 4.6",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "Fast模式默认升级到Opus 4.7",
+          "summary_en": "Fast mode now defaults to Opus 4.7",
+          "why_matters": "默认模型升级可带来更好的输出质量和整体使用体验。",
+          "why_matters_en": "The default model upgrade can improve output quality and overall experience.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Plugins with a root-level `SKILL.md` and no `skills/` subdirectory are now surfaced as a skill",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "插件可直接识别根目录技能",
+          "summary_en": "Plugins can now surface root-level skills",
+          "why_matters": "减少插件结构限制，让技能更容易被发现和使用。",
+          "why_matters_en": "This reduces plugin structure friction and makes skills easier to discover and use.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "The `/plugin` details pane and `claude plugin details` now show LSP servers a plugin provides",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "插件详情显示LSP服务",
+          "summary_en": "Plugin details now show provided LSP servers",
+          "why_matters": "帮助用户更清楚了解插件能力，便于选择和排查集成问题。",
+          "why_matters_en": "This helps users understand plugin capabilities and troubleshoot integrations more easily.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "`/web-setup` warns before replacing an existing GitHub App connection",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "Web设置会先提示接管连接",
+          "summary_en": "Web setup warns before replacing GitHub App",
+          "why_matters": "避免误覆盖现有连接，降低配置失误风险。",
+          "why_matters_en": "This prevents accidental overwrites of existing connections and reduces setup mistakes.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `MCP_TOOL_TIMEOUT` not raising the per-request fetch timeout for remote HTTP and SSE MCP servers, which capped tool calls at 60 seconds regardless of the configured value",
+          "category": "fix",
+          "importance": 4,
+          "summary": "远程MCP请求超时修复",
+          "summary_en": "MCP request timeout now applies correctly",
+          "why_matters": "修复后远程工具调用可真正按配置等待更久，避免大任务被错误超时中断。",
+          "why_matters_en": "This lets remote tool calls honor the configured timeout instead of failing too early on long requests.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed background sessions not recognizing pre-existing git worktrees, blocking Edit while EnterWorktree refused to create a duplicate",
+          "category": "fix",
+          "importance": 4,
+          "summary": "后台会话识别已有worktree",
+          "summary_en": "Background sessions now recognize existing worktrees",
+          "why_matters": "避免重复创建工作树，恢复 Edit 和工作区切换的正常流程。",
+          "why_matters_en": "This prevents duplicate worktree creation and restores normal Edit/workspace switching flow.",
+          "capability_ids": [
+            "execution_workspace",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed background sessions disappearing and daemon reconnect failing after macOS sleep/wake — the daemon now detects clock jumps instead of treating them as elapsed idle time",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复睡眠唤醒后后台会话丢失",
+          "summary_en": "Background sessions survive macOS sleep/wake",
+          "why_matters": "电脑休眠后连接更稳定，不会因时钟跳变导致守护进程误判并断连。",
+          "why_matters_en": "Connections stay stable after sleep, avoiding disconnects caused by clock-jump misdetection.",
+          "capability_ids": [
+            "automation_autonomy",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed daemon not exiting cleanly after the binary is upgraded (e.g. `brew upgrade`), causing dispatched agents to crash-loop on the deleted path",
+          "category": "fix",
+          "importance": 4,
+          "summary": "升级后daemon可正常退出",
+          "summary_en": "Daemon now exits cleanly after upgrade",
+          "why_matters": "避免升级后代理反复崩溃，提升后台任务的可靠性。",
+          "why_matters_en": "This prevents crash loops after upgrades and improves reliability of background agents.",
+          "capability_ids": [
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed background agents crash-looping when the Claude-in-Chrome extension is connected without a shared tab",
+          "category": "fix",
+          "importance": 5,
+          "summary": "修复Chrome扩展导致崩溃",
+          "summary_en": "Background agents no longer crash with Chrome extension",
+          "why_matters": "解决后台代理在特定连接场景下的崩溃问题，保障核心自动化可用。",
+          "why_matters_en": "This fixes a crash in a common connected workflow and preserves core automation availability.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed clicking links in an attached `claude agents` session — the background worker's headless browser shim no longer applies while attached",
+          "category": "fix",
+          "importance": 3,
+          "summary": "附加会话点击链接可用",
+          "summary_en": "Links now work in attached background sessions",
+          "why_matters": "附加查看后台会话时，链接交互恢复正常，减少操作中断。",
+          "why_matters_en": "Link interaction works again while attached to a background session, reducing workflow friction.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed `claude agents` \"v to open in editor\" using the daemon's default editor instead of your shell's `$EDITOR`/`$VISUAL`",
+          "category": "fix",
+          "importance": 2,
+          "summary": "v键打开编辑器用当前环境",
+          "summary_en": "Open-in-editor now respects shell editor vars",
+          "why_matters": "“v”快捷操作会使用用户期望的编辑器设置，更符合本地习惯。",
+          "why_matters_en": "The 'v' shortcut now uses the editor the user actually configured, matching local preference.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed `claude agents` deadlocking on Windows with network-drive working directories; Ctrl+C now works during startup",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复Windows网络盘死锁",
+          "summary_en": "Windows startup deadlock on network drives fixed",
+          "why_matters": "提升 Windows 在网络盘工作目录下的可启动性，并让 Ctrl+C 中断生效。",
+          "why_matters_en": "This improves startup reliability on Windows network-drive workdirs and restores Ctrl+C interruption.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed background-color bleed when attaching to a `claude agents` session from Apple Terminal or other 256-color-only terminals",
+          "category": "fix",
+          "importance": 1,
+          "summary": "修复256色终端背景色异常",
+          "summary_en": "Fixed background color bleed in 256-color terminals",
+          "why_matters": "让旧式终端中的显示效果更正常，减少视觉干扰。",
+          "why_matters_en": "This improves visual correctness in 256-color terminals and reduces display glitches.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `claude --bg --dangerously-skip-permissions` not persisting across retire/wake",
+          "category": "fix",
+          "importance": 3,
+          "summary": "bg跳转后权限标志保留",
+          "summary_en": "Permissions flag now persists across retire/wake",
+          "why_matters": "后台会话在休眠/唤醒后仍保持原有权限设置，避免行为不一致。",
+          "why_matters_en": "Background sessions now keep their permission state across retire/wake, avoiding inconsistent behavior.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed session titles being derived from the URL when the first message is a link",
+          "category": "fix",
+          "importance": 2,
+          "summary": "首条链接不再误生成标题",
+          "summary_en": "Stop deriving session titles from first link",
+          "why_matters": "避免会话标题被首条网址误污染，提升记录可读性。",
+          "why_matters_en": "Prevents session titles from being polluted by a first-message URL, improving transcript readability.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed redundant `set_model` requests from remote clients injecting duplicate `/model` breadcrumbs into the transcript",
+          "category": "fix",
+          "importance": 2,
+          "summary": "避免远端重复写入模型面包屑",
+          "summary_en": "Avoid duplicate /model breadcrumbs",
+          "why_matters": "减少远端客户端的重复请求和转录冗余，保持会话更干净。",
+          "why_matters_en": "Reduces duplicate requests and transcript noise from remote clients, keeping sessions cleaner.",
+          "capability_ids": [
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed plugins using `skills: [\"./\"]` showing a false \"path escapes plugin directory\" error",
+          "category": "fix",
+          "importance": 2,
+          "summary": "允许插件使用当前目录技能",
+          "summary_en": "Allow plugins to use ./ skills paths",
+          "why_matters": "修复误报后，插件配置更顺畅，不会阻止合法路径使用。",
+          "why_matters_en": "Fixes a false error so valid plugin configurations work as expected.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed plugin cache cleanup deleting the active plugin version directory when no installation metadata is present",
+          "category": "fix",
+          "importance": 3,
+          "summary": "清理插件缓存不误删活动版本",
+          "summary_en": "Cache cleanup won't delete active plugin",
+          "why_matters": "避免缓存清理破坏正在使用的插件版本，降低插件故障风险。",
+          "why_matters_en": "Prevents cache cleanup from breaking the active plugin version, reducing plugin failure risk.",
+          "capability_ids": [
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed `/plugin` browse pane showing \"0 installs\" for newly published plugins",
+          "category": "fix",
+          "importance": 1,
+          "summary": "新插件安装数显示正确",
+          "summary_en": "Show correct install count for new plugins",
+          "why_matters": "让插件浏览信息更准确，但主要影响展示而非功能。",
+          "why_matters_en": "Makes plugin browsing info accurate, though it mainly affects display rather than functionality.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed plugin advisories not naming every `plugin.json` key that shadows a default folder",
+          "category": "fix",
+          "importance": 2,
+          "summary": "插件告警列出全部冲突键",
+          "summary_en": "Advisories list all shadowing keys",
+          "why_matters": "帮助开发者一次看清配置冲突点，减少排错时间。",
+          "why_matters_en": "Helps developers see all config conflicts at once, reducing debugging time.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Improved reactive compaction: the first summarize attempt now seeds from the original request's overflow size, avoiding a wasted near-full-context retry",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "压缩重试更高效少走弯路",
+          "summary_en": "Reactive compaction retries more efficiently",
+          "why_matters": "首次总结更贴近实际溢出量，减少一次无效重试，节省上下文预算。",
+          "why_matters_en": "The first summarize attempt now better matches overflow size, avoiding a wasted retry and saving context budget.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Improved hook configuration error: configuring a prompt- or agent-type hook for `SessionStart`/`Setup`/`SubagentStart` now shows a clear \"use a command-type hook instead\" error",
+          "category": "fix",
+          "importance": 2,
+          "summary": "钩子类型错误提示更明确",
+          "summary_en": "Clearer hook type error message",
+          "why_matters": "让错误原因和正确用法更直观，减少配置钩子时的困惑。",
+          "why_matters_en": "Makes the error cause and correct fix clearer, reducing confusion when configuring hooks.",
+          "capability_ids": [
+            "automation_autonomy",
+            "governance_security",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Removed stale `/model claude-sonnet-4-20250514` suggestion from Usage Policy refusal messages",
+          "category": "fix",
+          "importance": 1,
+          "summary": "移除过时模型建议",
+          "summary_en": "Remove stale model suggestion",
+          "why_matters": "避免拒绝提示里出现过时建议，减少误导。",
+          "why_matters_en": "Prevents outdated suggestions from appearing in refusal messages, reducing confusion.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Using Claude Code: The unreasonable effectiveness of HTML",
+          "points": 527,
+          "url": "https://twitter.com/trq212/status/2052809885763747935"
+        },
+        {
+          "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
+          "points": 288,
+          "url": "https://news.ycombinator.com/item?id=48128003"
+        },
+        {
+          "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
+          "points": 226,
+          "url": "https://github.com/DrCatHicks/learning-opportunities"
+        },
+        {
+          "title": "Show HN: Git for AI Agents",
+          "points": 126,
+          "url": "https://github.com/regent-vcs/re_gent"
+        },
+        {
+          "title": "Show HN: Statewright – Visual state machines that make AI agents reliable",
+          "points": 122,
+          "url": "https://github.com/statewright/statewright"
+        }
+      ],
+      "highlight_score": 50
+    },
     {
       "version": "2.1.141",
       "date": "2026-05-13",
@@ -859,28 +1200,28 @@
       "signals": [
         {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
-          "points": 526,
+          "points": 527,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 231,
+          "points": 288,
           "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
+          "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
+          "points": 226,
+          "url": "https://github.com/DrCatHicks/learning-opportunities"
+        },
+        {
           "title": "Show HN: Git for AI Agents",
-          "points": 125,
+          "points": 126,
           "url": "https://github.com/regent-vcs/re_gent"
         },
         {
           "title": "Show HN: Statewright – Visual state machines that make AI agents reliable",
-          "points": 112,
+          "points": 122,
           "url": "https://github.com/statewright/statewright"
-        },
-        {
-          "title": "Show HN: adamsreview – better multi-agent PR reviews for Claude Code",
-          "points": 84,
-          "url": "https://github.com/adamjgmiller/adamsreview"
         }
       ],
       "highlight_score": 50
@@ -1060,28 +1401,28 @@
       "signals": [
         {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
-          "points": 526,
+          "points": 527,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 231,
+          "points": 288,
           "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
+          "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
+          "points": 226,
+          "url": "https://github.com/DrCatHicks/learning-opportunities"
+        },
+        {
           "title": "Show HN: Git for AI Agents",
-          "points": 125,
+          "points": 126,
           "url": "https://github.com/regent-vcs/re_gent"
         },
         {
           "title": "Show HN: Statewright – Visual state machines that make AI agents reliable",
-          "points": 112,
+          "points": 122,
           "url": "https://github.com/statewright/statewright"
-        },
-        {
-          "title": "Show HN: adamsreview – better multi-agent PR reviews for Claude Code",
-          "points": 84,
-          "url": "https://github.com/adamjgmiller/adamsreview"
         }
       ],
       "highlight_score": 50
@@ -1709,28 +2050,28 @@
       "signals": [
         {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
-          "points": 526,
+          "points": 527,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 231,
+          "points": 288,
           "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
+          "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
+          "points": 226,
+          "url": "https://github.com/DrCatHicks/learning-opportunities"
+        },
+        {
           "title": "Show HN: Git for AI Agents",
-          "points": 125,
+          "points": 126,
           "url": "https://github.com/regent-vcs/re_gent"
         },
         {
           "title": "Show HN: Statewright – Visual state machines that make AI agents reliable",
-          "points": 112,
+          "points": 122,
           "url": "https://github.com/statewright/statewright"
-        },
-        {
-          "title": "Show HN: adamsreview – better multi-agent PR reviews for Claude Code",
-          "points": 84,
-          "url": "https://github.com/adamjgmiller/adamsreview"
         }
       ],
       "highlight_score": 50
@@ -1755,23 +2096,23 @@
       "signals": [
         {
           "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-          "points": 676,
+          "points": 677,
           "url": "https://github.com/aattaran/deepclaude"
         },
         {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
-          "points": 526,
+          "points": 527,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
-          "title": "Kimi K2.6 just beat Claude, GPT-5.5, and Gemini in a coding challenge",
-          "points": 380,
-          "url": "https://thinkpol.ca/2026/04/30/an-open-weights-chinese-model-just-beat-claude-gpt-5-5-and-gemini-in-a-programming-challenge/"
+          "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
+          "points": 288,
+          "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
-          "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 231,
-          "url": "https://news.ycombinator.com/item?id=48128003"
+          "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
+          "points": 226,
+          "url": "https://github.com/DrCatHicks/learning-opportunities"
         },
         {
           "title": "Wiki Builder: Skill to Build LLM Knowledge Bases",
@@ -1803,23 +2144,23 @@
       "signals": [
         {
           "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-          "points": 676,
+          "points": 677,
           "url": "https://github.com/aattaran/deepclaude"
         },
         {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
-          "points": 526,
+          "points": 527,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
-          "title": "Kimi K2.6 just beat Claude, GPT-5.5, and Gemini in a coding challenge",
-          "points": 380,
-          "url": "https://thinkpol.ca/2026/04/30/an-open-weights-chinese-model-just-beat-claude-gpt-5-5-and-gemini-in-a-programming-challenge/"
+          "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
+          "points": 288,
+          "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
-          "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 231,
-          "url": "https://news.ycombinator.com/item?id=48128003"
+          "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
+          "points": 226,
+          "url": "https://github.com/DrCatHicks/learning-opportunities"
         },
         {
           "title": "Wiki Builder: Skill to Build LLM Knowledge Bases",
@@ -2448,12 +2789,12 @@
       "signals": [
         {
           "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-          "points": 676,
+          "points": 677,
           "url": "https://github.com/aattaran/deepclaude"
         },
         {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
-          "points": 526,
+          "points": 527,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
@@ -2462,14 +2803,14 @@
           "url": "https://www.briefs.co/news/uber-torches-entire-2026-ai-budget-on-claude-code-in-four-months/"
         },
         {
-          "title": "Kimi K2.6 just beat Claude, GPT-5.5, and Gemini in a coding challenge",
-          "points": 380,
-          "url": "https://thinkpol.ca/2026/04/30/an-open-weights-chinese-model-just-beat-claude-gpt-5-5-and-gemini-in-a-programming-challenge/"
+          "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
+          "points": 288,
+          "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
-          "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 231,
-          "url": "https://news.ycombinator.com/item?id=48128003"
+          "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
+          "points": 226,
+          "url": "https://github.com/DrCatHicks/learning-opportunities"
         }
       ],
       "highlight_score": 55
@@ -2706,17 +3047,17 @@
       "signals": [
         {
           "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
-          "points": 1348,
+          "points": 1349,
           "url": "https://twitter.com/theo/status/2049645973350363168"
         },
         {
           "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-          "points": 676,
+          "points": 677,
           "url": "https://github.com/aattaran/deepclaude"
         },
         {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
-          "points": 526,
+          "points": 527,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
@@ -2725,9 +3066,9 @@
           "url": "https://www.briefs.co/news/uber-torches-entire-2026-ai-budget-on-claude-code-in-four-months/"
         },
         {
-          "title": "Kimi K2.6 just beat Claude, GPT-5.5, and Gemini in a coding challenge",
-          "points": 380,
-          "url": "https://thinkpol.ca/2026/04/30/an-open-weights-chinese-model-just-beat-claude-gpt-5-5-and-gemini-in-a-programming-challenge/"
+          "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
+          "points": 288,
+          "url": "https://news.ycombinator.com/item?id=48128003"
         }
       ],
       "highlight_score": 50
@@ -3100,7 +3441,7 @@
       "signals": [
         {
           "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
-          "points": 1348,
+          "points": 1349,
           "url": "https://twitter.com/theo/status/2049645973350363168"
         },
         {
@@ -3110,12 +3451,12 @@
         },
         {
           "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-          "points": 676,
+          "points": 677,
           "url": "https://github.com/aattaran/deepclaude"
         },
         {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
-          "points": 526,
+          "points": 527,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
@@ -3162,7 +3503,7 @@
       "signals": [
         {
           "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
-          "points": 1348,
+          "points": 1349,
           "url": "https://twitter.com/theo/status/2049645973350363168"
         },
         {
@@ -3172,12 +3513,12 @@
         },
         {
           "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-          "points": 676,
+          "points": 677,
           "url": "https://github.com/aattaran/deepclaude"
         },
         {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
-          "points": 526,
+          "points": 527,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
@@ -3545,7 +3886,7 @@
       "signals": [
         {
           "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
-          "points": 1348,
+          "points": 1349,
           "url": "https://twitter.com/theo/status/2049645973350363168"
         },
         {
@@ -3555,7 +3896,7 @@
         },
         {
           "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-          "points": 676,
+          "points": 677,
           "url": "https://github.com/aattaran/deepclaude"
         },
         {
@@ -3565,7 +3906,7 @@
         },
         {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
-          "points": 526,
+          "points": 527,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         }
       ],
@@ -4026,7 +4367,7 @@
       "signals": [
         {
           "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
-          "points": 1348,
+          "points": 1349,
           "url": "https://twitter.com/theo/status/2049645973350363168"
         },
         {
@@ -4036,7 +4377,7 @@
         },
         {
           "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-          "points": 676,
+          "points": 677,
           "url": "https://github.com/aattaran/deepclaude"
         },
         {
@@ -4046,7 +4387,7 @@
         },
         {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
-          "points": 526,
+          "points": 527,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         }
       ],
@@ -4472,7 +4813,7 @@
       "signals": [
         {
           "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
-          "points": 1348,
+          "points": 1349,
           "url": "https://twitter.com/theo/status/2049645973350363168"
         },
         {
@@ -4487,7 +4828,7 @@
         },
         {
           "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-          "points": 676,
+          "points": 677,
           "url": "https://github.com/aattaran/deepclaude"
         },
         {
@@ -4521,7 +4862,7 @@
       "signals": [
         {
           "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
-          "points": 1348,
+          "points": 1349,
           "url": "https://twitter.com/theo/status/2049645973350363168"
         },
         {
@@ -4536,7 +4877,7 @@
         },
         {
           "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-          "points": 676,
+          "points": 677,
           "url": "https://github.com/aattaran/deepclaude"
         },
         {
@@ -4791,7 +5132,7 @@
       "signals": [
         {
           "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
-          "points": 1348,
+          "points": 1349,
           "url": "https://twitter.com/theo/status/2049645973350363168"
         },
         {
@@ -4811,7 +5152,7 @@
         },
         {
           "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-          "points": 676,
+          "points": 677,
           "url": "https://github.com/aattaran/deepclaude"
         }
       ],
@@ -5336,7 +5677,7 @@
       "signals": [
         {
           "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
-          "points": 1348,
+          "points": 1349,
           "url": "https://twitter.com/theo/status/2049645973350363168"
         },
         {
@@ -5356,7 +5697,7 @@
         },
         {
           "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro",
-          "points": 676,
+          "points": 677,
           "url": "https://github.com/aattaran/deepclaude"
         }
       ],
@@ -5638,7 +5979,7 @@
       "signals": [
         {
           "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
-          "points": 1348,
+          "points": 1349,
           "url": "https://twitter.com/theo/status/2049645973350363168"
         },
         {
@@ -6332,7 +6673,7 @@
       "signals": [
         {
           "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
-          "points": 1348,
+          "points": 1349,
           "url": "https://twitter.com/theo/status/2049645973350363168"
         },
         {
@@ -35709,9 +36050,9 @@
           "url": "https://github.com/anthropics/claude-code/issues/8036"
         },
         {
-          "title": "Show HN: Git for LLMs – A context management interface",
-          "points": 106,
-          "url": "https://twigg.ai"
+          "title": "Show HN: Erdos – open-source, AI data science IDE",
+          "points": 86,
+          "url": "https://www.lotas.ai/erdos"
         }
       ],
       "highlight_score": 55
@@ -35960,9 +36301,9 @@
           "url": "https://ben.page/claude-code-web"
         },
         {
-          "title": "Show HN: Git for LLMs – A context management interface",
-          "points": 106,
-          "url": "https://twigg.ai"
+          "title": "Show HN: Erdos – open-source, AI data science IDE",
+          "points": 86,
+          "url": "https://www.lotas.ai/erdos"
         }
       ],
       "highlight_score": 50
@@ -36098,9 +36439,9 @@
           "url": "https://www.aiengineering.report/p/claude-code-vs-codex-sentiment-analysis-reddit"
         },
         {
-          "title": "Show HN: Git for LLMs – A context management interface",
-          "points": 106,
-          "url": "https://twigg.ai"
+          "title": "Show HN: Erdos – open-source, AI data science IDE",
+          "points": 86,
+          "url": "https://www.lotas.ai/erdos"
         }
       ],
       "highlight_score": 50
@@ -36186,9 +36527,9 @@
           "url": "https://www.aiengineering.report/p/claude-code-vs-codex-sentiment-analysis-reddit"
         },
         {
-          "title": "Show HN: Git for LLMs – A context management interface",
-          "points": 106,
-          "url": "https://twigg.ai"
+          "title": "Show HN: Inkeep (YC W23) – Agent Builder to create agents in code or visually",
+          "points": 79,
+          "url": "https://github.com/inkeep/agents"
         }
       ],
       "highlight_score": 50
@@ -36288,9 +36629,9 @@
           "url": "https://www.aiengineering.report/p/claude-code-vs-codex-sentiment-analysis-reddit"
         },
         {
-          "title": "Show HN: Git for LLMs – A context management interface",
-          "points": 106,
-          "url": "https://twigg.ai"
+          "title": "Show HN: Inkeep (YC W23) – Agent Builder to create agents in code or visually",
+          "points": 79,
+          "url": "https://github.com/inkeep/agents"
         }
       ],
       "highlight_score": 50
@@ -36337,9 +36678,9 @@
           "url": "https://www.aiengineering.report/p/claude-code-vs-codex-sentiment-analysis-reddit"
         },
         {
-          "title": "Show HN: Git for LLMs – A context management interface",
-          "points": 106,
-          "url": "https://twigg.ai"
+          "title": "Show HN: Inkeep (YC W23) – Agent Builder to create agents in code or visually",
+          "points": 79,
+          "url": "https://github.com/inkeep/agents"
         }
       ],
       "highlight_score": 50
@@ -48302,8 +48643,8 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 371,
-      "release_count": 147,
+      "change_count": 374,
+      "release_count": 148,
       "avg_importance": 3.11,
       "maturity": {
         "score": 92,
@@ -48314,14 +48655,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-05-13",
-        "version": "2.1.141"
+        "date": "2026-05-14",
+        "version": "2.1.142"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 209
+          "change_count": 212
         },
         {
           "epoch_id": "epoch4",
@@ -48397,8 +48738,8 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 801,
-      "release_count": 184,
+      "change_count": 807,
+      "release_count": 185,
       "avg_importance": 3.22,
       "maturity": {
         "score": 93,
@@ -48409,14 +48750,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-05-13",
-        "version": "2.1.141"
+        "date": "2026-05-14",
+        "version": "2.1.142"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 500
+          "change_count": 506
         },
         {
           "epoch_id": "epoch1",
@@ -48492,8 +48833,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 546,
-      "release_count": 141,
+      "change_count": 547,
+      "release_count": 142,
       "avg_importance": 3.19,
       "maturity": {
         "score": 93,
@@ -48504,14 +48845,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-05-13",
-        "version": "2.1.141"
+        "date": "2026-05-14",
+        "version": "2.1.142"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 382
+          "change_count": 383
         },
         {
           "epoch_id": "epoch1",
@@ -48587,9 +48928,9 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 630,
-      "release_count": 192,
-      "avg_importance": 3.26,
+      "change_count": 637,
+      "release_count": 193,
+      "avg_importance": 3.27,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -48599,14 +48940,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-13",
-        "version": "2.1.141"
+        "date": "2026-05-14",
+        "version": "2.1.142"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 368
+          "change_count": 375
         },
         {
           "epoch_id": "epoch1",
@@ -48631,6 +48972,14 @@
       ],
       "samples": [
         {
+          "date": "2026-05-14",
+          "version": "2.1.142",
+          "raw": "Fixed background agents crash-looping when the Claude-in-Chrome extension is connected without a shared tab",
+          "summary": "修复Chrome扩展导致崩溃",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-05-11",
           "version": "2.1.139",
           "raw": "Added `/goal` command: set a completion condition and Claude keeps working across turns until it's met. Works in interactive, `-p`, and Remote Control. Shows live elapsed/turns/tokens as an overlay panel",
@@ -48651,14 +49000,6 @@
           "version": "2.1.133",
           "raw": "Fixed Remote Control stop/interrupt from claude.ai not fully canceling the CLI session the same way local Esc does, causing queued messages to never advance after interrupting a stuck tool or prompt",
           "summary": "远控中断可彻底停止会话",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-05-06",
-          "version": "2.1.132",
-          "raw": "Fixed external SIGINT (e.g. IDE stop button, `kill -INT`) not running graceful shutdown — terminal modes are now restored and the `--resume` hint is printed instead of an abrupt exit",
-          "summary": "外部中断也能优雅退出",
           "importance": 5,
           "category": "fix"
         }
@@ -48682,9 +49023,9 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 296,
-      "release_count": 114,
-      "avg_importance": 3.32,
+      "change_count": 299,
+      "release_count": 115,
+      "avg_importance": 3.31,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -48694,14 +49035,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-13",
-        "version": "2.1.141"
+        "date": "2026-05-14",
+        "version": "2.1.142"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 205
+          "change_count": 208
         },
         {
           "epoch_id": "epoch1",
@@ -48777,8 +49118,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 999,
-      "release_count": 220,
+      "change_count": 1009,
+      "release_count": 221,
       "avg_importance": 3.13,
       "maturity": {
         "score": 93,
@@ -48789,14 +49130,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-05-13",
-        "version": "2.1.141"
+        "date": "2026-05-14",
+        "version": "2.1.142"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 633
+          "change_count": 643
         },
         {
           "epoch_id": "epoch1",
@@ -48821,6 +49162,14 @@
       ],
       "samples": [
         {
+          "date": "2026-05-14",
+          "version": "2.1.142",
+          "raw": "Fixed background agents crash-looping when the Claude-in-Chrome extension is connected without a shared tab",
+          "summary": "修复Chrome扩展导致崩溃",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-05-13",
           "version": "2.1.141",
           "raw": "Fixed Remote Control MCP connectors all failing with 401 when the worker session token rotated mid-session",
@@ -48841,14 +49190,6 @@
           "version": "2.1.136",
           "raw": "Fixed a rare login loop where a concurrent credential write could overwrite a freshly-rotated OAuth token and force re-login",
           "summary": "修复OAuth登录死循环",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-05-08",
-          "version": "2.1.136",
-          "raw": "Fixed MCP OAuth refresh tokens being lost when multiple servers refresh concurrently — users with several remote MCP servers should no longer need daily re-authentication",
-          "summary": "并发刷新保留MCP令牌",
           "importance": 5,
           "category": "fix"
         }
@@ -48872,9 +49213,9 @@
         "Emacs",
         "web"
       ],
-      "change_count": 649,
-      "release_count": 163,
-      "avg_importance": 2.67,
+      "change_count": 654,
+      "release_count": 164,
+      "avg_importance": 2.66,
       "maturity": {
         "score": 91,
         "level": "成熟"
@@ -48884,14 +49225,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-13",
-        "version": "2.1.141"
+        "date": "2026-05-14",
+        "version": "2.1.142"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 440
+          "change_count": 445
         },
         {
           "epoch_id": "epoch4",
@@ -48967,11 +49308,11 @@
         "policy",
         "auditing"
       ],
-      "change_count": 638,
-      "release_count": 190,
-      "avg_importance": 3.38,
+      "change_count": 645,
+      "release_count": 191,
+      "avg_importance": 3.37,
       "maturity": {
-        "score": 94,
+        "score": 93,
         "level": "成熟"
       },
       "first_seen": {
@@ -48979,14 +49320,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-13",
-        "version": "2.1.141"
+        "date": "2026-05-14",
+        "version": "2.1.142"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 402
+          "change_count": 409
         },
         {
           "epoch_id": "epoch4",
@@ -49073,7 +49414,7 @@
       },
       {
         "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
-        "points": 1348,
+        "points": 1349,
         "url": "https://twitter.com/theo/status/2049645973350363168",
         "date": "2026-04-30"
       },
