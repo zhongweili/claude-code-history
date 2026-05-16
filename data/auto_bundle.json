@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-05-15T04:46:32.990Z",
+    "generated_at": "2026-05-16T04:27:14.411Z",
     "agent_model": "openai/gpt-5.4-mini",
-    "total_versions": 289,
+    "total_versions": 290,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-05-14"
+      "end": "2026-05-15"
     },
     "highlight_count": 36,
     "capability_count": 8,
@@ -70,11 +70,480 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。与此同时，Opus 4.6 把「思考」变成了可选项，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Meanwhile, Opus 4.6 makes reasoning optional rather than visible, while worktree isolation and a 1M context push the agent toward running for hours, unattended.",
-      "release_count": 73,
+      "release_count": 74,
       "highlight_count": 15
     }
   ],
   "releases": [
+    {
+      "version": "2.1.143",
+      "date": "2026-05-15",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added plugin dependency enforcement: `claude plugin disable` now refuses when another enabled plugin depends on the target (with a copy-pasteable disable-chain hint), and `claude plugin enable` force-enables transitive dependencies",
+          "category": "feat",
+          "importance": 4,
+          "summary": "插件依赖自动校验与链式启用",
+          "summary_en": "Plugin dependency checks and transitive enable",
+          "why_matters": "避免用户禁用会影响其他插件的依赖，并减少手动排查依赖链的成本。",
+          "why_matters_en": "Prevents disabling a plugin that other enabled plugins depend on and reduces manual dependency troubleshooting.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Added projected context cost (per-turn and per-invocation token estimates) to the `/plugin` marketplace browse pane",
+          "category": "feat",
+          "importance": 2,
+          "summary": "显示插件上下文成本预估",
+          "summary_en": "Show projected plugin context cost",
+          "why_matters": "让用户在浏览插件时提前了解 token 消耗，便于控制成本。",
+          "why_matters_en": "Helps users estimate token usage before enabling plugins, making cost management easier.",
+          "capability_ids": [
+            "memory_context",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added `worktree.bgIsolation: \"none\"` setting to let background sessions edit the working copy directly without `EnterWorktree`, for repos where worktrees are impractical",
+          "category": "feat",
+          "importance": 3,
+          "summary": "背景会话可直接改工作区",
+          "summary_en": "Background sessions can edit worktree directly",
+          "why_matters": "在不适合 worktree 的仓库里也能更顺畅地使用后台会话编辑代码。",
+          "why_matters_en": "Makes background sessions usable in repos where worktrees are impractical by allowing direct edits.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "PowerShell tool now passes `-ExecutionPolicy Bypass`. Opt out with `CLAUDE_CODE_POWERSHELL_RESPECT_EXECUTION_POLICY=1`",
+          "category": "security",
+          "importance": 4,
+          "summary": "PowerShell 默认绕过执行策略",
+          "summary_en": "PowerShell now bypasses execution policy",
+          "why_matters": "减少 Windows 上因执行策略阻止脚本而导致的安装或运行失败。",
+          "why_matters_en": "Reduces Windows failures caused by PowerShell execution policy blocking scripts.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Background sessions now preserve the model and effort level you set after waking from idle",
+          "category": "fix",
+          "importance": 3,
+          "summary": "后台唤醒后保留模型与力度",
+          "summary_en": "Background sessions keep model and effort",
+          "why_matters": "避免后台会话恢复后配置丢失，确保行为一致。",
+          "why_matters_en": "Prevents background sessions from losing their settings after waking, keeping behavior consistent.",
+          "capability_ids": [
+            "memory_context",
+            "automation_autonomy",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Shift+Tab in attached agent sessions now includes auto mode in the cycle",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "附加代理支持 Shift+Tab 循环",
+          "summary_en": "Shift+Tab cycles auto mode in attached agents",
+          "why_matters": "让模式切换更顺手，提升交互效率。",
+          "why_matters_en": "Makes mode switching smoother and improves interaction efficiency.",
+          "capability_ids": [
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed a corrupt `.credentials.json` with a non-array `scopes` value hanging the CLI on startup or silently aborting OAuth token refresh",
+          "category": "fix",
+          "importance": 5,
+          "summary": "修复损坏凭据导致启动卡死",
+          "summary_en": "Fix corrupt credentials startup hang",
+          "why_matters": "避免凭据文件异常时 CLI 启动卡住或 OAuth 刷新失败，提升可用性。",
+          "why_matters_en": "Prevents startup hangs or OAuth refresh failures when credentials are corrupted, improving reliability.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed right-click paste in `claude agents` on Windows Terminal and WSL",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复 Windows 终端右键粘贴",
+          "summary_en": "Fix right-click paste in Windows terminals",
+          "why_matters": "改善 Windows 和 WSL 场景下的基本输入体验。",
+          "why_matters_en": "Improves basic input behavior on Windows Terminal and WSL.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed stop hooks that block repeatedly looping forever — the turn now ends with a warning after 8 consecutive blocks (override via `CLAUDE_CODE_STOP_HOOK_BLOCK_CAP`)",
+          "category": "fix",
+          "importance": 4,
+          "summary": "停止钩子死循环自动截断",
+          "summary_en": "Stop hooks no longer loop forever",
+          "why_matters": "防止阻塞型钩子让任务无限挂起，并提供明确告警与保护上限。",
+          "why_matters_en": "Prevents blocking hooks from hanging tasks indefinitely and adds a warning plus safety cap.",
+          "capability_ids": [
+            "automation_autonomy",
+            "governance_security",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed Esc/Ctrl+C not cancelling a pending `/loop` wakeup while Claude is idle between iterations",
+          "category": "fix",
+          "importance": 3,
+          "summary": "空闲时可取消循环唤醒",
+          "summary_en": "Esc/Ctrl+C cancels pending loop wakeup",
+          "why_matters": "让用户能及时中断等待中的循环唤醒，减少误操作成本。",
+          "why_matters_en": "Lets users interrupt a pending wakeup while idle, reducing the cost of accidental loops.",
+          "capability_ids": [
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed `/goal` evaluator firing while background shells or delegated subagents are still running",
+          "category": "fix",
+          "importance": 4,
+          "summary": "目标评估不再抢跑",
+          "summary_en": "/goal no longer fires too early",
+          "why_matters": "避免后台 shell 或委派子代理未完成时就误判任务结束。",
+          "why_matters_en": "Prevents premature completion checks while background shells or delegated subagents are still running.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "delegation_collaboration",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed `NO_COLOR`/`FORCE_COLOR` in settings.json `env` stripping Claude Code's own UI colors — they now apply to subprocesses only",
+          "category": "fix",
+          "importance": 2,
+          "summary": "环境色仅影响子进程",
+          "summary_en": "NO_COLOR/FORCE_COLOR apply to subprocesses only",
+          "why_matters": "保留 Claude Code 自身界面颜色，同时让子进程继承所需的颜色设置。",
+          "why_matters_en": "Keeps Claude Code's own UI colors while still passing color settings to subprocesses.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed agent view spawning repeated PowerShell processes on Windows when listing sessions",
+          "category": "fix",
+          "importance": 2,
+          "summary": "Windows 会话列表不再重复起壳",
+          "summary_en": "Agent view stops spawning extra PowerShell",
+          "why_matters": "减少 Windows 上列出会话时的资源浪费和卡顿。",
+          "why_matters_en": "Reduces wasted resources and lag when listing sessions on Windows.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed `/bg` without a prompt sending \"continue\" to the forked session — the fork now waits for input",
+          "category": "fix",
+          "importance": 3,
+          "summary": "/bg 空提示改为等待输入",
+          "summary_en": "/bg without prompt now waits for input",
+          "why_matters": "避免分叉会话误收到 continue，符合用户对后台任务的预期。",
+          "why_matters_en": "Prevents forked sessions from incorrectly receiving 'continue' and waiting for explicit input as expected.",
+          "capability_ids": [
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed `--agent <name>` not finding plugin-contributed agents without the `plugin:` prefix",
+          "category": "fix",
+          "importance": 4,
+          "summary": "插件代理可被直接发现",
+          "summary_en": "--agent finds plugin agents without prefix",
+          "why_matters": "让插件提供的 agent 更容易被发现和调用，减少名称约定带来的摩擦。",
+          "why_matters_en": "Makes plugin-contributed agents easier to discover and use without requiring a special prefix.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed deleting a session from agent view not removing its transcript file",
+          "category": "fix",
+          "importance": 3,
+          "summary": "删除会话时清理转写文件",
+          "summary_en": "Delete transcript when session is removed",
+          "why_matters": "避免界面里删了会话但磁盘上仍残留转写文件，减少数据泄漏和空间占用。",
+          "why_matters_en": "Avoids orphaned transcript files after session deletion, reducing data leakage and disk waste.",
+          "capability_ids": [
+            "memory_context",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed stale-fragment rendering when scrolling in attached background sessions on Windows Terminal",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复滚动时背景会话渲染",
+          "summary_en": "Fix stale rendering in attached background sessions",
+          "why_matters": "提升 Windows Terminal 中附加后台会话的显示稳定性，避免内容看起来过时或错乱。",
+          "why_matters_en": "Improves display stability for attached background sessions in Windows Terminal, preventing stale or broken rendering.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed background agents false-positive worker-stall detection storm after host sleep or macOS App Nap",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复睡眠后误判工作阻塞",
+          "summary_en": "Fix false worker-stall alerts after sleep",
+          "why_matters": "减少宿主睡眠或系统节能后产生的错误告警，避免后台任务被误判为卡死。",
+          "why_matters_en": "Reduces false alerts after host sleep or power saving, avoiding misdiagnosis of healthy background jobs.",
+          "capability_ids": [
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed 5xx error messages pointing at status.claude.com instead of naming the configured gateway or cloud provider",
+          "category": "fix",
+          "importance": 2,
+          "summary": "错误信息显示正确网关名称",
+          "summary_en": "Show configured gateway/provider in 5xx errors",
+          "why_matters": "让用户更快定位到底是 Claude 服务、网关还是云厂商出错，便于排障。",
+          "why_matters_en": "Helps users quickly identify whether the issue is Claude, a gateway, or a cloud provider.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "The PowerShell tool is now enabled by default on Windows for Bedrock, Vertex, and Foundry users. Opt out with `CLAUDE_CODE_USE_POWERSHELL_TOOL=0`.",
+          "category": "feat",
+          "importance": 3,
+          "summary": "Windows 默认启用 PowerShell 工具",
+          "summary_en": "Enable PowerShell tool by default on Windows",
+          "why_matters": "Windows 用户在 Bedrock、Vertex 和 Foundry 上可直接使用 PowerShell，提高命令执行效率。",
+          "why_matters_en": "Windows users on Bedrock, Vertex, and Foundry can use PowerShell out of the box, improving command execution.",
+          "capability_ids": [
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "`claude agents` now accepts `--add-dir`, `--settings`, `--mcp-config`, and `--plugin-dir` and applies them to the dashboard and to background sessions dispatched from it",
+          "category": "feat",
+          "importance": 4,
+          "summary": "agents 支持更多启动参数",
+          "summary_en": "agents now accepts more startup flags",
+          "why_matters": "让仪表盘和它派发的后台会话继承目录、设置、MCP 和插件配置，减少重复配置。",
+          "why_matters_en": "Lets the dashboard and its background sessions inherit directories, settings, MCP, and plugin config, reducing setup drift.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "integrations_ecosystem",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "`claude agents` accepts `--permission-mode`, `--model`, `--effort`, and `--dangerously-skip-permissions` to set defaults for sessions dispatched from the view",
+          "category": "feat",
+          "importance": 4,
+          "summary": "agents 可设会话默认模式",
+          "summary_en": "agents can set session defaults",
+          "why_matters": "可以统一后台会话的模型、权限和推理强度，避免每次派发都重复配置。",
+          "why_matters_en": "Allows consistent defaults for model, permissions, and effort across dispatched sessions.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "reasoning_workflows",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "`claude --bg --dangerously-skip-permissions` now persists across retire→wake",
+          "category": "fix",
+          "importance": 3,
+          "summary": "后台权限跳过状态可持久化",
+          "summary_en": "Persist skip-permissions across retire/wake",
+          "why_matters": "避免后台会话在休眠唤醒后丢失安全/权限状态，减少意外中断。",
+          "why_matters_en": "Prevents background sessions from losing security and permission state across retire/wake cycles.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed background sessions silently capturing IDE file references into the warm spare's input, which caused the reference to be prepended to the next prompt dispatched from `claude agents`",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复 IDE 引用串入后台输入",
+          "summary_en": "Fix IDE file refs leaking into background input",
+          "why_matters": "防止旧的文件引用污染下一次提示词，减少错误上下文导致的误操作。",
+          "why_matters_en": "Prevents stale file references from polluting the next prompt and causing wrong-context actions.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Worktree cleanup no longer falls back to `rm -rf` when `git worktree remove` fails, preventing loss of gitignored or in-progress files",
+          "category": "security",
+          "importance": 5,
+          "summary": "修复工作树清理过度删除",
+          "summary_en": "Prevent overly aggressive worktree cleanup",
+          "why_matters": "避免在删除 worktree 失败时误用 rm -rf 导致未提交或 gitignored 文件丢失。",
+          "why_matters_en": "Prevents data loss from fallback rm -rf when worktree removal fails, protecting in-progress and ignored files.",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed background-job sessions on macOS getting \"Operation not permitted\" errors when reading files under `~/Documents`, `~/Desktop`, or `~/Downloads`, even with Full Disk Access granted.",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复 macOS 目录读取权限",
+          "summary_en": "Fix macOS file read permission errors",
+          "why_matters": "让后台任务在已授予 Full Disk Access 时仍能正常读取常见用户目录中的文件。",
+          "why_matters_en": "Allows background jobs to read files in common user folders even with Full Disk Access granted.",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "`/bg` now preserves `--mcp-config`, `--settings`, `--add-dir`, `--plugin-dir`, and `--strict-mcp-config`, so backgrounded sessions keep their MCP servers and settings across respawn.",
+          "category": "feat",
+          "importance": 4,
+          "summary": "bg 保留 MCP 和设置",
+          "summary_en": "bg preserves MCP and settings",
+          "why_matters": "后台会话重启后仍能保持服务器与配置一致，减少能力丢失和重复设置。",
+          "why_matters_en": "Keeps background sessions consistent across respawn, preserving servers and configuration.",
+          "capability_ids": [
+            "automation_autonomy",
+            "integrations_ecosystem",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Background sessions launched from `claude agents` now honor `permissions.defaultMode` from settings.json (was previously overridden to auto mode)",
+          "category": "fix",
+          "importance": 3,
+          "summary": "后台会话继承默认权限模式",
+          "summary_en": "Background sessions honor default permission mode",
+          "why_matters": "确保从 agents 派发的后台会话遵守 settings.json 中的权限策略，而不是被强制改写。",
+          "why_matters_en": "Ensures sessions launched from agents respect permissions policy from settings.json instead of being overridden.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed: on Windows, pressing ← in `claude agents` while a response was streaming could leave the agents list unresponsive to all input",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复流式输出时列表卡死",
+          "summary_en": "Fix frozen agents list during streaming",
+          "why_matters": "Windows 上从 agents 视图切换时不再因为流式响应而失去输入响应，提高可用性。",
+          "why_matters_en": "Prevents the agents view from becoming unresponsive on Windows during streaming responses.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "`/bg` and `←`-detach now preserve `--fallback-model`, so backgrounded workers degrade to the fallback model on overload instead of hard-failing.",
+          "category": "feat",
+          "importance": 4,
+          "summary": "后台保留回退模型",
+          "summary_en": "Preserve fallback model for background workers",
+          "why_matters": "当主模型过载时，后台任务能自动降级继续工作，减少硬失败和中断。",
+          "why_matters_en": "Lets background workers degrade gracefully to a fallback model under load instead of failing hard.",
+          "capability_ids": [
+            "automation_autonomy",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "`/bg` and `←`-detach now preserve `--allow-dangerously-skip-permissions`, so the forked worker keeps bypass-permissions available in its Shift+Tab cycle.",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "后台分离保留跳过权限",
+          "summary_en": "Detach keeps skip-permissions option",
+          "why_matters": "分离到后台后仍可在权限循环中使用跳过权限，减少任务中断。",
+          "why_matters_en": "After detaching, the worker still keeps skip-permissions available in the permission cycle, reducing interruptions.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed: background daemon spawn now falls back to the running binary when the `~/.local/bin/claude` launcher is missing or non-executable",
+          "category": "fix",
+          "importance": 3,
+          "summary": "守护进程启动回退可用二进制",
+          "summary_en": "Daemon spawn falls back to running binary",
+          "why_matters": "当本地启动器缺失或不可执行时，后台守护进程仍能正常启动。",
+          "why_matters_en": "Background daemon startup still works even if the local launcher is missing or not executable.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed `claude agents --allow-dangerously-skip-permissions` defaulting dispatched sessions to bypass mode instead of making it available in the permission cycle",
+          "category": "fix",
+          "importance": 4,
+          "summary": "代理会话正确保留跳过权限",
+          "summary_en": "Agents keep skip-permissions in cycle",
+          "why_matters": "避免代理会话直接进入绕过模式，改为在权限循环中可选使用，更符合预期且更安全。",
+          "why_matters_en": "It avoids forcing agent sessions into bypass mode and instead makes it available in the permission cycle, matching expectations and improving safety.",
+          "capability_ids": [
+            "governance_security",
+            "delegation_collaboration",
+            "automation_autonomy"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Using Claude Code: The unreasonable effectiveness of HTML",
+          "points": 527,
+          "url": "https://twitter.com/trq212/status/2052809885763747935"
+        },
+        {
+          "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
+          "points": 293,
+          "url": "https://news.ycombinator.com/item?id=48128003"
+        },
+        {
+          "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
+          "points": 246,
+          "url": "https://github.com/DrCatHicks/learning-opportunities"
+        },
+        {
+          "title": "How Claude Code works in large codebases",
+          "points": 234,
+          "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start"
+        },
+        {
+          "title": "Show HN: Git for AI Agents",
+          "points": 127,
+          "url": "https://github.com/regent-vcs/re_gent"
+        }
+      ],
+      "highlight_score": 50
+    },
     {
       "version": "2.1.142",
       "date": "2026-05-14",
@@ -395,23 +864,23 @@
         },
         {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 288,
+          "points": 293,
           "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
           "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
-          "points": 226,
+          "points": 246,
           "url": "https://github.com/DrCatHicks/learning-opportunities"
         },
         {
-          "title": "Show HN: Git for AI Agents",
-          "points": 126,
-          "url": "https://github.com/regent-vcs/re_gent"
+          "title": "How Claude Code works in large codebases",
+          "points": 234,
+          "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start"
         },
         {
-          "title": "Show HN: Statewright – Visual state machines that make AI agents reliable",
-          "points": 122,
-          "url": "https://github.com/statewright/statewright"
+          "title": "Show HN: Git for AI Agents",
+          "points": 127,
+          "url": "https://github.com/regent-vcs/re_gent"
         }
       ],
       "highlight_score": 50
@@ -1205,23 +1674,23 @@
         },
         {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 288,
+          "points": 293,
           "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
           "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
-          "points": 226,
+          "points": 246,
           "url": "https://github.com/DrCatHicks/learning-opportunities"
         },
         {
-          "title": "Show HN: Git for AI Agents",
-          "points": 126,
-          "url": "https://github.com/regent-vcs/re_gent"
+          "title": "How Claude Code works in large codebases",
+          "points": 234,
+          "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start"
         },
         {
-          "title": "Show HN: Statewright – Visual state machines that make AI agents reliable",
-          "points": 122,
-          "url": "https://github.com/statewright/statewright"
+          "title": "Show HN: Git for AI Agents",
+          "points": 127,
+          "url": "https://github.com/regent-vcs/re_gent"
         }
       ],
       "highlight_score": 50
@@ -1406,23 +1875,23 @@
         },
         {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 288,
+          "points": 293,
           "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
           "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
-          "points": 226,
+          "points": 246,
           "url": "https://github.com/DrCatHicks/learning-opportunities"
         },
         {
-          "title": "Show HN: Git for AI Agents",
-          "points": 126,
-          "url": "https://github.com/regent-vcs/re_gent"
+          "title": "How Claude Code works in large codebases",
+          "points": 234,
+          "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start"
         },
         {
-          "title": "Show HN: Statewright – Visual state machines that make AI agents reliable",
-          "points": 122,
-          "url": "https://github.com/statewright/statewright"
+          "title": "Show HN: Git for AI Agents",
+          "points": 127,
+          "url": "https://github.com/regent-vcs/re_gent"
         }
       ],
       "highlight_score": 50
@@ -2055,23 +2524,23 @@
         },
         {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 288,
+          "points": 293,
           "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
           "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
-          "points": 226,
+          "points": 246,
           "url": "https://github.com/DrCatHicks/learning-opportunities"
         },
         {
-          "title": "Show HN: Git for AI Agents",
-          "points": 126,
-          "url": "https://github.com/regent-vcs/re_gent"
+          "title": "How Claude Code works in large codebases",
+          "points": 234,
+          "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start"
         },
         {
-          "title": "Show HN: Statewright – Visual state machines that make AI agents reliable",
-          "points": 122,
-          "url": "https://github.com/statewright/statewright"
+          "title": "Show HN: Git for AI Agents",
+          "points": 127,
+          "url": "https://github.com/regent-vcs/re_gent"
         }
       ],
       "highlight_score": 50
@@ -2106,18 +2575,18 @@
         },
         {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 288,
+          "points": 293,
           "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
           "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
-          "points": 226,
+          "points": 246,
           "url": "https://github.com/DrCatHicks/learning-opportunities"
         },
         {
-          "title": "Wiki Builder: Skill to Build LLM Knowledge Bases",
-          "points": 134,
-          "url": "https://academy.dair.ai/blog/wiki-builder-claude-code-plugin"
+          "title": "How Claude Code works in large codebases",
+          "points": 234,
+          "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start"
         }
       ],
       "highlight_score": 30
@@ -2154,18 +2623,18 @@
         },
         {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 288,
+          "points": 293,
           "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
           "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
-          "points": 226,
+          "points": 246,
           "url": "https://github.com/DrCatHicks/learning-opportunities"
         },
         {
-          "title": "Wiki Builder: Skill to Build LLM Knowledge Bases",
-          "points": 134,
-          "url": "https://academy.dair.ai/blog/wiki-builder-claude-code-plugin"
+          "title": "How Claude Code works in large codebases",
+          "points": 234,
+          "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start"
         }
       ],
       "highlight_score": 50
@@ -2804,12 +3273,12 @@
         },
         {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 288,
+          "points": 293,
           "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
           "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
-          "points": 226,
+          "points": 246,
           "url": "https://github.com/DrCatHicks/learning-opportunities"
         }
       ],
@@ -3067,7 +3536,7 @@
         },
         {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 288,
+          "points": 293,
           "url": "https://news.ycombinator.com/item?id=48128003"
         }
       ],
@@ -32088,6 +32557,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Show HN: Z80-μLM, a 'Conversational AI' That Fits in 40KB",
           "points": 514,
           "url": "https://github.com/HarryR/z80ai"
@@ -32106,11 +32580,6 @@
           "title": "Show HN: Vibe coding a bookshelf with Claude Code",
           "points": 284,
           "url": "https://balajmarius.com/writings/vibe-coding-a-bookshelf-with-claude-code/"
-        },
-        {
-          "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
-          "points": 216,
-          "url": "https://github.com/DeepMyst/Mysti"
         }
       ],
       "highlight_score": 30
@@ -32134,6 +32603,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -32152,11 +32626,6 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
-        },
-        {
-          "title": "Codex vs. Claude Code (today)",
-          "points": 104,
-          "url": "https://build.ms/2025/12/22/codex-vs-claude-code-today/"
         }
       ],
       "highlight_score": 30
@@ -32334,6 +32803,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -32352,11 +32826,6 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
-        },
-        {
-          "title": "Codex vs. Claude Code (today)",
-          "points": 104,
-          "url": "https://build.ms/2025/12/22/codex-vs-claude-code-today/"
         }
       ],
       "highlight_score": 50
@@ -32483,6 +32952,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -32501,11 +32975,6 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
-        },
-        {
-          "title": "Show HN: Superset – Terminal to run 10 parallel coding agents",
-          "points": 96,
-          "url": "https://superset.sh/"
         }
       ],
       "highlight_score": 50
@@ -32648,6 +33117,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -32666,11 +33140,6 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
-        },
-        {
-          "title": "Show HN: Superset – Terminal to run 10 parallel coding agents",
-          "points": 96,
-          "url": "https://superset.sh/"
         }
       ],
       "highlight_score": 55
@@ -32769,6 +33238,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -32787,11 +33261,6 @@
           "title": "Show HN: Local Privacy Firewall-blocks PII and secrets before ChatGPT sees them",
           "points": 111,
           "url": "https://github.com/privacyshield-ai/privacy-firewall"
-        },
-        {
-          "title": "Show HN: Superset – Terminal to run 10 parallel coding agents",
-          "points": 96,
-          "url": "https://superset.sh/"
         }
       ],
       "highlight_score": 50
@@ -32957,6 +33426,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -32975,11 +33449,6 @@
           "title": "Show HN: Local Privacy Firewall-blocks PII and secrets before ChatGPT sees them",
           "points": 111,
           "url": "https://github.com/privacyshield-ai/privacy-firewall"
-        },
-        {
-          "title": "Show HN: I open-sourced my Go and Next B2B SaaS Starter (deploy anywhere, MIT)",
-          "points": 83,
-          "url": "https://github.com/moasq/production-saas-starter"
         }
       ],
       "highlight_score": 55
@@ -48643,9 +49112,9 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 374,
-      "release_count": 148,
-      "avg_importance": 3.11,
+      "change_count": 380,
+      "release_count": 149,
+      "avg_importance": 3.12,
       "maturity": {
         "score": 92,
         "level": "成熟"
@@ -48655,14 +49124,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-05-14",
-        "version": "2.1.142"
+        "date": "2026-05-15",
+        "version": "2.1.143"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 212
+          "change_count": 218
         },
         {
           "epoch_id": "epoch4",
@@ -48738,8 +49207,8 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 807,
-      "release_count": 185,
+      "change_count": 815,
+      "release_count": 186,
       "avg_importance": 3.22,
       "maturity": {
         "score": 93,
@@ -48750,14 +49219,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-05-14",
-        "version": "2.1.142"
+        "date": "2026-05-15",
+        "version": "2.1.143"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 506
+          "change_count": 514
         },
         {
           "epoch_id": "epoch1",
@@ -48782,6 +49251,14 @@
       ],
       "samples": [
         {
+          "date": "2026-05-15",
+          "version": "2.1.143",
+          "raw": "Worktree cleanup no longer falls back to `rm -rf` when `git worktree remove` fails, preventing loss of gitignored or in-progress files",
+          "summary": "修复工作树清理过度删除",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-05-12",
           "version": "2.1.140",
           "raw": "Fixed a recurring event-loop stall on Windows when a missing executable (e.g. `gh`) triggered synchronous `where.exe` re-spawns on every check",
@@ -48802,14 +49279,6 @@
           "version": "2.1.132",
           "raw": "Fixed external SIGINT (e.g. IDE stop button, `kill -INT`) not running graceful shutdown — terminal modes are now restored and the `--resume` hint is printed instead of an abrupt exit",
           "summary": "外部中断也能优雅退出",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-05-05",
-          "version": "2.1.129",
-          "raw": "Fixed `Bash(mkdir *)`, `Bash(touch *)` and similar allow rules not being honored for in-project paths",
-          "summary": "修复项目内允许规则失效",
           "importance": 5,
           "category": "fix"
         }
@@ -48833,8 +49302,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 547,
-      "release_count": 142,
+      "change_count": 551,
+      "release_count": 143,
       "avg_importance": 3.19,
       "maturity": {
         "score": 93,
@@ -48845,14 +49314,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-05-14",
-        "version": "2.1.142"
+        "date": "2026-05-15",
+        "version": "2.1.143"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 383
+          "change_count": 387
         },
         {
           "epoch_id": "epoch1",
@@ -48928,8 +49397,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 637,
-      "release_count": 193,
+      "change_count": 650,
+      "release_count": 194,
       "avg_importance": 3.27,
       "maturity": {
         "score": 93,
@@ -48940,14 +49409,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-14",
-        "version": "2.1.142"
+        "date": "2026-05-15",
+        "version": "2.1.143"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 375
+          "change_count": 388
         },
         {
           "epoch_id": "epoch1",
@@ -49023,9 +49492,9 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 299,
-      "release_count": 115,
-      "avg_importance": 3.31,
+      "change_count": 308,
+      "release_count": 116,
+      "avg_importance": 3.32,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -49035,14 +49504,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-14",
-        "version": "2.1.142"
+        "date": "2026-05-15",
+        "version": "2.1.143"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 208
+          "change_count": 217
         },
         {
           "epoch_id": "epoch1",
@@ -49067,6 +49536,14 @@
       ],
       "samples": [
         {
+          "date": "2026-05-15",
+          "version": "2.1.143",
+          "raw": "Worktree cleanup no longer falls back to `rm -rf` when `git worktree remove` fails, preventing loss of gitignored or in-progress files",
+          "summary": "修复工作树清理过度删除",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-05-13",
           "version": "2.1.141",
           "raw": "Fixed Remote Control MCP connectors all failing with 401 when the worker session token rotated mid-session",
@@ -49089,14 +49566,6 @@
           "summary": "远控中断可彻底停止会话",
           "importance": 5,
           "category": "fix"
-        },
-        {
-          "date": "2026-04-16",
-          "version": "2.1.111",
-          "raw": "Added `/ultrareview` for running comprehensive code review in the cloud using parallel multi-agent analysis and critique — invoke with no arguments to review your current branch, or `/ultrareview <PR#>` to fetch and review a specific GitHub PR",
-          "summary": "新增云端超强审查",
-          "importance": 5,
-          "category": "feat"
         }
       ]
     },
@@ -49118,8 +49587,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 1009,
-      "release_count": 221,
+      "change_count": 1020,
+      "release_count": 222,
       "avg_importance": 3.13,
       "maturity": {
         "score": 93,
@@ -49130,14 +49599,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-05-14",
-        "version": "2.1.142"
+        "date": "2026-05-15",
+        "version": "2.1.143"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 643
+          "change_count": 654
         },
         {
           "epoch_id": "epoch1",
@@ -49162,6 +49631,14 @@
       ],
       "samples": [
         {
+          "date": "2026-05-15",
+          "version": "2.1.143",
+          "raw": "Fixed a corrupt `.credentials.json` with a non-array `scopes` value hanging the CLI on startup or silently aborting OAuth token refresh",
+          "summary": "修复损坏凭据导致启动卡死",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-05-14",
           "version": "2.1.142",
           "raw": "Fixed background agents crash-looping when the Claude-in-Chrome extension is connected without a shared tab",
@@ -49182,14 +49659,6 @@
           "version": "2.1.139",
           "raw": "Fixed unbounded memory growth when an HTTP/SSE MCP server streams non-protocol data — response bodies now capped at 16 MB per SSE frame",
           "summary": "限制SSE异常流内存增长",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-05-08",
-          "version": "2.1.136",
-          "raw": "Fixed a rare login loop where a concurrent credential write could overwrite a freshly-rotated OAuth token and force re-login",
-          "summary": "修复OAuth登录死循环",
           "importance": 5,
           "category": "fix"
         }
@@ -49213,8 +49682,8 @@
         "Emacs",
         "web"
       ],
-      "change_count": 654,
-      "release_count": 164,
+      "change_count": 661,
+      "release_count": 165,
       "avg_importance": 2.66,
       "maturity": {
         "score": 91,
@@ -49225,14 +49694,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-14",
-        "version": "2.1.142"
+        "date": "2026-05-15",
+        "version": "2.1.143"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 445
+          "change_count": 452
         },
         {
           "epoch_id": "epoch4",
@@ -49308,11 +49777,11 @@
         "policy",
         "auditing"
       ],
-      "change_count": 645,
-      "release_count": 191,
-      "avg_importance": 3.37,
+      "change_count": 657,
+      "release_count": 192,
+      "avg_importance": 3.38,
       "maturity": {
-        "score": 93,
+        "score": 94,
         "level": "成熟"
       },
       "first_seen": {
@@ -49320,14 +49789,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-14",
-        "version": "2.1.142"
+        "date": "2026-05-15",
+        "version": "2.1.143"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 409
+          "change_count": 421
         },
         {
           "epoch_id": "epoch4",
@@ -49352,6 +49821,22 @@
       ],
       "samples": [
         {
+          "date": "2026-05-15",
+          "version": "2.1.143",
+          "raw": "Fixed a corrupt `.credentials.json` with a non-array `scopes` value hanging the CLI on startup or silently aborting OAuth token refresh",
+          "summary": "修复损坏凭据导致启动卡死",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
+          "date": "2026-05-15",
+          "version": "2.1.143",
+          "raw": "Worktree cleanup no longer falls back to `rm -rf` when `git worktree remove` fails, preventing loss of gitignored or in-progress files",
+          "summary": "修复工作树清理过度删除",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-05-13",
           "version": "2.1.141",
           "raw": "Fixed Remote Control MCP connectors all failing with 401 when the worker session token rotated mid-session",
@@ -49364,22 +49849,6 @@
           "version": "2.1.139",
           "raw": "Fixed a deadlock where expired credentials and the `forceRemoteSettingsRefresh` policy setting blocked `claude auth login`/`logout`/`status` with no way to recover",
           "summary": "修复认证死锁无法恢复",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-05-11",
-          "version": "2.1.139",
-          "raw": "Fixed unbounded memory growth when an HTTP/SSE MCP server streams non-protocol data — response bodies now capped at 16 MB per SSE frame",
-          "summary": "限制SSE异常流内存增长",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-05-08",
-          "version": "2.1.136",
-          "raw": "Fixed a rare login loop where a concurrent credential write could overwrite a freshly-rotated OAuth token and force re-login",
-          "summary": "修复OAuth登录死循环",
           "importance": 5,
           "category": "fix"
         }
