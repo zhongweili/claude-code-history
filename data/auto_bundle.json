@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-05-19T04:57:54.322Z",
+    "generated_at": "2026-05-20T05:01:25.779Z",
     "agent_model": "openai/gpt-5.4-mini",
-    "total_versions": 291,
+    "total_versions": 292,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-05-18"
+      "end": "2026-05-19"
     },
     "highlight_count": 36,
     "capability_count": 8,
@@ -70,11 +70,302 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。与此同时，Opus 4.6 把「思考」变成了可选项，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Meanwhile, Opus 4.6 makes reasoning optional rather than visible, while worktree isolation and a 1M context push the agent toward running for hours, unattended.",
-      "release_count": 75,
+      "release_count": 76,
       "highlight_count": 15
     }
   ],
   "releases": [
+    {
+      "version": "2.1.145",
+      "date": "2026-05-19",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added `claude agents --json` to list live Claude sessions as JSON for scripting (tmux-resurrect, status bars, session pickers)",
+          "category": "feat",
+          "importance": 4,
+          "summary": "支持JSON列出活跃会话",
+          "summary_en": "List live sessions as JSON",
+          "why_matters": "方便脚本、状态栏和会话选择器自动集成 Claude 会话。",
+          "why_matters_en": "This makes it easy for scripts, status bars, and session pickers to integrate with live Claude sessions.",
+          "capability_ids": [
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added `agent_id` and `parent_agent_id` attributes to `claude_code.tool` OTEL spans, and fixed trace parenting so background subagent spans nest under the dispatching Agent tool span",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "补充子代理追踪层级",
+          "summary_en": "Add agent IDs to OTEL spans",
+          "why_matters": "更清晰的链路追踪能帮助定位后台子代理与派发代理之间的执行关系。",
+          "why_matters_en": "Clearer tracing helps diagnose the relationship between background subagents and the dispatching agent.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Status line JSON input now includes GitHub repo and PR information when detected",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "状态栏显示仓库和PR信息",
+          "summary_en": "Show repo and PR in status JSON",
+          "why_matters": "状态栏可直接展示当前代码库与 PR 上下文，减少额外查询。",
+          "why_matters_en": "The status bar can show repository and PR context directly, reducing extra lookups.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "`/plugin` Discover and Browse screens now show a plugin's commands, agents, skills, hooks, and MCP/LSP servers before installation",
+          "category": "feat",
+          "importance": 3,
+          "summary": "插件安装前可预览内容",
+          "summary_en": "Preview plugin commands before install",
+          "why_matters": "安装前查看命令、agents、skills 和 hooks，能降低误装与误用风险。",
+          "why_matters_en": "Previewing commands, agents, skills, hooks, and servers before install reduces surprises and misuse.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "`claude agents` terminal tab title now shows the awaiting-input count so an alt-tabbed window tells you when an agent needs attention",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "标签页提示待处理会话数",
+          "summary_en": "Show pending count in tab title",
+          "why_matters": "用户切换窗口时能更快发现哪个 agent 需要输入。",
+          "why_matters_en": "Users can spot which agent needs input faster when switching windows.",
+          "capability_ids": [
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Slash command and @-mention suggestion list now supports mouse hover and click in fullscreen mode",
+          "category": "feat",
+          "importance": 2,
+          "summary": "补全模式支持鼠标选择",
+          "summary_en": "Add mouse hover and click in fullscreen",
+          "why_matters": "在全屏下也能更方便地选取命令和 @ 提及建议。",
+          "why_matters_en": "It becomes easier to choose slash commands and @-mention suggestions in fullscreen mode.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Stop and SubagentStop hook input now includes `background_tasks` and `session_crons` fields",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "Hook输入增加后台任务信息",
+          "summary_en": "Add background task fields to hooks",
+          "why_matters": "Hook 能看到更多上下文，从而更准确地处理停止和子代理停止事件。",
+          "why_matters_en": "Hooks get more context, making stop and subagent-stop handling more accurate.",
+          "capability_ids": [
+            "automation_autonomy",
+            "reasoning_workflows",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed a permission-prompt bypass where bare variable assignments to non-allowlisted environment variables in Bash commands were auto-approved",
+          "category": "security",
+          "importance": 5,
+          "summary": "修复环境变量审批绕过",
+          "summary_en": "Fix env var approval bypass",
+          "why_matters": "这堵住了 Bash 命令里未授权环境变量赋值被自动批准的安全漏洞。",
+          "why_matters_en": "This closes a security hole where unauthorized environment variable assignments in Bash could be auto-approved.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed MCP prompt slash commands showing raw server validation errors when a required argument is omitted — the error now names the missing argument and shows expected usage",
+          "category": "fix",
+          "importance": 3,
+          "summary": "缺参时显示清晰报错",
+          "summary_en": "Show clearer missing-arg errors",
+          "why_matters": "用户缺少必填参数时会得到可读提示，而不是原始校验错误。",
+          "why_matters_en": "Users get a readable prompt when a required argument is missing instead of raw validation errors.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed the spinner and elapsed-time display freezing until a keypress after the terminal was resized or refocused",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复缩放后进度条冻结",
+          "summary_en": "Fix spinner freezing after resize/refocus",
+          "why_matters": "终端重排或切回窗口后，界面状态会继续实时刷新。",
+          "why_matters_en": "The UI keeps updating in real time after terminal resize or refocus.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed the cross-project resume hint failing in default Windows PowerShell 5.1 — Windows now uses `;` as the command separator",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复Windows恢复提示",
+          "summary_en": "Fix Windows resume hint separator",
+          "why_matters": "默认 Windows PowerShell 5.1 下恢复跨项目会话更可靠。",
+          "why_matters_en": "Cross-project resume works more reliably in default Windows PowerShell 5.1.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed voice push-to-talk not working in the agent view's reply pane",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复语音按住说话失效",
+          "summary_en": "Fix push-to-talk in reply pane",
+          "why_matters": "语音输入恢复可用，提升回复面板中的交互效率。",
+          "why_matters_en": "Voice input works again, improving interaction speed in the reply pane.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed task lists rendering in random order when several tasks are created at once",
+          "category": "fix",
+          "importance": 2,
+          "summary": "任务列表保持创建顺序",
+          "summary_en": "Keep task lists in creation order",
+          "why_matters": "多个任务同时创建时，列表更稳定、更容易跟踪。",
+          "why_matters_en": "Task lists stay stable and easier to follow when several tasks are created at once.",
+          "capability_ids": [
+            "automation_autonomy",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed stale \"Failed to install Anthropic marketplace\" banner showing when the marketplace is already installed",
+          "category": "fix",
+          "importance": 1,
+          "summary": "已安装市场提示不再残留",
+          "summary_en": "Remove stale marketplace banner",
+          "why_matters": "避免已安装时仍显示失败提示，减少界面误导。",
+          "why_matters_en": "This avoids misleading failure banners after the marketplace is already installed.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed the PR badge in the footer not updating immediately after `gh pr create` and other PR-state-changing commands run in-session",
+          "category": "fix",
+          "importance": 2,
+          "summary": "PR状态立即刷新",
+          "summary_en": "Refresh PR badge immediately",
+          "why_matters": "在会话中创建 PR 或改变 PR 状态后，页脚信息会更快同步。",
+          "why_matters_en": "Footer PR status updates faster after creating or changing a PR in-session.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed Agent Teams teammates with non-ASCII names failing every API call due to invalid header encoding",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复非ASCII队友API失败",
+          "summary_en": "Fix API failures for non-ASCII teammates",
+          "why_matters": "避免含非 ASCII 名称的队友在 Agent Teams 中所有 API 调用失败，提升协作可用性。",
+          "why_matters_en": "Prevents API calls from failing for Agent Teams teammates with non-ASCII names, improving collaboration reliability.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed `/review` using a deprecated `projectCards` GraphQL query that errored on repos with Classic Projects",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复/review兼容旧项目",
+          "summary_en": "Fix /review compatibility with Classic Projects",
+          "why_matters": "避免在使用 Classic Projects 的仓库上 `/review` 因过时查询报错，恢复审查流程。",
+          "why_matters_en": "Prevents `/review` from erroring on repos with Classic Projects, restoring the review workflow.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed `claude plugin validate` not flagging `skills:` entries that point at a file instead of a directory — the error now suggests the parent directory",
+          "category": "fix",
+          "importance": 2,
+          "summary": "校验skills路径更准确",
+          "summary_en": "Improve skills path validation errors",
+          "why_matters": "让 `claude plugin validate` 更早发现 `skills:` 指向文件而非目录的问题，并给出更有用的修复建议。",
+          "why_matters_en": "Helps `claude plugin validate` catch invalid `skills:` paths earlier and suggest a better fix.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed an infinite loop where a skill using `context: fork` could repeatedly re-invoke itself instead of running",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复技能fork死循环",
+          "summary_en": "Fix skill fork self-invocation loop",
+          "why_matters": "防止 `context: fork` 的技能反复自调用导致任务卡死，保障执行流程稳定。",
+          "why_matters_en": "Prevents skills with `context: fork` from endlessly re-invoking themselves and hanging execution.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "automation_autonomy",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Improved the Read tool to return a truncated first page with a \"PARTIAL view\" notice instead of a hard error when a whole-file read exceeds the token limit",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "Read工具支持部分返回",
+          "summary_en": "Read tool now returns partial output",
+          "why_matters": "当整文件读取超出 token 限制时，改为返回截断内容而不是直接报错，减少任务中断。",
+          "why_matters_en": "When a full-file read exceeds token limits, it now returns a truncated view instead of hard failing.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "execution_workspace"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
+          "points": 439,
+          "url": "https://github.com/MinishLab/semble"
+        },
+        {
+          "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
+          "points": 349,
+          "url": "https://github.com/antoinezambelli/forge"
+        },
+        {
+          "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
+          "points": 299,
+          "url": "https://news.ycombinator.com/item?id=48128003"
+        },
+        {
+          "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
+          "points": 253,
+          "url": "https://github.com/DrCatHicks/learning-opportunities"
+        },
+        {
+          "title": "How Claude Code works in large codebases",
+          "points": 246,
+          "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start"
+        }
+      ],
+      "highlight_score": 35
+    },
     {
       "version": "2.1.144",
       "date": "2026-05-18",
@@ -750,12 +1041,17 @@
       "signals": [
         {
           "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
-          "points": 429,
+          "points": 439,
           "url": "https://github.com/MinishLab/semble"
         },
         {
+          "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
+          "points": 349,
+          "url": "https://github.com/antoinezambelli/forge"
+        },
+        {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 298,
+          "points": 299,
           "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
@@ -765,13 +1061,8 @@
         },
         {
           "title": "How Claude Code works in large codebases",
-          "points": 245,
+          "points": 246,
           "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start"
-        },
-        {
-          "title": "Show HN: Statewright – Visual state machines that make AI agents reliable",
-          "points": 126,
-          "url": "https://github.com/statewright/statewright"
         }
       ],
       "highlight_score": 35
@@ -1224,23 +1515,23 @@
         },
         {
           "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
-          "points": 429,
+          "points": 439,
           "url": "https://github.com/MinishLab/semble"
         },
         {
+          "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
+          "points": 349,
+          "url": "https://github.com/antoinezambelli/forge"
+        },
+        {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 298,
+          "points": 299,
           "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
           "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
           "points": 253,
           "url": "https://github.com/DrCatHicks/learning-opportunities"
-        },
-        {
-          "title": "How Claude Code works in large codebases",
-          "points": 245,
-          "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start"
         }
       ],
       "highlight_score": 50
@@ -1565,23 +1856,23 @@
         },
         {
           "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
-          "points": 429,
+          "points": 439,
           "url": "https://github.com/MinishLab/semble"
         },
         {
+          "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
+          "points": 349,
+          "url": "https://github.com/antoinezambelli/forge"
+        },
+        {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 298,
+          "points": 299,
           "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
           "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
           "points": 253,
           "url": "https://github.com/DrCatHicks/learning-opportunities"
-        },
-        {
-          "title": "How Claude Code works in large codebases",
-          "points": 245,
-          "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start"
         }
       ],
       "highlight_score": 50
@@ -2375,23 +2666,23 @@
         },
         {
           "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
-          "points": 429,
+          "points": 439,
           "url": "https://github.com/MinishLab/semble"
         },
         {
+          "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
+          "points": 349,
+          "url": "https://github.com/antoinezambelli/forge"
+        },
+        {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 298,
+          "points": 299,
           "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
           "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
           "points": 253,
           "url": "https://github.com/DrCatHicks/learning-opportunities"
-        },
-        {
-          "title": "How Claude Code works in large codebases",
-          "points": 245,
-          "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start"
         }
       ],
       "highlight_score": 50
@@ -2576,23 +2867,23 @@
         },
         {
           "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
-          "points": 429,
+          "points": 439,
           "url": "https://github.com/MinishLab/semble"
         },
         {
+          "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
+          "points": 349,
+          "url": "https://github.com/antoinezambelli/forge"
+        },
+        {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 298,
+          "points": 299,
           "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
           "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
           "points": 253,
           "url": "https://github.com/DrCatHicks/learning-opportunities"
-        },
-        {
-          "title": "How Claude Code works in large codebases",
-          "points": 245,
-          "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start"
         }
       ],
       "highlight_score": 50
@@ -3225,12 +3516,12 @@
         },
         {
           "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
-          "points": 429,
+          "points": 439,
           "url": "https://github.com/MinishLab/semble"
         },
         {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 298,
+          "points": 299,
           "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
@@ -3240,7 +3531,7 @@
         },
         {
           "title": "How Claude Code works in large codebases",
-          "points": 245,
+          "points": 246,
           "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start"
         }
       ],
@@ -3281,7 +3572,7 @@
         },
         {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 298,
+          "points": 299,
           "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
@@ -3329,7 +3620,7 @@
         },
         {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 298,
+          "points": 299,
           "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
@@ -3979,7 +4270,7 @@
         },
         {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 298,
+          "points": 299,
           "url": "https://news.ycombinator.com/item?id=48128003"
         }
       ],
@@ -49813,9 +50104,9 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 390,
-      "release_count": 150,
-      "avg_importance": 3.12,
+      "change_count": 397,
+      "release_count": 151,
+      "avg_importance": 3.11,
       "maturity": {
         "score": 92,
         "level": "成熟"
@@ -49825,14 +50116,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-05-18",
-        "version": "2.1.144"
+        "date": "2026-05-19",
+        "version": "2.1.145"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 228
+          "change_count": 235
         },
         {
           "epoch_id": "epoch4",
@@ -49908,8 +50199,8 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 831,
-      "release_count": 187,
+      "change_count": 834,
+      "release_count": 188,
       "avg_importance": 3.23,
       "maturity": {
         "score": 93,
@@ -49920,14 +50211,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-05-18",
-        "version": "2.1.144"
+        "date": "2026-05-19",
+        "version": "2.1.145"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 530
+          "change_count": 533
         },
         {
           "epoch_id": "epoch1",
@@ -49952,6 +50243,14 @@
       ],
       "samples": [
         {
+          "date": "2026-05-19",
+          "version": "2.1.145",
+          "raw": "Fixed a permission-prompt bypass where bare variable assignments to non-allowlisted environment variables in Bash commands were auto-approved",
+          "summary": "修复环境变量审批绕过",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-05-18",
           "version": "2.1.144",
           "raw": "Fixed file descriptor exhaustion when a build runs inside a skill directory — non-`.md` files no longer trigger skill reloads",
@@ -49974,14 +50273,6 @@
           "summary": "修复工作树清理过度删除",
           "importance": 5,
           "category": "security"
-        },
-        {
-          "date": "2026-05-12",
-          "version": "2.1.140",
-          "raw": "Fixed a recurring event-loop stall on Windows when a missing executable (e.g. `gh`) triggered synchronous `where.exe` re-spawns on every check",
-          "summary": "修复Windows事件循环卡顿",
-          "importance": 5,
-          "category": "fix"
         }
       ]
     },
@@ -50003,8 +50294,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 562,
-      "release_count": 144,
+      "change_count": 563,
+      "release_count": 145,
       "avg_importance": 3.19,
       "maturity": {
         "score": 93,
@@ -50015,14 +50306,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-05-18",
-        "version": "2.1.144"
+        "date": "2026-05-19",
+        "version": "2.1.145"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 398
+          "change_count": 399
         },
         {
           "epoch_id": "epoch1",
@@ -50098,8 +50389,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 664,
-      "release_count": 195,
+      "change_count": 669,
+      "release_count": 196,
       "avg_importance": 3.26,
       "maturity": {
         "score": 93,
@@ -50110,14 +50401,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-18",
-        "version": "2.1.144"
+        "date": "2026-05-19",
+        "version": "2.1.145"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 402
+          "change_count": 407
         },
         {
           "epoch_id": "epoch1",
@@ -50193,8 +50484,8 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 312,
-      "release_count": 117,
+      "change_count": 314,
+      "release_count": 118,
       "avg_importance": 3.31,
       "maturity": {
         "score": 93,
@@ -50205,14 +50496,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-18",
-        "version": "2.1.144"
+        "date": "2026-05-19",
+        "version": "2.1.145"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 221
+          "change_count": 223
         },
         {
           "epoch_id": "epoch1",
@@ -50288,8 +50579,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 1036,
-      "release_count": 223,
+      "change_count": 1045,
+      "release_count": 224,
       "avg_importance": 3.13,
       "maturity": {
         "score": 93,
@@ -50300,14 +50591,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-05-18",
-        "version": "2.1.144"
+        "date": "2026-05-19",
+        "version": "2.1.145"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 670
+          "change_count": 679
         },
         {
           "epoch_id": "epoch1",
@@ -50383,8 +50674,8 @@
         "Emacs",
         "web"
       ],
-      "change_count": 675,
-      "release_count": 166,
+      "change_count": 678,
+      "release_count": 167,
       "avg_importance": 2.68,
       "maturity": {
         "score": 91,
@@ -50395,14 +50686,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-18",
-        "version": "2.1.144"
+        "date": "2026-05-19",
+        "version": "2.1.145"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 466
+          "change_count": 469
         },
         {
           "epoch_id": "epoch4",
@@ -50478,11 +50769,11 @@
         "policy",
         "auditing"
       ],
-      "change_count": 667,
-      "release_count": 193,
-      "avg_importance": 3.37,
+      "change_count": 672,
+      "release_count": 194,
+      "avg_importance": 3.38,
       "maturity": {
-        "score": 93,
+        "score": 94,
         "level": "成熟"
       },
       "first_seen": {
@@ -50490,14 +50781,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-18",
-        "version": "2.1.144"
+        "date": "2026-05-19",
+        "version": "2.1.145"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 431
+          "change_count": 436
         },
         {
           "epoch_id": "epoch4",
@@ -50522,6 +50813,14 @@
       ],
       "samples": [
         {
+          "date": "2026-05-19",
+          "version": "2.1.145",
+          "raw": "Fixed a permission-prompt bypass where bare variable assignments to non-allowlisted environment variables in Bash commands were auto-approved",
+          "summary": "修复环境变量审批绕过",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-05-18",
           "version": "2.1.144",
           "raw": "Fixed startup hanging up to 75s when `api.anthropic.com` is unreachable (captive portal, firewall, VPN issues) — side-channel API calls now time out after 15s",
@@ -50544,14 +50843,6 @@
           "summary": "修复损坏凭据导致启动卡死",
           "importance": 5,
           "category": "fix"
-        },
-        {
-          "date": "2026-05-15",
-          "version": "2.1.143",
-          "raw": "Worktree cleanup no longer falls back to `rm -rf` when `git worktree remove` fails, preventing loss of gitignored or in-progress files",
-          "summary": "修复工作树清理过度删除",
-          "importance": 5,
-          "category": "security"
         }
       ]
     }
