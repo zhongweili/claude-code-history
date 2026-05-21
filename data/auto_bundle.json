@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-05-20T05:01:25.779Z",
+    "generated_at": "2026-05-21T05:07:22.712Z",
     "agent_model": "openai/gpt-5.4-mini",
-    "total_versions": 292,
+    "total_versions": 293,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-05-19"
+      "end": "2026-05-20"
     },
     "highlight_count": 36,
     "capability_count": 8,
@@ -70,11 +70,248 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。与此同时，Opus 4.6 把「思考」变成了可选项，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Meanwhile, Opus 4.6 makes reasoning optional rather than visible, while worktree isolation and a 1M context push the agent toward running for hours, unattended.",
-      "release_count": 76,
+      "release_count": 77,
       "highlight_count": 15
     }
   ],
   "releases": [
+    {
+      "version": "2.1.146",
+      "date": "2026-05-20",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Renamed `/simplify` to `/code-review` with an optional effort level (e.g. `/code-review high`)",
+          "category": "feat",
+          "importance": 4,
+          "summary": "重命名代码审查命令并支持强度",
+          "summary_en": "Rename review command with effort level",
+          "why_matters": "让代码审查入口更清晰，并可按任务复杂度调整审查强度。",
+          "why_matters_en": "It makes the review entry point clearer and lets users tune review depth by task complexity.",
+          "capability_ids": [
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Auto mode no longer suppresses `AskUserQuestion` when the user or a skill explicitly relies on it",
+          "category": "fix",
+          "importance": 4,
+          "summary": "自动模式保留用户提问交互",
+          "summary_en": "Auto mode keeps AskUserQuestion flow",
+          "why_matters": "避免自动模式误拦截必要的人机确认，保证技能和用户意图正常执行。",
+          "why_matters_en": "It prevents auto mode from blocking required human input and preserves intended skill behavior.",
+          "capability_ids": [
+            "automation_autonomy",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed Windows PowerShell tool failing with \"command line is invalid\" when `pwsh` is installed via winget or the Microsoft Store (regression in v2.1.124)",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复 Windows PowerShell 工具启动",
+          "summary_en": "Fix Windows PowerShell tool launch",
+          "why_matters": "解决在常见 Windows 安装方式下命令行失效的问题，恢复工具可用性。",
+          "why_matters_en": "It restores tool usability on common Windows installations where command invocation was failing.",
+          "capability_ids": [
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed MCP `resources/list`, `resources/templates/list`, and `prompts/list` dropping items past page 1 on paginating servers",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复分页 MCP 资源列表缺失",
+          "summary_en": "Fix paginated MCP list truncation",
+          "why_matters": "确保分页服务器上的资源和提示完整可见，避免遗漏可用项。",
+          "why_matters_en": "It ensures all resources and prompts remain visible on paginated servers without losing later pages.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed full-screen strobing in attached background sessions on Windows Terminal while Claude is streaming",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复 Windows Terminal 全屏闪烁",
+          "summary_en": "Fix fullscreen strobing in Windows Terminal",
+          "why_matters": "改善流式输出时的视觉体验，减少后台会话在 Windows Terminal 的闪烁干扰。",
+          "why_matters_en": "It improves the streaming experience by eliminating distracting flicker in Windows Terminal.",
+          "capability_ids": [
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed the auto-updater status line not showing your current version when an update fails",
+          "category": "fix",
+          "importance": 2,
+          "summary": "更新失败时显示当前版本",
+          "summary_en": "Show current version on updater failure",
+          "why_matters": "帮助用户快速判断当前安装状态，便于排查更新失败原因。",
+          "why_matters_en": "It helps users quickly understand their installed version and troubleshoot update failures.",
+          "capability_ids": [
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed on Windows, removing a background-job worktree no longer follows NTFS junctions into the main repo",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复删除后台工作区跟随链接",
+          "summary_en": "Fix background worktree deletion on Windows",
+          "why_matters": "避免误删或遍历到主仓库，降低 Windows 上的文件系统风险。",
+          "why_matters_en": "It prevents accidental traversal into the main repo and reduces filesystem risk on Windows.",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed `/background` refusing sessions whose only typed input was a skill or custom slash command",
+          "category": "fix",
+          "importance": 3,
+          "summary": "允许仅技能输入启动后台会话",
+          "summary_en": "Allow background sessions from skill input",
+          "why_matters": "让后台执行更符合用户预期，避免仅有技能或命令输入时被错误拒绝。",
+          "why_matters_en": "It makes background execution behave as expected and avoids rejecting valid skill-only launches.",
+          "capability_ids": [
+            "automation_autonomy",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed backgrounded sessions re-prompting for tool permissions you already granted with \"don't ask again\"",
+          "category": "fix",
+          "importance": 4,
+          "summary": "后台会话不再重复询问权限",
+          "summary_en": "Stop re-prompting granted permissions",
+          "why_matters": "减少重复打断，保持已授权操作在后台连续执行。",
+          "why_matters_en": "It reduces interruptions and lets already-approved actions continue smoothly in the background.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed `/theme` color editor and \"New custom theme\" dialogs not responding to Esc",
+          "category": "fix",
+          "importance": 1,
+          "summary": "修复主题对话框 Esc 失效",
+          "summary_en": "Fix Esc key in theme dialogs",
+          "why_matters": "提升主题编辑界面的可用性和键盘操作一致性。",
+          "why_matters_en": "It improves usability and keyboard consistency in the theme editor dialogs.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed an uncaught exception at the end of streaming sessions when running via the Agent SDK",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复 SDK 流式结束异常",
+          "summary_en": "Fix end-of-stream SDK exception",
+          "why_matters": "避免会话结束时报错中断，提升 Agent SDK 集成稳定性。",
+          "why_matters_en": "It prevents end-of-session crashes and improves stability for Agent SDK integrations.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed `forceLoginOrgUUID` and `forceLoginMethod` managed-settings policies not being enforced against third-party-provider and API-key sessions",
+          "category": "fix",
+          "importance": 5,
+          "summary": "强制登录策略覆盖第三方会话",
+          "summary_en": "Enforce login policy for all session types",
+          "why_matters": "确保受管登录策略对第三方和 API Key 会话同样生效，避免合规绕过。",
+          "why_matters_en": "It ensures managed login policies apply to third-party and API-key sessions, preventing policy bypass.",
+          "capability_ids": [
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed GNOME Terminal right-click and middle-click paste not inserting text",
+          "category": "fix",
+          "importance": 1,
+          "summary": "修复 GNOME 终端粘贴失效",
+          "summary_en": "Fix GNOME Terminal paste actions",
+          "why_matters": "恢复 Linux 终端常用粘贴操作，提升日常交互便利性。",
+          "why_matters_en": "It restores common paste actions in Linux terminals and improves day-to-day usability.",
+          "capability_ids": [
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `CLAUDE_CODE_SUBAGENT_MODEL` not being forwarded to child processes in multi-agent sessions",
+          "category": "fix",
+          "importance": 4,
+          "summary": "子进程继承多代理模型配置",
+          "summary_en": "Forward subagent model to child processes",
+          "why_matters": "确保多代理会话中的模型选择一致，避免子进程行为偏离预期。",
+          "why_matters_en": "It keeps model selection consistent across multi-agent sessions and avoids unexpected child process behavior.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Improved auto-updater reliability: native version checks and downloads now retry transient network failures instead of failing immediately",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "升级器增加网络重试",
+          "summary_en": "Improved updater with network retries",
+          "why_matters": "在网络波动时更不容易失败，提高自动更新成功率。",
+          "why_matters_en": "It makes updates more resilient to transient network issues and increases success rates.",
+          "capability_ids": [
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Improved diff rendering performance for large file edits",
+          "category": "perf",
+          "importance": 3,
+          "summary": "大文件差异渲染更快",
+          "summary_en": "Faster diff rendering for large edits",
+          "why_matters": "大文件编辑时差异显示更快，能减少等待并提升查看修改的效率。",
+          "why_matters_en": "Diffs render faster for large file edits, reducing waiting time and improving review efficiency.",
+          "capability_ids": []
+        }
+      ],
+      "signals": [
+        {
+          "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
+          "points": 646,
+          "url": "https://github.com/antoinezambelli/forge"
+        },
+        {
+          "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
+          "points": 441,
+          "url": "https://github.com/MinishLab/semble"
+        },
+        {
+          "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
+          "points": 300,
+          "url": "https://news.ycombinator.com/item?id=48128003"
+        },
+        {
+          "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
+          "points": 253,
+          "url": "https://github.com/DrCatHicks/learning-opportunities"
+        },
+        {
+          "title": "How Claude Code works in large codebases",
+          "points": 247,
+          "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start"
+        }
+      ],
+      "highlight_score": 50
+    },
     {
       "version": "2.1.145",
       "date": "2026-05-19",
@@ -339,18 +576,18 @@
       ],
       "signals": [
         {
-          "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
-          "points": 439,
-          "url": "https://github.com/MinishLab/semble"
-        },
-        {
           "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
-          "points": 349,
+          "points": 646,
           "url": "https://github.com/antoinezambelli/forge"
         },
         {
+          "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
+          "points": 441,
+          "url": "https://github.com/MinishLab/semble"
+        },
+        {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 299,
+          "points": 300,
           "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
@@ -360,11 +597,11 @@
         },
         {
           "title": "How Claude Code works in large codebases",
-          "points": 246,
+          "points": 247,
           "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start"
         }
       ],
-      "highlight_score": 35
+      "highlight_score": 50
     },
     {
       "version": "2.1.144",
@@ -1040,18 +1277,18 @@
       ],
       "signals": [
         {
-          "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
-          "points": 439,
-          "url": "https://github.com/MinishLab/semble"
-        },
-        {
           "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
-          "points": 349,
+          "points": 646,
           "url": "https://github.com/antoinezambelli/forge"
         },
         {
+          "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
+          "points": 441,
+          "url": "https://github.com/MinishLab/semble"
+        },
+        {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 299,
+          "points": 300,
           "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
@@ -1061,11 +1298,11 @@
         },
         {
           "title": "How Claude Code works in large codebases",
-          "points": 246,
+          "points": 247,
           "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start"
         }
       ],
-      "highlight_score": 35
+      "highlight_score": 50
     },
     {
       "version": "2.1.143",
@@ -1509,23 +1746,23 @@
       ],
       "signals": [
         {
+          "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
+          "points": 646,
+          "url": "https://github.com/antoinezambelli/forge"
+        },
+        {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
           "points": 528,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
           "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
-          "points": 439,
+          "points": 441,
           "url": "https://github.com/MinishLab/semble"
         },
         {
-          "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
-          "points": 349,
-          "url": "https://github.com/antoinezambelli/forge"
-        },
-        {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 299,
+          "points": 300,
           "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
@@ -1850,23 +2087,23 @@
       ],
       "signals": [
         {
+          "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
+          "points": 646,
+          "url": "https://github.com/antoinezambelli/forge"
+        },
+        {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
           "points": 528,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
           "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
-          "points": 439,
+          "points": 441,
           "url": "https://github.com/MinishLab/semble"
         },
         {
-          "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
-          "points": 349,
-          "url": "https://github.com/antoinezambelli/forge"
-        },
-        {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 299,
+          "points": 300,
           "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
@@ -2660,23 +2897,23 @@
       ],
       "signals": [
         {
+          "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
+          "points": 646,
+          "url": "https://github.com/antoinezambelli/forge"
+        },
+        {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
           "points": 528,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
           "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
-          "points": 439,
+          "points": 441,
           "url": "https://github.com/MinishLab/semble"
         },
         {
-          "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
-          "points": 349,
-          "url": "https://github.com/antoinezambelli/forge"
-        },
-        {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 299,
+          "points": 300,
           "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
@@ -2861,23 +3098,23 @@
       ],
       "signals": [
         {
+          "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
+          "points": 646,
+          "url": "https://github.com/antoinezambelli/forge"
+        },
+        {
           "title": "Using Claude Code: The unreasonable effectiveness of HTML",
           "points": 528,
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
           "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
-          "points": 439,
+          "points": 441,
           "url": "https://github.com/MinishLab/semble"
         },
         {
-          "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
-          "points": 349,
-          "url": "https://github.com/antoinezambelli/forge"
-        },
-        {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 299,
+          "points": 300,
           "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
@@ -3516,12 +3753,12 @@
         },
         {
           "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
-          "points": 439,
+          "points": 441,
           "url": "https://github.com/MinishLab/semble"
         },
         {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 299,
+          "points": 300,
           "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
@@ -3531,7 +3768,7 @@
         },
         {
           "title": "How Claude Code works in large codebases",
-          "points": 246,
+          "points": 247,
           "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start"
         }
       ],
@@ -3566,19 +3803,19 @@
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
-          "title": "Kimi K2.6 just beat Claude, GPT-5.5, and Gemini in a coding challenge",
-          "points": 380,
-          "url": "https://thinkpol.ca/2026/04/30/an-open-weights-chinese-model-just-beat-claude-gpt-5-5-and-gemini-in-a-programming-challenge/"
-        },
-        {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 299,
+          "points": 300,
           "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
           "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
           "points": 253,
           "url": "https://github.com/DrCatHicks/learning-opportunities"
+        },
+        {
+          "title": "How Claude Code works in large codebases",
+          "points": 247,
+          "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start"
         }
       ],
       "highlight_score": 30
@@ -3614,19 +3851,19 @@
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
-          "title": "Kimi K2.6 just beat Claude, GPT-5.5, and Gemini in a coding challenge",
-          "points": 380,
-          "url": "https://thinkpol.ca/2026/04/30/an-open-weights-chinese-model-just-beat-claude-gpt-5-5-and-gemini-in-a-programming-challenge/"
-        },
-        {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 299,
+          "points": 300,
           "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
           "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
           "points": 253,
           "url": "https://github.com/DrCatHicks/learning-opportunities"
+        },
+        {
+          "title": "How Claude Code works in large codebases",
+          "points": 247,
+          "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start"
         }
       ],
       "highlight_score": 50
@@ -4264,14 +4501,14 @@
           "url": "https://www.briefs.co/news/uber-torches-entire-2026-ai-budget-on-claude-code-in-four-months/"
         },
         {
-          "title": "Kimi K2.6 just beat Claude, GPT-5.5, and Gemini in a coding challenge",
-          "points": 380,
-          "url": "https://thinkpol.ca/2026/04/30/an-open-weights-chinese-model-just-beat-claude-gpt-5-5-and-gemini-in-a-programming-challenge/"
+          "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
+          "points": 300,
+          "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
-          "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 299,
-          "url": "https://news.ycombinator.com/item?id=48128003"
+          "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
+          "points": 253,
+          "url": "https://github.com/DrCatHicks/learning-opportunities"
         }
       ],
       "highlight_score": 55
@@ -4527,9 +4764,9 @@
           "url": "https://www.briefs.co/news/uber-torches-entire-2026-ai-budget-on-claude-code-in-four-months/"
         },
         {
-          "title": "Kimi K2.6 just beat Claude, GPT-5.5, and Gemini in a coding challenge",
-          "points": 380,
-          "url": "https://thinkpol.ca/2026/04/30/an-open-weights-chinese-model-just-beat-claude-gpt-5-5-and-gemini-in-a-programming-challenge/"
+          "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
+          "points": 300,
+          "url": "https://news.ycombinator.com/item?id=48128003"
         }
       ],
       "highlight_score": 50
@@ -50104,8 +50341,8 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 397,
-      "release_count": 151,
+      "change_count": 398,
+      "release_count": 152,
       "avg_importance": 3.11,
       "maturity": {
         "score": 92,
@@ -50116,14 +50353,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-05-19",
-        "version": "2.1.145"
+        "date": "2026-05-20",
+        "version": "2.1.146"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 235
+          "change_count": 236
         },
         {
           "epoch_id": "epoch4",
@@ -50199,8 +50436,8 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 834,
-      "release_count": 188,
+      "change_count": 838,
+      "release_count": 189,
       "avg_importance": 3.23,
       "maturity": {
         "score": 93,
@@ -50211,14 +50448,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-05-19",
-        "version": "2.1.145"
+        "date": "2026-05-20",
+        "version": "2.1.146"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 533
+          "change_count": 537
         },
         {
           "epoch_id": "epoch1",
@@ -50294,8 +50531,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 563,
-      "release_count": 145,
+      "change_count": 564,
+      "release_count": 146,
       "avg_importance": 3.19,
       "maturity": {
         "score": 93,
@@ -50306,14 +50543,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-05-19",
-        "version": "2.1.145"
+        "date": "2026-05-20",
+        "version": "2.1.146"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 399
+          "change_count": 400
         },
         {
           "epoch_id": "epoch1",
@@ -50389,8 +50626,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 669,
-      "release_count": 196,
+      "change_count": 674,
+      "release_count": 197,
       "avg_importance": 3.26,
       "maturity": {
         "score": 93,
@@ -50401,14 +50638,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-19",
-        "version": "2.1.145"
+        "date": "2026-05-20",
+        "version": "2.1.146"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 407
+          "change_count": 412
         },
         {
           "epoch_id": "epoch1",
@@ -50484,9 +50721,9 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 314,
-      "release_count": 118,
-      "avg_importance": 3.31,
+      "change_count": 318,
+      "release_count": 119,
+      "avg_importance": 3.32,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -50496,14 +50733,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-19",
-        "version": "2.1.145"
+        "date": "2026-05-20",
+        "version": "2.1.146"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 223
+          "change_count": 227
         },
         {
           "epoch_id": "epoch1",
@@ -50579,8 +50816,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 1045,
-      "release_count": 224,
+      "change_count": 1049,
+      "release_count": 225,
       "avg_importance": 3.13,
       "maturity": {
         "score": 93,
@@ -50591,14 +50828,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-05-19",
-        "version": "2.1.145"
+        "date": "2026-05-20",
+        "version": "2.1.146"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 679
+          "change_count": 683
         },
         {
           "epoch_id": "epoch1",
@@ -50674,9 +50911,9 @@
         "Emacs",
         "web"
       ],
-      "change_count": 678,
-      "release_count": 167,
-      "avg_importance": 2.68,
+      "change_count": 682,
+      "release_count": 168,
+      "avg_importance": 2.67,
       "maturity": {
         "score": 91,
         "level": "成熟"
@@ -50686,14 +50923,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-19",
-        "version": "2.1.145"
+        "date": "2026-05-20",
+        "version": "2.1.146"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 469
+          "change_count": 473
         },
         {
           "epoch_id": "epoch4",
@@ -50718,6 +50955,14 @@
       ],
       "samples": [
         {
+          "date": "2026-05-20",
+          "version": "2.1.146",
+          "raw": "Fixed `forceLoginOrgUUID` and `forceLoginMethod` managed-settings policies not being enforced against third-party-provider and API-key sessions",
+          "summary": "强制登录策略覆盖第三方会话",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-05-18",
           "version": "2.1.144",
           "raw": "Fixed startup hanging up to 75s when `api.anthropic.com` is unreachable (captive portal, firewall, VPN issues) — side-channel API calls now time out after 15s",
@@ -50740,14 +50985,6 @@
           "summary": "修复远程控制令牌轮换401",
           "importance": 5,
           "category": "fix"
-        },
-        {
-          "date": "2026-05-11",
-          "version": "2.1.139",
-          "raw": "Added `/goal` command: set a completion condition and Claude keeps working across turns until it's met. Works in interactive, `-p`, and Remote Control. Shows live elapsed/turns/tokens as an overlay panel",
-          "summary": "新增 /goal 持续达成目标",
-          "importance": 5,
-          "category": "feat"
         }
       ]
     },
@@ -50769,8 +51006,8 @@
         "policy",
         "auditing"
       ],
-      "change_count": 672,
-      "release_count": 194,
+      "change_count": 675,
+      "release_count": 195,
       "avg_importance": 3.38,
       "maturity": {
         "score": 94,
@@ -50781,14 +51018,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-19",
-        "version": "2.1.145"
+        "date": "2026-05-20",
+        "version": "2.1.146"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 436
+          "change_count": 439
         },
         {
           "epoch_id": "epoch4",
@@ -50813,6 +51050,14 @@
       ],
       "samples": [
         {
+          "date": "2026-05-20",
+          "version": "2.1.146",
+          "raw": "Fixed `forceLoginOrgUUID` and `forceLoginMethod` managed-settings policies not being enforced against third-party-provider and API-key sessions",
+          "summary": "强制登录策略覆盖第三方会话",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-05-19",
           "version": "2.1.145",
           "raw": "Fixed a permission-prompt bypass where bare variable assignments to non-allowlisted environment variables in Bash commands were auto-approved",
@@ -50833,14 +51078,6 @@
           "version": "2.1.144",
           "raw": "Fixed macOS background sessions crashing with \"exit 1 before init\" when the project lives under a Full Disk Access-protected folder (regression in 2.1.143)",
           "summary": "macOS 后台会话崩溃已修复",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-05-15",
-          "version": "2.1.143",
-          "raw": "Fixed a corrupt `.credentials.json` with a non-array `scopes` value hanging the CLI on startup or silently aborting OAuth token refresh",
-          "summary": "修复损坏凭据导致启动卡死",
           "importance": 5,
           "category": "fix"
         }
