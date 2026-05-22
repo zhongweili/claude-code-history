@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-05-21T05:07:22.712Z",
+    "generated_at": "2026-05-22T04:58:34.884Z",
     "agent_model": "openai/gpt-5.4-mini",
-    "total_versions": 293,
+    "total_versions": 294,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-05-20"
+      "end": "2026-05-22"
     },
     "highlight_count": 36,
     "capability_count": 8,
@@ -70,63 +70,279 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。与此同时，Opus 4.6 把「思考」变成了可选项，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Meanwhile, Opus 4.6 makes reasoning optional rather than visible, while worktree isolation and a 1M context push the agent toward running for hours, unattended.",
-      "release_count": 77,
+      "release_count": 78,
       "highlight_count": 15
     }
   ],
   "releases": [
     {
-      "version": "2.1.146",
-      "date": "2026-05-20",
+      "version": "2.1.148",
+      "date": "2026-05-22",
       "epoch_id": "epoch5",
       "source": "changelog",
       "changes": [
         {
-          "raw": "Renamed `/simplify` to `/code-review` with an optional effort level (e.g. `/code-review high`)",
+          "raw": "Fixed the Bash tool returning exit code 127 on every command for some users (a regression introduced in 2.1.147)",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复 Bash 工具误报退出码127",
+          "summary_en": "Fix Bash tool always returning 127",
+          "why_matters": "修复后部分用户的 Bash 命令可正常执行，避免所有命令失败的严重回归。",
+          "why_matters_en": "This restores normal Bash command execution for affected users and fixes a severe regression.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
+          "points": 669,
+          "url": "https://github.com/antoinezambelli/forge"
+        },
+        {
+          "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
+          "points": 442,
+          "url": "https://github.com/MinishLab/semble"
+        },
+        {
+          "title": "How Claude Code works in large codebases",
+          "points": 247,
+          "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start"
+        },
+        {
+          "title": "Learnings from 100K lines of Rust with AI (2025)",
+          "points": 175,
+          "url": "https://zfhuang99.github.io/rust/claude%20code/codex/contracts/spec-driven%20development/2025/12/01/rust-with-ai.html"
+        },
+        {
+          "title": "Reverse engineering Android malware from popular Chinese projectors",
+          "points": 88,
+          "url": "https://zanestjohn.com/blog/reing-with-claude-code"
+        }
+      ],
+      "highlight_score": 50
+    },
+    {
+      "version": "2.1.147",
+      "date": "2026-05-21",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Pinned background sessions (`Ctrl+T` in `claude agents`) now stay alive when idle, are restarted in place to apply Claude Code updates, and are shed under memory pressure only after non-pinned sessions",
           "category": "feat",
           "importance": 4,
-          "summary": "重命名代码审查命令并支持强度",
-          "summary_en": "Rename review command with effort level",
-          "why_matters": "让代码审查入口更清晰，并可按任务复杂度调整审查强度。",
-          "why_matters_en": "It makes the review entry point clearer and lets users tune review depth by task complexity.",
+          "summary": "后台会话常驻并就地重启更新",
+          "summary_en": "Pinned sessions stay alive and auto-restart",
+          "why_matters": "减少后台会话被误杀，并能在更新时无缝保留工作状态。",
+          "why_matters_en": "This keeps important background sessions alive and updates them in place without losing work.",
           "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Renamed `/simplify` to `/code-review`. It now reports correctness bugs at a chosen effort level (e.g., `/code-review high`); pass `--comment` to post findings as inline GitHub PR comments. The old cleanup-and-fix behavior has been removed",
+          "category": "feat",
+          "importance": 4,
+          "summary": "代码审查替代简化命令",
+          "summary_en": "Code review command replaces simplify",
+          "why_matters": "让用户直接获得按力度控制的代码审查，并可同步到 GitHub PR 评论。",
+          "why_matters_en": "This gives users controlled code review output and can post findings directly as GitHub PR comments.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security",
             "reasoning_workflows"
           ]
         },
         {
-          "raw": "Auto mode no longer suppresses `AskUserQuestion` when the user or a skill explicitly relies on it",
-          "category": "fix",
-          "importance": 4,
-          "summary": "自动模式保留用户提问交互",
-          "summary_en": "Auto mode keeps AskUserQuestion flow",
-          "why_matters": "避免自动模式误拦截必要的人机确认，保证技能和用户意图正常执行。",
-          "why_matters_en": "It prevents auto mode from blocking required human input and preserves intended skill behavior.",
+          "raw": "Improved auto-updater: retries transient network failures, reports specific error categories and OS error codes on failure, and shows the current version when an update fails",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "更新器失败更稳且报错更清楚",
+          "summary_en": "Updater retries and shows clearer errors",
+          "why_matters": "提升网络不稳定时的更新成功率，并帮助用户更快定位升级失败原因。",
+          "why_matters_en": "This improves update reliability on flaky networks and makes failures easier to diagnose.",
           "capability_ids": [
             "automation_autonomy",
-            "delegation_collaboration"
+            "execution_workspace"
           ]
         },
         {
-          "raw": "Fixed Windows PowerShell tool failing with \"command line is invalid\" when `pwsh` is installed via winget or the Microsoft Store (regression in v2.1.124)",
+          "raw": "Improved diff rendering performance for large file edits",
+          "category": "perf",
+          "importance": 3,
+          "summary": "大文件 diff 渲染更快",
+          "summary_en": "Faster diff rendering for large edits",
+          "why_matters": "让大范围改动时的查看体验更流畅，减少等待时间。",
+          "why_matters_en": "This makes reviewing large edits smoother and reduces waiting time.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Prompt history no longer records consecutive duplicate entries — recalling a prompt with arrow-up and submitting it again won't add another copy",
+          "category": "fix",
+          "importance": 2,
+          "summary": "提示历史不再重复记录",
+          "summary_en": "Prompt history avoids duplicate entries",
+          "why_matters": "减少历史记录噪音，让回看和复用提示词更干净。",
+          "why_matters_en": "This keeps prompt history cleaner and more useful for replaying past prompts.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed enterprise login restrictions (`forceLoginOrgUUID` and `forceLoginMethod` managed-settings) not being enforced against third-party-provider and API-key sessions",
+          "category": "fix",
+          "importance": 5,
+          "summary": "企业登录限制正确生效",
+          "summary_en": "Enterprise login restrictions now enforced",
+          "why_matters": "避免绕过管理策略访问受限会话，保障企业账号控制与合规。",
+          "why_matters_en": "This prevents policy bypass and strengthens enterprise access control and compliance.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `&` in `!` command output displaying as `&amp;`, which broke copy-pasting URLs from commands like `gcloud auth login` on headless machines",
+          "category": "fix",
+          "importance": 2,
+          "summary": "命令输出不再转义成实体",
+          "summary_en": "Command output no longer HTML-escapes &",
+          "why_matters": "修复复制命令结果时 URL 等内容被破坏的问题。",
+          "why_matters_en": "This fixes broken copy-paste of command output such as URLs.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed unknown slash commands silently doing nothing in headless/SDK mode — they now show an error message",
+          "category": "fix",
+          "importance": 3,
+          "summary": "未知斜杠命令会明确报错",
+          "summary_en": "Unknown slash commands now show an error",
+          "why_matters": "避免在无头或 SDK 场景下悄无声息失败，便于排查。",
+          "why_matters_en": "This prevents silent failures in headless or SDK mode and makes troubleshooting easier.",
+          "capability_ids": [
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed `/help` rendering a broken tab header and showing only one command per page on small terminals when not in fullscreen mode",
+          "category": "fix",
+          "importance": 2,
+          "summary": "/help 小屏显示恢复正常",
+          "summary_en": "/help renders correctly on small terminals",
+          "why_matters": "改善窄终端下的帮助页可读性，减少误操作。",
+          "why_matters_en": "This improves help-page readability on narrow terminals and reduces confusion.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed shell snapshot dropping user functions whose names start with a single underscore, which broke aliases referencing them",
+          "category": "fix",
+          "importance": 3,
+          "summary": "保留以下划线开头的函数",
+          "summary_en": "Shell snapshots keep underscore functions",
+          "why_matters": "防止 shell 快照丢失自定义函数，避免别名和脚本失效。",
+          "why_matters_en": "This prevents shell snapshots from dropping custom functions and breaking aliases or scripts.",
+          "capability_ids": [
+            "execution_workspace",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed plugin agents that declare multiple `Agent(...)` types in `tools:` frontmatter dropping all but the last entry",
+          "category": "fix",
+          "importance": 3,
+          "summary": "插件可保留多个 Agent 类型",
+          "summary_en": "Plugins keep multiple Agent types",
+          "why_matters": "让插件作者能正确注册多个代理定义，提升扩展能力。",
+          "why_matters_en": "This lets plugin authors register multiple agent definitions correctly and improves extensibility.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed hook `if` conditions like `PowerShell(git push*)` never matching — only `PowerShell(*)` worked",
+          "category": "fix",
+          "importance": 3,
+          "summary": "Hook 条件匹配更准确",
+          "summary_en": "Hook conditions match PowerShell patterns",
+          "why_matters": "让自动化钩子按预期触发，提升脚本控制可靠性。",
+          "why_matters_en": "This makes automation hooks trigger as expected and improves scripting reliability.",
+          "capability_ids": [
+            "automation_autonomy",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed PowerShell tool dropping output for commands that rely on the default formatter",
+          "category": "fix",
+          "importance": 2,
+          "summary": "PowerShell 默认输出不再丢失",
+          "summary_en": "PowerShell output no longer disappears",
+          "why_matters": "保证工具命令结果完整返回，便于后续操作和调试。",
+          "why_matters_en": "This ensures command output is preserved for follow-up actions and debugging.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed: on Windows, \"Yes, and don't ask again\" for a PowerShell script invocation now writes a rule that actually matches on subsequent runs",
           "category": "fix",
           "importance": 4,
-          "summary": "修复 Windows PowerShell 工具启动",
-          "summary_en": "Fix Windows PowerShell tool launch",
-          "why_matters": "解决在常见 Windows 安装方式下命令行失效的问题，恢复工具可用性。",
-          "why_matters_en": "It restores tool usability on common Windows installations where command invocation was failing.",
+          "summary": "Windows 下拒绝规则能正确匹配",
+          "summary_en": "Windows deny rules now match correctly",
+          "why_matters": "修复“不再询问”规则失效的问题，避免重复弹窗干扰工作流。",
+          "why_matters_en": "This fixes broken deny rules on Windows and prevents repeated prompts from interrupting the workflow.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed PowerShell tool failing on Windows with exit code 1 when `pwsh` is installed via winget or the Microsoft Store",
+          "category": "fix",
+          "importance": 4,
+          "summary": "Windows PowerShell 安装兼容修复",
+          "summary_en": "Windows PowerShell installs now work",
+          "why_matters": "解决特定安装来源下的退出错误，恢复 Windows 用户的基本可用性。",
+          "why_matters_en": "This fixes exit-code failures for specific Windows installations and restores basic usability.",
           "capability_ids": [
             "execution_workspace",
             "integrations_ecosystem"
           ]
         },
         {
-          "raw": "Fixed MCP `resources/list`, `resources/templates/list`, and `prompts/list` dropping items past page 1 on paginating servers",
+          "raw": "Fixed `/effort` opening with the slider on the wrong level — it now starts at your current effort",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "修正/effort默认强度档位",
+          "summary_en": "Effort opens at current level",
+          "why_matters": "让 /effort 打开时直接定位到当前强度，减少误操作和额外调整。",
+          "why_matters_en": "It opens /effort at your current setting, reducing confusion and extra clicks.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed paginating MCP servers dropping resources, templates, and prompts past page 1",
           "category": "fix",
           "importance": 3,
-          "summary": "修复分页 MCP 资源列表缺失",
-          "summary_en": "Fix paginated MCP list truncation",
-          "why_matters": "确保分页服务器上的资源和提示完整可见，避免遗漏可用项。",
-          "why_matters_en": "It ensures all resources and prompts remain visible on paginated servers without losing later pages.",
+          "summary": "修复MCP分页丢资源",
+          "summary_en": "MCP pagination keeps all items",
+          "why_matters": "分页浏览 MCP 服务器时不再漏掉资源、模板和提示词，避免信息缺失。",
+          "why_matters_en": "Paginated MCP server views no longer drop resources, templates, or prompts after page 1.",
           "capability_ids": [
             "integrations_ecosystem"
           ]
@@ -135,35 +351,20 @@
           "raw": "Fixed full-screen strobing in attached background sessions on Windows Terminal while Claude is streaming",
           "category": "fix",
           "importance": 2,
-          "summary": "修复 Windows Terminal 全屏闪烁",
-          "summary_en": "Fix fullscreen strobing in Windows Terminal",
-          "why_matters": "改善流式输出时的视觉体验，减少后台会话在 Windows Terminal 的闪烁干扰。",
-          "why_matters_en": "It improves the streaming experience by eliminating distracting flicker in Windows Terminal.",
-          "capability_ids": [
-            "execution_workspace",
-            "multimodal_interfaces"
-          ]
+          "summary": "修复Windows全屏闪烁",
+          "summary_en": "Fix Windows full-screen strobing",
+          "why_matters": "在 Windows Terminal 的附加后台会话中流式输出时，界面更稳定不闪烁。",
+          "why_matters_en": "Streaming in attached background sessions on Windows Terminal is now stable and stops strobing.",
+          "capability_ids": []
         },
         {
-          "raw": "Fixed the auto-updater status line not showing your current version when an update fails",
-          "category": "fix",
-          "importance": 2,
-          "summary": "更新失败时显示当前版本",
-          "summary_en": "Show current version on updater failure",
-          "why_matters": "帮助用户快速判断当前安装状态，便于排查更新失败原因。",
-          "why_matters_en": "It helps users quickly understand their installed version and troubleshoot update failures.",
-          "capability_ids": [
-            "automation_autonomy"
-          ]
-        },
-        {
-          "raw": "Fixed on Windows, removing a background-job worktree no longer follows NTFS junctions into the main repo",
-          "category": "fix",
+          "raw": "Fixed: on Windows, removing a background-job worktree no longer follows NTFS junctions into the main repo",
+          "category": "security",
           "importance": 4,
-          "summary": "修复删除后台工作区跟随链接",
-          "summary_en": "Fix background worktree deletion on Windows",
-          "why_matters": "避免误删或遍历到主仓库，降低 Windows 上的文件系统风险。",
-          "why_matters_en": "It prevents accidental traversal into the main repo and reduces filesystem risk on Windows.",
+          "summary": "防止删除工作树误跟随链接",
+          "summary_en": "Worktree removal avoids NTFS link traversal",
+          "why_matters": "在 Windows 上删除后台任务工作树时不会误追踪 NTFS junction 到主仓库，降低误删风险。",
+          "why_matters_en": "On Windows, removing a background-job worktree no longer follows NTFS junctions into the main repo, reducing accidental deletion risk.",
           "capability_ids": [
             "execution_workspace",
             "governance_security",
@@ -174,130 +375,183 @@
           "raw": "Fixed `/background` refusing sessions whose only typed input was a skill or custom slash command",
           "category": "fix",
           "importance": 3,
-          "summary": "允许仅技能输入启动后台会话",
-          "summary_en": "Allow background sessions from skill input",
-          "why_matters": "让后台执行更符合用户预期，避免仅有技能或命令输入时被错误拒绝。",
-          "why_matters_en": "It makes background execution behave as expected and avoids rejecting valid skill-only launches.",
+          "summary": "修复后台会话拒绝技能输入",
+          "summary_en": "Background sessions accept skill commands",
+          "why_matters": "/background 不会再把仅包含技能或自定义斜杠命令的输入误判为无效。",
+          "why_matters_en": "/background no longer rejects sessions whose only typed input was a skill or custom slash command.",
           "capability_ids": [
             "automation_autonomy",
             "delegation_collaboration"
           ]
         },
         {
+          "raw": "Fixed auto mode suppressing `AskUserQuestion` when the user or a skill explicitly relies on it; the auto-mode classifier now sees the user's answers as intent signal",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复自动模式误拦问答",
+          "summary_en": "Auto mode respects AskUserQuestion",
+          "why_matters": "当用户或技能明确依赖 AskUserQuestion 时，自动模式会保留必要的人类确认流程。",
+          "why_matters_en": "Auto mode now respects explicit AskUserQuestion dependencies and uses user answers as intent signals.",
+          "capability_ids": [
+            "automation_autonomy",
+            "governance_security",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed `/theme` \"New custom theme\" and color editor dialogs not responding to Esc",
+          "category": "fix",
+          "importance": 1,
+          "summary": "修复主题对话框Esc无效",
+          "summary_en": "Theme dialogs now close on Esc",
+          "why_matters": "新建自定义主题和颜色编辑窗口现在可用 Esc 快速关闭，更符合常见交互习惯。",
+          "why_matters_en": "New custom theme and color editor dialogs now respond to Esc, matching expected UI behavior.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed an uncaught exception at the end of streaming sessions when running via the Agent SDK",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复流式结束异常崩溃",
+          "summary_en": "Fix end-of-stream SDK exception",
+          "why_matters": "通过 Agent SDK 运行时，流式会话结束不再抛出未捕获异常，提升稳定性。",
+          "why_matters_en": "Ending streaming sessions via the Agent SDK no longer throws an uncaught exception, improving reliability.",
+          "capability_ids": [
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed a rare hang when waiting for scroll to settle on Windows",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复Windows等待滚动卡死",
+          "summary_en": "Fix Windows scroll-settle hang",
+          "why_matters": "在 Windows 上等待滚动稳定时不再偶发卡住，减少界面假死。",
+          "why_matters_en": "A rare Windows hang while waiting for scroll to settle is fixed, reducing UI freezes.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed stale and doubled rows in the agent view list on Windows when background session results contain wide (CJK) characters",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复后台会话列表重复",
+          "summary_en": "Fix duplicated Windows agent rows",
+          "why_matters": "后台结果含有中文等宽字符时，Windows 代理列表显示更准确，不会重复或残留旧行。",
+          "why_matters_en": "The Windows agent list no longer shows stale or duplicated rows when background results contain wide CJK characters.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed pasted text being delivered to agents as an unreadable `[Pasted text #N]` placeholder instead of the actual content",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复粘贴内容丢失",
+          "summary_en": "Pasted text now reaches agents",
+          "why_matters": "粘贴文本会按原文发送给代理，不再变成不可读占位符，避免内容丢失。",
+          "why_matters_en": "Pasted text is now delivered as the actual content instead of an unreadable placeholder.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed plugin component counts in `claude plugin details` and `/plugin` being doubled when a plugin's manifest listed paths overlapping its default directories",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复插件统计重复",
+          "summary_en": "Fix doubled plugin component counts",
+          "why_matters": "插件详情里的组件数量更准确，避免因路径重叠导致统计翻倍。",
+          "why_matters_en": "Plugin component counts are now correct in details views when manifest paths overlap default directories.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
           "raw": "Fixed backgrounded sessions re-prompting for tool permissions you already granted with \"don't ask again\"",
           "category": "fix",
           "importance": 4,
-          "summary": "后台会话不再重复询问权限",
-          "summary_en": "Stop re-prompting granted permissions",
-          "why_matters": "减少重复打断，保持已授权操作在后台连续执行。",
-          "why_matters_en": "It reduces interruptions and lets already-approved actions continue smoothly in the background.",
+          "summary": "修复后台会话重复询权",
+          "summary_en": "Background sessions keep permission grants",
+          "why_matters": "已选“不再询问”的工具权限不会在后台会话中反复弹出，减少中断。",
+          "why_matters_en": "Background sessions no longer re-prompt for tool permissions you already granted with don't ask again.",
           "capability_ids": [
             "governance_security",
             "automation_autonomy"
           ]
         },
         {
-          "raw": "Fixed `/theme` color editor and \"New custom theme\" dialogs not responding to Esc",
-          "category": "fix",
-          "importance": 1,
-          "summary": "修复主题对话框 Esc 失效",
-          "summary_en": "Fix Esc key in theme dialogs",
-          "why_matters": "提升主题编辑界面的可用性和键盘操作一致性。",
-          "why_matters_en": "It improves usability and keyboard consistency in the theme editor dialogs.",
-          "capability_ids": [
-            "multimodal_interfaces"
-          ]
-        },
-        {
-          "raw": "Fixed an uncaught exception at the end of streaming sessions when running via the Agent SDK",
-          "category": "fix",
-          "importance": 3,
-          "summary": "修复 SDK 流式结束异常",
-          "summary_en": "Fix end-of-stream SDK exception",
-          "why_matters": "避免会话结束时报错中断，提升 Agent SDK 集成稳定性。",
-          "why_matters_en": "It prevents end-of-session crashes and improves stability for Agent SDK integrations.",
-          "capability_ids": [
-            "integrations_ecosystem"
-          ]
-        },
-        {
-          "raw": "Fixed `forceLoginOrgUUID` and `forceLoginMethod` managed-settings policies not being enforced against third-party-provider and API-key sessions",
-          "category": "fix",
-          "importance": 5,
-          "summary": "强制登录策略覆盖第三方会话",
-          "summary_en": "Enforce login policy for all session types",
-          "why_matters": "确保受管登录策略对第三方和 API Key 会话同样生效，避免合规绕过。",
-          "why_matters_en": "It ensures managed login policies apply to third-party and API-key sessions, preventing policy bypass.",
-          "capability_ids": [
-            "governance_security",
-            "multimodal_interfaces"
-          ]
-        },
-        {
           "raw": "Fixed GNOME Terminal right-click and middle-click paste not inserting text",
           "category": "fix",
           "importance": 1,
-          "summary": "修复 GNOME 终端粘贴失效",
+          "summary": "修复GNOME终端粘贴失效",
           "summary_en": "Fix GNOME Terminal paste actions",
-          "why_matters": "恢复 Linux 终端常用粘贴操作，提升日常交互便利性。",
-          "why_matters_en": "It restores common paste actions in Linux terminals and improves day-to-day usability.",
+          "why_matters": "GNOME Terminal 中右键和中键粘贴现在能正常插入文本。",
+          "why_matters_en": "Right-click and middle-click paste now insert text correctly in GNOME Terminal.",
           "capability_ids": [
-            "execution_workspace",
             "multimodal_interfaces"
           ]
         },
         {
-          "raw": "Fixed `CLAUDE_CODE_SUBAGENT_MODEL` not being forwarded to child processes in multi-agent sessions",
+          "raw": "Fixed `CLAUDE_CODE_SUBAGENT_MODEL` not applying to teammate processes spawned by agent teams",
           "category": "fix",
-          "importance": 4,
-          "summary": "子进程继承多代理模型配置",
-          "summary_en": "Forward subagent model to child processes",
-          "why_matters": "确保多代理会话中的模型选择一致，避免子进程行为偏离预期。",
-          "why_matters_en": "It keeps model selection consistent across multi-agent sessions and avoids unexpected child process behavior.",
+          "importance": 3,
+          "summary": "子代理模型设置生效",
+          "summary_en": "Subagent model env now propagates",
+          "why_matters": "团队派生的同伴进程会正确继承指定模型配置，保证子代理一致性。",
+          "why_matters_en": "Teammate processes spawned by agent teams now honor CLAUDE_CODE_SUBAGENT_MODEL, ensuring consistent subagent behavior.",
           "capability_ids": [
             "delegation_collaboration",
+            "automation_autonomy",
             "memory_context"
           ]
         },
         {
-          "raw": "Improved auto-updater reliability: native version checks and downloads now retry transient network failures instead of failing immediately",
-          "category": "improvement",
+          "raw": "Fixed slash commands followed by a tab or newline being treated as an unknown command",
+          "category": "fix",
           "importance": 3,
-          "summary": "升级器增加网络重试",
-          "summary_en": "Improved updater with network retries",
-          "why_matters": "在网络波动时更不容易失败，提高自动更新成功率。",
-          "why_matters_en": "It makes updates more resilient to transient network issues and increases success rates.",
+          "summary": "修复斜杠命令误判未知",
+          "summary_en": "Fix slash commands not misread",
+          "why_matters": "避免用户输入带制表符或换行的命令时被误判为未知命令，提升交互稳定性。",
+          "why_matters_en": "Prevents slash commands followed by tabs or newlines from being rejected as unknown, improving CLI reliability.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed several spacing and layout glitches in the `/plugin`, `/status`, `/mobile`, `/sandbox`, and `/permissions` menus",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复多菜单排版问题",
+          "summary_en": "Fix spacing in several menus",
+          "why_matters": "改善多个菜单的间距和布局显示，让界面更清晰、可读性更好。",
+          "why_matters_en": "Improves spacing and layout in several menus, making the UI clearer and easier to read.",
           "capability_ids": [
-            "automation_autonomy",
-            "integrations_ecosystem"
+            "integrations_ecosystem",
+            "governance_security"
           ]
         },
         {
-          "raw": "Improved diff rendering performance for large file edits",
-          "category": "perf",
+          "raw": "Fixed stripped images prompting the model to repeatedly re-read media that was no longer present",
+          "category": "fix",
           "importance": 3,
-          "summary": "大文件差异渲染更快",
-          "summary_en": "Faster diff rendering for large edits",
-          "why_matters": "大文件编辑时差异显示更快，能减少等待并提升查看修改的效率。",
-          "why_matters_en": "Diffs render faster for large file edits, reducing waiting time and improving review efficiency.",
-          "capability_ids": []
+          "summary": "避免模型重复读取已移除图片",
+          "summary_en": "Stop rereading removed images",
+          "why_matters": "修复图片被移除后仍反复读取媒体的问题，减少无效调用并避免上下文混乱。",
+          "why_matters_en": "Fixes repeated rereading of media after images are stripped, reducing wasted calls and confusion.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
         }
       ],
       "signals": [
         {
           "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
-          "points": 646,
+          "points": 669,
           "url": "https://github.com/antoinezambelli/forge"
         },
         {
           "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
-          "points": 441,
+          "points": 442,
           "url": "https://github.com/MinishLab/semble"
-        },
-        {
-          "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 300,
-          "url": "https://news.ycombinator.com/item?id=48128003"
         },
         {
           "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
@@ -308,6 +562,11 @@
           "title": "How Claude Code works in large codebases",
           "points": 247,
           "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start"
+        },
+        {
+          "title": "Learnings from 100K lines of Rust with AI (2025)",
+          "points": 175,
+          "url": "https://zfhuang99.github.io/rust/claude%20code/codex/contracts/spec-driven%20development/2025/12/01/rust-with-ai.html"
         }
       ],
       "highlight_score": 50
@@ -577,12 +836,12 @@
       "signals": [
         {
           "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
-          "points": 646,
+          "points": 669,
           "url": "https://github.com/antoinezambelli/forge"
         },
         {
           "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
-          "points": 441,
+          "points": 442,
           "url": "https://github.com/MinishLab/semble"
         },
         {
@@ -1278,12 +1537,12 @@
       "signals": [
         {
           "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
-          "points": 646,
+          "points": 669,
           "url": "https://github.com/antoinezambelli/forge"
         },
         {
           "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
-          "points": 441,
+          "points": 442,
           "url": "https://github.com/MinishLab/semble"
         },
         {
@@ -1747,7 +2006,7 @@
       "signals": [
         {
           "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
-          "points": 646,
+          "points": 669,
           "url": "https://github.com/antoinezambelli/forge"
         },
         {
@@ -1757,7 +2016,7 @@
         },
         {
           "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
-          "points": 441,
+          "points": 442,
           "url": "https://github.com/MinishLab/semble"
         },
         {
@@ -2088,7 +2347,7 @@
       "signals": [
         {
           "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
-          "points": 646,
+          "points": 669,
           "url": "https://github.com/antoinezambelli/forge"
         },
         {
@@ -2098,7 +2357,7 @@
         },
         {
           "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
-          "points": 441,
+          "points": 442,
           "url": "https://github.com/MinishLab/semble"
         },
         {
@@ -2898,7 +3157,7 @@
       "signals": [
         {
           "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
-          "points": 646,
+          "points": 669,
           "url": "https://github.com/antoinezambelli/forge"
         },
         {
@@ -2908,7 +3167,7 @@
         },
         {
           "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
-          "points": 441,
+          "points": 442,
           "url": "https://github.com/MinishLab/semble"
         },
         {
@@ -3099,7 +3358,7 @@
       "signals": [
         {
           "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
-          "points": 646,
+          "points": 669,
           "url": "https://github.com/antoinezambelli/forge"
         },
         {
@@ -3109,7 +3368,7 @@
         },
         {
           "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
-          "points": 441,
+          "points": 442,
           "url": "https://github.com/MinishLab/semble"
         },
         {
@@ -3753,7 +4012,7 @@
         },
         {
           "title": "Show HN: Semble – Code search for agents that uses 98% fewer tokens than grep",
-          "points": 441,
+          "points": 442,
           "url": "https://github.com/MinishLab/semble"
         },
         {
@@ -33786,6 +34045,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Show HN: Z80-μLM, a 'Conversational AI' That Fits in 40KB",
           "points": 514,
           "url": "https://github.com/HarryR/z80ai"
@@ -33804,11 +34068,6 @@
           "title": "Show HN: Vibe coding a bookshelf with Claude Code",
           "points": 284,
           "url": "https://balajmarius.com/writings/vibe-coding-a-bookshelf-with-claude-code/"
-        },
-        {
-          "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
-          "points": 216,
-          "url": "https://github.com/DeepMyst/Mysti"
         }
       ],
       "highlight_score": 30
@@ -33832,6 +34091,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -33850,11 +34114,6 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
-        },
-        {
-          "title": "Codex vs. Claude Code (today)",
-          "points": 104,
-          "url": "https://build.ms/2025/12/22/codex-vs-claude-code-today/"
         }
       ],
       "highlight_score": 30
@@ -34032,6 +34291,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -34050,11 +34314,6 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
-        },
-        {
-          "title": "Codex vs. Claude Code (today)",
-          "points": 104,
-          "url": "https://build.ms/2025/12/22/codex-vs-claude-code-today/"
         }
       ],
       "highlight_score": 50
@@ -34181,6 +34440,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -34199,11 +34463,6 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
-        },
-        {
-          "title": "Show HN: Superset – Terminal to run 10 parallel coding agents",
-          "points": 96,
-          "url": "https://superset.sh/"
         }
       ],
       "highlight_score": 50
@@ -34346,6 +34605,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -34364,11 +34628,6 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
-        },
-        {
-          "title": "Show HN: Superset – Terminal to run 10 parallel coding agents",
-          "points": 96,
-          "url": "https://superset.sh/"
         }
       ],
       "highlight_score": 55
@@ -34467,6 +34726,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -34485,11 +34749,6 @@
           "title": "Show HN: Local Privacy Firewall-blocks PII and secrets before ChatGPT sees them",
           "points": 111,
           "url": "https://github.com/privacyshield-ai/privacy-firewall"
-        },
-        {
-          "title": "Show HN: Superset – Terminal to run 10 parallel coding agents",
-          "points": 96,
-          "url": "https://superset.sh/"
         }
       ],
       "highlight_score": 50
@@ -34655,6 +34914,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -34673,11 +34937,6 @@
           "title": "Show HN: Local Privacy Firewall-blocks PII and secrets before ChatGPT sees them",
           "points": 111,
           "url": "https://github.com/privacyshield-ai/privacy-firewall"
-        },
-        {
-          "title": "Show HN: I open-sourced my Go and Next B2B SaaS Starter (deploy anywhere, MIT)",
-          "points": 83,
-          "url": "https://github.com/moasq/production-saas-starter"
         }
       ],
       "highlight_score": 55
@@ -50341,7 +50600,7 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 398,
+      "change_count": 400,
       "release_count": 152,
       "avg_importance": 3.11,
       "maturity": {
@@ -50353,14 +50612,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-05-20",
-        "version": "2.1.146"
+        "date": "2026-05-21",
+        "version": "2.1.147"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 236
+          "change_count": 238
         },
         {
           "epoch_id": "epoch4",
@@ -50436,8 +50695,8 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 838,
-      "release_count": 189,
+      "change_count": 846,
+      "release_count": 190,
       "avg_importance": 3.23,
       "maturity": {
         "score": 93,
@@ -50448,14 +50707,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-05-20",
-        "version": "2.1.146"
+        "date": "2026-05-22",
+        "version": "2.1.148"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 537
+          "change_count": 545
         },
         {
           "epoch_id": "epoch1",
@@ -50531,7 +50790,7 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 564,
+      "change_count": 567,
       "release_count": 146,
       "avg_importance": 3.19,
       "maturity": {
@@ -50543,14 +50802,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-05-20",
-        "version": "2.1.146"
+        "date": "2026-05-21",
+        "version": "2.1.147"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 400
+          "change_count": 403
         },
         {
           "epoch_id": "epoch1",
@@ -50626,7 +50885,7 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 674,
+      "change_count": 677,
       "release_count": 197,
       "avg_importance": 3.26,
       "maturity": {
@@ -50638,14 +50897,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-20",
-        "version": "2.1.146"
+        "date": "2026-05-21",
+        "version": "2.1.147"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 412
+          "change_count": 415
         },
         {
           "epoch_id": "epoch1",
@@ -50723,7 +50982,7 @@
       ],
       "change_count": 318,
       "release_count": 119,
-      "avg_importance": 3.32,
+      "avg_importance": 3.31,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -50733,8 +50992,8 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-20",
-        "version": "2.1.146"
+        "date": "2026-05-21",
+        "version": "2.1.147"
       },
       "epochs": [
         {
@@ -50816,7 +51075,7 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 1049,
+      "change_count": 1054,
       "release_count": 225,
       "avg_importance": 3.13,
       "maturity": {
@@ -50828,14 +51087,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-05-20",
-        "version": "2.1.146"
+        "date": "2026-05-21",
+        "version": "2.1.147"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 683
+          "change_count": 688
         },
         {
           "epoch_id": "epoch1",
@@ -50860,6 +51119,14 @@
       ],
       "samples": [
         {
+          "date": "2026-05-21",
+          "version": "2.1.147",
+          "raw": "Fixed enterprise login restrictions (`forceLoginOrgUUID` and `forceLoginMethod` managed-settings) not being enforced against third-party-provider and API-key sessions",
+          "summary": "企业登录限制正确生效",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-05-18",
           "version": "2.1.144",
           "raw": "Fixed startup hanging up to 75s when `api.anthropic.com` is unreachable (captive portal, firewall, VPN issues) — side-channel API calls now time out after 15s",
@@ -50880,14 +51147,6 @@
           "version": "2.1.142",
           "raw": "Fixed background agents crash-looping when the Claude-in-Chrome extension is connected without a shared tab",
           "summary": "修复Chrome扩展导致崩溃",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-05-13",
-          "version": "2.1.141",
-          "raw": "Fixed Remote Control MCP connectors all failing with 401 when the worker session token rotated mid-session",
-          "summary": "修复远程控制令牌轮换401",
           "importance": 5,
           "category": "fix"
         }
@@ -50911,7 +51170,7 @@
         "Emacs",
         "web"
       ],
-      "change_count": 682,
+      "change_count": 685,
       "release_count": 168,
       "avg_importance": 2.67,
       "maturity": {
@@ -50923,14 +51182,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-20",
-        "version": "2.1.146"
+        "date": "2026-05-21",
+        "version": "2.1.147"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 473
+          "change_count": 476
         },
         {
           "epoch_id": "epoch4",
@@ -50955,10 +51214,10 @@
       ],
       "samples": [
         {
-          "date": "2026-05-20",
-          "version": "2.1.146",
-          "raw": "Fixed `forceLoginOrgUUID` and `forceLoginMethod` managed-settings policies not being enforced against third-party-provider and API-key sessions",
-          "summary": "强制登录策略覆盖第三方会话",
+          "date": "2026-05-21",
+          "version": "2.1.147",
+          "raw": "Fixed enterprise login restrictions (`forceLoginOrgUUID` and `forceLoginMethod` managed-settings) not being enforced against third-party-provider and API-key sessions",
+          "summary": "企业登录限制正确生效",
           "importance": 5,
           "category": "fix"
         },
@@ -51006,7 +51265,7 @@
         "policy",
         "auditing"
       ],
-      "change_count": 675,
+      "change_count": 679,
       "release_count": 195,
       "avg_importance": 3.38,
       "maturity": {
@@ -51018,14 +51277,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-20",
-        "version": "2.1.146"
+        "date": "2026-05-21",
+        "version": "2.1.147"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 439
+          "change_count": 443
         },
         {
           "epoch_id": "epoch4",
@@ -51050,10 +51309,10 @@
       ],
       "samples": [
         {
-          "date": "2026-05-20",
-          "version": "2.1.146",
-          "raw": "Fixed `forceLoginOrgUUID` and `forceLoginMethod` managed-settings policies not being enforced against third-party-provider and API-key sessions",
-          "summary": "强制登录策略覆盖第三方会话",
+          "date": "2026-05-21",
+          "version": "2.1.147",
+          "raw": "Fixed enterprise login restrictions (`forceLoginOrgUUID` and `forceLoginMethod` managed-settings) not being enforced against third-party-provider and API-key sessions",
+          "summary": "企业登录限制正确生效",
           "importance": 5,
           "category": "fix"
         },
