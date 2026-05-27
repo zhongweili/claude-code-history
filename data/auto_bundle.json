@@ -1,13 +1,13 @@
 {
   "meta": {
-    "generated_at": "2026-05-26T05:00:14.436Z",
+    "generated_at": "2026-05-27T05:12:55.718Z",
     "agent_model": "openai/gpt-5.4-mini",
-    "total_versions": 296,
+    "total_versions": 297,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-05-23"
+      "end": "2026-05-26"
     },
-    "highlight_count": 36,
+    "highlight_count": 37,
     "capability_count": 8,
     "hn_signal_count": 18,
     "blog_post_count": 7
@@ -70,11 +70,469 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。与此同时，Opus 4.6 把「思考」变成了可选项，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Meanwhile, Opus 4.6 makes reasoning optional rather than visible, while worktree isolation and a 1M context push the agent toward running for hours, unattended.",
-      "release_count": 80,
-      "highlight_count": 15
+      "release_count": 81,
+      "highlight_count": 16
     }
   ],
   "releases": [
+    {
+      "version": "2.1.152",
+      "date": "2026-05-26",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "`/code-review --fix` now applies review findings to your working tree after the review, surfacing reuse, simplification, and efficiency suggestions; `/simplify` now invokes `/code-review --fix`",
+          "category": "feat",
+          "importance": 4,
+          "summary": "修复建议可直接应用到工作区",
+          "summary_en": "Apply code review fixes to working tree",
+          "why_matters": "用户可以在代码评审后直接落地重构、简化和效率建议，减少手动修改成本。",
+          "why_matters_en": "Users can apply refactoring, simplification, and efficiency suggestions directly after review, reducing manual edit work.",
+          "capability_ids": [
+            "execution_workspace",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Skills and slash commands can now set `disallowed-tools` in frontmatter to remove tools from the model while the skill is active",
+          "category": "feat",
+          "importance": 3,
+          "summary": "技能可禁用部分工具",
+          "summary_en": "Skills can disallow specific tools",
+          "why_matters": "通过限制技能可用工具，可以让临时上下文更安全、更可控，也避免模型误用工具。",
+          "why_matters_en": "Restricting available tools for active skills makes execution safer and more controlled, and prevents tool misuse.",
+          "capability_ids": [
+            "governance_security",
+            "delegation_collaboration",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added `/reload-skills` command to re-scan skill directories without restarting the session",
+          "category": "feat",
+          "importance": 3,
+          "summary": "无需重启即可重载技能",
+          "summary_en": "Reload skills without restarting",
+          "why_matters": "用户更新或新增技能后可以立即生效，提升调试和迭代效率。",
+          "why_matters_en": "Users can pick up skill changes immediately, improving iteration speed and debugging flow.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "`SessionStart` hooks can now return `reloadSkills: true` to re-scan skill directories, making skills installed by the hook available in the same session",
+          "category": "feat",
+          "importance": 3,
+          "summary": "会话开始可自动重载技能",
+          "summary_en": "SessionStart can reload skills",
+          "why_matters": "Hook 安装的新技能能在同一会话内可用，减少等待和重启成本。",
+          "why_matters_en": "Skills installed by hooks become available in the same session, reducing waiting and restart overhead.",
+          "capability_ids": [
+            "automation_autonomy",
+            "memory_context",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "`SessionStart` hooks can now set the session title via `hookSpecificOutput.sessionTitle` on startup and resume",
+          "category": "feat",
+          "importance": 2,
+          "summary": "启动时可设置会话标题",
+          "summary_en": "Set session title on startup",
+          "why_matters": "自动设置标题有助于区分和管理多个会话。",
+          "why_matters_en": "Auto-setting the session title helps distinguish and manage multiple sessions.",
+          "capability_ids": [
+            "automation_autonomy",
+            "memory_context",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added a `MessageDisplay` hook event that lets hooks transform or hide assistant message text as it is displayed",
+          "category": "feat",
+          "importance": 3,
+          "summary": "可改写或隐藏消息显示",
+          "summary_en": "Hooks can transform displayed messages",
+          "why_matters": "钩子可以过滤或重写助手输出，便于做脱敏、定制展示或提示增强。",
+          "why_matters_en": "Hooks can filter or rewrite assistant output, enabling redaction, customized display, and richer presentation.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy",
+            "multimodal_interfaces",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added `pluginSuggestionMarketplaces` managed setting: admins can allowlist org marketplaces whose plugins may be suggested via context-aware tips",
+          "category": "feat",
+          "importance": 3,
+          "summary": "管理员可限制插件推荐市场",
+          "summary_en": "Admins can allowlist plugin marketplaces",
+          "why_matters": "通过白名单控制可推荐市场，降低插件生态带来的安全和合规风险。",
+          "why_matters_en": "Allowlisting marketplaces reduces security and compliance risk from the plugin ecosystem.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "`claude plugin marketplace remove` now accepts `--scope user|project|local` for symmetry with `marketplace add`, `install`, and `uninstall`",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "市场移除命令支持作用域",
+          "summary_en": "Marketplace remove supports scope",
+          "why_matters": "命令参数与其他市场操作保持一致，使用更顺手。",
+          "why_matters_en": "The command matches the scope options used by other marketplace actions, making it more consistent.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Claude Code now switches to your configured `--fallback-model` for the rest of the session when the primary model is not found, instead of failing every request",
+          "category": "fix",
+          "importance": 4,
+          "summary": "主模型缺失时自动切换备用模型",
+          "summary_en": "Fallback model now auto-switches on missing primary",
+          "why_matters": "主模型不可用时会自动继续执行，避免整段会话因模型缺失而失败。",
+          "why_matters_en": "When the primary model is unavailable, the session can continue automatically instead of failing every request.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Auto mode no longer requires opt-in consent",
+          "category": "breaking",
+          "importance": 2,
+          "summary": "自动模式不再需同意",
+          "summary_en": "Auto mode no longer needs opt-in consent",
+          "why_matters": "减少了启用门槛，但也改变了原有的确认流程和默认行为。",
+          "why_matters_en": "This lowers the activation barrier, but it changes the prior consent flow and default behavior.",
+          "capability_ids": [
+            "automation_autonomy",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Vim mode: `/` in NORMAL mode now opens reverse history search (like Ctrl+R), matching bash/zsh vi-mode",
+          "category": "feat",
+          "importance": 2,
+          "summary": "Vim模式反向历史搜索",
+          "summary_en": "Vim mode / opens reverse history search",
+          "why_matters": "让终端交互更接近 bash/zsh vi 模式，熟悉用户可更高效检索历史。",
+          "why_matters_en": "This makes terminal interaction feel closer to bash/zsh vi-mode, helping familiar users search history faster.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "The `/usage` breakdown now includes large session files; files are scanned with a streaming read so memory usage stays flat",
+          "category": "perf",
+          "importance": 3,
+          "summary": "/usage支持大会话文件",
+          "summary_en": "/usage now includes large session files",
+          "why_matters": "即使会话文件很大也能平稳统计用量，并避免额外内存占用。",
+          "why_matters_en": "Usage can be computed reliably even for large session files, while keeping memory usage flat.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Thinking summaries in the collapsed group now stay readable for at least 3 seconds, render as markdown, and cap at 10 lines (`Ctrl+O` shows the full thinking)",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "折叠思考摘要更易读",
+          "summary_en": "Collapsed thinking summaries stay readable",
+          "why_matters": "用户能更快理解模型思考过程，并在需要时展开查看完整内容。",
+          "why_matters_en": "Users can understand the model's reasoning faster and expand to the full content when needed.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "In fullscreen mode, the \"Thinking for Ns\" indicator now counts up live while the model is thinking, and keeps its value if you interrupt mid-thought",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "全屏思考计时实时更新",
+          "summary_en": "Fullscreen thinking timer updates live",
+          "why_matters": "更准确地反馈模型思考时长，帮助用户判断是否需要中断。",
+          "why_matters_en": "It gives a more accurate sense of thinking duration and helps users decide when to interrupt.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Simplified the Workflow tool's inline progress display — live agent counts now show only in the persistent workflow status row below the prompt",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "工作流进度展示更简洁",
+          "summary_en": "Simpler workflow progress display",
+          "why_matters": "减少界面噪音，让用户把注意力集中在持续状态而不是重复进度信息上。",
+          "why_matters_en": "This reduces UI noise and keeps attention on the persistent workflow status instead of repeated progress updates.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "The post-response timer now shows \"Waiting for N background agents/workflows to finish\" when backgrounded agents or workflows are still running, and reports the cumulative time once their results are processed",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "后台任务完成时间提示更清晰",
+          "summary_en": "Clearer timer for background work",
+          "why_matters": "用户能更准确地看到后台代理或工作流的完成进度，减少等待时的困惑。",
+          "why_matters_en": "Users can better track background agents/workflows and understand how long pending work is taking.",
+          "capability_ids": [
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Added the session entrypoint as an OpenTelemetry metric attribute (`app.entrypoint`, opt-in via `OTEL_METRICS_INCLUDE_ENTRYPOINT=true`)",
+          "category": "feat",
+          "importance": 2,
+          "summary": "会话入口写入监控指标",
+          "summary_en": "Session entrypoint added to metrics",
+          "why_matters": "这让 OpenTelemetry 指标能区分会话来源，便于分析使用路径和接入效果。",
+          "why_matters_en": "This lets OpenTelemetry metrics capture where sessions start, improving usage analysis and attribution.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed terminal styling degrading in very long sessions by recycling the renderer's style pool",
+          "category": "fix",
+          "importance": 3,
+          "summary": "长会话终端样式不再劣化",
+          "summary_en": "Fix style degradation in long sessions",
+          "why_matters": "长时间使用时界面样式更稳定，避免终端显示逐渐变乱。",
+          "why_matters_en": "Terminal rendering stays stable over long sessions instead of gradually degrading.",
+          "capability_ids": [
+            "execution_workspace",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed the sandbox-enabled warning not appearing in condensed startup mode — it now shows in every layout",
+          "category": "fix",
+          "importance": 2,
+          "summary": "压缩启动也显示沙盒提示",
+          "summary_en": "Sandbox warning now shows in all layouts",
+          "why_matters": "用户在任何启动布局下都能及时看到沙盒相关警告，避免漏看关键提示。",
+          "why_matters_en": "Users now see sandbox warnings consistently across layouts, reducing the chance of missing an important notice.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed the loading spinner showing \"still thinking\"/\"almost done thinking\" while a tool is running, and reset the thinking status to \"thinking\" after each tool",
+          "category": "fix",
+          "importance": 3,
+          "summary": "工具运行时思考状态更准确",
+          "summary_en": "Thinking status stays accurate during tools",
+          "why_matters": "状态提示不再误导用户，能正确反映模型正在执行工具而不是继续思考。",
+          "why_matters_en": "Status messaging no longer misleads users and correctly reflects tool execution versus thinking.",
+          "capability_ids": [
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed focus mode showing a spurious \"N messages hidden\" count on turns with no hidden activity",
+          "category": "fix",
+          "importance": 1,
+          "summary": "聚焦模式隐藏消息数更准确",
+          "summary_en": "Fix hidden message count in focus mode",
+          "why_matters": "界面计数更可信，避免在没有隐藏内容时显示误导性数量。",
+          "why_matters_en": "The UI count is now trustworthy and no longer shows a misleading number when nothing is hidden.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed clicking a link inside an expanded tool result collapsing the section instead of opening the link",
+          "category": "fix",
+          "importance": 2,
+          "summary": "展开工具结果内链接可正常打开",
+          "summary_en": "Links inside expanded tool results work",
+          "why_matters": "用户可以直接点击工具输出中的链接查看内容，不会因为误折叠而中断操作。",
+          "why_matters_en": "Users can click links in tool output without the section collapsing unexpectedly.",
+          "capability_ids": [
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed markdown table cell borders inheriting the color of inline code, wrapped continuation lines losing their style, and empty header cells showing a label in the narrow-terminal stacked layout",
+          "category": "fix",
+          "importance": 2,
+          "summary": "Markdown 表格样式渲染修复",
+          "summary_en": "Fix Markdown table rendering styles",
+          "why_matters": "表格在各种终端宽度下会更易读，避免颜色和换行样式错乱。",
+          "why_matters_en": "Markdown tables render more consistently across terminal widths, improving readability.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed plugin MCP servers with the same command but different environment variables being incorrectly deduplicated",
+          "category": "fix",
+          "importance": 3,
+          "summary": "同命令不同环境变量插件不再误去重",
+          "summary_en": "Plugins with same command are no longer deduped",
+          "why_matters": "不同配置的 MCP 插件可以同时保留并正常使用，避免功能被错误合并。",
+          "why_matters_en": "Distinct MCP plugins with different environments are preserved instead of being incorrectly merged.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed `/doctor` reporting \"marketplace not found\" or \"plugin not found\" for stale `enabledPlugins` entries referencing removed marketplaces or dropped plugins",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复 /doctor 旧插件残留报错",
+          "summary_en": "Fix stale plugin entries in /doctor",
+          "why_matters": "诊断结果更准确，减少因历史残留配置导致的误报和排障成本。",
+          "why_matters_en": "/doctor now reports stale plugin state more accurately, reducing false errors and debugging effort.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed plugins that track a git branch silently no longer receiving updates after the plugin registry was rebuilt",
+          "category": "fix",
+          "importance": 3,
+          "summary": "插件分支更新不再静默中断",
+          "summary_en": "Git-tracked plugins keep receiving updates",
+          "why_matters": "跟踪分支的插件能继续正常更新，不会因为注册表重建而悄然停更。",
+          "why_matters_en": "Branch-tracked plugins continue to receive updates after registry rebuilds instead of silently stalling.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed remote MCP servers failing to connect in Claude Code Remote sessions when the egress proxy is enabled",
+          "category": "fix",
+          "importance": 4,
+          "summary": "远程会话代理连接问题修复",
+          "summary_en": "Fix remote MCP connections via proxy",
+          "why_matters": "Claude Code Remote 在启用出口代理时也能稳定连接远程 MCP 服务，提升可用性。",
+          "why_matters_en": "Claude Code Remote can connect to remote MCP servers even with an egress proxy enabled, improving reliability.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed the effort-change confirmation dialog appearing when the conversation has no messages or when switching between effort levels that resolve to the same underlying value",
+          "category": "fix",
+          "importance": 2,
+          "summary": "努力级别确认弹窗不再误触发",
+          "summary_en": "Fix spurious effort change confirmation",
+          "why_matters": "减少无意义的确认打断，让空会话或等效切换更顺畅。",
+          "why_matters_en": "Users are no longer interrupted by unnecessary confirmations when no real change occurs.",
+          "capability_ids": [
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed the Agent tool description referencing an agent list that is never delivered when running with `--bare` or with attachments disabled",
+          "category": "fix",
+          "importance": 2,
+          "summary": "裸模式 Agent 说明不再引用缺失列表",
+          "summary_en": "Fix Agent description in bare mode",
+          "why_matters": "在 `--bare` 或禁用附件时，说明文本不会再引用根本不会发送的内容。",
+          "why_matters_en": "Agent descriptions no longer reference an agent list that is unavailable in bare or attachment-disabled modes.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed a background worker crash in `claude agents` when accepting a stale permission prompt after a subagent was cancelled",
+          "category": "fix",
+          "importance": 4,
+          "summary": "子代理取消后权限提示崩溃修复",
+          "summary_en": "Fix worker crash after stale permission prompt",
+          "why_matters": "避免 `claude agents` 在取消子代理后因旧权限提示而崩溃，提升稳定性。",
+          "why_matters_en": "`claude agents` no longer crashes on stale permission prompts after a subagent is cancelled, improving stability.",
+          "capability_ids": [
+            "automation_autonomy",
+            "delegation_collaboration",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed `cache_creation_input_tokens` reporting as 0 in transcript and result usage when the API reports cache writes only via the nested `cache_creation` breakdown",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修正缓存写入令牌统计",
+          "summary_en": "Fix cache write token reporting",
+          "why_matters": "修复后会正确显示缓存写入消耗，避免使用量统计失真。",
+          "why_matters_en": "This restores accurate cache-write usage reporting and avoids misleading token counts.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed the PushNotification tool incorrectly reporting \"Mobile push not sent (Remote Control inactive)\" in SDK-hosted sessions when Remote Control is enabled",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修正推送通知状态误报",
+          "summary_en": "Fix push notification misreport",
+          "why_matters": "修复后在启用远程控制时不会再错误提示推送未发送，减少混淆。",
+          "why_matters_en": "This prevents false failure messages when Remote Control is enabled, reducing confusion.",
+          "capability_ids": [
+            "automation_autonomy",
+            "integrations_ecosystem",
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed sessions getting stuck after a model or login switch left stale thinking-block signatures in history; now stripped proactively with a retry safety-net",
+          "category": "fix",
+          "importance": 5,
+          "summary": "修复切换后会话卡死",
+          "summary_en": "Fix session hangs after switches",
+          "why_matters": "修复后模型或登录切换不会因历史残留签名导致会话卡住，提升稳定性。",
+          "why_matters_en": "This prevents sessions from hanging after model or login switches due to stale history signatures, improving reliability.",
+          "capability_ids": [
+            "memory_context",
+            "reasoning_workflows"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
+          "points": 686,
+          "url": "https://github.com/antoinezambelli/forge"
+        },
+        {
+          "title": "Microsoft starts canceling Claude Code licenses",
+          "points": 489,
+          "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
+        },
+        {
+          "title": "Learnings from 100K lines of Rust with AI (2025)",
+          "points": 190,
+          "url": "https://zfhuang99.github.io/rust/claude%20code/codex/contracts/spec-driven%20development/2025/12/01/rust-with-ai.html"
+        },
+        {
+          "title": "Launch HN: Superset (YC P26) – IDE for the agents era",
+          "points": 106,
+          "url": "https://github.com/superset-sh/superset"
+        },
+        {
+          "title": "Launch HN: Runtime (YC P26) – Sandboxed coding agents for everyone on a team",
+          "points": 101,
+          "url": "https://www.runtm.com/"
+        }
+      ],
+      "highlight_score": 55
+    },
     {
       "version": "2.1.150",
       "date": "2026-05-23",
@@ -95,12 +553,12 @@
       "signals": [
         {
           "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
-          "points": 685,
+          "points": 686,
           "url": "https://github.com/antoinezambelli/forge"
         },
         {
           "title": "Microsoft starts canceling Claude Code licenses",
-          "points": 486,
+          "points": 489,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
@@ -459,12 +917,12 @@
       "signals": [
         {
           "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
-          "points": 685,
+          "points": 686,
           "url": "https://github.com/antoinezambelli/forge"
         },
         {
           "title": "Microsoft starts canceling Claude Code licenses",
-          "points": 486,
+          "points": 489,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
@@ -507,12 +965,12 @@
       "signals": [
         {
           "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
-          "points": 685,
+          "points": 686,
           "url": "https://github.com/antoinezambelli/forge"
         },
         {
           "title": "Microsoft starts canceling Claude Code licenses",
-          "points": 486,
+          "points": 489,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
@@ -955,12 +1413,12 @@
       "signals": [
         {
           "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
-          "points": 685,
+          "points": 686,
           "url": "https://github.com/antoinezambelli/forge"
         },
         {
           "title": "Microsoft starts canceling Claude Code licenses",
-          "points": 486,
+          "points": 489,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
@@ -1246,12 +1704,12 @@
       "signals": [
         {
           "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
-          "points": 685,
+          "points": 686,
           "url": "https://github.com/antoinezambelli/forge"
         },
         {
           "title": "Microsoft starts canceling Claude Code licenses",
-          "points": 486,
+          "points": 489,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
@@ -1947,12 +2405,12 @@
       "signals": [
         {
           "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
-          "points": 685,
+          "points": 686,
           "url": "https://github.com/antoinezambelli/forge"
         },
         {
           "title": "Microsoft starts canceling Claude Code licenses",
-          "points": 486,
+          "points": 489,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
@@ -2416,7 +2874,7 @@
       "signals": [
         {
           "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
-          "points": 685,
+          "points": 686,
           "url": "https://github.com/antoinezambelli/forge"
         },
         {
@@ -2426,7 +2884,7 @@
         },
         {
           "title": "Microsoft starts canceling Claude Code licenses",
-          "points": 486,
+          "points": 489,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
@@ -2757,7 +3215,7 @@
       "signals": [
         {
           "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
-          "points": 685,
+          "points": 686,
           "url": "https://github.com/antoinezambelli/forge"
         },
         {
@@ -3567,7 +4025,7 @@
       "signals": [
         {
           "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
-          "points": 685,
+          "points": 686,
           "url": "https://github.com/antoinezambelli/forge"
         },
         {
@@ -3768,7 +4226,7 @@
       "signals": [
         {
           "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
-          "points": 685,
+          "points": 686,
           "url": "https://github.com/antoinezambelli/forge"
         },
         {
@@ -4472,6 +4930,11 @@
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
+          "title": "Kimi K2.6 just beat Claude, GPT-5.5, and Gemini in a coding challenge",
+          "points": 380,
+          "url": "https://thinkpol.ca/2026/04/30/an-open-weights-chinese-model-just-beat-claude-gpt-5-5-and-gemini-in-a-programming-challenge/"
+        },
+        {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
           "points": 302,
           "url": "https://news.ycombinator.com/item?id=48128003"
@@ -4480,11 +4943,6 @@
           "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
           "points": 253,
           "url": "https://github.com/DrCatHicks/learning-opportunities"
-        },
-        {
-          "title": "How Claude Code works in large codebases",
-          "points": 247,
-          "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start"
         }
       ],
       "highlight_score": 30
@@ -4520,6 +4978,11 @@
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
+          "title": "Kimi K2.6 just beat Claude, GPT-5.5, and Gemini in a coding challenge",
+          "points": 380,
+          "url": "https://thinkpol.ca/2026/04/30/an-open-weights-chinese-model-just-beat-claude-gpt-5-5-and-gemini-in-a-programming-challenge/"
+        },
+        {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
           "points": 302,
           "url": "https://news.ycombinator.com/item?id=48128003"
@@ -4528,11 +4991,6 @@
           "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
           "points": 253,
           "url": "https://github.com/DrCatHicks/learning-opportunities"
-        },
-        {
-          "title": "How Claude Code works in large codebases",
-          "points": 247,
-          "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start"
         }
       ],
       "highlight_score": 50
@@ -5170,14 +5628,14 @@
           "url": "https://www.briefs.co/news/uber-torches-entire-2026-ai-budget-on-claude-code-in-four-months/"
         },
         {
+          "title": "Kimi K2.6 just beat Claude, GPT-5.5, and Gemini in a coding challenge",
+          "points": 380,
+          "url": "https://thinkpol.ca/2026/04/30/an-open-weights-chinese-model-just-beat-claude-gpt-5-5-and-gemini-in-a-programming-challenge/"
+        },
+        {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
           "points": 302,
           "url": "https://news.ycombinator.com/item?id=48128003"
-        },
-        {
-          "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
-          "points": 253,
-          "url": "https://github.com/DrCatHicks/learning-opportunities"
         }
       ],
       "highlight_score": 55
@@ -5433,9 +5891,9 @@
           "url": "https://www.briefs.co/news/uber-torches-entire-2026-ai-budget-on-claude-code-in-four-months/"
         },
         {
-          "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 302,
-          "url": "https://news.ycombinator.com/item?id=48128003"
+          "title": "Kimi K2.6 just beat Claude, GPT-5.5, and Gemini in a coding challenge",
+          "points": 380,
+          "url": "https://thinkpol.ca/2026/04/30/an-open-weights-chinese-model-just-beat-claude-gpt-5-5-and-gemini-in-a-programming-challenge/"
         }
       ],
       "highlight_score": 50
@@ -34455,6 +34913,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Show HN: Z80-μLM, a 'Conversational AI' That Fits in 40KB",
           "points": 514,
           "url": "https://github.com/HarryR/z80ai"
@@ -34473,11 +34936,6 @@
           "title": "Show HN: Vibe coding a bookshelf with Claude Code",
           "points": 284,
           "url": "https://balajmarius.com/writings/vibe-coding-a-bookshelf-with-claude-code/"
-        },
-        {
-          "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
-          "points": 216,
-          "url": "https://github.com/DeepMyst/Mysti"
         }
       ],
       "highlight_score": 30
@@ -34501,6 +34959,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -34519,11 +34982,6 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
-        },
-        {
-          "title": "Codex vs. Claude Code (today)",
-          "points": 104,
-          "url": "https://build.ms/2025/12/22/codex-vs-claude-code-today/"
         }
       ],
       "highlight_score": 30
@@ -34701,6 +35159,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -34719,11 +35182,6 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
-        },
-        {
-          "title": "Codex vs. Claude Code (today)",
-          "points": 104,
-          "url": "https://build.ms/2025/12/22/codex-vs-claude-code-today/"
         }
       ],
       "highlight_score": 50
@@ -34850,6 +35308,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -34868,11 +35331,6 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
-        },
-        {
-          "title": "Show HN: Superset – Terminal to run 10 parallel coding agents",
-          "points": 96,
-          "url": "https://superset.sh/"
         }
       ],
       "highlight_score": 50
@@ -35015,6 +35473,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -35033,11 +35496,6 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
-        },
-        {
-          "title": "Show HN: Superset – Terminal to run 10 parallel coding agents",
-          "points": 96,
-          "url": "https://superset.sh/"
         }
       ],
       "highlight_score": 55
@@ -35136,6 +35594,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -35154,11 +35617,6 @@
           "title": "Show HN: Local Privacy Firewall-blocks PII and secrets before ChatGPT sees them",
           "points": 111,
           "url": "https://github.com/privacyshield-ai/privacy-firewall"
-        },
-        {
-          "title": "Show HN: Superset – Terminal to run 10 parallel coding agents",
-          "points": 96,
-          "url": "https://superset.sh/"
         }
       ],
       "highlight_score": 50
@@ -35324,6 +35782,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -35342,11 +35805,6 @@
           "title": "Show HN: Local Privacy Firewall-blocks PII and secrets before ChatGPT sees them",
           "points": 111,
           "url": "https://github.com/privacyshield-ai/privacy-firewall"
-        },
-        {
-          "title": "Show HN: I open-sourced my Go and Next B2B SaaS Starter (deploy anywhere, MIT)",
-          "points": 83,
-          "url": "https://github.com/moasq/production-saas-starter"
         }
       ],
       "highlight_score": 55
@@ -50991,6 +51449,74 @@
           }
         ]
       }
+    },
+    {
+      "version": "2.1.152",
+      "date": "2026-05-26",
+      "epoch_id": "epoch5",
+      "highlight_score": 55,
+      "highlight_title": "从审阅到自动落地",
+      "highlight_title_en": "From Review to Auto-Fix",
+      "highlight_summary": "Claude Code 的审阅不再停留在建议层面。`/code-review --fix` 现在会把发现直接带回工作区，帮助代码更快走向可合并的状态。`/simplify` 也顺势接入同一流程，让精简代码成为一次自然的收尾动作。",
+      "highlight_summary_en": "Code review no longer ends at recommendations. `/code-review --fix` now carries findings back into the working tree, helping code move toward merge-ready faster. `/simplify` now joins the same flow, making cleanup a natural final step.",
+      "highlight_why": "这次更新把 Claude Code 从“指出问题”推进到“完成改进”，让审阅真正成为执行的一部分。",
+      "highlight_why_en": "This release moves Claude Code from pointing out issues to completing the fix, turning review into part of execution.",
+      "capability_ids": [
+        "execution_workspace",
+        "reasoning_workflows",
+        "governance_security",
+        "delegation_collaboration",
+        "integrations_ecosystem",
+        "memory_context",
+        "automation_autonomy",
+        "multimodal_interfaces"
+      ],
+      "evidence": {
+        "hn_signals": [
+          {
+            "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
+            "points": 686,
+            "url": "https://github.com/antoinezambelli/forge"
+          },
+          {
+            "title": "Microsoft starts canceling Claude Code licenses",
+            "points": 489,
+            "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
+          },
+          {
+            "title": "Learnings from 100K lines of Rust with AI (2025)",
+            "points": 190,
+            "url": "https://zfhuang99.github.io/rust/claude%20code/codex/contracts/spec-driven%20development/2025/12/01/rust-with-ai.html"
+          },
+          {
+            "title": "Launch HN: Superset (YC P26) – IDE for the agents era",
+            "points": 106,
+            "url": "https://github.com/superset-sh/superset"
+          },
+          {
+            "title": "Launch HN: Runtime (YC P26) – Sandboxed coding agents for everyone on a team",
+            "points": 101,
+            "url": "https://www.runtm.com/"
+          }
+        ],
+        "top_changes": [
+          {
+            "raw": "Fixed sessions getting stuck after a model or login switch left stale thinking-block signatures in history; now stripped proactively with a retry safety-net",
+            "summary": "修复切换后会话卡死",
+            "importance": 5
+          },
+          {
+            "raw": "`/code-review --fix` now applies review findings to your working tree after the review, surfacing reuse, simplification, and efficiency suggestions; `/simplify` now invokes `/code-review --fix`",
+            "summary": "修复建议可直接应用到工作区",
+            "importance": 4
+          },
+          {
+            "raw": "Claude Code now switches to your configured `--fallback-model` for the rest of the session when the primary model is not found, instead of failing every request",
+            "summary": "主模型缺失时自动切换备用模型",
+            "importance": 4
+          }
+        ]
+      }
     }
   ],
   "capabilities": [
@@ -51010,8 +51536,8 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 403,
-      "release_count": 153,
+      "change_count": 410,
+      "release_count": 154,
       "avg_importance": 3.11,
       "maturity": {
         "score": 92,
@@ -51022,14 +51548,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-05-22",
-        "version": "2.1.149"
+        "date": "2026-05-26",
+        "version": "2.1.152"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 241
+          "change_count": 248
         },
         {
           "epoch_id": "epoch4",
@@ -51054,6 +51580,14 @@
       ],
       "samples": [
         {
+          "date": "2026-05-26",
+          "version": "2.1.152",
+          "raw": "Fixed sessions getting stuck after a model or login switch left stale thinking-block signatures in history; now stripped proactively with a retry safety-net",
+          "summary": "修复切换后会话卡死",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-05-18",
           "version": "2.1.144",
           "raw": "Fixed file descriptor exhaustion when a build runs inside a skill directory — non-`.md` files no longer trigger skill reloads",
@@ -51074,14 +51608,6 @@
           "version": "2.1.128",
           "raw": "Fixed sessions on 1M-context models with a smaller autocompact window being falsely blocked with \"Prompt is too long\" before reaching the actual API limit",
           "summary": "修复超长上下文误报超限",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-04-21",
-          "version": "2.1.117",
-          "raw": "Fixed Opus 4.7 sessions showing inflated `/context` percentages and autocompacting too early — Claude Code was computing against a 200K context window instead of Opus 4.7's native 1M",
-          "summary": "Opus 4.7 上下文计数正确",
           "importance": 5,
           "category": "fix"
         }
@@ -51105,9 +51631,9 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 852,
-      "release_count": 191,
-      "avg_importance": 3.24,
+      "change_count": 859,
+      "release_count": 192,
+      "avg_importance": 3.23,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -51117,14 +51643,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-05-22",
-        "version": "2.1.148"
+        "date": "2026-05-26",
+        "version": "2.1.152"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 551
+          "change_count": 558
         },
         {
           "epoch_id": "epoch1",
@@ -51200,8 +51726,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 574,
-      "release_count": 147,
+      "change_count": 581,
+      "release_count": 148,
       "avg_importance": 3.19,
       "maturity": {
         "score": 93,
@@ -51212,14 +51738,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-05-22",
-        "version": "2.1.149"
+        "date": "2026-05-26",
+        "version": "2.1.152"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 410
+          "change_count": 417
         },
         {
           "epoch_id": "epoch1",
@@ -51244,6 +51770,14 @@
       ],
       "samples": [
         {
+          "date": "2026-05-26",
+          "version": "2.1.152",
+          "raw": "Fixed sessions getting stuck after a model or login switch left stale thinking-block signatures in history; now stripped proactively with a retry safety-net",
+          "summary": "修复切换后会话卡死",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-05-11",
           "version": "2.1.139",
           "raw": "Fixed a deadlock where expired credentials and the `forceRemoteSettingsRefresh` policy setting blocked `claude auth login`/`logout`/`status` with no way to recover",
@@ -51264,14 +51798,6 @@
           "version": "2.1.136",
           "raw": "Fixed a rare login loop where a concurrent credential write could overwrite a freshly-rotated OAuth token and force re-login",
           "summary": "修复OAuth登录死循环",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-05-06",
-          "version": "2.1.132",
-          "raw": "Fixed external SIGINT (e.g. IDE stop button, `kill -INT`) not running graceful shutdown — terminal modes are now restored and the `--resume` hint is printed instead of an abrupt exit",
-          "summary": "外部中断也能优雅退出",
           "importance": 5,
           "category": "fix"
         }
@@ -51295,8 +51821,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 680,
-      "release_count": 198,
+      "change_count": 689,
+      "release_count": 199,
       "avg_importance": 3.26,
       "maturity": {
         "score": 93,
@@ -51307,14 +51833,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-22",
-        "version": "2.1.149"
+        "date": "2026-05-26",
+        "version": "2.1.152"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 418
+          "change_count": 427
         },
         {
           "epoch_id": "epoch1",
@@ -51390,9 +51916,9 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 322,
-      "release_count": 120,
-      "avg_importance": 3.32,
+      "change_count": 326,
+      "release_count": 121,
+      "avg_importance": 3.31,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -51402,14 +51928,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-22",
-        "version": "2.1.149"
+        "date": "2026-05-26",
+        "version": "2.1.152"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 231
+          "change_count": 235
         },
         {
           "epoch_id": "epoch1",
@@ -51485,8 +52011,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 1058,
-      "release_count": 226,
+      "change_count": 1071,
+      "release_count": 227,
       "avg_importance": 3.13,
       "maturity": {
         "score": 93,
@@ -51497,14 +52023,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-05-22",
-        "version": "2.1.149"
+        "date": "2026-05-26",
+        "version": "2.1.152"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 692
+          "change_count": 705
         },
         {
           "epoch_id": "epoch1",
@@ -51580,8 +52106,8 @@
         "Emacs",
         "web"
       ],
-      "change_count": 692,
-      "release_count": 169,
+      "change_count": 699,
+      "release_count": 170,
       "avg_importance": 2.67,
       "maturity": {
         "score": 91,
@@ -51592,14 +52118,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-22",
-        "version": "2.1.149"
+        "date": "2026-05-26",
+        "version": "2.1.152"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 483
+          "change_count": 490
         },
         {
           "epoch_id": "epoch4",
@@ -51675,8 +52201,8 @@
         "policy",
         "auditing"
       ],
-      "change_count": 688,
-      "release_count": 196,
+      "change_count": 695,
+      "release_count": 197,
       "avg_importance": 3.38,
       "maturity": {
         "score": 94,
@@ -51687,14 +52213,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-22",
-        "version": "2.1.149"
+        "date": "2026-05-26",
+        "version": "2.1.152"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 452
+          "change_count": 459
         },
         {
           "epoch_id": "epoch4",
