@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-05-29T05:11:47.649Z",
+    "generated_at": "2026-05-30T04:50:45.246Z",
     "agent_model": "openai/gpt-5.4-mini",
-    "total_versions": 300,
+    "total_versions": 302,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-05-28"
+      "end": "2026-05-30"
     },
     "highlight_count": 37,
     "capability_count": 8,
@@ -70,11 +70,515 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。与此同时，Opus 4.6 把「思考」变成了可选项，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Meanwhile, Opus 4.6 makes reasoning optional rather than visible, while worktree isolation and a 1M context push the agent toward running for hours, unattended.",
-      "release_count": 84,
+      "release_count": 86,
       "highlight_count": 16
     }
   ],
   "releases": [
+    {
+      "version": "2.1.158",
+      "date": "2026-05-30",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Auto mode is now available on Bedrock, Vertex, and Foundry for Opus 4.7 and Opus 4.8. Opt in by setting `CLAUDE_CODE_ENABLE_AUTO_MODE=1`",
+          "category": "feat",
+          "importance": 4,
+          "summary": "新增多平台自动模式支持",
+          "summary_en": "Auto mode now works on more platforms",
+          "why_matters": "让更多用户在 Bedrock、Vertex 和 Foundry 上启用自动模式，提升使用自动化能力。",
+          "why_matters_en": "It lets more users enable auto mode on Bedrock, Vertex, and Foundry, improving automation capabilities.",
+          "capability_ids": [
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Claude Code as a Daily Driver: Claude.md, Skills, Subagents, Plugins, and MCPs",
+          "points": 437,
+          "url": "https://arps18.github.io/posts/claude-code-mastery/"
+        },
+        {
+          "title": "Claude Code – Everything you can configure that the docs don't tell you",
+          "points": 324,
+          "url": "https://buildingbetter.tech/p/i-read-the-claude-code-source-code"
+        },
+        {
+          "title": "Dynamic Workflows in Claude Code",
+          "points": 168,
+          "url": "https://claude.com/blog/introducing-dynamic-workflows-in-claude-code"
+        },
+        {
+          "title": "Launch HN: Minicor (YC P26) – Windows desktop automations at scale",
+          "points": 104,
+          "url": "https://www.minicor.com/"
+        },
+        {
+          "title": "Show HN: Ktx – Open-source executable context layer for data agents",
+          "points": 82,
+          "url": "https://github.com/Kaelio/ktx"
+        }
+      ],
+      "highlight_score": 35
+    },
+    {
+      "version": "2.1.157",
+      "date": "2026-05-29",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Plugins in `.claude/skills` directories are now automatically loaded, no marketplace required",
+          "category": "feat",
+          "importance": 4,
+          "summary": "自动加载本地技能插件",
+          "summary_en": "Auto-load plugins from .claude/skills",
+          "why_matters": "用户无需依赖 marketplace 就能直接启用本地插件，降低配置门槛。",
+          "why_matters_en": "Users can use local plugins without a marketplace, reducing setup friction.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added `claude plugin init <name>` to scaffold a new plugin in `.claude/skills`",
+          "category": "feat",
+          "importance": 3,
+          "summary": "新增插件初始化脚手架",
+          "summary_en": "Add plugin init scaffolding command",
+          "why_matters": "可快速创建符合约定的新插件，提升开发效率。",
+          "why_matters_en": "It speeds up creating new plugins with the expected structure.",
+          "capability_ids": [
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added autocomplete for `/plugin` arguments: subcommands, installed plugin names, and plugins from known marketplaces",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "插件命令支持自动补全",
+          "summary_en": "Add autocomplete for /plugin args",
+          "why_matters": "减少输入错误并加快插件相关命令的使用。",
+          "why_matters_en": "It reduces typing errors and speeds up plugin command usage.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "`claude agents`: the `agent` field in `settings.json` is now honored for dispatched sessions, with `--agent <name>` to override it",
+          "category": "feat",
+          "importance": 4,
+          "summary": "会话代理配置可生效",
+          "summary_en": "Honor agent setting for dispatched sessions",
+          "why_matters": "用户可按配置自动分配代理，并在需要时临时覆盖。",
+          "why_matters_en": "Users can route sessions by config and override the agent when needed.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "automation_autonomy",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "`EnterWorktree` can now switch between Claude-managed worktrees mid-session",
+          "category": "feat",
+          "importance": 4,
+          "summary": "会话中切换工作树",
+          "summary_en": "Switch worktrees mid-session",
+          "why_matters": "在同一会话内切换不同工作树更灵活，减少中断。",
+          "why_matters_en": "It lets users move between worktrees without restarting the session.",
+          "capability_ids": [
+            "execution_workspace",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "`tool_decision` telemetry events now include `tool_parameters` (bash commands, MCP/skill names) when `OTEL_LOG_TOOL_DETAILS=1`",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "工具遥测记录参数详情",
+          "summary_en": "Include tool parameters in telemetry",
+          "why_matters": "排查工具使用问题时能获得更完整的遥测信息。",
+          "why_matters_en": "Telemetry becomes more useful for diagnosing tool usage issues.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy",
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Worktrees managed by Claude are now left unlocked when the agent finishes, so `git worktree remove`/`prune` can clean them up",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "工作树结束后自动解锁",
+          "summary_en": "Leave Claude-managed worktrees unlocked",
+          "why_matters": "便于后续用 git 工具清理和维护临时工作树。",
+          "why_matters_en": "It makes cleanup of temporary worktrees easier with git tools.",
+          "capability_ids": [
+            "execution_workspace",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed unprocessable images (zero-byte, corrupt) attached via paste, MCP, or dialog crashing the request instead of becoming a text placeholder",
+          "category": "fix",
+          "importance": 5,
+          "summary": "损坏图片不再导致崩溃",
+          "summary_en": "Handle invalid pasted images safely",
+          "why_matters": "避免无效图片输入直接中断请求，提高稳定性。",
+          "why_matters_en": "Invalid image inputs no longer crash requests, improving reliability.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed sandbox network permission prompts appearing in auto and bypass-permissions mode when using the desktop app, IDE extensions, or SDK",
+          "category": "fix",
+          "importance": 5,
+          "summary": "绕过权限时不再误弹网络提示",
+          "summary_en": "Stop network prompts in bypass mode",
+          "why_matters": "减少在自动化或无提示模式下的错误中断。",
+          "why_matters_en": "It prevents spurious prompts from interrupting automated or unattended use.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `claude agents` completed sessions not retiring when an idle subagent was still parked or had leaked a backgrounded shell",
+          "category": "fix",
+          "importance": 4,
+          "summary": "完成会话可正确回收",
+          "summary_en": "Retire completed agent sessions properly",
+          "why_matters": "避免已结束会话因残留后台状态而卡住资源回收。",
+          "why_matters_en": "Finished sessions are now cleaned up correctly even with lingering background state.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed `claude agents` pressing Esc not cancelling a slow \"opening…\", leaving the list unresponsive",
+          "category": "fix",
+          "importance": 3,
+          "summary": "Esc 可取消慢速打开",
+          "summary_en": "Esc cancels slow opening state",
+          "why_matters": "用户能及时取消卡住的加载过程，界面更可控。",
+          "why_matters_en": "Users can cancel a stalled loading state, making the UI more responsive.",
+          "capability_ids": [
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed background agent worktrees under `.claude/worktrees/` being orphaned after the 30-day job retention sweep",
+          "category": "fix",
+          "importance": 4,
+          "summary": "背景工作树不再孤儿化",
+          "summary_en": "Prevent orphaned background worktrees",
+          "why_matters": "清理策略执行后不会留下无主工作树，节省磁盘和维护成本。",
+          "why_matters_en": "Retention sweeps no longer leave behind orphaned worktrees, saving cleanup effort.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed background sessions re-attached after a sleep/wake not telling the model the correct date",
+          "category": "fix",
+          "importance": 3,
+          "summary": "唤醒后日期上下文正确",
+          "summary_en": "Restore correct date after wake",
+          "why_matters": "避免恢复会话后模型使用过时日期影响判断。",
+          "why_matters_en": "It prevents stale date context from affecting reasoning after resume.",
+          "capability_ids": [
+            "memory_context",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed copy-on-select in `claude agents` not reaching the system clipboard inside tmux with `set-clipboard on` (regression in 2.1.153)",
+          "category": "fix",
+          "importance": 2,
+          "summary": "tmux 复制可进系统剪贴板",
+          "summary_en": "Copy selection to system clipboard in tmux",
+          "why_matters": "在 tmux 中复制代理列表内容会更符合用户预期。",
+          "why_matters_en": "Copying selections in tmux now reaches the system clipboard as expected.",
+          "capability_ids": [
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `--resume` not reporting background subagents that were running when the previous Claude Code process exited",
+          "category": "fix",
+          "importance": 4,
+          "summary": "--resume 可显示后台子代理",
+          "summary_en": "Show running background subagents on resume",
+          "why_matters": "恢复会话时能看到仍在运行的子代理，避免状态丢失。",
+          "why_matters_en": "Resuming sessions now surfaces still-running subagents, reducing state loss.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed the `--resume` session picker leaving its contents on the terminal after exiting in fullscreen mode",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复会话选择器残留内容",
+          "summary_en": "Fix resume picker leaving terminal residue",
+          "why_matters": "避免退出全屏后终端界面被残留内容污染，提升视觉整洁度。",
+          "why_matters_en": "Prevents terminal artifacts after exiting fullscreen, keeping the UI clean.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed `--worktree` and `--worktree --tmux` returning to the canonical repo root instead of the current linked worktree",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复 worktree 返回根目录",
+          "summary_en": "Fix worktree returning to repo root",
+          "why_matters": "确保在联动工作区中继续停留在当前目录，不会打断上下文。",
+          "why_matters_en": "Keeps the user in the current linked worktree instead of jumping away unexpectedly.",
+          "capability_ids": [
+            "execution_workspace",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed the `/model` picker showing an incorrect \"Newer version available\" hint when the selected model is already the newest in its family; the pinned-model row now shows the model's description instead of its raw ID",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修正模型选择提示与名称",
+          "summary_en": "Fix model picker hint and label display",
+          "why_matters": "避免误导性的版本提示，并让固定模型显示更易读的描述。",
+          "why_matters_en": "Avoids misleading version hints and makes pinned models easier to understand.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed literal markdown markers (backticks, asterisks) appearing in the in-progress message text in fullscreen mode",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复全屏进度文本乱码",
+          "summary_en": "Fix markdown markers in fullscreen status",
+          "why_matters": "让进行中的消息显示更自然，减少 Markdown 符号干扰阅读。",
+          "why_matters_en": "Makes in-progress messages readable by removing stray Markdown markers.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed the terminal freezing after approving the managed-settings security dialog at startup",
+          "category": "security",
+          "importance": 5,
+          "summary": "修复安全对话后终端卡死",
+          "summary_en": "Fix freeze after security dialog approval",
+          "why_matters": "避免启动时确认受管设置后界面冻结，保证安全流程可继续使用。",
+          "why_matters_en": "Prevents the terminal from freezing after a security prompt, preserving startup flow.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed a rare duplicate line appearing in scrollback after the terminal UI redraws",
+          "category": "fix",
+          "importance": 1,
+          "summary": "修复重绘后重复行",
+          "summary_en": "Fix duplicate line after redraw",
+          "why_matters": "减少终端滚动区的偶发显示异常，提升稳定感。",
+          "why_matters_en": "Reduces occasional scrollback rendering glitches and improves stability.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed right-click paste duplicating the clipboard in the VS Code, Cursor, and Windsurf integrated terminals",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复集成终端右键粘贴重复",
+          "summary_en": "Fix duplicate paste in integrated terminals",
+          "why_matters": "避免在 IDE 集成终端里粘贴内容被重复输入，防止误执行命令。",
+          "why_matters_en": "Prevents duplicated clipboard pastes in integrated terminals, avoiding accidental command duplication.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "WSL: fixed image paste (`alt+v` keybinding), screenshot paste on Windows 11, and added support for dragging images from Windows Explorer",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复 WSL 图片粘贴与拖拽",
+          "summary_en": "Fix WSL image paste and drag-drop",
+          "why_matters": "让 Windows/WSL 环境下的图片输入更完整，便于直接上传截图和图片。",
+          "why_matters_en": "Improves image input support on Windows/WSL, making screenshots and files easier to share.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Improved performance of long and resumed conversations by eliminating redundant message-rendering recomputations",
+          "category": "perf",
+          "importance": 3,
+          "summary": "提升长对话与续接对话性能",
+          "summary_en": "Improve long and resumed conversation performance",
+          "why_matters": "减少重复渲染计算，让长会话和恢复会话更流畅。",
+          "why_matters_en": "Cuts redundant rendering work so long and resumed conversations stay responsive.",
+          "capability_ids": [
+            "memory_context",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "`/terminal-setup` now disables GPU acceleration in VS Code/Cursor/Windsurf integrated terminals to prevent garbled-text rendering",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "终端设置禁用 GPU 加速",
+          "summary_en": "Disable GPU acceleration in terminal setup",
+          "why_matters": "避免某些集成终端出现乱码渲染问题，提升兼容性。",
+          "why_matters_en": "Prevents garbled text in some integrated terminals by improving compatibility.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "The Feature of the Week credit-claim status now appears as a notification in the status area instead of a line above the prompt",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "奖励状态改为状态栏通知",
+          "summary_en": "Show reward status in status area",
+          "why_matters": "把低优先级信息放到更合适的位置，减少对主要对话区域的干扰。",
+          "why_matters_en": "Moves a low-priority update into the status area, reducing prompt clutter.",
+          "capability_ids": []
+        },
+        {
+          "raw": "`claude agents`: slash-command autocomplete in the dispatch input now matches substrings",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "代理命令补全支持子串匹配",
+          "summary_en": "Autocomplete dispatch commands by substring",
+          "why_matters": "让查找和分发代理命令更快，尤其在命令较多时更方便。",
+          "why_matters_en": "Makes agent command dispatch faster by matching substrings during autocomplete.",
+          "capability_ids": [
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Removed the \"bash commands will be sandboxed\" startup banner — sandbox status still shows in `/status` and when a command is blocked",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "移除沙箱启动横幅",
+          "summary_en": "Remove sandbox startup banner",
+          "why_matters": "减少启动时的提示噪音，同时保留必要的沙箱状态可见性。",
+          "why_matters_en": "Reduces startup noise while keeping sandbox status available when needed.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Removed the \"/ide for …\" startup hint toast",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "移除 IDE 启动提示",
+          "summary_en": "Remove IDE startup hint toast",
+          "why_matters": "减少不必要的弹窗干扰，让启动过程更简洁。",
+          "why_matters_en": "Removes an unnecessary toast so startup feels cleaner.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[IDE] Fixed clicking Stop while a background subagent is running not actually stopping it",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复停止子代理无效",
+          "summary_en": "Fix Stop not stopping background subagent",
+          "why_matters": "确保用户能真正中止后台子代理，避免任务失控继续运行。",
+          "why_matters_en": "Ensures the Stop action actually halts a background subagent, preventing runaway work.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "automation_autonomy",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed the fast mode indicator not appearing on Opus 4.8",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复 VSCode 快速模式指示器缺失",
+          "summary_en": "Fix VSCode fast mode indicator",
+          "why_matters": "让用户在 Opus 4.8 中能正确看到快速模式状态，减少界面误导。",
+          "why_matters_en": "Users can now reliably see fast mode status in Opus 4.8, reducing UI confusion.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Pressing backspace right after a workflow trigger keyword now dismisses the workflow request (same as alt+w) instead of deleting a character",
+          "category": "fix",
+          "importance": 3,
+          "summary": "回删可取消工作流请求",
+          "summary_en": "Backspace now dismisses workflow request",
+          "why_matters": "用户在触发词后误操作时可以快速取消工作流请求，避免删错字符。",
+          "why_matters_en": "Users can quickly cancel a workflow request after accidental trigger input instead of deleting a character.",
+          "capability_ids": [
+            "automation_autonomy",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Added a \"Workflow keyword trigger\" setting in /config to stop the word \"workflow\" in a prompt from triggering a dynamic workflow",
+          "category": "feat",
+          "importance": 3,
+          "summary": "新增工作流关键词触发开关",
+          "summary_en": "Add workflow keyword trigger setting",
+          "why_matters": "用户可关闭关键词触发，避免提示词中的“workflow”意外启动动态工作流。",
+          "why_matters_en": "Users can disable keyword triggering to prevent the word \"workflow\" in prompts from accidentally launching a dynamic workflow.",
+          "capability_ids": [
+            "automation_autonomy",
+            "governance_security"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Microsoft starts canceling Claude Code licenses",
+          "points": 491,
+          "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
+        },
+        {
+          "title": "Claude Code as a Daily Driver: Claude.md, Skills, Subagents, Plugins, and MCPs",
+          "points": 437,
+          "url": "https://arps18.github.io/posts/claude-code-mastery/"
+        },
+        {
+          "title": "Claude Code – Everything you can configure that the docs don't tell you",
+          "points": 324,
+          "url": "https://buildingbetter.tech/p/i-read-the-claude-code-source-code"
+        },
+        {
+          "title": "Dynamic Workflows in Claude Code",
+          "points": 168,
+          "url": "https://claude.com/blog/introducing-dynamic-workflows-in-claude-code"
+        },
+        {
+          "title": "Launch HN: Superset (YC P26) – IDE for the agents era",
+          "points": 107,
+          "url": "https://github.com/superset-sh/superset"
+        }
+      ],
+      "highlight_score": 35
+    },
     {
       "version": "2.1.156",
       "date": "2026-05-28",
@@ -97,28 +601,28 @@
       "signals": [
         {
           "title": "Microsoft starts canceling Claude Code licenses",
-          "points": 490,
+          "points": 491,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
           "title": "Claude Code as a Daily Driver: Claude.md, Skills, Subagents, Plugins, and MCPs",
-          "points": 429,
+          "points": 437,
           "url": "https://arps18.github.io/posts/claude-code-mastery/"
         },
         {
+          "title": "Claude Code – Everything you can configure that the docs don't tell you",
+          "points": 324,
+          "url": "https://buildingbetter.tech/p/i-read-the-claude-code-source-code"
+        },
+        {
           "title": "Dynamic Workflows in Claude Code",
-          "points": 142,
+          "points": 168,
           "url": "https://claude.com/blog/introducing-dynamic-workflows-in-claude-code"
         },
         {
           "title": "Launch HN: Superset (YC P26) – IDE for the agents era",
           "points": 107,
           "url": "https://github.com/superset-sh/superset"
-        },
-        {
-          "title": "Launch HN: Minicor (YC P26) – Windows desktop automations at scale",
-          "points": 104,
-          "url": "https://www.minicor.com/"
         }
       ],
       "highlight_score": 35
@@ -689,28 +1193,28 @@
       "signals": [
         {
           "title": "Microsoft starts canceling Claude Code licenses",
-          "points": 490,
+          "points": 491,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
           "title": "Claude Code as a Daily Driver: Claude.md, Skills, Subagents, Plugins, and MCPs",
-          "points": 429,
+          "points": 437,
           "url": "https://arps18.github.io/posts/claude-code-mastery/"
         },
         {
+          "title": "Claude Code – Everything you can configure that the docs don't tell you",
+          "points": 324,
+          "url": "https://buildingbetter.tech/p/i-read-the-claude-code-source-code"
+        },
+        {
           "title": "Dynamic Workflows in Claude Code",
-          "points": 142,
+          "points": 168,
           "url": "https://claude.com/blog/introducing-dynamic-workflows-in-claude-code"
         },
         {
           "title": "Launch HN: Superset (YC P26) – IDE for the agents era",
           "points": 107,
           "url": "https://github.com/superset-sh/superset"
-        },
-        {
-          "title": "Launch HN: Minicor (YC P26) – Windows desktop automations at scale",
-          "points": 104,
-          "url": "https://www.minicor.com/"
         }
       ],
       "highlight_score": 35
@@ -1189,28 +1693,28 @@
       "signals": [
         {
           "title": "Microsoft starts canceling Claude Code licenses",
-          "points": 490,
+          "points": 491,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
           "title": "Claude Code as a Daily Driver: Claude.md, Skills, Subagents, Plugins, and MCPs",
-          "points": 429,
+          "points": 437,
           "url": "https://arps18.github.io/posts/claude-code-mastery/"
         },
         {
+          "title": "Claude Code – Everything you can configure that the docs don't tell you",
+          "points": 324,
+          "url": "https://buildingbetter.tech/p/i-read-the-claude-code-source-code"
+        },
+        {
           "title": "Learnings from 100K lines of Rust with AI (2025)",
-          "points": 190,
+          "points": 191,
           "url": "https://zfhuang99.github.io/rust/claude%20code/codex/contracts/spec-driven%20development/2025/12/01/rust-with-ai.html"
         },
         {
           "title": "Dynamic Workflows in Claude Code",
-          "points": 142,
+          "points": 168,
           "url": "https://claude.com/blog/introducing-dynamic-workflows-in-claude-code"
-        },
-        {
-          "title": "Launch HN: Superset (YC P26) – IDE for the agents era",
-          "points": 107,
-          "url": "https://github.com/superset-sh/superset"
         }
       ],
       "highlight_score": 40
@@ -1652,23 +2156,23 @@
         },
         {
           "title": "Microsoft starts canceling Claude Code licenses",
-          "points": 490,
+          "points": 491,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
           "title": "Claude Code as a Daily Driver: Claude.md, Skills, Subagents, Plugins, and MCPs",
-          "points": 429,
+          "points": 437,
           "url": "https://arps18.github.io/posts/claude-code-mastery/"
         },
         {
-          "title": "Learnings from 100K lines of Rust with AI (2025)",
-          "points": 190,
-          "url": "https://zfhuang99.github.io/rust/claude%20code/codex/contracts/spec-driven%20development/2025/12/01/rust-with-ai.html"
+          "title": "Claude Code – Everything you can configure that the docs don't tell you",
+          "points": 324,
+          "url": "https://buildingbetter.tech/p/i-read-the-claude-code-source-code"
         },
         {
-          "title": "Dynamic Workflows in Claude Code",
-          "points": 142,
-          "url": "https://claude.com/blog/introducing-dynamic-workflows-in-claude-code"
+          "title": "Learnings from 100K lines of Rust with AI (2025)",
+          "points": 191,
+          "url": "https://zfhuang99.github.io/rust/claude%20code/codex/contracts/spec-driven%20development/2025/12/01/rust-with-ai.html"
         }
       ],
       "highlight_score": 55
@@ -1698,7 +2202,7 @@
         },
         {
           "title": "Microsoft starts canceling Claude Code licenses",
-          "points": 490,
+          "points": 491,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
@@ -1708,13 +2212,13 @@
         },
         {
           "title": "Claude Code as a Daily Driver: Claude.md, Skills, Subagents, Plugins, and MCPs",
-          "points": 429,
+          "points": 437,
           "url": "https://arps18.github.io/posts/claude-code-mastery/"
         },
         {
-          "title": "Learnings from 100K lines of Rust with AI (2025)",
-          "points": 190,
-          "url": "https://zfhuang99.github.io/rust/claude%20code/codex/contracts/spec-driven%20development/2025/12/01/rust-with-ai.html"
+          "title": "Claude Code – Everything you can configure that the docs don't tell you",
+          "points": 324,
+          "url": "https://buildingbetter.tech/p/i-read-the-claude-code-source-code"
         }
       ],
       "highlight_score": 30
@@ -2062,7 +2566,7 @@
         },
         {
           "title": "Microsoft starts canceling Claude Code licenses",
-          "points": 490,
+          "points": 491,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
@@ -2072,13 +2576,13 @@
         },
         {
           "title": "Claude Code as a Daily Driver: Claude.md, Skills, Subagents, Plugins, and MCPs",
-          "points": 429,
+          "points": 437,
           "url": "https://arps18.github.io/posts/claude-code-mastery/"
         },
         {
-          "title": "How Claude Code works in large codebases",
-          "points": 248,
-          "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start"
+          "title": "Claude Code – Everything you can configure that the docs don't tell you",
+          "points": 324,
+          "url": "https://buildingbetter.tech/p/i-read-the-claude-code-source-code"
         }
       ],
       "highlight_score": 50
@@ -2110,7 +2614,7 @@
         },
         {
           "title": "Microsoft starts canceling Claude Code licenses",
-          "points": 490,
+          "points": 491,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
@@ -2120,13 +2624,13 @@
         },
         {
           "title": "Claude Code as a Daily Driver: Claude.md, Skills, Subagents, Plugins, and MCPs",
-          "points": 429,
+          "points": 437,
           "url": "https://arps18.github.io/posts/claude-code-mastery/"
         },
         {
-          "title": "How Claude Code works in large codebases",
-          "points": 248,
-          "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start"
+          "title": "Claude Code – Everything you can configure that the docs don't tell you",
+          "points": 324,
+          "url": "https://buildingbetter.tech/p/i-read-the-claude-code-source-code"
         }
       ],
       "highlight_score": 50
@@ -2558,7 +3062,7 @@
         },
         {
           "title": "Microsoft starts canceling Claude Code licenses",
-          "points": 490,
+          "points": 491,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
@@ -2568,7 +3072,7 @@
         },
         {
           "title": "Claude Code as a Daily Driver: Claude.md, Skills, Subagents, Plugins, and MCPs",
-          "points": 429,
+          "points": 437,
           "url": "https://arps18.github.io/posts/claude-code-mastery/"
         },
         {
@@ -2849,7 +3353,7 @@
         },
         {
           "title": "Microsoft starts canceling Claude Code licenses",
-          "points": 490,
+          "points": 491,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
@@ -3550,7 +4054,7 @@
         },
         {
           "title": "Microsoft starts canceling Claude Code licenses",
-          "points": 490,
+          "points": 491,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
@@ -4024,7 +4528,7 @@
         },
         {
           "title": "Microsoft starts canceling Claude Code licenses",
-          "points": 490,
+          "points": 491,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
@@ -38241,11 +38745,6 @@
           "url": "https://www.anthropic.com/news/anthropic-acquires-bun-as-claude-code-reaches-usd1b-milestone"
         },
         {
-          "title": "JOPA: Java compiler in C++, Jikes modernized to Java 6 with Claude",
-          "points": 67,
-          "url": "https://github.com/7mind/jopa"
-        },
-        {
           "title": "Show HN: Era – Open-source local sandbox for AI agents",
           "points": 62,
           "url": "https://github.com/BinSquare/ERA"
@@ -38301,11 +38800,6 @@
           "title": "Anthropic Acquires Bun",
           "points": 99,
           "url": "https://www.anthropic.com/news/anthropic-acquires-bun-as-claude-code-reaches-usd1b-milestone"
-        },
-        {
-          "title": "JOPA: Java compiler in C++, Jikes modernized to Java 6 with Claude",
-          "points": 67,
-          "url": "https://github.com/7mind/jopa"
         },
         {
           "title": "Show HN: Era – Open-source local sandbox for AI agents",
@@ -38376,11 +38870,6 @@
           "title": "Show HN: RowboatX – open-source Claude Code for everyday automations",
           "points": 131,
           "url": "https://github.com/rowboatlabs/rowboat"
-        },
-        {
-          "title": "JOPA: Java compiler in C++, Jikes modernized to Java 6 with Claude",
-          "points": 67,
-          "url": "https://github.com/7mind/jopa"
         },
         {
           "title": "Show HN: Era – Open-source local sandbox for AI agents",
@@ -38523,11 +39012,6 @@
           "url": "https://github.com/rowboatlabs/rowboat"
         },
         {
-          "title": "JOPA: Java compiler in C++, Jikes modernized to Java 6 with Claude",
-          "points": 67,
-          "url": "https://github.com/7mind/jopa"
-        },
-        {
           "title": "Show HN: Era – Open-source local sandbox for AI agents",
           "points": 62,
           "url": "https://github.com/BinSquare/ERA"
@@ -38608,11 +39092,6 @@
           "url": "https://github.com/rowboatlabs/rowboat"
         },
         {
-          "title": "JOPA: Java compiler in C++, Jikes modernized to Java 6 with Claude",
-          "points": 67,
-          "url": "https://github.com/7mind/jopa"
-        },
-        {
           "title": "Show HN: Era – Open-source local sandbox for AI agents",
           "points": 62,
           "url": "https://github.com/BinSquare/ERA"
@@ -38679,11 +39158,6 @@
           "title": "Show HN: RowboatX – open-source Claude Code for everyday automations",
           "points": 131,
           "url": "https://github.com/rowboatlabs/rowboat"
-        },
-        {
-          "title": "JOPA: Java compiler in C++, Jikes modernized to Java 6 with Claude",
-          "points": 67,
-          "url": "https://github.com/7mind/jopa"
         },
         {
           "title": "Show HN: Era – Open-source local sandbox for AI agents",
@@ -38766,11 +39240,6 @@
           "title": "Show HN: RowboatX – open-source Claude Code for everyday automations",
           "points": 131,
           "url": "https://github.com/rowboatlabs/rowboat"
-        },
-        {
-          "title": "JOPA: Java compiler in C++, Jikes modernized to Java 6 with Claude",
-          "points": 67,
-          "url": "https://github.com/7mind/jopa"
         }
       ],
       "highlight_score": 35
@@ -38809,11 +39278,6 @@
           "title": "Show HN: RowboatX – open-source Claude Code for everyday automations",
           "points": 131,
           "url": "https://github.com/rowboatlabs/rowboat"
-        },
-        {
-          "title": "JOPA: Java compiler in C++, Jikes modernized to Java 6 with Claude",
-          "points": 67,
-          "url": "https://github.com/7mind/jopa"
         }
       ],
       "highlight_score": 15
@@ -38879,11 +39343,6 @@
           "title": "Show HN: RowboatX – open-source Claude Code for everyday automations",
           "points": 131,
           "url": "https://github.com/rowboatlabs/rowboat"
-        },
-        {
-          "title": "JOPA: Java compiler in C++, Jikes modernized to Java 6 with Claude",
-          "points": 67,
-          "url": "https://github.com/7mind/jopa"
         },
         {
           "title": "Show HN: Tusk Drift – Open-source tool for automating API tests",
@@ -39012,11 +39471,6 @@
           "title": "Show HN: RowboatX – open-source Claude Code for everyday automations",
           "points": 131,
           "url": "https://github.com/rowboatlabs/rowboat"
-        },
-        {
-          "title": "JOPA: Java compiler in C++, Jikes modernized to Java 6 with Claude",
-          "points": 67,
-          "url": "https://github.com/7mind/jopa"
         },
         {
           "title": "Show HN: Tusk Drift – Open-source tool for automating API tests",
@@ -52726,8 +53180,8 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 427,
-      "release_count": 157,
+      "change_count": 430,
+      "release_count": 158,
       "avg_importance": 3.12,
       "maturity": {
         "score": 92,
@@ -52738,14 +53192,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-05-28",
-        "version": "2.1.154"
+        "date": "2026-05-29",
+        "version": "2.1.157"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 265
+          "change_count": 268
         },
         {
           "epoch_id": "epoch4",
@@ -52821,9 +53275,9 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 882,
-      "release_count": 194,
-      "avg_importance": 3.25,
+      "change_count": 892,
+      "release_count": 195,
+      "avg_importance": 3.24,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -52833,14 +53287,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-05-28",
-        "version": "2.1.154"
+        "date": "2026-05-29",
+        "version": "2.1.157"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 581
+          "change_count": 591
         },
         {
           "epoch_id": "epoch1",
@@ -52916,8 +53370,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 589,
-      "release_count": 150,
+      "change_count": 593,
+      "release_count": 151,
       "avg_importance": 3.19,
       "maturity": {
         "score": 93,
@@ -52928,14 +53382,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-05-28",
-        "version": "2.1.154"
+        "date": "2026-05-29",
+        "version": "2.1.157"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 425
+          "change_count": 429
         },
         {
           "epoch_id": "epoch1",
@@ -53011,8 +53465,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 712,
-      "release_count": 201,
+      "change_count": 720,
+      "release_count": 203,
       "avg_importance": 3.26,
       "maturity": {
         "score": 93,
@@ -53023,14 +53477,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-28",
-        "version": "2.1.154"
+        "date": "2026-05-30",
+        "version": "2.1.158"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 450
+          "change_count": 458
         },
         {
           "epoch_id": "epoch1",
@@ -53055,6 +53509,14 @@
       ],
       "samples": [
         {
+          "date": "2026-05-29",
+          "version": "2.1.157",
+          "raw": "Fixed sandbox network permission prompts appearing in auto and bypass-permissions mode when using the desktop app, IDE extensions, or SDK",
+          "summary": "绕过权限时不再误弹网络提示",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-05-28",
           "version": "2.1.154",
           "raw": "Introducing dynamic workflows: ask Claude to create a workflow and it orchestrates work across tens to hundreds of agents in the background, so you can take on larger, more complex tasks. Run `/workflows` to view your runs",
@@ -53077,14 +53539,6 @@
           "summary": "修复Chrome扩展导致崩溃",
           "importance": 5,
           "category": "fix"
-        },
-        {
-          "date": "2026-05-11",
-          "version": "2.1.139",
-          "raw": "Added `/goal` command: set a completion condition and Claude keeps working across turns until it's met. Works in interactive, `-p`, and Remote Control. Shows live elapsed/turns/tokens as an overlay panel",
-          "summary": "新增 /goal 持续达成目标",
-          "importance": 5,
-          "category": "feat"
         }
       ]
     },
@@ -53106,8 +53560,8 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 341,
-      "release_count": 123,
+      "change_count": 351,
+      "release_count": 124,
       "avg_importance": 3.31,
       "maturity": {
         "score": 93,
@@ -53118,14 +53572,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-28",
-        "version": "2.1.154"
+        "date": "2026-05-29",
+        "version": "2.1.157"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 250
+          "change_count": 260
         },
         {
           "epoch_id": "epoch1",
@@ -53201,8 +53655,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 1092,
-      "release_count": 229,
+      "change_count": 1103,
+      "release_count": 231,
       "avg_importance": 3.13,
       "maturity": {
         "score": 93,
@@ -53213,14 +53667,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-05-28",
-        "version": "2.1.154"
+        "date": "2026-05-30",
+        "version": "2.1.158"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 726
+          "change_count": 737
         },
         {
           "epoch_id": "epoch1",
@@ -53245,6 +53699,22 @@
       ],
       "samples": [
         {
+          "date": "2026-05-29",
+          "version": "2.1.157",
+          "raw": "Fixed unprocessable images (zero-byte, corrupt) attached via paste, MCP, or dialog crashing the request instead of becoming a text placeholder",
+          "summary": "损坏图片不再导致崩溃",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
+          "date": "2026-05-29",
+          "version": "2.1.157",
+          "raw": "Fixed sandbox network permission prompts appearing in auto and bypass-permissions mode when using the desktop app, IDE extensions, or SDK",
+          "summary": "绕过权限时不再误弹网络提示",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-05-28",
           "version": "2.1.154",
           "raw": "Fixed a single invalid `allowedMcpServers`/`deniedMcpServers` entry in managed settings discarding all managed-settings policy; the bad entry is now dropped with a `claude doctor` warning",
@@ -53257,22 +53727,6 @@
           "version": "2.1.153",
           "raw": "Fixed a regression where a custom API gateway could receive the user's Anthropic OAuth credential instead of the gateway's own token",
           "summary": "修复网关凭证串用",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-05-22",
-          "version": "2.1.149",
-          "raw": "Fixed the sandbox write allowlist in git worktrees covering the entire main repository root instead of only the shared `.git` directory (with `hooks/` and `config` denied)",
-          "summary": "修正worktree写入白名单",
-          "importance": 5,
-          "category": "security"
-        },
-        {
-          "date": "2026-05-21",
-          "version": "2.1.147",
-          "raw": "Fixed enterprise login restrictions (`forceLoginOrgUUID` and `forceLoginMethod` managed-settings) not being enforced against third-party-provider and API-key sessions",
-          "summary": "企业登录限制正确生效",
           "importance": 5,
           "category": "fix"
         }
@@ -53296,9 +53750,9 @@
         "Emacs",
         "web"
       ],
-      "change_count": 716,
-      "release_count": 172,
-      "avg_importance": 2.67,
+      "change_count": 726,
+      "release_count": 173,
+      "avg_importance": 2.68,
       "maturity": {
         "score": 91,
         "level": "成熟"
@@ -53308,14 +53762,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-28",
-        "version": "2.1.154"
+        "date": "2026-05-29",
+        "version": "2.1.157"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 507
+          "change_count": 517
         },
         {
           "epoch_id": "epoch4",
@@ -53340,6 +53794,22 @@
       ],
       "samples": [
         {
+          "date": "2026-05-29",
+          "version": "2.1.157",
+          "raw": "Fixed unprocessable images (zero-byte, corrupt) attached via paste, MCP, or dialog crashing the request instead of becoming a text placeholder",
+          "summary": "损坏图片不再导致崩溃",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
+          "date": "2026-05-29",
+          "version": "2.1.157",
+          "raw": "Fixed sandbox network permission prompts appearing in auto and bypass-permissions mode when using the desktop app, IDE extensions, or SDK",
+          "summary": "绕过权限时不再误弹网络提示",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-05-22",
           "version": "2.1.149",
           "raw": "Fixed a PowerShell permission bypass: built-in `cd` functions (`cd..`, `cd\\`, `cd~`, `X:`) changed the working directory undetected, letting a later command read outside the workspace",
@@ -53352,22 +53822,6 @@
           "version": "2.1.147",
           "raw": "Fixed enterprise login restrictions (`forceLoginOrgUUID` and `forceLoginMethod` managed-settings) not being enforced against third-party-provider and API-key sessions",
           "summary": "企业登录限制正确生效",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-05-18",
-          "version": "2.1.144",
-          "raw": "Fixed startup hanging up to 75s when `api.anthropic.com` is unreachable (captive portal, firewall, VPN issues) — side-channel API calls now time out after 15s",
-          "summary": "无法连网时启动不再卡死",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-05-18",
-          "version": "2.1.144",
-          "raw": "Fixed file descriptor exhaustion when a build runs inside a skill directory — non-`.md` files no longer trigger skill reloads",
-          "summary": "修复技能目录句柄泄漏",
           "importance": 5,
           "category": "fix"
         }
@@ -53391,8 +53845,8 @@
         "policy",
         "auditing"
       ],
-      "change_count": 716,
-      "release_count": 199,
+      "change_count": 721,
+      "release_count": 200,
       "avg_importance": 3.38,
       "maturity": {
         "score": 94,
@@ -53403,14 +53857,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-28",
-        "version": "2.1.154"
+        "date": "2026-05-29",
+        "version": "2.1.157"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 480
+          "change_count": 485
         },
         {
           "epoch_id": "epoch4",
@@ -53435,6 +53889,22 @@
       ],
       "samples": [
         {
+          "date": "2026-05-29",
+          "version": "2.1.157",
+          "raw": "Fixed sandbox network permission prompts appearing in auto and bypass-permissions mode when using the desktop app, IDE extensions, or SDK",
+          "summary": "绕过权限时不再误弹网络提示",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
+          "date": "2026-05-29",
+          "version": "2.1.157",
+          "raw": "Fixed the terminal freezing after approving the managed-settings security dialog at startup",
+          "summary": "修复安全对话后终端卡死",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-05-28",
           "version": "2.1.154",
           "raw": "Improved the auto-mode classifier's detection of data exfiltration, particularly bulk transfers of repository contents",
@@ -53447,22 +53917,6 @@
           "version": "2.1.154",
           "raw": "Fixed `rm -rf $HOME` not being blocked as a dangerous path when `HOME` has a trailing slash",
           "summary": "修复危险路径误判拦截",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-05-28",
-          "version": "2.1.154",
-          "raw": "Fixed subagents in background sessions bypassing the worktree-isolation guard and writing to the shared checkout",
-          "summary": "修复子代理绕过隔离写入共享工作区",
-          "importance": 5,
-          "category": "security"
-        },
-        {
-          "date": "2026-05-28",
-          "version": "2.1.154",
-          "raw": "Fixed a single invalid `allowedMcpServers`/`deniedMcpServers` entry in managed settings discarding all managed-settings policy; the bad entry is now dropped with a `claude doctor` warning",
-          "summary": "修复托管设置策略失效",
           "importance": 5,
           "category": "fix"
         }
