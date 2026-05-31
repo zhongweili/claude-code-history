@@ -7,6 +7,17 @@ interface EpochBrief {
   releases: string[];
 }
 
+interface Copy {
+  hero: {
+    headline_cn: string;
+    headline_en: string;
+    subheadline_cn: string;
+    subheadline_en: string;
+  };
+  seo: { description_cn: string; description_en: string };
+  cta: { text_cn: string; text_en: string };
+}
+
 interface Props {
   hero: {
     headline: string;
@@ -24,9 +35,10 @@ interface Props {
     };
   };
   epochs: EpochBrief[];
+  copy: Copy;
 }
 
-const { hero, meta, epochs } = Astro.props;
+const { hero, meta, epochs, copy } = Astro.props;
 
 const statCards = [
   { cn: "关键章节", en: "CHAPTERS", value: String(meta.story.milestone_count) },
@@ -45,12 +57,12 @@ const maxReleases = Math.max(...epochs.map((e) => e.releases.length));
       <span class="i18n-en">A Chronicle</span>
     </span>
     <h1 class="text-primary font-headline font-black leading-[1.15]" style="font-size: clamp(2.2rem, 5vw, 3.5rem);">
-      <span class="i18n-cn" style="letter-spacing: 0.01em;">一年，<br />254 次更新</span>
-      <span class="i18n-en" style="letter-spacing: -0.04em;">One Year,<br />254 Updates</span>
+      <span class="i18n-cn" style="letter-spacing: 0.01em;" set:html={copy.hero.headline_cn.replace("，", "，<br />")} />
+      <span class="i18n-en" style="letter-spacing: -0.04em;" set:html={copy.hero.headline_en.replace(", ", ",<br />")} />
     </h1>
     <p class="title-lg text-on-surface-variant max-w-xl" style="line-height: 1.8;">
-      <span class="i18n-cn">从研究预览到 1M 上下文的代理，从 ultrathink 到 Opus 4.6——这是 Claude Code 完整的一年。</span>
-      <span class="i18n-en">From research preview to a 1M-context agent, from ultrathink to Opus 4.6 — this is Claude Code's full year, laid out end to end.</span>
+      <span class="i18n-cn">{copy.hero.subheadline_cn}</span>
+      <span class="i18n-en">{copy.hero.subheadline_en}</span>
     </p>
   </div>
 

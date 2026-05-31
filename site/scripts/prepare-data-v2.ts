@@ -10,6 +10,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const SITE_ROOT = resolve(__dirname, "..");
 const REPO_ROOT = resolve(SITE_ROOT, "..");
 const INPUT = resolve(REPO_ROOT, "data", "auto_bundle.json");
+const SITE_CONFIG = resolve(REPO_ROOT, "data", "site_config.json");
 const OUTPUT_DIR = resolve(SITE_ROOT, "src", "generated");
 
 const CATEGORY_VALUES = ["feat", "fix", "perf", "security", "breaking", "improvement", "other"] as const;
@@ -17,6 +18,60 @@ const HOT_SIGNAL_THRESHOLD = 500;
 
 function loadBundle() {
   return JSON.parse(readFileSync(INPUT, "utf8"));
+}
+
+function loadSiteConfig() {
+  return JSON.parse(readFileSync(SITE_CONFIG, "utf8"));
+}
+
+function computeTimeSpan(startDate: string, endDate: string): { months: number; cn: string; en: string } {
+  const start = new Date(`${startDate}T00:00:00Z`);
+  const end = new Date(`${endDate}T00:00:00Z`);
+  const months = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
+  if (months <= 12) return { months, cn: "一年", en: "One Year" };
+  if (months <= 14) return { months, cn: "一年多", en: "Over a Year" };
+  if (months <= 18) return { months, cn: `${months} 个月`, en: `${months} Months` };
+  const years = Math.floor(months / 12);
+  const remainder = months % 12;
+  if (remainder === 0) return { months, cn: `${years} 年`, en: `${years} Years` };
+  return { months, cn: `${years} 年多`, en: `Over ${years} Years` };
+}
+
+function buildCopy(bundle: any, siteConfig: any) {
+  const totalVersions = bundle.meta.total_versions;
+  const dateRange = bundle.meta.date_range;
+  const epochCount = bundle.epochs.length;
+  const capCount = bundle.capabilities.length;
+  const timeSpan = computeTimeSpan(siteConfig.project_start_date, dateRange.end);
+
+  const latestModel = siteConfig.latest_model.name;
+  const latestModelEn = siteConfig.latest_model.name_en;
+  const latestFeature = siteConfig.signature_features[0];
+  const latestFeatureEn = siteConfig.signature_features_en[0];
+
+  const subheadlineCn = siteConfig.tone.hero_template_cn
+    .replace("{latest_feature}", latestFeature)
+    .replace("{latest_model}", latestModel);
+  const subheadlineEn = siteConfig.tone.hero_template_en
+    .replace("{latest_feature}", latestFeatureEn)
+    .replace("{latest_model}", latestModelEn);
+
+  return {
+    hero: {
+      headline_cn: `${timeSpan.cn}，${totalVersions} 次更新`,
+      headline_en: `${timeSpan.en}, ${totalVersions} Updates`,
+      subheadline_cn: subheadlineCn,
+      subheadline_en: subheadlineEn,
+    },
+    seo: {
+      description_cn: `${totalVersions} 次更新，${epochCount} 个演进阶段，${timeSpan.cn}——Claude Code 完整的演化记录。`,
+      description_en: `${totalVersions} updates, ${epochCount} epochs, ${timeSpan.en.toLowerCase()} — the complete chronicle of Claude Code's evolution.`,
+    },
+    cta: {
+      text_cn: `${totalVersions} 个版本、${epochCount} 个演进阶段、${capCount} 条能力主线——任你筛选、搜索、对比。`,
+      text_en: `${totalVersions} releases, ${epochCount} epochs, ${capCount} capability lines — filter, search, and compare.`,
+    },
+  };
 }
 
 function formatDate(date: string, inferred = false) {
@@ -291,7 +346,10 @@ function buildExploreData(bundle: any) {
 function main() {
   mkdirSync(OUTPUT_DIR, { recursive: true });
   const bundle = loadBundle();
+  const siteConfig = loadSiteConfig();
   const storyHome = buildStoryHome(bundle);
+  const copy = buildCopy(bundle, siteConfig);
+  storyHome.copy = copy;
   const exploreData = buildExploreData(bundle);
 
   writeFileSync(resolve(OUTPUT_DIR, "story-home.json"), JSON.stringify(storyHome, null, 2) + "\n", "utf8");
@@ -300,6 +358,7 @@ function main() {
   console.log(
     `V2 prepared: ${storyHome.milestones.length} highlights, ${exploreData.releases.length} releases, ${storyHome.capabilities.length} capabilities`
   );
+  console.log(`Copy: "${copy.hero.headline_cn}" / "${copy.hero.subheadline_cn}"`);
 }
 
 main();
