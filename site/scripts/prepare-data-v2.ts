@@ -347,9 +347,8 @@ function main() {
   mkdirSync(OUTPUT_DIR, { recursive: true });
   const bundle = loadBundle();
   const siteConfig = loadSiteConfig();
-  const storyHome = buildStoryHome(bundle);
   const copy = buildCopy(bundle, siteConfig);
-  storyHome.copy = copy;
+  const storyHome = { ...buildStoryHome(bundle), copy };
   const exploreData = buildExploreData(bundle);
 
   writeFileSync(resolve(OUTPUT_DIR, "story-home.json"), JSON.stringify(storyHome, null, 2) + "\n", "utf8");
