@@ -1,13 +1,13 @@
 {
   "meta": {
-    "generated_at": "2026-06-02T05:27:42.945Z",
+    "generated_at": "2026-06-03T06:01:22.962Z",
     "agent_model": "openai/gpt-5.4-mini",
-    "total_versions": 304,
+    "total_versions": 305,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-06-01"
+      "end": "2026-06-02"
     },
-    "highlight_count": 37,
+    "highlight_count": 39,
     "capability_count": 8,
     "hn_signal_count": 18,
     "blog_post_count": 7
@@ -70,11 +70,333 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。adaptive thinking 把推理深度交给模型自己决定，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界——从 Opus 4.6 到 4.8，每一代都在加速这条路。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Adaptive thinking hands reasoning depth to the model itself, while worktree isolation and 1M context push the agent toward hours-long unattended runs — from Opus 4.6 through 4.8, each generation accelerates the path.",
-      "release_count": 88,
-      "highlight_count": 16
+      "release_count": 89,
+      "highlight_count": 18
     }
   ],
   "releases": [
+    {
+      "version": "2.1.161",
+      "date": "2026-06-02",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "`OTEL_RESOURCE_ATTRIBUTES` values are now included as labels on metric datapoints, so you can slice usage metrics by custom dimensions like team or repo",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "指标支持自定义维度分组",
+          "summary_en": "Metrics can be sliced by custom labels",
+          "why_matters": "用户可以按团队或仓库等自定义维度分析使用情况，便于监控和成本归因。",
+          "why_matters_en": "Users can analyze usage by team or repo labels, improving monitoring and cost attribution.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "`claude agents` rows now show `done/total` before the detail when work is fanned out; peek shows the longest-running item",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "代理列表显示完成进度",
+          "summary_en": "Agents show done/total and longest item",
+          "why_matters": "用户能更快判断并行分发任务的整体进度和当前最慢的工作项。",
+          "why_matters_en": "Users can quickly gauge parallel task progress and spot the slowest item.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "`/mcp` now collapses claude.ai connectors you've never signed in to behind a \"Show unused connectors\" row",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "隐藏未用的连接器",
+          "summary_en": "Unused connectors are collapsed by default",
+          "why_matters": "减少 `/mcp` 列表噪音，让常用连接器更容易找到。",
+          "why_matters_en": "It reduces clutter in `/mcp` so active connectors are easier to find.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Parallel tool calls: a failed Bash command no longer cancels other calls in the same batch — each tool returns its own result independently",
+          "category": "fix",
+          "importance": 4,
+          "summary": "并行工具失败不再连坐",
+          "summary_en": "One failed tool no longer cancels the batch",
+          "why_matters": "同一批次中的其他工具可以继续执行，提升并行调用的可靠性和效率。",
+          "why_matters_en": "Other tools in the batch keep running, improving reliability and efficiency for parallel calls.",
+          "capability_ids": [
+            "execution_workspace",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fullscreen mode: clipboard now uses `wl-copy`/`xclip`/`xsel` on Linux when available, copies to both the clipboard and PRIMARY selection for middle-click paste, and the \"hold {key} for native selection\" hint now shows the correct key per terminal",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "Linux 复制体验更完善",
+          "summary_en": "Fullscreen copy works better on Linux",
+          "why_matters": "在 Linux 终端里复制更稳定，还能同时支持剪贴板和 PRIMARY 选择。",
+          "why_matters_en": "Copying is more reliable in Linux terminals and supports both clipboard and PRIMARY selection.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed the `/effort` dialog, workflow animations, and prompt keyword shimmer not honoring the \"Reduce motion\" setting",
+          "category": "fix",
+          "importance": 2,
+          "summary": "尊重减少动态效果设置",
+          "summary_en": "Reduce motion setting is now honored",
+          "why_matters": "开启无动画模式的用户不会再被多余动效干扰。",
+          "why_matters_en": "Users who prefer reduced motion no longer see distracting animations.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed `forceLoginOrgUUID`/`forceLoginMethod` managed-settings policies blocking third-party provider sessions (Bedrock, Vertex, Foundry, Mantle) alongside the org pin (regression in 2.1.146)",
+          "category": "fix",
+          "importance": 5,
+          "summary": "修复登录策略误拦截会话",
+          "summary_en": "Managed login policies no longer block sessions",
+          "why_matters": "避免企业策略误伤第三方提供商登录，恢复受管环境的正常使用。",
+          "why_matters_en": "It prevents enterprise policies from wrongly blocking third-party provider logins and restores normal use.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed background subagent output corrupting `claude -p` stdout when using `--output-format text` or `json`",
+          "category": "fix",
+          "importance": 4,
+          "summary": "后台输出不再污染标准输出",
+          "summary_en": "Background subagent output no longer corrupts stdout",
+          "why_matters": "保证 `claude -p` 的 text/json 输出可被脚本稳定解析。",
+          "why_matters_en": "It keeps `claude -p` text/json output machine-parseable for scripts.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed `/usage-credits` starting a re-login for Team and Enterprise admins instead of pointing to the organization's usage settings page",
+          "category": "fix",
+          "importance": 2,
+          "summary": "用量页不再误触重新登录",
+          "summary_en": "Usage credits opens the usage settings page",
+          "why_matters": "团队和企业管理员可以直接进入正确页面查看用量设置。",
+          "why_matters_en": "Team and Enterprise admins are sent to the correct usage settings page instead of relogging.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed `/autofix-pr` reporting \"cannot run on the default branch\" when the session is inside a git worktree or another repository",
+          "category": "fix",
+          "importance": 3,
+          "summary": "自动修复 PR 识别工作区",
+          "summary_en": "Autofix PR works in worktrees and repos",
+          "why_matters": "在 worktree 或其他仓库里也能正确运行自动修复 PR 流程。",
+          "why_matters_en": "Autofix PR now works correctly inside worktrees or nested repositories.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy",
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `--resume` picker not showing sessions from the current directory when it isn't a git worktree (e.g., jj workspaces)",
+          "category": "fix",
+          "importance": 2,
+          "summary": "恢复会话列表显示当前目录",
+          "summary_en": "Resume picker shows current-directory sessions",
+          "why_matters": "非 git worktree 场景下也能更方便地恢复当前目录的会话。",
+          "why_matters_en": "Users can more easily resume sessions from the current directory even outside git worktrees.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed Windows hooks that invoke bash explicitly (e.g., `/usr/bin/bash script.sh`) failing with \"command not found\" or \"cannot execute binary file\"",
+          "category": "fix",
+          "importance": 3,
+          "summary": "Windows bash 钩子可正常执行",
+          "summary_en": "Windows bash hooks now execute correctly",
+          "why_matters": "在 Windows 上调用 bash 脚本的 hooks 不再因执行方式问题失败。",
+          "why_matters_en": "Hooks that invoke bash explicitly now run successfully on Windows.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed OpenTelemetry log events (`user_prompt`, `api_request`, `tool_result`, `tool_decision`) being silently dropped when emitted before telemetry initialization completed",
+          "category": "fix",
+          "importance": 4,
+          "summary": "遥测日志不再静默丢失",
+          "summary_en": "Telemetry log events are no longer dropped",
+          "why_matters": "确保关键使用与操作日志被可靠采集，提升可观测性和排障能力。",
+          "why_matters_en": "Critical telemetry logs are reliably captured, improving observability and debugging.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed `claude mcp` list/get/add printing secrets to the terminal: `${VAR}` references are no longer expanded, and credential headers and URL secrets are redacted",
+          "category": "security",
+          "importance": 5,
+          "summary": "MCP 列表不再泄露密钥",
+          "summary_en": "MCP commands no longer print secrets",
+          "why_matters": "终端输出中的凭据和 URL 密钥被脱敏，避免敏感信息泄露。",
+          "why_matters_en": "Credentials and URL secrets are redacted, preventing sensitive data leakage in the terminal.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed Workflow agents spawned with `isolation: \"worktree\"` in background sessions being blocked from editing files inside their own worktree",
+          "category": "fix",
+          "importance": 4,
+          "summary": "后台工作树编辑权限恢复",
+          "summary_en": "Background worktree agents can edit their files",
+          "why_matters": "工作流代理在自己的 worktree 中可以继续编辑文件，不会被误阻止。",
+          "why_matters_en": "Workflow agents can edit files in their own worktree without being wrongly blocked.",
+          "capability_ids": [
+            "execution_workspace",
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed background sessions dispatched from `claude agents` booting on a stale model from the daemon's environment instead of the model in `settings.json`",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复代理会话模型过期",
+          "summary_en": "Fix agents using stale model",
+          "why_matters": "确保 `claude agents` 后台会话使用 `settings.json` 中的正确模型，避免配置不一致导致的错误行为。",
+          "why_matters_en": "Ensures background `claude agents` sessions use the model from `settings.json`, avoiding behavior caused by stale configuration.",
+          "capability_ids": [
+            "memory_context",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed a potential crash when rendering Write tool results after resuming a session",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复恢复后写入结果崩溃",
+          "summary_en": "Fix crash rendering Write results after resume",
+          "why_matters": "避免会话恢复后渲染 Write 工具结果时崩溃，提高长任务续接的稳定性。",
+          "why_matters_en": "Prevents crashes when rendering Write tool results after resuming, improving stability for long-running sessions.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed completed subagents getting stuck showing as running when an error occurs while finalizing their result",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复子代理完成状态卡住",
+          "summary_en": "Fix subagents stuck as running",
+          "why_matters": "防止子代理在收尾出错时一直显示运行中，减少状态误导并提升协作可见性。",
+          "why_matters_en": "Prevents completed subagents from appearing stuck as running, reducing misleading status and improving collaboration visibility.",
+          "capability_ids": [
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed `EADDRINUSE` errors from tools that bind Unix sockets under `$TMPDIR` when `CLAUDE_CODE_TMPDIR` is set to a deep path",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复临时目录套接字冲突",
+          "summary_en": "Fix Unix socket EADDRINUSE with deep TMPDIR",
+          "why_matters": "避免 `CLAUDE_CODE_TMPDIR` 路径较深时工具绑定 Unix socket 失败，提升工具可靠性。",
+          "why_matters_en": "Avoids Unix socket bind failures when `CLAUDE_CODE_TMPDIR` is deeply nested, improving tool reliability.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Improved terminal rendering performance by stabilizing the layout engine's JIT compilation profile",
+          "category": "perf",
+          "importance": 3,
+          "summary": "提升终端渲染性能",
+          "summary_en": "Improve terminal rendering performance",
+          "why_matters": "让终端输出更流畅，降低布局渲染开销，提升交互体验。",
+          "why_matters_en": "Makes terminal output smoother by reducing layout rendering overhead and improving responsiveness.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Improved rendering performance for large file writes",
+          "category": "perf",
+          "importance": 3,
+          "summary": "提升大文件写入渲染",
+          "summary_en": "Improve rendering for large file writes",
+          "why_matters": "减少大文件写入时的渲染卡顿，让大规模编辑更顺畅。",
+          "why_matters_en": "Reduces rendering lag during large file writes, making large-scale edits smoother.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Added a tip suggesting disabling terminal GPU acceleration (or running `/terminal-setup`) to fix garbled glyphs",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "提示修复 VSCode 字形异常",
+          "summary_en": "Add VSCode tip for garbled glyphs",
+          "why_matters": "为 VSCode 用户提供可操作的修复建议，帮助快速解决终端乱码问题。",
+          "why_matters_en": "Provides actionable guidance for VSCode users to quickly fix garbled terminal glyphs.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Please don't spam people looking for employment. It's just cruel",
+          "points": 911,
+          "url": "https://news.ycombinator.com/item?id=48370330"
+        },
+        {
+          "title": "Claude Code as a Daily Driver: Claude.md, Skills, Subagents, Plugins, and MCPs",
+          "points": 447,
+          "url": "https://arps18.github.io/posts/claude-code-mastery/"
+        },
+        {
+          "title": "Claude Code – Everything you can configure that the docs don't tell you",
+          "points": 326,
+          "url": "https://buildingbetter.tech/p/i-read-the-claude-code-source-code"
+        },
+        {
+          "title": "Dynamic Workflows in Claude Code",
+          "points": 199,
+          "url": "https://claude.com/blog/introducing-dynamic-workflows-in-claude-code"
+        },
+        {
+          "title": "Launch HN: Minicor (YC P26) – Windows desktop automations at scale",
+          "points": 104,
+          "url": "https://www.minicor.com/"
+        }
+      ],
+      "highlight_score": 50
+    },
     {
       "version": "2.1.160",
       "date": "2026-06-01",
@@ -430,8 +752,13 @@
       ],
       "signals": [
         {
+          "title": "Please don't spam people looking for employment. It's just cruel",
+          "points": 911,
+          "url": "https://news.ycombinator.com/item?id=48370330"
+        },
+        {
           "title": "Claude Code as a Daily Driver: Claude.md, Skills, Subagents, Plugins, and MCPs",
-          "points": 445,
+          "points": 447,
           "url": "https://arps18.github.io/posts/claude-code-mastery/"
         },
         {
@@ -441,21 +768,16 @@
         },
         {
           "title": "Dynamic Workflows in Claude Code",
-          "points": 198,
+          "points": 199,
           "url": "https://claude.com/blog/introducing-dynamic-workflows-in-claude-code"
         },
         {
           "title": "Launch HN: Minicor (YC P26) – Windows desktop automations at scale",
           "points": 104,
           "url": "https://www.minicor.com/"
-        },
-        {
-          "title": "Show HN: Ktx – Open-source executable context layer for data agents",
-          "points": 90,
-          "url": "https://github.com/Kaelio/ktx"
         }
       ],
-      "highlight_score": 45
+      "highlight_score": 60
     },
     {
       "version": "2.1.159",
@@ -476,8 +798,13 @@
       ],
       "signals": [
         {
+          "title": "Please don't spam people looking for employment. It's just cruel",
+          "points": 911,
+          "url": "https://news.ycombinator.com/item?id=48370330"
+        },
+        {
           "title": "Claude Code as a Daily Driver: Claude.md, Skills, Subagents, Plugins, and MCPs",
-          "points": 445,
+          "points": 447,
           "url": "https://arps18.github.io/posts/claude-code-mastery/"
         },
         {
@@ -487,21 +814,16 @@
         },
         {
           "title": "Dynamic Workflows in Claude Code",
-          "points": 198,
+          "points": 199,
           "url": "https://claude.com/blog/introducing-dynamic-workflows-in-claude-code"
         },
         {
           "title": "Launch HN: Minicor (YC P26) – Windows desktop automations at scale",
           "points": 104,
           "url": "https://www.minicor.com/"
-        },
-        {
-          "title": "Show HN: Ktx – Open-source executable context layer for data agents",
-          "points": 90,
-          "url": "https://github.com/Kaelio/ktx"
         }
       ],
-      "highlight_score": 15
+      "highlight_score": 30
     },
     {
       "version": "2.1.158",
@@ -525,8 +847,13 @@
       ],
       "signals": [
         {
+          "title": "Please don't spam people looking for employment. It's just cruel",
+          "points": 911,
+          "url": "https://news.ycombinator.com/item?id=48370330"
+        },
+        {
           "title": "Claude Code as a Daily Driver: Claude.md, Skills, Subagents, Plugins, and MCPs",
-          "points": 445,
+          "points": 447,
           "url": "https://arps18.github.io/posts/claude-code-mastery/"
         },
         {
@@ -536,21 +863,16 @@
         },
         {
           "title": "Dynamic Workflows in Claude Code",
-          "points": 198,
+          "points": 199,
           "url": "https://claude.com/blog/introducing-dynamic-workflows-in-claude-code"
         },
         {
           "title": "Launch HN: Minicor (YC P26) – Windows desktop automations at scale",
           "points": 104,
           "url": "https://www.minicor.com/"
-        },
-        {
-          "title": "Show HN: Ktx – Open-source executable context layer for data agents",
-          "points": 90,
-          "url": "https://github.com/Kaelio/ktx"
         }
       ],
-      "highlight_score": 35
+      "highlight_score": 50
     },
     {
       "version": "2.1.157",
@@ -980,13 +1302,18 @@
       ],
       "signals": [
         {
+          "title": "Please don't spam people looking for employment. It's just cruel",
+          "points": 911,
+          "url": "https://news.ycombinator.com/item?id=48370330"
+        },
+        {
           "title": "Microsoft starts canceling Claude Code licenses",
           "points": 492,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
           "title": "Claude Code as a Daily Driver: Claude.md, Skills, Subagents, Plugins, and MCPs",
-          "points": 445,
+          "points": 447,
           "url": "https://arps18.github.io/posts/claude-code-mastery/"
         },
         {
@@ -996,16 +1323,11 @@
         },
         {
           "title": "Dynamic Workflows in Claude Code",
-          "points": 198,
+          "points": 199,
           "url": "https://claude.com/blog/introducing-dynamic-workflows-in-claude-code"
-        },
-        {
-          "title": "Launch HN: Superset (YC P26) – IDE for the agents era",
-          "points": 107,
-          "url": "https://github.com/superset-sh/superset"
         }
       ],
-      "highlight_score": 35
+      "highlight_score": 50
     },
     {
       "version": "2.1.156",
@@ -1028,13 +1350,18 @@
       ],
       "signals": [
         {
+          "title": "Please don't spam people looking for employment. It's just cruel",
+          "points": 911,
+          "url": "https://news.ycombinator.com/item?id=48370330"
+        },
+        {
           "title": "Microsoft starts canceling Claude Code licenses",
           "points": 492,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
           "title": "Claude Code as a Daily Driver: Claude.md, Skills, Subagents, Plugins, and MCPs",
-          "points": 445,
+          "points": 447,
           "url": "https://arps18.github.io/posts/claude-code-mastery/"
         },
         {
@@ -1044,16 +1371,11 @@
         },
         {
           "title": "Dynamic Workflows in Claude Code",
-          "points": 198,
+          "points": 199,
           "url": "https://claude.com/blog/introducing-dynamic-workflows-in-claude-code"
-        },
-        {
-          "title": "Launch HN: Superset (YC P26) – IDE for the agents era",
-          "points": 107,
-          "url": "https://github.com/superset-sh/superset"
         }
       ],
-      "highlight_score": 35
+      "highlight_score": 50
     },
     {
       "version": "2.1.154",
@@ -1620,13 +1942,18 @@
       ],
       "signals": [
         {
+          "title": "Please don't spam people looking for employment. It's just cruel",
+          "points": 911,
+          "url": "https://news.ycombinator.com/item?id=48370330"
+        },
+        {
           "title": "Microsoft starts canceling Claude Code licenses",
           "points": 492,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
           "title": "Claude Code as a Daily Driver: Claude.md, Skills, Subagents, Plugins, and MCPs",
-          "points": 445,
+          "points": 447,
           "url": "https://arps18.github.io/posts/claude-code-mastery/"
         },
         {
@@ -1636,16 +1963,11 @@
         },
         {
           "title": "Dynamic Workflows in Claude Code",
-          "points": 198,
+          "points": 199,
           "url": "https://claude.com/blog/introducing-dynamic-workflows-in-claude-code"
-        },
-        {
-          "title": "Launch HN: Superset (YC P26) – IDE for the agents era",
-          "points": 107,
-          "url": "https://github.com/superset-sh/superset"
         }
       ],
-      "highlight_score": 35
+      "highlight_score": 50
     },
     {
       "version": "2.1.153",
@@ -2120,13 +2442,18 @@
       ],
       "signals": [
         {
+          "title": "Please don't spam people looking for employment. It's just cruel",
+          "points": 911,
+          "url": "https://news.ycombinator.com/item?id=48370330"
+        },
+        {
           "title": "Microsoft starts canceling Claude Code licenses",
           "points": 492,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
           "title": "Claude Code as a Daily Driver: Claude.md, Skills, Subagents, Plugins, and MCPs",
-          "points": 445,
+          "points": 447,
           "url": "https://arps18.github.io/posts/claude-code-mastery/"
         },
         {
@@ -2136,16 +2463,11 @@
         },
         {
           "title": "Dynamic Workflows in Claude Code",
-          "points": 198,
+          "points": 199,
           "url": "https://claude.com/blog/introducing-dynamic-workflows-in-claude-code"
-        },
-        {
-          "title": "Learnings from 100K lines of Rust with AI (2025)",
-          "points": 192,
-          "url": "https://zfhuang99.github.io/rust/claude%20code/codex/contracts/spec-driven%20development/2025/12/01/rust-with-ai.html"
         }
       ],
-      "highlight_score": 40
+      "highlight_score": 55
     },
     {
       "version": "2.1.152",
@@ -2578,6 +2900,11 @@
       ],
       "signals": [
         {
+          "title": "Please don't spam people looking for employment. It's just cruel",
+          "points": 911,
+          "url": "https://news.ycombinator.com/item?id=48370330"
+        },
+        {
           "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
           "points": 687,
           "url": "https://github.com/antoinezambelli/forge"
@@ -2589,18 +2916,13 @@
         },
         {
           "title": "Claude Code as a Daily Driver: Claude.md, Skills, Subagents, Plugins, and MCPs",
-          "points": 445,
+          "points": 447,
           "url": "https://arps18.github.io/posts/claude-code-mastery/"
         },
         {
           "title": "Claude Code – Everything you can configure that the docs don't tell you",
           "points": 326,
           "url": "https://buildingbetter.tech/p/i-read-the-claude-code-source-code"
-        },
-        {
-          "title": "Dynamic Workflows in Claude Code",
-          "points": 198,
-          "url": "https://claude.com/blog/introducing-dynamic-workflows-in-claude-code"
         }
       ],
       "highlight_score": 55
@@ -2635,7 +2957,7 @@
         },
         {
           "title": "Claude Code as a Daily Driver: Claude.md, Skills, Subagents, Plugins, and MCPs",
-          "points": 445,
+          "points": 447,
           "url": "https://arps18.github.io/posts/claude-code-mastery/"
         },
         {
@@ -2999,7 +3321,7 @@
         },
         {
           "title": "Claude Code as a Daily Driver: Claude.md, Skills, Subagents, Plugins, and MCPs",
-          "points": 445,
+          "points": 447,
           "url": "https://arps18.github.io/posts/claude-code-mastery/"
         },
         {
@@ -3047,7 +3369,7 @@
         },
         {
           "title": "Claude Code as a Daily Driver: Claude.md, Skills, Subagents, Plugins, and MCPs",
-          "points": 445,
+          "points": 447,
           "url": "https://arps18.github.io/posts/claude-code-mastery/"
         },
         {
@@ -3495,7 +3817,7 @@
         },
         {
           "title": "Claude Code as a Daily Driver: Claude.md, Skills, Subagents, Plugins, and MCPs",
-          "points": 445,
+          "points": 447,
           "url": "https://arps18.github.io/posts/claude-code-mastery/"
         },
         {
@@ -36985,11 +37307,6 @@
       ],
       "signals": [
         {
-          "title": "A guide to local coding models",
-          "points": 607,
-          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
-        },
-        {
           "title": "Show HN: Z80-μLM, a 'Conversational AI' That Fits in 40KB",
           "points": 514,
           "url": "https://github.com/HarryR/z80ai"
@@ -37008,6 +37325,11 @@
           "title": "Show HN: Vibe coding a bookshelf with Claude Code",
           "points": 284,
           "url": "https://balajmarius.com/writings/vibe-coding-a-bookshelf-with-claude-code/"
+        },
+        {
+          "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
+          "points": 216,
+          "url": "https://github.com/DeepMyst/Mysti"
         }
       ],
       "highlight_score": 30
@@ -37031,11 +37353,6 @@
       ],
       "signals": [
         {
-          "title": "A guide to local coding models",
-          "points": 607,
-          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
-        },
-        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -37054,6 +37371,11 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
+        },
+        {
+          "title": "Codex vs. Claude Code (today)",
+          "points": 104,
+          "url": "https://build.ms/2025/12/22/codex-vs-claude-code-today/"
         }
       ],
       "highlight_score": 30
@@ -37231,11 +37553,6 @@
       ],
       "signals": [
         {
-          "title": "A guide to local coding models",
-          "points": 607,
-          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
-        },
-        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -37254,6 +37571,11 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
+        },
+        {
+          "title": "Codex vs. Claude Code (today)",
+          "points": 104,
+          "url": "https://build.ms/2025/12/22/codex-vs-claude-code-today/"
         }
       ],
       "highlight_score": 50
@@ -37380,11 +37702,6 @@
       ],
       "signals": [
         {
-          "title": "A guide to local coding models",
-          "points": 607,
-          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
-        },
-        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -37403,6 +37720,11 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
+        },
+        {
+          "title": "Show HN: Superset – Terminal to run 10 parallel coding agents",
+          "points": 96,
+          "url": "https://superset.sh/"
         }
       ],
       "highlight_score": 50
@@ -37545,11 +37867,6 @@
       ],
       "signals": [
         {
-          "title": "A guide to local coding models",
-          "points": 607,
-          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
-        },
-        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -37568,6 +37885,11 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
+        },
+        {
+          "title": "Show HN: Superset – Terminal to run 10 parallel coding agents",
+          "points": 96,
+          "url": "https://superset.sh/"
         }
       ],
       "highlight_score": 55
@@ -37666,11 +37988,6 @@
       ],
       "signals": [
         {
-          "title": "A guide to local coding models",
-          "points": 607,
-          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
-        },
-        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -37689,6 +38006,11 @@
           "title": "Show HN: Local Privacy Firewall-blocks PII and secrets before ChatGPT sees them",
           "points": 111,
           "url": "https://github.com/privacyshield-ai/privacy-firewall"
+        },
+        {
+          "title": "Show HN: Superset – Terminal to run 10 parallel coding agents",
+          "points": 96,
+          "url": "https://superset.sh/"
         }
       ],
       "highlight_score": 50
@@ -37854,11 +38176,6 @@
       ],
       "signals": [
         {
-          "title": "A guide to local coding models",
-          "points": 607,
-          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
-        },
-        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -37877,6 +38194,11 @@
           "title": "Show HN: Local Privacy Firewall-blocks PII and secrets before ChatGPT sees them",
           "points": 111,
           "url": "https://github.com/privacyshield-ai/privacy-firewall"
+        },
+        {
+          "title": "Show HN: I open-sourced my Go and Next B2B SaaS Starter (deploy anywhere, MIT)",
+          "points": 83,
+          "url": "https://github.com/moasq/production-saas-starter"
         }
       ],
       "highlight_score": 55
@@ -53589,6 +53911,141 @@
           }
         ]
       }
+    },
+    {
+      "version": "2.1.153",
+      "date": "2026-05-27",
+      "epoch_id": "epoch5",
+      "highlight_score": 55,
+      "highlight_title": "边界开始真正生效",
+      "highlight_title_en": "Boundaries Start Holding",
+      "highlight_summary": "Claude Code 这次补上了几处关键回退，核心不是新增能力，而是让平台边界终于可靠地生效。无论是网关凭证、Windows 更新，还是 MCP 与子代理的策略控制，产品都在把“能做什么”与“该交给谁做”重新对齐。\n这让 Claude Code 更像一个可治理的执行平台，而不只是一个灵活的工具集合。",
+      "highlight_summary_en": "This release is about tightening the rails, not adding new surface area. From gateway credentials and Windows rollback to MCP and subagent policy enforcement, Claude Code is realigning what it can do with who it should trust.\nThe result is a platform that feels less like a loose toolkit and more like a governable execution layer.",
+      "highlight_why": "当权限、恢复和策略都开始按预期工作时，Claude Code 才真正具备了进入更大规模部署的底座。",
+      "highlight_why_en": "Once permissions, recovery, and policy enforcement behave predictably, Claude Code finally has the foundation for broader-scale deployment.",
+      "capability_ids": [
+        "integrations_ecosystem",
+        "governance_security",
+        "automation_autonomy",
+        "reasoning_workflows",
+        "delegation_collaboration",
+        "memory_context",
+        "execution_workspace",
+        "multimodal_interfaces"
+      ],
+      "evidence": {
+        "hn_signals": [
+          {
+            "title": "Please don't spam people looking for employment. It's just cruel",
+            "points": 911,
+            "url": "https://news.ycombinator.com/item?id=48370330"
+          },
+          {
+            "title": "Microsoft starts canceling Claude Code licenses",
+            "points": 492,
+            "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
+          },
+          {
+            "title": "Claude Code as a Daily Driver: Claude.md, Skills, Subagents, Plugins, and MCPs",
+            "points": 447,
+            "url": "https://arps18.github.io/posts/claude-code-mastery/"
+          },
+          {
+            "title": "Claude Code – Everything you can configure that the docs don't tell you",
+            "points": 326,
+            "url": "https://buildingbetter.tech/p/i-read-the-claude-code-source-code"
+          },
+          {
+            "title": "Dynamic Workflows in Claude Code",
+            "points": 199,
+            "url": "https://claude.com/blog/introducing-dynamic-workflows-in-claude-code"
+          }
+        ],
+        "top_changes": [
+          {
+            "raw": "Fixed a regression where a custom API gateway could receive the user's Anthropic OAuth credential instead of the gateway's own token",
+            "summary": "修复网关凭证串用",
+            "importance": 5
+          },
+          {
+            "raw": "Fixed Windows update rollback: if a Windows update fails, Claude Code now restores the original executable by copy and tells you how to recover",
+            "summary": "Windows更新失败可自动回滚",
+            "importance": 5
+          },
+          {
+            "raw": "Fixed stateful MCP servers without the optional GET SSE stream reconnect-looping on `tools/list` (regression in v2.1.147)",
+            "summary": "修复MCP重连死循环",
+            "importance": 4
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.1.160",
+      "date": "2026-06-01",
+      "epoch_id": "epoch5",
+      "highlight_score": 60,
+      "highlight_title": "把信任放在边界上",
+      "highlight_title_en": "Putting Trust at the Edges",
+      "highlight_summary": "Claude Code 这一版把安全感推进到更靠近用户操作的地方。无论是写入启动文件，还是触及可能直接获得执行权限的构建配置，系统都会先停下确认。产品的方向很清晰：默认更谨慎，交互更可控。",
+      "highlight_summary_en": "This release pushes safety closer to the point of action. When writing shell startup files or build configs that can grant execution, Claude Code now pauses for confirmation first. The direction is clear: safer by default, with control preserved at the edge.",
+      "highlight_why": "当工具开始接触能直接改变执行环境的文件时，真正的产品分水岭不再是功能多少，而是能否守住用户的信任。",
+      "highlight_why_en": "Once a tool can touch files that alter the execution environment, the real inflection point is no longer feature count, but whether it can preserve user trust.",
+      "capability_ids": [
+        "governance_security",
+        "reasoning_workflows",
+        "execution_workspace",
+        "multimodal_interfaces",
+        "integrations_ecosystem",
+        "memory_context",
+        "automation_autonomy"
+      ],
+      "evidence": {
+        "hn_signals": [
+          {
+            "title": "Please don't spam people looking for employment. It's just cruel",
+            "points": 911,
+            "url": "https://news.ycombinator.com/item?id=48370330"
+          },
+          {
+            "title": "Claude Code as a Daily Driver: Claude.md, Skills, Subagents, Plugins, and MCPs",
+            "points": 447,
+            "url": "https://arps18.github.io/posts/claude-code-mastery/"
+          },
+          {
+            "title": "Claude Code – Everything you can configure that the docs don't tell you",
+            "points": 326,
+            "url": "https://buildingbetter.tech/p/i-read-the-claude-code-source-code"
+          },
+          {
+            "title": "Dynamic Workflows in Claude Code",
+            "points": 199,
+            "url": "https://claude.com/blog/introducing-dynamic-workflows-in-claude-code"
+          },
+          {
+            "title": "Launch HN: Minicor (YC P26) – Windows desktop automations at scale",
+            "points": 104,
+            "url": "https://www.minicor.com/"
+          }
+        ],
+        "top_changes": [
+          {
+            "raw": "Added a prompt before writing to shell startup files (`.zshenv`, `.zlogin`, `.bash_login`) and `~/.config/git/`, which could otherwise lead to unintended command execution",
+            "summary": "写入启动文件前先确认",
+            "importance": 5
+          },
+          {
+            "raw": "`acceptEdits` mode now prompts before writing build-tool config files that grant code execution (`.npmrc`, `.yarnrc*`, `bunfig.toml`, `.bazelrc`, `.pre-commit-config.yaml`, `.devcontainer/`, etc.)",
+            "summary": "高危构建配置写入需确认",
+            "importance": 5
+          },
+          {
+            "raw": "Fixed restoring a completed session from `claude agents` dropping chat history and re-running the original prompt",
+            "summary": "恢复会话不再丢失历史",
+            "importance": 4
+          }
+        ]
+      }
     }
   ],
   "capabilities": [
@@ -53608,8 +54065,8 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 434,
-      "release_count": 159,
+      "change_count": 437,
+      "release_count": 160,
       "avg_importance": 3.12,
       "maturity": {
         "score": 92,
@@ -53620,14 +54077,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-06-01",
-        "version": "2.1.160"
+        "date": "2026-06-02",
+        "version": "2.1.161"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 272
+          "change_count": 275
         },
         {
           "epoch_id": "epoch4",
@@ -53703,8 +54160,8 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 899,
-      "release_count": 196,
+      "change_count": 908,
+      "release_count": 197,
       "avg_importance": 3.24,
       "maturity": {
         "score": 93,
@@ -53715,14 +54172,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-06-01",
-        "version": "2.1.160"
+        "date": "2026-06-02",
+        "version": "2.1.161"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 598
+          "change_count": 607
         },
         {
           "epoch_id": "epoch1",
@@ -53798,8 +54255,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 597,
-      "release_count": 152,
+      "change_count": 599,
+      "release_count": 153,
       "avg_importance": 3.19,
       "maturity": {
         "score": 93,
@@ -53810,14 +54267,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-06-01",
-        "version": "2.1.160"
+        "date": "2026-06-02",
+        "version": "2.1.161"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 433
+          "change_count": 435
         },
         {
           "epoch_id": "epoch1",
@@ -53893,8 +54350,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 733,
-      "release_count": 204,
+      "change_count": 738,
+      "release_count": 205,
       "avg_importance": 3.26,
       "maturity": {
         "score": 93,
@@ -53905,14 +54362,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-06-01",
-        "version": "2.1.160"
+        "date": "2026-06-02",
+        "version": "2.1.161"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 471
+          "change_count": 476
         },
         {
           "epoch_id": "epoch1",
@@ -53988,8 +54445,8 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 351,
-      "release_count": 124,
+      "change_count": 356,
+      "release_count": 125,
       "avg_importance": 3.31,
       "maturity": {
         "score": 93,
@@ -54000,14 +54457,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-05-29",
-        "version": "2.1.157"
+        "date": "2026-06-02",
+        "version": "2.1.161"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 260
+          "change_count": 265
         },
         {
           "epoch_id": "epoch1",
@@ -54083,8 +54540,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 1110,
-      "release_count": 232,
+      "change_count": 1118,
+      "release_count": 233,
       "avg_importance": 3.12,
       "maturity": {
         "score": 92,
@@ -54095,14 +54552,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-06-01",
-        "version": "2.1.160"
+        "date": "2026-06-02",
+        "version": "2.1.161"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 744
+          "change_count": 752
         },
         {
           "epoch_id": "epoch1",
@@ -54127,6 +54584,22 @@
       ],
       "samples": [
         {
+          "date": "2026-06-02",
+          "version": "2.1.161",
+          "raw": "Fixed `forceLoginOrgUUID`/`forceLoginMethod` managed-settings policies blocking third-party provider sessions (Bedrock, Vertex, Foundry, Mantle) alongside the org pin (regression in 2.1.146)",
+          "summary": "修复登录策略误拦截会话",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
+          "date": "2026-06-02",
+          "version": "2.1.161",
+          "raw": "Fixed `claude mcp` list/get/add printing secrets to the terminal: `${VAR}` references are no longer expanded, and credential headers and URL secrets are redacted",
+          "summary": "MCP 列表不再泄露密钥",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-05-29",
           "version": "2.1.157",
           "raw": "Fixed unprocessable images (zero-byte, corrupt) attached via paste, MCP, or dialog crashing the request instead of becoming a text placeholder",
@@ -54139,22 +54612,6 @@
           "version": "2.1.157",
           "raw": "Fixed sandbox network permission prompts appearing in auto and bypass-permissions mode when using the desktop app, IDE extensions, or SDK",
           "summary": "绕过权限时不再误弹网络提示",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-05-28",
-          "version": "2.1.154",
-          "raw": "Fixed a single invalid `allowedMcpServers`/`deniedMcpServers` entry in managed settings discarding all managed-settings policy; the bad entry is now dropped with a `claude doctor` warning",
-          "summary": "修复托管设置策略失效",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-05-27",
-          "version": "2.1.153",
-          "raw": "Fixed a regression where a custom API gateway could receive the user's Anthropic OAuth credential instead of the gateway's own token",
-          "summary": "修复网关凭证串用",
           "importance": 5,
           "category": "fix"
         }
@@ -54178,9 +54635,9 @@
         "Emacs",
         "web"
       ],
-      "change_count": 735,
-      "release_count": 174,
-      "avg_importance": 2.67,
+      "change_count": 742,
+      "release_count": 175,
+      "avg_importance": 2.68,
       "maturity": {
         "score": 91,
         "level": "成熟"
@@ -54190,14 +54647,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-06-01",
-        "version": "2.1.160"
+        "date": "2026-06-02",
+        "version": "2.1.161"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 526
+          "change_count": 533
         },
         {
           "epoch_id": "epoch4",
@@ -54222,6 +54679,14 @@
       ],
       "samples": [
         {
+          "date": "2026-06-02",
+          "version": "2.1.161",
+          "raw": "Fixed `forceLoginOrgUUID`/`forceLoginMethod` managed-settings policies blocking third-party provider sessions (Bedrock, Vertex, Foundry, Mantle) alongside the org pin (regression in 2.1.146)",
+          "summary": "修复登录策略误拦截会话",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-05-29",
           "version": "2.1.157",
           "raw": "Fixed unprocessable images (zero-byte, corrupt) attached via paste, MCP, or dialog crashing the request instead of becoming a text placeholder",
@@ -54244,14 +54709,6 @@
           "summary": "修复PowerShell越权漏洞",
           "importance": 5,
           "category": "security"
-        },
-        {
-          "date": "2026-05-21",
-          "version": "2.1.147",
-          "raw": "Fixed enterprise login restrictions (`forceLoginOrgUUID` and `forceLoginMethod` managed-settings) not being enforced against third-party-provider and API-key sessions",
-          "summary": "企业登录限制正确生效",
-          "importance": 5,
-          "category": "fix"
         }
       ]
     },
@@ -54273,8 +54730,8 @@
         "policy",
         "auditing"
       ],
-      "change_count": 726,
-      "release_count": 201,
+      "change_count": 731,
+      "release_count": 202,
       "avg_importance": 3.38,
       "maturity": {
         "score": 94,
@@ -54285,14 +54742,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-06-01",
-        "version": "2.1.160"
+        "date": "2026-06-02",
+        "version": "2.1.161"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 490
+          "change_count": 495
         },
         {
           "epoch_id": "epoch4",
@@ -54317,6 +54774,22 @@
       ],
       "samples": [
         {
+          "date": "2026-06-02",
+          "version": "2.1.161",
+          "raw": "Fixed `forceLoginOrgUUID`/`forceLoginMethod` managed-settings policies blocking third-party provider sessions (Bedrock, Vertex, Foundry, Mantle) alongside the org pin (regression in 2.1.146)",
+          "summary": "修复登录策略误拦截会话",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
+          "date": "2026-06-02",
+          "version": "2.1.161",
+          "raw": "Fixed `claude mcp` list/get/add printing secrets to the terminal: `${VAR}` references are no longer expanded, and credential headers and URL secrets are redacted",
+          "summary": "MCP 列表不再泄露密钥",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-06-01",
           "version": "2.1.160",
           "raw": "Added a prompt before writing to shell startup files (`.zshenv`, `.zlogin`, `.bash_login`) and `~/.config/git/`, which could otherwise lead to unintended command execution",
@@ -54329,22 +54802,6 @@
           "version": "2.1.160",
           "raw": "`acceptEdits` mode now prompts before writing build-tool config files that grant code execution (`.npmrc`, `.yarnrc*`, `bunfig.toml`, `.bazelrc`, `.pre-commit-config.yaml`, `.devcontainer/`, etc.)",
           "summary": "高危构建配置写入需确认",
-          "importance": 5,
-          "category": "security"
-        },
-        {
-          "date": "2026-05-29",
-          "version": "2.1.157",
-          "raw": "Fixed sandbox network permission prompts appearing in auto and bypass-permissions mode when using the desktop app, IDE extensions, or SDK",
-          "summary": "绕过权限时不再误弹网络提示",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-05-29",
-          "version": "2.1.157",
-          "raw": "Fixed the terminal freezing after approving the managed-settings security dialog at startup",
-          "summary": "修复安全对话后终端卡死",
           "importance": 5,
           "category": "security"
         }
@@ -54426,6 +54883,12 @@
         "date": "2025-09-07"
       },
       {
+        "title": "Please don't spam people looking for employment. It's just cruel",
+        "points": 911,
+        "url": "https://news.ycombinator.com/item?id=48370330",
+        "date": "2026-06-02"
+      },
+      {
         "title": "Claude Code is all you need",
         "points": 851,
         "url": "https://dwyer.co.za/static/claude-code-is-all-you-need.html",
@@ -54454,12 +54917,6 @@
         "points": 773,
         "url": "https://github.com/anthropics/claude-code/issues/3382",
         "date": "2025-08-13"
-      },
-      {
-        "title": "Pro Max 5x quota exhausted in 1.5 hours despite moderate usage",
-        "points": 759,
-        "url": "https://github.com/anthropics/claude-code/issues/45756",
-        "date": "2026-04-12"
       }
     ],
     "blog_posts": [
