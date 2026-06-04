@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-06-03T06:01:22.962Z",
+    "generated_at": "2026-06-04T05:53:39.356Z",
     "agent_model": "openai/gpt-5.4-mini",
-    "total_versions": 305,
+    "total_versions": 306,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-06-02"
+      "end": "2026-06-03"
     },
     "highlight_count": 39,
     "capability_count": 8,
@@ -70,11 +70,412 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。adaptive thinking 把推理深度交给模型自己决定，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界——从 Opus 4.6 到 4.8，每一代都在加速这条路。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Adaptive thinking hands reasoning depth to the model itself, while worktree isolation and 1M context push the agent toward hours-long unattended runs — from Opus 4.6 through 4.8, each generation accelerates the path.",
-      "release_count": 89,
+      "release_count": 90,
       "highlight_count": 18
     }
   ],
   "releases": [
+    {
+      "version": "2.1.162",
+      "date": "2026-06-03",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "`claude agents --json` now includes `waitingFor` showing what a waiting session is blocked on (e.g. permission prompt)",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "显示等待会话阻塞原因",
+          "summary_en": "Show what a waiting session is blocked on",
+          "why_matters": "用户能直接看到会话卡在什么地方，便于判断是否需要授权或其他操作。",
+          "why_matters_en": "Users can see what is blocking a session, making it easier to decide whether action or approval is needed.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "`--tools`: explicitly listing Grep/Glob now provides the dedicated search tools on native builds with embedded search (previously these names were silently ignored)",
+          "category": "fix",
+          "importance": 3,
+          "summary": "显式启用 Grep/Glob 工具",
+          "summary_en": "Explicit Grep/Glob now enables search tools",
+          "why_matters": "在原生构建中手动指定 Grep/Glob 不再被静默忽略，减少工具配置失效。",
+          "why_matters_en": "Explicit Grep/Glob requests now work on native builds instead of being silently ignored, reducing tool config surprises.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "`/effort` now confirms when your chosen level will persist as the default for new sessions",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "确认努力级别会默认保留",
+          "summary_en": "Confirm effort level will persist as default",
+          "why_matters": "用户设置一次后会清楚知道新会话会沿用该偏好，减少重复配置。",
+          "why_matters_en": "Users get clear confirmation that their chosen level will carry over to new sessions, reducing repeated setup.",
+          "capability_ids": [
+            "memory_context",
+            "automation_autonomy",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Clicking a slash command in the autocomplete menu now fills it into your prompt instead of running it immediately; press Enter to run",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "补全命令而非立即执行",
+          "summary_en": "Slash command completion now fills, not runs",
+          "why_matters": "减少误触导致的立即执行，先编辑再运行更安全也更符合预期。",
+          "why_matters_en": "This reduces accidental immediate execution and makes slash commands safer and more predictable.",
+          "capability_ids": [
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Remote Control now shows as a persistent footer pill (with a link to the session) instead of a startup message",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "远程控制改为固定页脚提示",
+          "summary_en": "Remote Control now shows as a footer pill",
+          "why_matters": "远程控制状态更稳定可见，用户可随时进入对应会话。",
+          "why_matters_en": "Remote Control status is now persistently visible and easier to jump back into the session.",
+          "capability_ids": [
+            "automation_autonomy",
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Renamed Windsurf to Devin Desktop in the `/ide` menu, `/terminal-setup`, and `/scroll-speed`, following the editor's rebrand",
+          "category": "other",
+          "importance": 1,
+          "summary": "IDE 菜单显示新名称",
+          "summary_en": "Rename Windsurf to Devin Desktop in menus",
+          "why_matters": "这是跟随产品改名的界面更新，避免名称不一致造成困惑。",
+          "why_matters_en": "This UI update follows a product rebrand and avoids confusion from outdated names.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed a silent startup hang when the config directory is read-only or unwritable — Claude Code now starts with in-memory config and surfaces startup errors instead of showing a blank screen",
+          "category": "fix",
+          "importance": 5,
+          "summary": "只读配置目录可正常启动",
+          "summary_en": "Start cleanly with read-only config dirs",
+          "why_matters": "修复启动白屏/卡死问题，并在配置不可写时改用内存配置，显著提升可用性。",
+          "why_matters_en": "This fixes startup hangs and blank screens, falling back to in-memory config when the config dir is unwritable.",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed WebFetch permission rules not being applied to built-in preapproved domains; explicit `WebFetch(domain:...)` deny/ask/allow rules now take precedence over the preapproved-host auto-allow",
+          "category": "fix",
+          "importance": 4,
+          "summary": "WebFetch 规则优先于预批准",
+          "summary_en": "WebFetch domain rules now override preapproved hosts",
+          "why_matters": "显式的允许/拒绝规则终于能正确生效，避免预批准域名绕过用户策略。",
+          "why_matters_en": "Explicit allow/deny rules now take precedence, preventing preapproved hosts from bypassing user policy.",
+          "capability_ids": [
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed Windows permission rules never matching when spelled with backslashes (`~\\`, `\\\\server\\share`) or case-variant paths, and Read deny rules not hiding files from Glob/Grep results",
+          "category": "fix",
+          "importance": 4,
+          "summary": "Windows 权限规则匹配修复",
+          "summary_en": "Fix Windows permission rule matching",
+          "why_matters": "Windows 下路径权限和 Read 拒绝规则现在能正确匹配并隐藏文件，减少权限失控。",
+          "why_matters_en": "Permission rules now match correctly on Windows, and Read-deny rules properly hide files from search results.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed an interrupt (Esc) sent at the very start of a turn being silently dropped in stream-json/SDK sessions, leaving the turn running with no \"Interrupted\" feedback",
+          "category": "fix",
+          "importance": 4,
+          "summary": "Esc 中断不再被静默丢失",
+          "summary_en": "Early Esc interrupts now reach the turn",
+          "why_matters": "用户按下中断后会得到正确反馈，避免任务继续运行而用户误以为已停止。",
+          "why_matters_en": "Interrupts now work reliably, preventing tasks from continuing after the user thinks they were stopped.",
+          "capability_ids": [
+            "automation_autonomy",
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed API 400 `no low surrogate in string` errors for classifier side-queries and MCP server descriptions containing emoji near a truncation boundary",
+          "category": "fix",
+          "importance": 3,
+          "summary": "避免截断边界 emoji 报错",
+          "summary_en": "Avoid surrogate errors near truncation boundaries",
+          "why_matters": "含 emoji 的描述和查询不再触发 400 错误，提升 API 稳定性。",
+          "why_matters_en": "Emoji-containing text no longer triggers API 400 errors, improving request reliability.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "reasoning_workflows",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed MCP per-server `timeout` config values below 1000 ms being floored to a 1-second watchdog that aborted every tool call; sub-1000 ms values are now ignored (falling back to `MCP_TOOL_TIMEOUT` or default), and `claude mcp get` annotates them accordingly",
+          "category": "fix",
+          "importance": 4,
+          "summary": "支持更小的 MCP 超时配置",
+          "summary_en": "Handle sub-1s MCP timeout config correctly",
+          "why_matters": "过小的超时不再导致所有工具调用被错误终止，MCP 配置更符合预期。",
+          "why_matters_en": "Sub-1s timeouts no longer break every tool call, making MCP timeout behavior consistent and safer.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed the LSP tool's `workspaceSymbol` operation returning no results; it now accepts a `query` parameter and passes it to the language server",
+          "category": "fix",
+          "importance": 4,
+          "summary": "workspaceSymbol 现在可返回结果",
+          "summary_en": "workspaceSymbol now returns results",
+          "why_matters": "LSP 语义符号搜索恢复可用，提升代码导航和查找效率。",
+          "why_matters_en": "LSP symbol search works again, improving code navigation and discovery.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed `claude agents` cutting live status text (tool args, replies, prompts, exec output) at 60–120 columns on wide terminals; the status detail now uses the full terminal width",
+          "category": "fix",
+          "importance": 2,
+          "summary": "宽屏状态信息不再截断",
+          "summary_en": "Show full status text on wide terminals",
+          "why_matters": "长工具参数和输出能完整显示，便于调试和理解当前进度。",
+          "why_matters_en": "Full status details are now visible, which helps with debugging and understanding progress.",
+          "capability_ids": [
+            "automation_autonomy",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `claude agents` truncating long session names at 40 columns; the name column now grows with terminal width",
+          "category": "fix",
+          "importance": 2,
+          "summary": "会话名称按宽度完整显示",
+          "summary_en": "Session names expand with terminal width",
+          "why_matters": "长会话名不再过早截断，提升多会话管理的可读性。",
+          "why_matters_en": "Long session names are less likely to be truncated, improving readability in session lists.",
+          "capability_ids": [
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed `claude agents` attach occasionally bouncing straight back to the session list on the first try after a background-service restart",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复代理重连回列表问题",
+          "summary_en": "Fix agent attach bouncing to list",
+          "why_matters": "避免后台服务重启后首次进入代理会话失败，提升进入会话的可靠性。",
+          "why_matters_en": "Prevents first-attempt attach failures after a background-service restart, improving session access reliability.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed `claude agents` Ctrl+V image paste doing nothing in the dispatch input and the session reply box; pasting with no image now shows a hint",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复代理贴图失效并提示",
+          "summary_en": "Fix image paste and show hint",
+          "why_matters": "让代理输入框与回复框支持图片粘贴，并在无图片时给出提示，减少误操作。",
+          "why_matters_en": "Restores image paste in agent inputs and replies, while giving a hint when no image is present to reduce confusion.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed backgrounding a session with ← silently losing the conversation when the background service cannot start; the session stays in the list as a failed row you can wake with Enter",
+          "category": "fix",
+          "importance": 5,
+          "summary": "后台化失败不再丢会话",
+          "summary_en": "Keep session on failed backgrounding",
+          "why_matters": "即使后台服务无法启动，会话也不会悄悄丢失，用户还能重新唤醒继续使用。",
+          "why_matters_en": "Even if the background service cannot start, the session is preserved so users can wake it later instead of losing work.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed replies from the agents view that fail to send being lost; they are now queued for delivery on the next session start",
+          "category": "fix",
+          "importance": 4,
+          "summary": "发送失败回复改为排队重发",
+          "summary_en": "Queue failed agent replies for resend",
+          "why_matters": "避免代理视图里未发送成功的回复直接丢失，提升消息送达可靠性。",
+          "why_matters_en": "Prevents unsent agent-view replies from being lost and improves message delivery reliability.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "automation_autonomy",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed cross-session messaging (`SendMessage`) silently breaking when `CLAUDE_CODE_TMPDIR` or `$TMPDIR` points at a deep directory",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复临时目录过深导致消息失败",
+          "summary_en": "Fix SendMessage with deep tmpdir paths",
+          "why_matters": "跨会话消息在复杂临时目录路径下也能正常工作，减少环境相关故障。",
+          "why_matters_en": "Cross-session messaging now works even with deeply nested temp directories, reducing environment-specific failures.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed opening a running background session from `claude agents` stalling for 5 seconds before attaching",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "后台会话打开更快",
+          "summary_en": "Faster attach to running background sessions",
+          "why_matters": "减少从代理视图打开后台会话的等待时间，提升交互流畅度。",
+          "why_matters_en": "Reduces wait time when attaching to running background sessions, making the workflow feel faster.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Quieter startup: notices group by severity, and session info and announcements share a single line per launch",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "启动提示更安静更清晰",
+          "summary_en": "Quieter startup notices",
+          "why_matters": "减少启动时的信息噪音，让用户更快找到真正重要的提示。",
+          "why_matters_en": "Cuts startup noise so users can spot the most important notices more easily.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Startup warnings rewritten to be shorter and clearer, each with a concrete fix",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "启动警告更短更明确",
+          "summary_en": "Shorter, clearer startup warnings",
+          "why_matters": "警告信息更易读并附带具体修复方式，帮助用户更快处理问题。",
+          "why_matters_en": "Warnings are easier to read and now include concrete fixes, helping users resolve issues faster.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Launch-prompt warnings (deep link/pre-filled prompt) now stay pinned below the input until you act instead of scrolling away",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "提示警告固定在输入下方",
+          "summary_en": "Pin launch warnings below input",
+          "why_matters": "深链或预填提示不会被滚走，用户更不容易错过需要处理的动作。",
+          "why_matters_en": "Deep-link and prefilled-prompt warnings stay visible until acted on, so they are less likely to be missed.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Failed turns now show a compact warning line instead of a multi-line red error block",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "失败回复显示更紧凑",
+          "summary_en": "Show compact failed-turn warning",
+          "why_matters": "失败信息占用更少屏幕空间，界面更简洁，阅读更轻松。",
+          "why_matters_en": "Failure messages take less screen space, keeping the interface cleaner and easier to scan.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Improved background service startup and `claude update` verification to wait out endpoint-security scanning of new binaries instead of failing after 5 seconds",
+          "category": "fix",
+          "importance": 4,
+          "summary": "等待安全扫描后再启动",
+          "summary_en": "Wait for security scan before startup",
+          "why_matters": "避免新二进制被端点安全扫描误判导致启动或更新验证失败。",
+          "why_matters_en": "Prevents startup and update verification from failing because endpoint security is still scanning new binaries.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Background dispatch spawn failures now report the error class name when no errno is available",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "启动失败显示错误类型",
+          "summary_en": "Show error class on spawn failure",
+          "why_matters": "当没有 errno 时也能看到错误类别，方便定位后台派发失败原因。",
+          "why_matters_en": "When errno is unavailable, the error class still helps diagnose background dispatch failures.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Removed the \"Claude in Chrome enabled\" and \"marketplace installed\" startup messages; model auto-updates and the team-onboarding tip now show as quiet notices under the logo",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "启动消息更安静",
+          "summary_en": "Reduce startup chatter",
+          "why_matters": "移除不必要的启动消息，让重要通知更突出，减少干扰。",
+          "why_matters_en": "Removing unnecessary startup messages makes important notices stand out and reduces distraction.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Please don't spam people looking for employment. It's just cruel",
+          "points": 955,
+          "url": "https://news.ycombinator.com/item?id=48370330"
+        },
+        {
+          "title": "Claude Code as a Daily Driver: Claude.md, Skills, Subagents, Plugins, and MCPs",
+          "points": 447,
+          "url": "https://arps18.github.io/posts/claude-code-mastery/"
+        },
+        {
+          "title": "Claude Code – Everything you can configure that the docs don't tell you",
+          "points": 326,
+          "url": "https://buildingbetter.tech/p/i-read-the-claude-code-source-code"
+        },
+        {
+          "title": "Dynamic Workflows in Claude Code",
+          "points": 199,
+          "url": "https://claude.com/blog/introducing-dynamic-workflows-in-claude-code"
+        },
+        {
+          "title": "Launch HN: Expanse (YC P26) – Unlock Wasted GPU Capacity",
+          "points": 99,
+          "url": "https://news.ycombinator.com/item?id=48356312"
+        }
+      ],
+      "highlight_score": 50
+    },
     {
       "version": "2.1.161",
       "date": "2026-06-02",
@@ -371,7 +772,7 @@
       "signals": [
         {
           "title": "Please don't spam people looking for employment. It's just cruel",
-          "points": 911,
+          "points": 955,
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
@@ -391,7 +792,7 @@
         },
         {
           "title": "Launch HN: Minicor (YC P26) – Windows desktop automations at scale",
-          "points": 104,
+          "points": 105,
           "url": "https://www.minicor.com/"
         }
       ],
@@ -753,7 +1154,7 @@
       "signals": [
         {
           "title": "Please don't spam people looking for employment. It's just cruel",
-          "points": 911,
+          "points": 955,
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
@@ -773,7 +1174,7 @@
         },
         {
           "title": "Launch HN: Minicor (YC P26) – Windows desktop automations at scale",
-          "points": 104,
+          "points": 105,
           "url": "https://www.minicor.com/"
         }
       ],
@@ -799,7 +1200,7 @@
       "signals": [
         {
           "title": "Please don't spam people looking for employment. It's just cruel",
-          "points": 911,
+          "points": 955,
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
@@ -819,7 +1220,7 @@
         },
         {
           "title": "Launch HN: Minicor (YC P26) – Windows desktop automations at scale",
-          "points": 104,
+          "points": 105,
           "url": "https://www.minicor.com/"
         }
       ],
@@ -848,7 +1249,7 @@
       "signals": [
         {
           "title": "Please don't spam people looking for employment. It's just cruel",
-          "points": 911,
+          "points": 955,
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
@@ -868,7 +1269,7 @@
         },
         {
           "title": "Launch HN: Minicor (YC P26) – Windows desktop automations at scale",
-          "points": 104,
+          "points": 105,
           "url": "https://www.minicor.com/"
         }
       ],
@@ -1303,12 +1704,12 @@
       "signals": [
         {
           "title": "Please don't spam people looking for employment. It's just cruel",
-          "points": 911,
+          "points": 955,
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
           "title": "Microsoft starts canceling Claude Code licenses",
-          "points": 492,
+          "points": 493,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
@@ -1351,12 +1752,12 @@
       "signals": [
         {
           "title": "Please don't spam people looking for employment. It's just cruel",
-          "points": 911,
+          "points": 955,
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
           "title": "Microsoft starts canceling Claude Code licenses",
-          "points": 492,
+          "points": 493,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
@@ -1943,12 +2344,12 @@
       "signals": [
         {
           "title": "Please don't spam people looking for employment. It's just cruel",
-          "points": 911,
+          "points": 955,
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
           "title": "Microsoft starts canceling Claude Code licenses",
-          "points": 492,
+          "points": 493,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
@@ -2443,12 +2844,12 @@
       "signals": [
         {
           "title": "Please don't spam people looking for employment. It's just cruel",
-          "points": 911,
+          "points": 955,
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
           "title": "Microsoft starts canceling Claude Code licenses",
-          "points": 492,
+          "points": 493,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
@@ -2901,7 +3302,7 @@
       "signals": [
         {
           "title": "Please don't spam people looking for employment. It's just cruel",
-          "points": 911,
+          "points": 955,
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
@@ -2911,7 +3312,7 @@
         },
         {
           "title": "Microsoft starts canceling Claude Code licenses",
-          "points": 492,
+          "points": 493,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
@@ -2952,7 +3353,7 @@
         },
         {
           "title": "Microsoft starts canceling Claude Code licenses",
-          "points": 492,
+          "points": 493,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
@@ -3316,7 +3717,7 @@
         },
         {
           "title": "Microsoft starts canceling Claude Code licenses",
-          "points": 492,
+          "points": 493,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
@@ -3364,7 +3765,7 @@
         },
         {
           "title": "Microsoft starts canceling Claude Code licenses",
-          "points": 492,
+          "points": 493,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
@@ -3812,7 +4213,7 @@
         },
         {
           "title": "Microsoft starts canceling Claude Code licenses",
-          "points": 492,
+          "points": 493,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
@@ -4103,7 +4504,7 @@
         },
         {
           "title": "Microsoft starts canceling Claude Code licenses",
-          "points": 492,
+          "points": 493,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
@@ -4804,7 +5205,7 @@
         },
         {
           "title": "Microsoft starts canceling Claude Code licenses",
-          "points": 492,
+          "points": 493,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
@@ -5278,7 +5679,7 @@
         },
         {
           "title": "Microsoft starts canceling Claude Code licenses",
-          "points": 492,
+          "points": 493,
           "url": "https://www.theverge.com/tech/930447/microsoft-claude-code-discontinued-notepad"
         },
         {
@@ -37307,6 +37708,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Show HN: Z80-μLM, a 'Conversational AI' That Fits in 40KB",
           "points": 514,
           "url": "https://github.com/HarryR/z80ai"
@@ -37325,11 +37731,6 @@
           "title": "Show HN: Vibe coding a bookshelf with Claude Code",
           "points": 284,
           "url": "https://balajmarius.com/writings/vibe-coding-a-bookshelf-with-claude-code/"
-        },
-        {
-          "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
-          "points": 216,
-          "url": "https://github.com/DeepMyst/Mysti"
         }
       ],
       "highlight_score": 30
@@ -37353,6 +37754,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -37371,11 +37777,6 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
-        },
-        {
-          "title": "Codex vs. Claude Code (today)",
-          "points": 104,
-          "url": "https://build.ms/2025/12/22/codex-vs-claude-code-today/"
         }
       ],
       "highlight_score": 30
@@ -37553,6 +37954,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -37571,11 +37977,6 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
-        },
-        {
-          "title": "Codex vs. Claude Code (today)",
-          "points": 104,
-          "url": "https://build.ms/2025/12/22/codex-vs-claude-code-today/"
         }
       ],
       "highlight_score": 50
@@ -37702,6 +38103,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -37720,11 +38126,6 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
-        },
-        {
-          "title": "Show HN: Superset – Terminal to run 10 parallel coding agents",
-          "points": 96,
-          "url": "https://superset.sh/"
         }
       ],
       "highlight_score": 50
@@ -37867,6 +38268,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -37885,11 +38291,6 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
-        },
-        {
-          "title": "Show HN: Superset – Terminal to run 10 parallel coding agents",
-          "points": 96,
-          "url": "https://superset.sh/"
         }
       ],
       "highlight_score": 55
@@ -37988,6 +38389,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -38006,11 +38412,6 @@
           "title": "Show HN: Local Privacy Firewall-blocks PII and secrets before ChatGPT sees them",
           "points": 111,
           "url": "https://github.com/privacyshield-ai/privacy-firewall"
-        },
-        {
-          "title": "Show HN: Superset – Terminal to run 10 parallel coding agents",
-          "points": 96,
-          "url": "https://superset.sh/"
         }
       ],
       "highlight_score": 50
@@ -38176,6 +38577,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -38194,11 +38600,6 @@
           "title": "Show HN: Local Privacy Firewall-blocks PII and secrets before ChatGPT sees them",
           "points": 111,
           "url": "https://github.com/privacyshield-ai/privacy-firewall"
-        },
-        {
-          "title": "Show HN: I open-sourced my Go and Next B2B SaaS Starter (deploy anywhere, MIT)",
-          "points": 83,
-          "url": "https://github.com/moasq/production-saas-starter"
         }
       ],
       "highlight_score": 55
@@ -54065,9 +54466,9 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 437,
-      "release_count": 160,
-      "avg_importance": 3.12,
+      "change_count": 439,
+      "release_count": 161,
+      "avg_importance": 3.11,
       "maturity": {
         "score": 92,
         "level": "成熟"
@@ -54077,14 +54478,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-06-02",
-        "version": "2.1.161"
+        "date": "2026-06-03",
+        "version": "2.1.162"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 275
+          "change_count": 277
         },
         {
           "epoch_id": "epoch4",
@@ -54160,9 +54561,9 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 908,
-      "release_count": 197,
-      "avg_importance": 3.24,
+      "change_count": 920,
+      "release_count": 198,
+      "avg_importance": 3.25,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -54172,14 +54573,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-06-02",
-        "version": "2.1.161"
+        "date": "2026-06-03",
+        "version": "2.1.162"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 607
+          "change_count": 619
         },
         {
           "epoch_id": "epoch1",
@@ -54204,6 +54605,22 @@
       ],
       "samples": [
         {
+          "date": "2026-06-03",
+          "version": "2.1.162",
+          "raw": "Fixed a silent startup hang when the config directory is read-only or unwritable — Claude Code now starts with in-memory config and surfaces startup errors instead of showing a blank screen",
+          "summary": "只读配置目录可正常启动",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
+          "date": "2026-06-03",
+          "version": "2.1.162",
+          "raw": "Fixed backgrounding a session with ← silently losing the conversation when the background service cannot start; the session stays in the list as a failed row you can wake with Enter",
+          "summary": "后台化失败不再丢会话",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-05-28",
           "version": "2.1.154",
           "raw": "Fixed subagents in background sessions bypassing the worktree-isolation guard and writing to the shared checkout",
@@ -54218,22 +54635,6 @@
           "summary": "Windows更新失败可自动回滚",
           "importance": 5,
           "category": "fix"
-        },
-        {
-          "date": "2026-05-22",
-          "version": "2.1.149",
-          "raw": "Fixed a PowerShell permission bypass: built-in `cd` functions (`cd..`, `cd\\`, `cd~`, `X:`) changed the working directory undetected, letting a later command read outside the workspace",
-          "summary": "修复PowerShell越权漏洞",
-          "importance": 5,
-          "category": "security"
-        },
-        {
-          "date": "2026-05-22",
-          "version": "2.1.149",
-          "raw": "Fixed the sandbox write allowlist in git worktrees covering the entire main repository root instead of only the shared `.git` directory (with `hooks/` and `config` denied)",
-          "summary": "修正worktree写入白名单",
-          "importance": 5,
-          "category": "security"
         }
       ]
     },
@@ -54255,8 +54656,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 599,
-      "release_count": 153,
+      "change_count": 603,
+      "release_count": 154,
       "avg_importance": 3.19,
       "maturity": {
         "score": 93,
@@ -54267,14 +54668,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-06-02",
-        "version": "2.1.161"
+        "date": "2026-06-03",
+        "version": "2.1.162"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 435
+          "change_count": 439
         },
         {
           "epoch_id": "epoch1",
@@ -54299,6 +54700,22 @@
       ],
       "samples": [
         {
+          "date": "2026-06-03",
+          "version": "2.1.162",
+          "raw": "Fixed a silent startup hang when the config directory is read-only or unwritable — Claude Code now starts with in-memory config and surfaces startup errors instead of showing a blank screen",
+          "summary": "只读配置目录可正常启动",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
+          "date": "2026-06-03",
+          "version": "2.1.162",
+          "raw": "Fixed backgrounding a session with ← silently losing the conversation when the background service cannot start; the session stays in the list as a failed row you can wake with Enter",
+          "summary": "后台化失败不再丢会话",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-05-26",
           "version": "2.1.152",
           "raw": "Fixed sessions getting stuck after a model or login switch left stale thinking-block signatures in history; now stripped proactively with a retry safety-net",
@@ -54311,22 +54728,6 @@
           "version": "2.1.139",
           "raw": "Fixed a deadlock where expired credentials and the `forceRemoteSettingsRefresh` policy setting blocked `claude auth login`/`logout`/`status` with no way to recover",
           "summary": "修复认证死锁无法恢复",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-05-11",
-          "version": "2.1.139",
-          "raw": "Fixed unbounded memory growth when an HTTP/SSE MCP server streams non-protocol data — response bodies now capped at 16 MB per SSE frame",
-          "summary": "限制SSE异常流内存增长",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-05-08",
-          "version": "2.1.136",
-          "raw": "Fixed a rare login loop where a concurrent credential write could overwrite a freshly-rotated OAuth token and force re-login",
-          "summary": "修复OAuth登录死循环",
           "importance": 5,
           "category": "fix"
         }
@@ -54350,8 +54751,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 738,
-      "release_count": 205,
+      "change_count": 750,
+      "release_count": 206,
       "avg_importance": 3.26,
       "maturity": {
         "score": 93,
@@ -54362,14 +54763,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-06-02",
-        "version": "2.1.161"
+        "date": "2026-06-03",
+        "version": "2.1.162"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 476
+          "change_count": 488
         },
         {
           "epoch_id": "epoch1",
@@ -54394,6 +54795,14 @@
       ],
       "samples": [
         {
+          "date": "2026-06-03",
+          "version": "2.1.162",
+          "raw": "Fixed backgrounding a session with ← silently losing the conversation when the background service cannot start; the session stays in the list as a failed row you can wake with Enter",
+          "summary": "后台化失败不再丢会话",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-05-29",
           "version": "2.1.157",
           "raw": "Fixed sandbox network permission prompts appearing in auto and bypass-permissions mode when using the desktop app, IDE extensions, or SDK",
@@ -54414,14 +54823,6 @@
           "version": "2.1.144",
           "raw": "Fixed macOS background sessions crashing with \"exit 1 before init\" when the project lives under a Full Disk Access-protected folder (regression in 2.1.143)",
           "summary": "macOS 后台会话崩溃已修复",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-05-14",
-          "version": "2.1.142",
-          "raw": "Fixed background agents crash-looping when the Claude-in-Chrome extension is connected without a shared tab",
-          "summary": "修复Chrome扩展导致崩溃",
           "importance": 5,
           "category": "fix"
         }
@@ -54445,9 +54846,9 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 356,
-      "release_count": 125,
-      "avg_importance": 3.31,
+      "change_count": 360,
+      "release_count": 126,
+      "avg_importance": 3.3,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -54457,14 +54858,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-06-02",
-        "version": "2.1.161"
+        "date": "2026-06-03",
+        "version": "2.1.162"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 265
+          "change_count": 269
         },
         {
           "epoch_id": "epoch1",
@@ -54540,8 +54941,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 1118,
-      "release_count": 233,
+      "change_count": 1125,
+      "release_count": 234,
       "avg_importance": 3.12,
       "maturity": {
         "score": 92,
@@ -54552,14 +54953,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-06-02",
-        "version": "2.1.161"
+        "date": "2026-06-03",
+        "version": "2.1.162"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 752
+          "change_count": 759
         },
         {
           "epoch_id": "epoch1",
@@ -54635,8 +55036,8 @@
         "Emacs",
         "web"
       ],
-      "change_count": 742,
-      "release_count": 175,
+      "change_count": 749,
+      "release_count": 176,
       "avg_importance": 2.68,
       "maturity": {
         "score": 91,
@@ -54647,14 +55048,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-06-02",
-        "version": "2.1.161"
+        "date": "2026-06-03",
+        "version": "2.1.162"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 533
+          "change_count": 540
         },
         {
           "epoch_id": "epoch4",
@@ -54730,8 +55131,8 @@
         "policy",
         "auditing"
       ],
-      "change_count": 731,
-      "release_count": 202,
+      "change_count": 740,
+      "release_count": 203,
       "avg_importance": 3.38,
       "maturity": {
         "score": 94,
@@ -54742,14 +55143,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-06-02",
-        "version": "2.1.161"
+        "date": "2026-06-03",
+        "version": "2.1.162"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 495
+          "change_count": 504
         },
         {
           "epoch_id": "epoch4",
@@ -54774,6 +55175,14 @@
       ],
       "samples": [
         {
+          "date": "2026-06-03",
+          "version": "2.1.162",
+          "raw": "Fixed a silent startup hang when the config directory is read-only or unwritable — Claude Code now starts with in-memory config and surfaces startup errors instead of showing a blank screen",
+          "summary": "只读配置目录可正常启动",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-06-02",
           "version": "2.1.161",
           "raw": "Fixed `forceLoginOrgUUID`/`forceLoginMethod` managed-settings policies blocking third-party provider sessions (Bedrock, Vertex, Foundry, Mantle) alongside the org pin (regression in 2.1.146)",
@@ -54794,14 +55203,6 @@
           "version": "2.1.160",
           "raw": "Added a prompt before writing to shell startup files (`.zshenv`, `.zlogin`, `.bash_login`) and `~/.config/git/`, which could otherwise lead to unintended command execution",
           "summary": "写入启动文件前先确认",
-          "importance": 5,
-          "category": "security"
-        },
-        {
-          "date": "2026-06-01",
-          "version": "2.1.160",
-          "raw": "`acceptEdits` mode now prompts before writing build-tool config files that grant code execution (`.npmrc`, `.yarnrc*`, `bunfig.toml`, `.bazelrc`, `.pre-commit-config.yaml`, `.devcontainer/`, etc.)",
-          "summary": "高危构建配置写入需确认",
           "importance": 5,
           "category": "security"
         }
@@ -54871,6 +55272,12 @@
         "date": "2026-03-07"
       },
       {
+        "title": "Please don't spam people looking for employment. It's just cruel",
+        "points": 955,
+        "url": "https://news.ycombinator.com/item?id=48370330",
+        "date": "2026-06-02"
+      },
+      {
         "title": "An update on recent Claude Code quality reports",
         "points": 942,
         "url": "https://www.anthropic.com/engineering/april-23-postmortem",
@@ -54881,12 +55288,6 @@
         "points": 929,
         "url": "https://dmitrybrant.com/2025/09/07/using-claude-code-to-modernize-a-25-year-old-kernel-driver",
         "date": "2025-09-07"
-      },
-      {
-        "title": "Please don't spam people looking for employment. It's just cruel",
-        "points": 911,
-        "url": "https://news.ycombinator.com/item?id=48370330",
-        "date": "2026-06-02"
       },
       {
         "title": "Claude Code is all you need",
