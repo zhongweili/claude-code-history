@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-06-04T05:53:39.356Z",
+    "generated_at": "2026-06-05T05:13:05.964Z",
     "agent_model": "openai/gpt-5.4-mini",
-    "total_versions": 306,
+    "total_versions": 307,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-06-03"
+      "end": "2026-06-04"
     },
     "highlight_count": 39,
     "capability_count": 8,
@@ -70,11 +70,331 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。adaptive thinking 把推理深度交给模型自己决定，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界——从 Opus 4.6 到 4.8，每一代都在加速这条路。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Adaptive thinking hands reasoning depth to the model itself, while worktree isolation and 1M context push the agent toward hours-long unattended runs — from Opus 4.6 through 4.8, each generation accelerates the path.",
-      "release_count": 90,
+      "release_count": 91,
       "highlight_count": 18
     }
   ],
   "releases": [
+    {
+      "version": "2.1.163",
+      "date": "2026-06-04",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added `requiredMinimumVersion` and `requiredMaximumVersion` managed settings — Claude Code refuses to start if its version is outside the allowed range and directs the user to an approved version",
+          "category": "security",
+          "importance": 5,
+          "summary": "限制可用版本启动",
+          "summary_en": "Enforce allowed Claude Code versions",
+          "why_matters": "可通过受管设置强制客户端版本范围，避免未批准版本运行带来的合规和安全风险。",
+          "why_matters_en": "Managed version bounds prevent unapproved clients from running, reducing compliance and security risk.",
+          "capability_ids": [
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Added `/plugin list` command to list installed plugins, with `--enabled`/`--disabled` filters",
+          "category": "feat",
+          "importance": 2,
+          "summary": "查看已安装插件",
+          "summary_en": "List installed plugins with filters",
+          "why_matters": "用户可以快速盘点插件并按启用状态筛选，方便管理扩展生态。",
+          "why_matters_en": "Users can quickly audit plugins and filter by enabled state, making extension management easier.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added a \"c to copy\" shortcut to `/btw` that copies the raw markdown answer to the clipboard, preserving formatting when pasted elsewhere",
+          "category": "feat",
+          "importance": 2,
+          "summary": "一键复制原始回复",
+          "summary_en": "Copy raw /btw markdown to clipboard",
+          "why_matters": "保留 Markdown 格式后复制，便于将结果直接粘贴到支持格式的地方使用。",
+          "why_matters_en": "Copying the raw Markdown preserves formatting for reuse in Markdown-aware destinations.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Hooks: Stop and SubagentStop hooks can now return `hookSpecificOutput.additionalContext` to give Claude feedback and keep the turn going without being labeled a hook error",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "钩子可追加上下文",
+          "summary_en": "Hooks can add feedback context",
+          "why_matters": "钩子可以提供补充上下文而不中断流程，让 Claude 继续基于反馈完成当前轮对话。",
+          "why_matters_en": "Hooks can now provide extra context without failing the turn, letting Claude continue with that feedback.",
+          "capability_ids": [
+            "automation_autonomy",
+            "reasoning_workflows",
+            "delegation_collaboration",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Skills: added `\\$` escape syntax to include a literal `$` before a digit in command bodies",
+          "category": "fix",
+          "importance": 1,
+          "summary": "命令体支持字面$",
+          "summary_en": "Allow literal $ before digits",
+          "why_matters": "避免技能命令体中对美元符号的误解析，提升脚本编写稳定性。",
+          "why_matters_en": "This avoids misparsing dollar signs in skill command bodies and makes scripts more reliable.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "stdio MCP servers now receive the same `CLAUDE_CODE_SESSION_ID` as hooks/Bash on `--resume`",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "恢复会话ID一致",
+          "summary_en": "Share session ID on resumed stdio MCP",
+          "why_matters": "让重连后的 MCP 服务与 hooks/Bash 共享同一会话标识，便于关联日志和状态。",
+          "why_matters_en": "Sharing the same session ID improves traceability and state correlation across resumed tools.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed `claude -p` hanging forever after its final result when a backgrounded command never exits — background shells are now stopped ~5s after the result once stdin closes",
+          "category": "fix",
+          "importance": 3,
+          "summary": "避免-p模式卡死",
+          "summary_en": "Prevent claude -p from hanging forever",
+          "why_matters": "当后台命令不退出时仍能结束进程，避免非交互调用永久挂起。",
+          "why_matters_en": "Non-interactive runs now terminate instead of hanging forever when background commands linger.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed `claude -p` failing with \"ANTHROPIC_API_KEY required\" on Bedrock/Vertex/Foundry when `CI=true` and no Anthropic API key is set",
+          "category": "fix",
+          "importance": 3,
+          "summary": "CI下兼容云模型密钥",
+          "summary_en": "Fix CI key check for Bedrock/Vertex",
+          "why_matters": "在非 Anthropic 后端和 CI 环境中不再误要求 Anthropic API key，减少部署失败。",
+          "why_matters_en": "Non-Anthropic backends in CI no longer fail on a missing Anthropic key, reducing setup breakage.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed bash commands failing under bazel and EDR-protected Go workflows: `$TMPDIR` was overridden to `/tmp/claude-{uid}` for all commands instead of only sandboxed ones (regression in 2.1.154)",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复TMPDIR覆盖回归",
+          "summary_en": "Fix TMPDIR override regression",
+          "why_matters": "恢复 Bash 命令在 bazel 和受保护环境中的临时目录行为，避免构建脚本失败。",
+          "why_matters_en": "This restores expected temp-dir behavior for Bash commands, preventing failures in Bazel and protected workflows.",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed Bash commands failing on Windows with \"EEXIST: file already exists\" on the session-env directory when it has the read-only attribute or is inside OneDrive",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复Windows会话目录错误",
+          "summary_en": "Fix Windows session dir EEXIST",
+          "why_matters": "降低 Windows 上因为只读属性或 OneDrive 路径导致的启动/执行失败。",
+          "why_matters_en": "This reduces Windows command failures caused by read-only attributes or OneDrive paths.",
+          "capability_ids": [
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed org-managed permission rules not applying for the entire session when the managed settings fetch completed during startup on a fresh config directory",
+          "category": "fix",
+          "importance": 4,
+          "summary": "权限规则整会话生效",
+          "summary_en": "Apply managed permissions for full session",
+          "why_matters": "确保组织管控权限在整个会话内一致生效，避免启动阶段的策略空窗。",
+          "why_matters_en": "Managed permissions now apply consistently for the whole session, avoiding a startup policy gap.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed background sessions in `claude agents` losing their running background tasks when reattached after a Claude Code update",
+          "category": "fix",
+          "importance": 3,
+          "summary": "更新后保留后台任务",
+          "summary_en": "Keep agent background tasks after update",
+          "why_matters": "重新连接代理会话时不会丢失正在运行的后台任务，减少工作中断。",
+          "why_matters_en": "Reattaching agent sessions no longer drops running background tasks, reducing interruption.",
+          "capability_ids": [
+            "automation_autonomy",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed terminal misalignment and a multi-second hang when exiting the agent view by pressing Esc",
+          "category": "fix",
+          "importance": 2,
+          "summary": "退出代理视图更流畅",
+          "summary_en": "Fix agent view exit lag and misalign",
+          "why_matters": "改善按 Esc 退出时的界面稳定性和响应速度，提升交互体验。",
+          "why_matters_en": "Exiting agent view with Esc is now smoother and properly aligned, improving UX.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed clicking Stop on a background-task chip in the desktop app not clearing the chip when the underlying process was already gone",
+          "category": "fix",
+          "importance": 2,
+          "summary": "停止按钮清理后台芯片",
+          "summary_en": "Clear background chip when stopping",
+          "why_matters": "当后台进程已结束时，点击停止会正确清除状态标记，避免界面残留。",
+          "why_matters_en": "The UI now clears stale background-task chips when the underlying process is already gone.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed keyboard input becoming permanently unresponsive after a paste operation whose end marker is dropped by the terminal",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复粘贴后键盘失灵",
+          "summary_en": "Fix keyboard freeze after paste",
+          "why_matters": "避免终端丢失粘贴结束标记后输入永久失效，恢复基本可用性。",
+          "why_matters_en": "Keyboard input no longer becomes permanently unresponsive if the terminal drops the paste end marker.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed hook `if: \"Bash(...)\"` conditions firing on every Bash command containing `$()` or `$VAR`; the pattern now matches against commands inside subshells and backticks too",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复 Bash 条件误触发",
+          "summary_en": "Fix Bash hook conditions firing correctly",
+          "why_matters": "避免带有变量或子命令的 Bash 命令被错误拦截，提高钩子规则可靠性。",
+          "why_matters_en": "Prevents Bash commands with variables or subshells from being misclassified, improving hook reliability.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy",
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed deny rules on home-directory paths (e.g. `Read(~/Desktop/**)`) not blocking Bash commands that reference the path via `$HOME`",
+          "category": "fix",
+          "importance": 5,
+          "summary": "修复 HOME 路径拒绝规则",
+          "summary_en": "Fix deny rules for HOME-path Bash refs",
+          "why_matters": "确保家目录相关的拒绝策略能真正生效，减少绕过安全规则的风险。",
+          "why_matters_en": "Ensures home-directory deny policies are actually enforced, reducing security bypass risk.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed a stray \"(no content)\" line left in the transcript after closing panel dialogs like /mcp and /plugins",
+          "category": "fix",
+          "importance": 2,
+          "summary": "清理面板关闭后的残留文本",
+          "summary_en": "Remove stray transcript text after panels",
+          "why_matters": "改善会话记录显示，减少无关内容干扰阅读。",
+          "why_matters_en": "Improves transcript readability by removing distracting leftover text.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Background agent sessions now update to a new Claude Code version in the background, so opening a session after an update no longer waits on a cold restart",
+          "category": "improvement",
+          "importance": 4,
+          "summary": "后台会话自动更新版本",
+          "summary_en": "Auto-update background agent sessions",
+          "why_matters": "让已有会话在更新后无需冷启动即可使用新版本，提升连续性和效率。",
+          "why_matters_en": "Lets existing sessions pick up new versions without a cold restart, improving continuity and speed.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Clearer descriptions for built-in commands and skills in the / menu",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "菜单命令与技能说明更清晰",
+          "summary_en": "Clearer descriptions in the / menu",
+          "why_matters": "帮助用户更快理解内置命令和技能，降低学习成本。",
+          "why_matters_en": "Helps users understand built-in commands and skills faster, lowering the learning curve.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "The subscription-switch suggestion now shows in the startup announcement slot instead of a toast",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "订阅切换提示改为启动公告",
+          "summary_en": "Show subscription switch hint at startup",
+          "why_matters": "把提示放到更合适的位置，减少打断式通知。",
+          "why_matters_en": "Places the suggestion in a more appropriate spot and reduces intrusive notifications.",
+          "capability_ids": [
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "`claude agents` dispatching from the state-grouped view now starts the session in the directory the agent view was opened from",
+          "category": "fix",
+          "importance": 4,
+          "summary": "代理会话从正确目录启动",
+          "summary_en": "Start agent sessions in the right dir",
+          "why_matters": "确保从分组视图派发的代理在预期目录运行，避免上下文和文件操作出错。",
+          "why_matters_en": "Ensures dispatched agents start in the expected directory, avoiding context and file-operation mistakes.",
+          "capability_ids": [
+            "execution_workspace",
+            "delegation_collaboration"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Please don't spam people looking for employment. It's just cruel",
+          "points": 961,
+          "url": "https://news.ycombinator.com/item?id=48370330"
+        },
+        {
+          "title": "Claude Code – Everything you can configure that the docs don't tell you",
+          "points": 326,
+          "url": "https://buildingbetter.tech/p/i-read-the-claude-code-source-code"
+        },
+        {
+          "title": "Dynamic Workflows in Claude Code",
+          "points": 199,
+          "url": "https://claude.com/blog/introducing-dynamic-workflows-in-claude-code"
+        },
+        {
+          "title": "Claude Code and Codex can have real-time conversation via Git",
+          "points": 105,
+          "url": "https://medium.com/@Koukyosyumei/claude-code-and-codex-can-have-real-time-conversation-via-git-f95b696c1c05"
+        },
+        {
+          "title": "Launch HN: Expanse (YC P26) – Unlock Wasted GPU Capacity",
+          "points": 99,
+          "url": "https://news.ycombinator.com/item?id=48356312"
+        }
+      ],
+      "highlight_score": 50
+    },
     {
       "version": "2.1.162",
       "date": "2026-06-03",
@@ -450,7 +770,7 @@
       "signals": [
         {
           "title": "Please don't spam people looking for employment. It's just cruel",
-          "points": 955,
+          "points": 961,
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
@@ -469,9 +789,9 @@
           "url": "https://claude.com/blog/introducing-dynamic-workflows-in-claude-code"
         },
         {
-          "title": "Launch HN: Expanse (YC P26) – Unlock Wasted GPU Capacity",
-          "points": 99,
-          "url": "https://news.ycombinator.com/item?id=48356312"
+          "title": "Claude Code and Codex can have real-time conversation via Git",
+          "points": 105,
+          "url": "https://medium.com/@Koukyosyumei/claude-code-and-codex-can-have-real-time-conversation-via-git-f95b696c1c05"
         }
       ],
       "highlight_score": 50
@@ -772,7 +1092,7 @@
       "signals": [
         {
           "title": "Please don't spam people looking for employment. It's just cruel",
-          "points": 955,
+          "points": 961,
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
@@ -791,9 +1111,9 @@
           "url": "https://claude.com/blog/introducing-dynamic-workflows-in-claude-code"
         },
         {
-          "title": "Launch HN: Minicor (YC P26) – Windows desktop automations at scale",
+          "title": "Claude Code and Codex can have real-time conversation via Git",
           "points": 105,
-          "url": "https://www.minicor.com/"
+          "url": "https://medium.com/@Koukyosyumei/claude-code-and-codex-can-have-real-time-conversation-via-git-f95b696c1c05"
         }
       ],
       "highlight_score": 50
@@ -1154,7 +1474,7 @@
       "signals": [
         {
           "title": "Please don't spam people looking for employment. It's just cruel",
-          "points": 955,
+          "points": 961,
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
@@ -1173,9 +1493,9 @@
           "url": "https://claude.com/blog/introducing-dynamic-workflows-in-claude-code"
         },
         {
-          "title": "Launch HN: Minicor (YC P26) – Windows desktop automations at scale",
+          "title": "Claude Code and Codex can have real-time conversation via Git",
           "points": 105,
-          "url": "https://www.minicor.com/"
+          "url": "https://medium.com/@Koukyosyumei/claude-code-and-codex-can-have-real-time-conversation-via-git-f95b696c1c05"
         }
       ],
       "highlight_score": 60
@@ -1200,7 +1520,7 @@
       "signals": [
         {
           "title": "Please don't spam people looking for employment. It's just cruel",
-          "points": 955,
+          "points": 961,
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
@@ -1219,9 +1539,9 @@
           "url": "https://claude.com/blog/introducing-dynamic-workflows-in-claude-code"
         },
         {
-          "title": "Launch HN: Minicor (YC P26) – Windows desktop automations at scale",
+          "title": "Claude Code and Codex can have real-time conversation via Git",
           "points": 105,
-          "url": "https://www.minicor.com/"
+          "url": "https://medium.com/@Koukyosyumei/claude-code-and-codex-can-have-real-time-conversation-via-git-f95b696c1c05"
         }
       ],
       "highlight_score": 30
@@ -1249,7 +1569,7 @@
       "signals": [
         {
           "title": "Please don't spam people looking for employment. It's just cruel",
-          "points": 955,
+          "points": 961,
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
@@ -1268,9 +1588,9 @@
           "url": "https://claude.com/blog/introducing-dynamic-workflows-in-claude-code"
         },
         {
-          "title": "Launch HN: Minicor (YC P26) – Windows desktop automations at scale",
+          "title": "Claude Code and Codex can have real-time conversation via Git",
           "points": 105,
-          "url": "https://www.minicor.com/"
+          "url": "https://medium.com/@Koukyosyumei/claude-code-and-codex-can-have-real-time-conversation-via-git-f95b696c1c05"
         }
       ],
       "highlight_score": 50
@@ -1704,7 +2024,7 @@
       "signals": [
         {
           "title": "Please don't spam people looking for employment. It's just cruel",
-          "points": 955,
+          "points": 961,
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
@@ -1752,7 +2072,7 @@
       "signals": [
         {
           "title": "Please don't spam people looking for employment. It's just cruel",
-          "points": 955,
+          "points": 961,
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
@@ -2344,7 +2664,7 @@
       "signals": [
         {
           "title": "Please don't spam people looking for employment. It's just cruel",
-          "points": 955,
+          "points": 961,
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
@@ -2844,7 +3164,7 @@
       "signals": [
         {
           "title": "Please don't spam people looking for employment. It's just cruel",
-          "points": 955,
+          "points": 961,
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
@@ -3302,7 +3622,7 @@
       "signals": [
         {
           "title": "Please don't spam people looking for employment. It's just cruel",
-          "points": 955,
+          "points": 961,
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
@@ -7725,6 +8045,11 @@
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
+          "title": "Kimi K2.6 just beat Claude, GPT-5.5, and Gemini in a coding challenge",
+          "points": 380,
+          "url": "https://thinkpol.ca/2026/04/30/an-open-weights-chinese-model-just-beat-claude-gpt-5-5-and-gemini-in-a-programming-challenge/"
+        },
+        {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
           "points": 302,
           "url": "https://news.ycombinator.com/item?id=48128003"
@@ -7733,11 +8058,6 @@
           "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
           "points": 253,
           "url": "https://github.com/DrCatHicks/learning-opportunities"
-        },
-        {
-          "title": "How Claude Code works in large codebases",
-          "points": 248,
-          "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start"
         }
       ],
       "highlight_score": 30
@@ -7773,6 +8093,11 @@
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
+          "title": "Kimi K2.6 just beat Claude, GPT-5.5, and Gemini in a coding challenge",
+          "points": 380,
+          "url": "https://thinkpol.ca/2026/04/30/an-open-weights-chinese-model-just-beat-claude-gpt-5-5-and-gemini-in-a-programming-challenge/"
+        },
+        {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
           "points": 302,
           "url": "https://news.ycombinator.com/item?id=48128003"
@@ -7781,11 +8106,6 @@
           "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
           "points": 253,
           "url": "https://github.com/DrCatHicks/learning-opportunities"
-        },
-        {
-          "title": "How Claude Code works in large codebases",
-          "points": 248,
-          "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start"
         }
       ],
       "highlight_score": 50
@@ -8423,14 +8743,14 @@
           "url": "https://www.briefs.co/news/uber-torches-entire-2026-ai-budget-on-claude-code-in-four-months/"
         },
         {
+          "title": "Kimi K2.6 just beat Claude, GPT-5.5, and Gemini in a coding challenge",
+          "points": 380,
+          "url": "https://thinkpol.ca/2026/04/30/an-open-weights-chinese-model-just-beat-claude-gpt-5-5-and-gemini-in-a-programming-challenge/"
+        },
+        {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
           "points": 302,
           "url": "https://news.ycombinator.com/item?id=48128003"
-        },
-        {
-          "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
-          "points": 253,
-          "url": "https://github.com/DrCatHicks/learning-opportunities"
         }
       ],
       "highlight_score": 55
@@ -8686,9 +9006,9 @@
           "url": "https://www.briefs.co/news/uber-torches-entire-2026-ai-budget-on-claude-code-in-four-months/"
         },
         {
-          "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
-          "points": 302,
-          "url": "https://news.ycombinator.com/item?id=48128003"
+          "title": "Kimi K2.6 just beat Claude, GPT-5.5, and Gemini in a coding challenge",
+          "points": 380,
+          "url": "https://thinkpol.ca/2026/04/30/an-open-weights-chinese-model-just-beat-claude-gpt-5-5-and-gemini-in-a-programming-challenge/"
         }
       ],
       "highlight_score": 50
@@ -32971,6 +33291,11 @@
       ],
       "signals": [
         {
+          "title": "A few random notes from Claude coding quite a bit last few weeks",
+          "points": 913,
+          "url": "https://twitter.com/karpathy/status/2015883857489522876"
+        },
+        {
           "title": "Claude Code's new hidden feature: Swarms",
           "points": 521,
           "url": "https://twitter.com/NicerInPerson/status/2014989679796347375"
@@ -33111,6 +33436,11 @@
       ],
       "signals": [
         {
+          "title": "A few random notes from Claude coding quite a bit last few weeks",
+          "points": 913,
+          "url": "https://twitter.com/karpathy/status/2015883857489522876"
+        },
+        {
           "title": "Claude Code's new hidden feature: Swarms",
           "points": 521,
           "url": "https://twitter.com/NicerInPerson/status/2014989679796347375"
@@ -33129,11 +33459,6 @@
           "title": "Show HN: An interactive map of US lighthouses and navigational aids",
           "points": 102,
           "url": "https://www.lighthouses.app/"
-        },
-        {
-          "title": "Why I don't have fun with Claude Code",
-          "points": 95,
-          "url": "https://brennan.io/2026/01/23/claude-code/"
         }
       ],
       "highlight_score": 50
@@ -33160,6 +33485,11 @@
       ],
       "signals": [
         {
+          "title": "A few random notes from Claude coding quite a bit last few weeks",
+          "points": 913,
+          "url": "https://twitter.com/karpathy/status/2015883857489522876"
+        },
+        {
           "title": "I was banned from Claude for scaffolding a Claude.md file?",
           "points": 749,
           "url": "https://hugodaniel.com/posts/claude-code-banned-me/"
@@ -33178,11 +33508,6 @@
           "title": "Auto-compact not triggering on Claude.ai despite being marked as fixed",
           "points": 189,
           "url": "https://github.com/anthropics/claude-code/issues/18866"
-        },
-        {
-          "title": "Show HN: An interactive map of US lighthouses and navigational aids",
-          "points": 102,
-          "url": "https://www.lighthouses.app/"
         }
       ],
       "highlight_score": 30
@@ -33334,6 +33659,11 @@
       ],
       "signals": [
         {
+          "title": "A few random notes from Claude coding quite a bit last few weeks",
+          "points": 913,
+          "url": "https://twitter.com/karpathy/status/2015883857489522876"
+        },
+        {
           "title": "I was banned from Claude for scaffolding a Claude.md file?",
           "points": 749,
           "url": "https://hugodaniel.com/posts/claude-code-banned-me/"
@@ -33352,11 +33682,6 @@
           "title": "Auto-compact not triggering on Claude.ai despite being marked as fixed",
           "points": 189,
           "url": "https://github.com/anthropics/claude-code/issues/18866"
-        },
-        {
-          "title": "Show HN: An interactive map of US lighthouses and navigational aids",
-          "points": 102,
-          "url": "https://www.lighthouses.app/"
         }
       ],
       "highlight_score": 50
@@ -33383,6 +33708,11 @@
       ],
       "signals": [
         {
+          "title": "A few random notes from Claude coding quite a bit last few weeks",
+          "points": 913,
+          "url": "https://twitter.com/karpathy/status/2015883857489522876"
+        },
+        {
           "title": "I was banned from Claude for scaffolding a Claude.md file?",
           "points": 749,
           "url": "https://hugodaniel.com/posts/claude-code-banned-me/"
@@ -33401,11 +33731,6 @@
           "title": "Auto-compact not triggering on Claude.ai despite being marked as fixed",
           "points": 189,
           "url": "https://github.com/anthropics/claude-code/issues/18866"
-        },
-        {
-          "title": "Show HN: An interactive map of US lighthouses and navigational aids",
-          "points": 102,
-          "url": "https://www.lighthouses.app/"
         }
       ],
       "highlight_score": 50
@@ -33545,6 +33870,11 @@
       ],
       "signals": [
         {
+          "title": "A few random notes from Claude coding quite a bit last few weeks",
+          "points": 913,
+          "url": "https://twitter.com/karpathy/status/2015883857489522876"
+        },
+        {
           "title": "I was banned from Claude for scaffolding a Claude.md file?",
           "points": 749,
           "url": "https://hugodaniel.com/posts/claude-code-banned-me/"
@@ -33563,11 +33893,6 @@
           "title": "Auto-compact not triggering on Claude.ai despite being marked as fixed",
           "points": 189,
           "url": "https://github.com/anthropics/claude-code/issues/18866"
-        },
-        {
-          "title": "Show HN: An interactive map of US lighthouses and navigational aids",
-          "points": 102,
-          "url": "https://www.lighthouses.app/"
         }
       ],
       "highlight_score": 50
@@ -33925,6 +34250,11 @@
       ],
       "signals": [
         {
+          "title": "A few random notes from Claude coding quite a bit last few weeks",
+          "points": 913,
+          "url": "https://twitter.com/karpathy/status/2015883857489522876"
+        },
+        {
           "title": "I was banned from Claude for scaffolding a Claude.md file?",
           "points": 749,
           "url": "https://hugodaniel.com/posts/claude-code-banned-me/"
@@ -33943,11 +34273,6 @@
           "title": "Porting 100k lines from TypeScript to Rust using Claude Code in a month",
           "points": 255,
           "url": "https://blog.vjeux.com/2026/analysis/porting-100k-lines-from-typescript-to-rust-using-claude-code-in-a-month.html"
-        },
-        {
-          "title": "Claude Chill: Fix Claude Code's flickering in terminal",
-          "points": 192,
-          "url": "https://github.com/davidbeesley/claude-chill"
         }
       ],
       "highlight_score": 50
@@ -34131,6 +34456,11 @@
       ],
       "signals": [
         {
+          "title": "A few random notes from Claude coding quite a bit last few weeks",
+          "points": 913,
+          "url": "https://twitter.com/karpathy/status/2015883857489522876"
+        },
+        {
           "title": "I was banned from Claude for scaffolding a Claude.md file?",
           "points": 749,
           "url": "https://hugodaniel.com/posts/claude-code-banned-me/"
@@ -34149,11 +34479,6 @@
           "title": "Show HN: I quit coding years ago. AI brought me back",
           "points": 314,
           "url": "https://calquio.com/finance/compound-interest"
-        },
-        {
-          "title": "Porting 100k lines from TypeScript to Rust using Claude Code in a month",
-          "points": 255,
-          "url": "https://blog.vjeux.com/2026/analysis/porting-100k-lines-from-typescript-to-rust-using-claude-code-in-a-month.html"
         }
       ],
       "highlight_score": 55
@@ -34180,6 +34505,11 @@
       ],
       "signals": [
         {
+          "title": "A few random notes from Claude coding quite a bit last few weeks",
+          "points": 913,
+          "url": "https://twitter.com/karpathy/status/2015883857489522876"
+        },
+        {
           "title": "I was banned from Claude for scaffolding a Claude.md file?",
           "points": 749,
           "url": "https://hugodaniel.com/posts/claude-code-banned-me/"
@@ -34198,11 +34528,6 @@
           "title": "Show HN: I quit coding years ago. AI brought me back",
           "points": 314,
           "url": "https://calquio.com/finance/compound-interest"
-        },
-        {
-          "title": "Porting 100k lines from TypeScript to Rust using Claude Code in a month",
-          "points": 255,
-          "url": "https://blog.vjeux.com/2026/analysis/porting-100k-lines-from-typescript-to-rust-using-claude-code-in-a-month.html"
         }
       ],
       "highlight_score": 30
@@ -34226,6 +34551,11 @@
       ],
       "signals": [
         {
+          "title": "A few random notes from Claude coding quite a bit last few weeks",
+          "points": 913,
+          "url": "https://twitter.com/karpathy/status/2015883857489522876"
+        },
+        {
           "title": "I was banned from Claude for scaffolding a Claude.md file?",
           "points": 749,
           "url": "https://hugodaniel.com/posts/claude-code-banned-me/"
@@ -34244,11 +34574,6 @@
           "title": "Show HN: I quit coding years ago. AI brought me back",
           "points": 314,
           "url": "https://calquio.com/finance/compound-interest"
-        },
-        {
-          "title": "Porting 100k lines from TypeScript to Rust using Claude Code in a month",
-          "points": 255,
-          "url": "https://blog.vjeux.com/2026/analysis/porting-100k-lines-from-typescript-to-rust-using-claude-code-in-a-month.html"
         }
       ],
       "highlight_score": 50
@@ -34351,6 +34676,11 @@
       ],
       "signals": [
         {
+          "title": "A few random notes from Claude coding quite a bit last few weeks",
+          "points": 913,
+          "url": "https://twitter.com/karpathy/status/2015883857489522876"
+        },
+        {
           "title": "I was banned from Claude for scaffolding a Claude.md file?",
           "points": 749,
           "url": "https://hugodaniel.com/posts/claude-code-banned-me/"
@@ -34369,11 +34699,6 @@
           "title": "Show HN: I quit coding years ago. AI brought me back",
           "points": 314,
           "url": "https://calquio.com/finance/compound-interest"
-        },
-        {
-          "title": "Porting 100k lines from TypeScript to Rust using Claude Code in a month",
-          "points": 255,
-          "url": "https://blog.vjeux.com/2026/analysis/porting-100k-lines-from-typescript-to-rust-using-claude-code-in-a-month.html"
         }
       ],
       "highlight_score": 50
@@ -34436,6 +34761,11 @@
       ],
       "signals": [
         {
+          "title": "A few random notes from Claude coding quite a bit last few weeks",
+          "points": 913,
+          "url": "https://twitter.com/karpathy/status/2015883857489522876"
+        },
+        {
           "title": "I was banned from Claude for scaffolding a Claude.md file?",
           "points": 749,
           "url": "https://hugodaniel.com/posts/claude-code-banned-me/"
@@ -34454,11 +34784,6 @@
           "title": "Show HN: I quit coding years ago. AI brought me back",
           "points": 314,
           "url": "https://calquio.com/finance/compound-interest"
-        },
-        {
-          "title": "Porting 100k lines from TypeScript to Rust using Claude Code in a month",
-          "points": 255,
-          "url": "https://blog.vjeux.com/2026/analysis/porting-100k-lines-from-typescript-to-rust-using-claude-code-in-a-month.html"
         }
       ],
       "highlight_score": 50
@@ -34674,6 +34999,11 @@
       ],
       "signals": [
         {
+          "title": "A few random notes from Claude coding quite a bit last few weeks",
+          "points": 913,
+          "url": "https://twitter.com/karpathy/status/2015883857489522876"
+        },
+        {
           "title": "I was banned from Claude for scaffolding a Claude.md file?",
           "points": 749,
           "url": "https://hugodaniel.com/posts/claude-code-banned-me/"
@@ -34692,11 +35022,6 @@
           "title": "Show HN: I quit coding years ago. AI brought me back",
           "points": 314,
           "url": "https://calquio.com/finance/compound-interest"
-        },
-        {
-          "title": "Show HN: Self-host Reddit – 2.38B posts, works offline, yours forever",
-          "points": 286,
-          "url": "https://github.com/19-84/redd-archiver"
         }
       ],
       "highlight_score": 50
@@ -37774,9 +38099,9 @@
           "url": "https://github.com/VibiumDev/vibium"
         },
         {
-          "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
-          "points": 216,
-          "url": "https://github.com/DeepMyst/Mysti"
+          "title": "Elevated errors across many models",
+          "points": 320,
+          "url": "https://status.claude.com/incidents/9g6qpr72ttbr"
         }
       ],
       "highlight_score": 30
@@ -37974,9 +38299,9 @@
           "url": "https://github.com/VibiumDev/vibium"
         },
         {
-          "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
-          "points": 216,
-          "url": "https://github.com/DeepMyst/Mysti"
+          "title": "Elevated errors across many models",
+          "points": 320,
+          "url": "https://status.claude.com/incidents/9g6qpr72ttbr"
         }
       ],
       "highlight_score": 50
@@ -38123,9 +38448,9 @@
           "url": "https://github.com/VibiumDev/vibium"
         },
         {
-          "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
-          "points": 216,
-          "url": "https://github.com/DeepMyst/Mysti"
+          "title": "Elevated errors across many models",
+          "points": 320,
+          "url": "https://status.claude.com/incidents/9g6qpr72ttbr"
         }
       ],
       "highlight_score": 50
@@ -38288,9 +38613,9 @@
           "url": "https://github.com/VibiumDev/vibium"
         },
         {
-          "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
-          "points": 216,
-          "url": "https://github.com/DeepMyst/Mysti"
+          "title": "Elevated errors across many models",
+          "points": 320,
+          "url": "https://status.claude.com/incidents/9g6qpr72ttbr"
         }
       ],
       "highlight_score": 55
@@ -38404,14 +38729,14 @@
           "url": "https://news.ycombinator.com/item?id=46255285"
         },
         {
+          "title": "Elevated errors across many models",
+          "points": 320,
+          "url": "https://status.claude.com/incidents/9g6qpr72ttbr"
+        },
+        {
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
-        },
-        {
-          "title": "Show HN: Local Privacy Firewall-blocks PII and secrets before ChatGPT sees them",
-          "points": 111,
-          "url": "https://github.com/privacyshield-ai/privacy-firewall"
         }
       ],
       "highlight_score": 50
@@ -38592,14 +38917,14 @@
           "url": "https://news.ycombinator.com/item?id=46255285"
         },
         {
+          "title": "Elevated errors across many models",
+          "points": 320,
+          "url": "https://status.claude.com/incidents/9g6qpr72ttbr"
+        },
+        {
           "title": "Launch HN: Nia (YC S25) – Give better context to coding agents",
           "points": 131,
           "url": "https://www.trynia.ai/"
-        },
-        {
-          "title": "Show HN: Local Privacy Firewall-blocks PII and secrets before ChatGPT sees them",
-          "points": 111,
-          "url": "https://github.com/privacyshield-ai/privacy-firewall"
         }
       ],
       "highlight_score": 55
@@ -38628,6 +38953,11 @@
           "url": "https://news.ycombinator.com/item?id=46255285"
         },
         {
+          "title": "Elevated errors across many models",
+          "points": 320,
+          "url": "https://status.claude.com/incidents/9g6qpr72ttbr"
+        },
+        {
           "title": "Launch HN: Nia (YC S25) – Give better context to coding agents",
           "points": 131,
           "url": "https://www.trynia.ai/"
@@ -38641,11 +38971,6 @@
           "title": "Show HN: I open-sourced my Go and Next B2B SaaS Starter (deploy anywhere, MIT)",
           "points": 83,
           "url": "https://github.com/moasq/production-saas-starter"
-        },
-        {
-          "title": "Ask HN: How are you LLM-coding in an established code base?",
-          "points": 70,
-          "url": "https://news.ycombinator.com/item?id=46292682"
         }
       ],
       "highlight_score": 15
@@ -38740,6 +39065,11 @@
           "url": "https://news.ycombinator.com/item?id=46255285"
         },
         {
+          "title": "Elevated errors across many models",
+          "points": 320,
+          "url": "https://status.claude.com/incidents/9g6qpr72ttbr"
+        },
+        {
           "title": "Launch HN: Nia (YC S25) – Give better context to coding agents",
           "points": 131,
           "url": "https://www.trynia.ai/"
@@ -38753,11 +39083,6 @@
           "title": "Show HN: I open-sourced my Go and Next B2B SaaS Starter (deploy anywhere, MIT)",
           "points": 83,
           "url": "https://github.com/moasq/production-saas-starter"
-        },
-        {
-          "title": "Ask HN: How are you LLM-coding in an established code base?",
-          "points": 70,
-          "url": "https://news.ycombinator.com/item?id=46292682"
         }
       ],
       "highlight_score": 35
@@ -38913,6 +39238,11 @@
           "url": "https://news.ycombinator.com/item?id=46255285"
         },
         {
+          "title": "Elevated errors across many models",
+          "points": 320,
+          "url": "https://status.claude.com/incidents/9g6qpr72ttbr"
+        },
+        {
           "title": "Launch HN: Nia (YC S25) – Give better context to coding agents",
           "points": 131,
           "url": "https://www.trynia.ai/"
@@ -38926,11 +39256,6 @@
           "title": "Ask HN: How are you LLM-coding in an established code base?",
           "points": 70,
           "url": "https://news.ycombinator.com/item?id=46292682"
-        },
-        {
-          "title": "Claude Code's DX is too good. And that's a problem",
-          "points": 52,
-          "url": "https://www.bharath.sh/writing/claude-code-dx"
         }
       ],
       "highlight_score": 35
@@ -39027,6 +39352,11 @@
           "url": "https://news.ycombinator.com/item?id=46255285"
         },
         {
+          "title": "Elevated errors across many models",
+          "points": 320,
+          "url": "https://status.claude.com/incidents/9g6qpr72ttbr"
+        },
+        {
           "title": "Launch HN: Nia (YC S25) – Give better context to coding agents",
           "points": 131,
           "url": "https://www.trynia.ai/"
@@ -39040,11 +39370,6 @@
           "title": "Ask HN: How are you LLM-coding in an established code base?",
           "points": 70,
           "url": "https://news.ycombinator.com/item?id=46292682"
-        },
-        {
-          "title": "Claude Code's DX is too good. And that's a problem",
-          "points": 52,
-          "url": "https://www.bharath.sh/writing/claude-code-dx"
         }
       ],
       "highlight_score": 35
@@ -39239,6 +39564,11 @@
           "url": "https://news.ycombinator.com/item?id=46255285"
         },
         {
+          "title": "Elevated errors across many models",
+          "points": 320,
+          "url": "https://status.claude.com/incidents/9g6qpr72ttbr"
+        },
+        {
           "title": "Show HN: Fresh – A new terminal editor built in Rust",
           "points": 187,
           "url": "https://sinelaw.github.io/fresh/"
@@ -39252,11 +39582,6 @@
           "title": "Show HN: Local Privacy Firewall-blocks PII and secrets before ChatGPT sees them",
           "points": 111,
           "url": "https://github.com/privacyshield-ai/privacy-firewall"
-        },
-        {
-          "title": "Ask HN: How are you LLM-coding in an established code base?",
-          "points": 70,
-          "url": "https://news.ycombinator.com/item?id=46292682"
         }
       ],
       "highlight_score": 40
@@ -39360,6 +39685,11 @@
           "url": "https://news.ycombinator.com/item?id=46255285"
         },
         {
+          "title": "Elevated errors across many models",
+          "points": 320,
+          "url": "https://status.claude.com/incidents/9g6qpr72ttbr"
+        },
+        {
           "title": "Show HN: Fresh – A new terminal editor built in Rust",
           "points": 187,
           "url": "https://sinelaw.github.io/fresh/"
@@ -39373,11 +39703,6 @@
           "title": "Show HN: Local Privacy Firewall-blocks PII and secrets before ChatGPT sees them",
           "points": 111,
           "url": "https://github.com/privacyshield-ai/privacy-firewall"
-        },
-        {
-          "title": "Anthropic Acquires Bun",
-          "points": 99,
-          "url": "https://www.anthropic.com/news/anthropic-acquires-bun-as-claude-code-reaches-usd1b-milestone"
         }
       ],
       "highlight_score": 35
@@ -39409,6 +39734,11 @@
           "url": "https://news.ycombinator.com/item?id=46255285"
         },
         {
+          "title": "Elevated errors across many models",
+          "points": 320,
+          "url": "https://status.claude.com/incidents/9g6qpr72ttbr"
+        },
+        {
           "title": "Show HN: Fresh – A new terminal editor built in Rust",
           "points": 187,
           "url": "https://sinelaw.github.io/fresh/"
@@ -39422,11 +39752,6 @@
           "title": "Show HN: Local Privacy Firewall-blocks PII and secrets before ChatGPT sees them",
           "points": 111,
           "url": "https://github.com/privacyshield-ai/privacy-firewall"
-        },
-        {
-          "title": "Anthropic Acquires Bun",
-          "points": 99,
-          "url": "https://www.anthropic.com/news/anthropic-acquires-bun-as-claude-code-reaches-usd1b-milestone"
         }
       ],
       "highlight_score": 15
@@ -54466,8 +54791,8 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 439,
-      "release_count": 161,
+      "change_count": 442,
+      "release_count": 162,
       "avg_importance": 3.11,
       "maturity": {
         "score": 92,
@@ -54478,14 +54803,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-06-03",
-        "version": "2.1.162"
+        "date": "2026-06-04",
+        "version": "2.1.163"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 277
+          "change_count": 280
         },
         {
           "epoch_id": "epoch4",
@@ -54561,8 +54886,8 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 920,
-      "release_count": 198,
+      "change_count": 927,
+      "release_count": 199,
       "avg_importance": 3.25,
       "maturity": {
         "score": 93,
@@ -54573,14 +54898,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-06-03",
-        "version": "2.1.162"
+        "date": "2026-06-04",
+        "version": "2.1.163"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 619
+          "change_count": 626
         },
         {
           "epoch_id": "epoch1",
@@ -54605,6 +54930,14 @@
       ],
       "samples": [
         {
+          "date": "2026-06-04",
+          "version": "2.1.163",
+          "raw": "Fixed deny rules on home-directory paths (e.g. `Read(~/Desktop/**)`) not blocking Bash commands that reference the path via `$HOME`",
+          "summary": "修复 HOME 路径拒绝规则",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-06-03",
           "version": "2.1.162",
           "raw": "Fixed a silent startup hang when the config directory is read-only or unwritable — Claude Code now starts with in-memory config and surfaces startup errors instead of showing a blank screen",
@@ -54627,14 +54960,6 @@
           "summary": "修复子代理绕过隔离写入共享工作区",
           "importance": 5,
           "category": "security"
-        },
-        {
-          "date": "2026-05-27",
-          "version": "2.1.153",
-          "raw": "Fixed Windows update rollback: if a Windows update fails, Claude Code now restores the original executable by copy and tells you how to recover",
-          "summary": "Windows更新失败可自动回滚",
-          "importance": 5,
-          "category": "fix"
         }
       ]
     },
@@ -54656,8 +54981,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 603,
-      "release_count": 154,
+      "change_count": 606,
+      "release_count": 155,
       "avg_importance": 3.19,
       "maturity": {
         "score": 93,
@@ -54668,14 +54993,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-06-03",
-        "version": "2.1.162"
+        "date": "2026-06-04",
+        "version": "2.1.163"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 439
+          "change_count": 442
         },
         {
           "epoch_id": "epoch1",
@@ -54751,8 +55076,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 750,
-      "release_count": 206,
+      "change_count": 757,
+      "release_count": 207,
       "avg_importance": 3.26,
       "maturity": {
         "score": 93,
@@ -54763,14 +55088,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-06-03",
-        "version": "2.1.162"
+        "date": "2026-06-04",
+        "version": "2.1.163"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 488
+          "change_count": 495
         },
         {
           "epoch_id": "epoch1",
@@ -54846,8 +55171,8 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 360,
-      "release_count": 126,
+      "change_count": 362,
+      "release_count": 127,
       "avg_importance": 3.3,
       "maturity": {
         "score": 93,
@@ -54858,14 +55183,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-06-03",
-        "version": "2.1.162"
+        "date": "2026-06-04",
+        "version": "2.1.163"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 269
+          "change_count": 271
         },
         {
           "epoch_id": "epoch1",
@@ -54941,9 +55266,9 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 1125,
-      "release_count": 234,
-      "avg_importance": 3.12,
+      "change_count": 1132,
+      "release_count": 235,
+      "avg_importance": 3.11,
       "maturity": {
         "score": 92,
         "level": "成熟"
@@ -54953,14 +55278,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-06-03",
-        "version": "2.1.162"
+        "date": "2026-06-04",
+        "version": "2.1.163"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 759
+          "change_count": 766
         },
         {
           "epoch_id": "epoch1",
@@ -55036,8 +55361,8 @@
         "Emacs",
         "web"
       ],
-      "change_count": 749,
-      "release_count": 176,
+      "change_count": 757,
+      "release_count": 177,
       "avg_importance": 2.68,
       "maturity": {
         "score": 91,
@@ -55048,14 +55373,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-06-03",
-        "version": "2.1.162"
+        "date": "2026-06-04",
+        "version": "2.1.163"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 540
+          "change_count": 548
         },
         {
           "epoch_id": "epoch4",
@@ -55080,6 +55405,22 @@
       ],
       "samples": [
         {
+          "date": "2026-06-04",
+          "version": "2.1.163",
+          "raw": "Added `requiredMinimumVersion` and `requiredMaximumVersion` managed settings — Claude Code refuses to start if its version is outside the allowed range and directs the user to an approved version",
+          "summary": "限制可用版本启动",
+          "importance": 5,
+          "category": "security"
+        },
+        {
+          "date": "2026-06-04",
+          "version": "2.1.163",
+          "raw": "Fixed deny rules on home-directory paths (e.g. `Read(~/Desktop/**)`) not blocking Bash commands that reference the path via `$HOME`",
+          "summary": "修复 HOME 路径拒绝规则",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-06-02",
           "version": "2.1.161",
           "raw": "Fixed `forceLoginOrgUUID`/`forceLoginMethod` managed-settings policies blocking third-party provider sessions (Bedrock, Vertex, Foundry, Mantle) alongside the org pin (regression in 2.1.146)",
@@ -55094,22 +55435,6 @@
           "summary": "损坏图片不再导致崩溃",
           "importance": 5,
           "category": "fix"
-        },
-        {
-          "date": "2026-05-29",
-          "version": "2.1.157",
-          "raw": "Fixed sandbox network permission prompts appearing in auto and bypass-permissions mode when using the desktop app, IDE extensions, or SDK",
-          "summary": "绕过权限时不再误弹网络提示",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-05-22",
-          "version": "2.1.149",
-          "raw": "Fixed a PowerShell permission bypass: built-in `cd` functions (`cd..`, `cd\\`, `cd~`, `X:`) changed the working directory undetected, letting a later command read outside the workspace",
-          "summary": "修复PowerShell越权漏洞",
-          "importance": 5,
-          "category": "security"
         }
       ]
     },
@@ -55131,9 +55456,9 @@
         "policy",
         "auditing"
       ],
-      "change_count": 740,
-      "release_count": 203,
-      "avg_importance": 3.38,
+      "change_count": 745,
+      "release_count": 204,
+      "avg_importance": 3.39,
       "maturity": {
         "score": 94,
         "level": "成熟"
@@ -55143,14 +55468,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-06-03",
-        "version": "2.1.162"
+        "date": "2026-06-04",
+        "version": "2.1.163"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 504
+          "change_count": 509
         },
         {
           "epoch_id": "epoch4",
@@ -55175,6 +55500,22 @@
       ],
       "samples": [
         {
+          "date": "2026-06-04",
+          "version": "2.1.163",
+          "raw": "Added `requiredMinimumVersion` and `requiredMaximumVersion` managed settings — Claude Code refuses to start if its version is outside the allowed range and directs the user to an approved version",
+          "summary": "限制可用版本启动",
+          "importance": 5,
+          "category": "security"
+        },
+        {
+          "date": "2026-06-04",
+          "version": "2.1.163",
+          "raw": "Fixed deny rules on home-directory paths (e.g. `Read(~/Desktop/**)`) not blocking Bash commands that reference the path via `$HOME`",
+          "summary": "修复 HOME 路径拒绝规则",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-06-03",
           "version": "2.1.162",
           "raw": "Fixed a silent startup hang when the config directory is read-only or unwritable — Claude Code now starts with in-memory config and surfaces startup errors instead of showing a blank screen",
@@ -55189,22 +55530,6 @@
           "summary": "修复登录策略误拦截会话",
           "importance": 5,
           "category": "fix"
-        },
-        {
-          "date": "2026-06-02",
-          "version": "2.1.161",
-          "raw": "Fixed `claude mcp` list/get/add printing secrets to the terminal: `${VAR}` references are no longer expanded, and credential headers and URL secrets are redacted",
-          "summary": "MCP 列表不再泄露密钥",
-          "importance": 5,
-          "category": "security"
-        },
-        {
-          "date": "2026-06-01",
-          "version": "2.1.160",
-          "raw": "Added a prompt before writing to shell startup files (`.zshenv`, `.zlogin`, `.bash_login`) and `~/.config/git/`, which could otherwise lead to unintended command execution",
-          "summary": "写入启动文件前先确认",
-          "importance": 5,
-          "category": "security"
         }
       ]
     }
@@ -55273,7 +55598,7 @@
       },
       {
         "title": "Please don't spam people looking for employment. It's just cruel",
-        "points": 955,
+        "points": 961,
         "url": "https://news.ycombinator.com/item?id=48370330",
         "date": "2026-06-02"
       },
@@ -55288,6 +55613,12 @@
         "points": 929,
         "url": "https://dmitrybrant.com/2025/09/07/using-claude-code-to-modernize-a-25-year-old-kernel-driver",
         "date": "2025-09-07"
+      },
+      {
+        "title": "A few random notes from Claude coding quite a bit last few weeks",
+        "points": 913,
+        "url": "https://twitter.com/karpathy/status/2015883857489522876",
+        "date": "2026-01-26"
       },
       {
         "title": "Claude Code is all you need",
@@ -55312,12 +55643,6 @@
         "points": 782,
         "url": "https://github.com/manzaltu/claude-code-ide.el",
         "date": "2025-08-06"
-      },
-      {
-        "title": "Claude says “You're absolutely right!” about everything",
-        "points": 773,
-        "url": "https://github.com/anthropics/claude-code/issues/3382",
-        "date": "2025-08-13"
       }
     ],
     "blog_posts": [
