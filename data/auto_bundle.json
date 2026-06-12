@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-06-11T05:26:12.789Z",
+    "generated_at": "2026-06-12T05:28:49.936Z",
     "agent_model": "openai/gpt-5.4-mini",
-    "total_versions": 314,
+    "total_versions": 317,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-06-10"
+      "end": "2026-06-12"
     },
     "highlight_count": 39,
     "capability_count": 8,
@@ -70,11 +70,326 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。adaptive thinking 把推理深度交给模型自己决定，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界——从 Opus 4.6 到 4.8，每一代都在加速这条路。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Adaptive thinking hands reasoning depth to the model itself, while worktree isolation and 1M context push the agent toward hours-long unattended runs — from Opus 4.6 through 4.8, each generation accelerates the path.",
-      "release_count": 98,
+      "release_count": 101,
       "highlight_count": 18
     }
   ],
   "releases": [
+    {
+      "version": "2.1.175",
+      "date": "2026-06-12",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added `enforceAvailableModels` managed setting — when enabled, the `availableModels` allowlist also constrains the Default model (a Default that would resolve to a disallowed model now falls back to the first allowed model), and user or project settings can no longer widen a managed `availableModels` list",
+          "category": "security",
+          "importance": 4,
+          "summary": "强化可用模型管控",
+          "summary_en": "Enforce model allowlist on Default",
+          "why_matters": "启用后，默认模型也受 allowlist 约束，且无法被用户或项目设置放宽，从而减少越权使用风险。",
+          "why_matters_en": "When enabled, the Default model is also constrained by the allowlist and cannot be widened by user or project settings, reducing unauthorized model use risk.",
+          "capability_ids": [
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 590,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
+        },
+        {
+          "title": "Anthropic, please ship an official Claude Desktop for Linux",
+          "points": 536,
+          "url": "https://github.com/anthropics/claude-code/issues/65697"
+        },
+        {
+          "title": "Ask HN: Why is the HN crowd so anti-AI?",
+          "points": 461,
+          "url": "https://news.ycombinator.com/item?id=48420827"
+        },
+        {
+          "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
+          "points": 429,
+          "url": "https://github.com/anthropics/claude-code/issues/29045"
+        },
+        {
+          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
+          "points": 416,
+          "url": "https://news.ycombinator.com/item?id=48473166"
+        }
+      ],
+      "highlight_score": 50
+    },
+    {
+      "version": "2.1.174",
+      "date": "2026-06-11",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added `wheelScrollAccelerationEnabled` setting to disable mouse-wheel scroll acceleration in fullscreen mode",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "新增全屏滚轮加速度开关",
+          "summary_en": "Add fullscreen wheel acceleration toggle",
+          "why_matters": "让用户可以关闭全屏模式下的鼠标滚轮加速，提升操作手感和可控性。",
+          "why_matters_en": "Lets users disable mouse-wheel acceleration in fullscreen for better control and comfort.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed the `/model` picker hiding the model family that Default resolves to — Opus now appears as its own row on Max/Team Premium/Enterprise plans, Sonnet on Pro/Team plans, and Opus on pay-as-you-go API accounts",
+          "category": "fix",
+          "importance": 3,
+          "summary": "/model 选择器修正默认模型显示",
+          "summary_en": "Fix /model picker default model display",
+          "why_matters": "修复默认模型被隐藏的问题，让不同套餐用户能正确看到可用模型。",
+          "why_matters_en": "Fixes a hidden-default-model issue so users on each plan can see the correct available models.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed `/model` picker showing a hardcoded Sonnet version label when `ANTHROPIC_DEFAULT_SONNET_MODEL` pins a different Sonnet",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修正 /model 显示的 Sonnet 版本",
+          "summary_en": "Fix pinned Sonnet version label in /model",
+          "why_matters": "避免当环境变量固定了特定 Sonnet 时，界面仍显示错误版本标签。",
+          "why_matters_en": "Prevents the UI from showing the wrong Sonnet version when a different one is pinned.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed the \"Fable 5 is now consuming usage credits\" banner incorrectly showing for enterprise accounts with usage-based billing",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复企业账单误报用量提醒",
+          "summary_en": "Fix false usage-credit banner for enterprise",
+          "why_matters": "避免企业版用户看到错误的额度耗尽提示，减少误解和干扰。",
+          "why_matters_en": "Avoids showing enterprise users a misleading credit-usage warning.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed Bedrock GovCloud regions (`us-gov-*`) deriving the wrong inference profile prefix (`global` instead of `us-gov`), causing 400 errors on derived model IDs",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复 Bedrock GovCloud 解析错误",
+          "summary_en": "Fix Bedrock GovCloud inference prefix",
+          "why_matters": "修正 GovCloud 推理前缀，避免派生模型 ID 请求失败并返回 400。",
+          "why_matters_en": "Corrects the GovCloud inference prefix to prevent derived model ID requests from failing with 400 errors.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed background sessions inheriting another session's `ANTHROPIC_*` provider env (gateway URL, custom headers, `/model` aliases) from the shell that started the background daemon",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复后台会话环境变量串用",
+          "summary_en": "Fix background session env leakage",
+          "why_matters": "防止后台会话继承错误的 provider 配置，避免请求发送到错误网关或使用错误别名。",
+          "why_matters_en": "Prevents background sessions from inheriting the wrong provider config and sending requests with the wrong settings.",
+          "capability_ids": [
+            "execution_workspace",
+            "memory_context",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed a 1-2 second pause when exiting Claude Code shortly after a shell command was interrupted or killed on macOS and Linux",
+          "category": "fix",
+          "importance": 2,
+          "summary": "减少退出时的短暂停顿",
+          "summary_en": "Fix exit pause after interrupted commands",
+          "why_matters": "改善命令被中断后退出时的卡顿感，让应用结束更顺滑。",
+          "why_matters_en": "Improves responsiveness by removing a brief pause when exiting after interrupted commands.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed git commit co-author attribution showing an incorrect model name for some models",
+          "category": "fix",
+          "importance": 1,
+          "summary": "修正 git 提交共署名模型名",
+          "summary_en": "Fix co-author model name in git commits",
+          "why_matters": "让提交元数据中的模型署名更准确，提升审计和记录一致性。",
+          "why_matters_en": "Makes commit metadata more accurate for auditability and consistency.",
+          "capability_ids": [
+            "governance_security",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed the `/advisor` dialog pre-selecting a saved advisor model that is blocked by the `availableModels` allowlist",
+          "category": "fix",
+          "importance": 2,
+          "summary": "/advisor 不再预选被禁模型",
+          "summary_en": "Fix /advisor preselect blocked model",
+          "why_matters": "避免对话框默认选中不可用模型，减少用户操作失败。",
+          "why_matters_en": "Prevents the dialog from defaulting to a blocked model, reducing failed user interactions.",
+          "capability_ids": [
+            "memory_context",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed skill hot-reload re-sending the entire skill listing when a single skill changed; only changed skills are now re-announced",
+          "category": "fix",
+          "importance": 2,
+          "summary": "技能热重载只通知变更项",
+          "summary_en": "Announce only changed skills on reload",
+          "why_matters": "减少技能更新时的重复通知，降低噪音和带宽开销。",
+          "why_matters_en": "Cuts down duplicate notifications and bandwidth when skills hot-reload.",
+          "capability_ids": [
+            "automation_autonomy",
+            "delegation_collaboration",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed Workflow tool `agent()` subagents missing per-agent attribution headers",
+          "category": "fix",
+          "importance": 3,
+          "summary": "补全 Workflow 子代理归属头",
+          "summary_en": "Add attribution headers to Workflow subagents",
+          "why_matters": "让子代理的来源归属完整，便于追踪和审计多代理工作流。",
+          "why_matters_en": "Ensures subagent attribution is complete for tracking and auditing multi-agent workflows.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "governance_security",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "[VSCode] Added usage attribution to the Account & usage dialog (`/usage`) showing cache misses, long context, subagents, and per-skill/agent/plugin/MCP breakdowns over the last 24h or 7d",
+          "category": "feat",
+          "importance": 3,
+          "summary": "Usage 面板新增使用归因明细",
+          "summary_en": "Add usage attribution breakdown in /usage",
+          "why_matters": "帮助用户了解缓存、长上下文、子代理和插件/MCP 等各项用量来源，便于优化成本。",
+          "why_matters_en": "Helps users see where usage comes from, making it easier to optimize cost and workflow choices.",
+          "capability_ids": [
+            "memory_context",
+            "delegation_collaboration",
+            "integrations_ecosystem",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed pre-warmed background workers failing with \"Could not resolve authentication method\" when claimed after sitting idle",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复空闲后台 worker 认证失败",
+          "summary_en": "Fix auth resolution for idle workers",
+          "why_matters": "避免预热后台 worker 闲置后被领取时因认证失败而不可用。",
+          "why_matters_en": "Prevents pre-warmed background workers from failing auth when reclaimed after being idle.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy",
+            "governance_security"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 590,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
+        },
+        {
+          "title": "Anthropic, please ship an official Claude Desktop for Linux",
+          "points": 536,
+          "url": "https://github.com/anthropics/claude-code/issues/65697"
+        },
+        {
+          "title": "Ask HN: Why is the HN crowd so anti-AI?",
+          "points": 461,
+          "url": "https://news.ycombinator.com/item?id=48420827"
+        },
+        {
+          "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
+          "points": 429,
+          "url": "https://github.com/anthropics/claude-code/issues/29045"
+        },
+        {
+          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
+          "points": 416,
+          "url": "https://news.ycombinator.com/item?id=48473166"
+        }
+      ],
+      "highlight_score": 50
+    },
+    {
+      "version": "2.1.173",
+      "date": "2026-06-11",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Fixed Fable 5 model names with a `[1m]` suffix not being normalized — Fable 5 includes 1M context by default, so the suffix is now stripped automatically",
+          "category": "fix",
+          "importance": 3,
+          "summary": "自动去除Fable 5模型1M后缀",
+          "summary_en": "Auto-strip Fable 5 1M suffix",
+          "why_matters": "避免模型名显示错误，减少用户在选择和识别模型时的困惑。",
+          "why_matters_en": "Prevents incorrect model naming and reduces confusion when selecting or identifying models.",
+          "capability_ids": [
+            "memory_context",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed a spurious \"sandbox dependencies missing\" startup warning on Windows when sandbox was enabled in settings",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复Windows沙箱依赖误警告",
+          "summary_en": "Fix false sandbox warning on Windows",
+          "why_matters": "消除了启动时的误报提示，让开启沙箱的 Windows 用户看到更准确的状态信息。",
+          "why_matters_en": "Removes a false startup alert so Windows users with sandbox enabled see accurate status information.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 590,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
+        },
+        {
+          "title": "Anthropic, please ship an official Claude Desktop for Linux",
+          "points": 536,
+          "url": "https://github.com/anthropics/claude-code/issues/65697"
+        },
+        {
+          "title": "Ask HN: Why is the HN crowd so anti-AI?",
+          "points": 461,
+          "url": "https://news.ycombinator.com/item?id=48420827"
+        },
+        {
+          "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
+          "points": 429,
+          "url": "https://github.com/anthropics/claude-code/issues/29045"
+        },
+        {
+          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
+          "points": 416,
+          "url": "https://news.ycombinator.com/item?id=48473166"
+        }
+      ],
+      "highlight_score": 30
+    },
     {
       "version": "2.1.172",
       "date": "2026-06-10",
@@ -474,29 +789,29 @@
       ],
       "signals": [
         {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 590,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
+        },
+        {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
-          "points": 534,
+          "points": 536,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
           "title": "Ask HN: Why is the HN crowd so anti-AI?",
-          "points": 459,
+          "points": 461,
           "url": "https://news.ycombinator.com/item?id=48420827"
         },
         {
-          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
-          "points": 400,
-          "url": "https://news.ycombinator.com/item?id=48473166"
-        },
-        {
-          "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
-          "points": 399,
-          "url": "https://github.com/devenjarvis/lathe"
-        },
-        {
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
-          "points": 379,
+          "points": 429,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
+        },
+        {
+          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
+          "points": 416,
+          "url": "https://news.ycombinator.com/item?id=48473166"
         }
       ],
       "highlight_score": 50
@@ -542,24 +857,24 @@
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 590,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
+        },
+        {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
-          "points": 534,
+          "points": 536,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
           "title": "Ask HN: Why is the HN crowd so anti-AI?",
-          "points": 459,
+          "points": 461,
           "url": "https://news.ycombinator.com/item?id=48420827"
         },
         {
-          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
-          "points": 400,
-          "url": "https://news.ycombinator.com/item?id=48473166"
-        },
-        {
-          "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
-          "points": 399,
-          "url": "https://github.com/devenjarvis/lathe"
+          "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
+          "points": 429,
+          "url": "https://github.com/anthropics/claude-code/issues/29045"
         }
       ],
       "highlight_score": 50
@@ -971,24 +1286,24 @@
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 590,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
+        },
+        {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
-          "points": 534,
+          "points": 536,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
           "title": "Ask HN: Why is the HN crowd so anti-AI?",
-          "points": 459,
+          "points": 461,
           "url": "https://news.ycombinator.com/item?id=48420827"
         },
         {
-          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
-          "points": 400,
-          "url": "https://news.ycombinator.com/item?id=48473166"
-        },
-        {
-          "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
-          "points": 399,
-          "url": "https://github.com/devenjarvis/lathe"
+          "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
+          "points": 429,
+          "url": "https://github.com/anthropics/claude-code/issues/29045"
         }
       ],
       "highlight_score": 50
@@ -1017,24 +1332,24 @@
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 590,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
+        },
+        {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
-          "points": 534,
+          "points": 536,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
           "title": "Ask HN: Why is the HN crowd so anti-AI?",
-          "points": 459,
+          "points": 461,
           "url": "https://news.ycombinator.com/item?id=48420827"
         },
         {
-          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
-          "points": 400,
-          "url": "https://news.ycombinator.com/item?id=48473166"
-        },
-        {
-          "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
-          "points": 399,
-          "url": "https://github.com/devenjarvis/lathe"
+          "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
+          "points": 429,
+          "url": "https://github.com/anthropics/claude-code/issues/29045"
         }
       ],
       "highlight_score": 30
@@ -1063,24 +1378,24 @@
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 590,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
+        },
+        {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
-          "points": 534,
+          "points": 536,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
           "title": "Ask HN: Why is the HN crowd so anti-AI?",
-          "points": 459,
+          "points": 461,
           "url": "https://news.ycombinator.com/item?id=48420827"
         },
         {
-          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
-          "points": 400,
-          "url": "https://news.ycombinator.com/item?id=48473166"
-        },
-        {
-          "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
-          "points": 399,
-          "url": "https://github.com/devenjarvis/lathe"
+          "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
+          "points": 429,
+          "url": "https://github.com/anthropics/claude-code/issues/29045"
         }
       ],
       "highlight_score": 30
@@ -1371,24 +1686,24 @@
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 590,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
+        },
+        {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
-          "points": 534,
+          "points": 536,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
           "title": "Ask HN: Why is the HN crowd so anti-AI?",
-          "points": 459,
+          "points": 461,
           "url": "https://news.ycombinator.com/item?id=48420827"
         },
         {
-          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
-          "points": 400,
-          "url": "https://news.ycombinator.com/item?id=48473166"
-        },
-        {
-          "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
-          "points": 399,
-          "url": "https://github.com/devenjarvis/lathe"
+          "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
+          "points": 429,
+          "url": "https://github.com/anthropics/claude-code/issues/29045"
         }
       ],
       "highlight_score": 50
@@ -1417,24 +1732,24 @@
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 590,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
+        },
+        {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
-          "points": 534,
+          "points": 536,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
           "title": "Ask HN: Why is the HN crowd so anti-AI?",
-          "points": 459,
+          "points": 461,
           "url": "https://news.ycombinator.com/item?id=48420827"
         },
         {
-          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
-          "points": 400,
-          "url": "https://news.ycombinator.com/item?id=48473166"
-        },
-        {
-          "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
-          "points": 399,
-          "url": "https://github.com/devenjarvis/lathe"
+          "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
+          "points": 429,
+          "url": "https://github.com/anthropics/claude-code/issues/29045"
         }
       ],
       "highlight_score": 30
@@ -1737,24 +2052,24 @@
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 590,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
+        },
+        {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
-          "points": 534,
+          "points": 536,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
           "title": "Ask HN: Why is the HN crowd so anti-AI?",
-          "points": 459,
+          "points": 461,
           "url": "https://news.ycombinator.com/item?id=48420827"
         },
         {
-          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
-          "points": 400,
-          "url": "https://news.ycombinator.com/item?id=48473166"
-        },
-        {
-          "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
-          "points": 399,
-          "url": "https://github.com/devenjarvis/lathe"
+          "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
+          "points": 429,
+          "url": "https://github.com/anthropics/claude-code/issues/29045"
         }
       ],
       "highlight_score": 50
@@ -2138,24 +2453,24 @@
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 590,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
+        },
+        {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
-          "points": 534,
+          "points": 536,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
           "title": "Ask HN: Why is the HN crowd so anti-AI?",
-          "points": 459,
+          "points": 461,
           "url": "https://news.ycombinator.com/item?id=48420827"
         },
         {
           "title": "Claude Code as a Daily Driver: Claude.md, Skills, Subagents, Plugins, and MCPs",
           "points": 451,
           "url": "https://arps18.github.io/posts/claude-code-mastery/"
-        },
-        {
-          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
-          "points": 400,
-          "url": "https://news.ycombinator.com/item?id=48473166"
         }
       ],
       "highlight_score": 50
@@ -2460,24 +2775,24 @@
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 590,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
+        },
+        {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
-          "points": 534,
+          "points": 536,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
           "title": "Ask HN: Why is the HN crowd so anti-AI?",
-          "points": 459,
+          "points": 461,
           "url": "https://news.ycombinator.com/item?id=48420827"
         },
         {
           "title": "Claude Code as a Daily Driver: Claude.md, Skills, Subagents, Plugins, and MCPs",
           "points": 451,
           "url": "https://arps18.github.io/posts/claude-code-mastery/"
-        },
-        {
-          "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
-          "points": 399,
-          "url": "https://github.com/devenjarvis/lathe"
         }
       ],
       "highlight_score": 50
@@ -2843,12 +3158,12 @@
         },
         {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
-          "points": 534,
+          "points": 536,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
           "title": "Ask HN: Why is the HN crowd so anti-AI?",
-          "points": 459,
+          "points": 461,
           "url": "https://news.ycombinator.com/item?id=48420827"
         },
         {
@@ -2858,7 +3173,7 @@
         },
         {
           "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
-          "points": 399,
+          "points": 400,
           "url": "https://github.com/devenjarvis/lathe"
         }
       ],
@@ -2889,12 +3204,12 @@
         },
         {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
-          "points": 534,
+          "points": 536,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
           "title": "Ask HN: Why is the HN crowd so anti-AI?",
-          "points": 459,
+          "points": 461,
           "url": "https://news.ycombinator.com/item?id=48420827"
         },
         {
@@ -2904,7 +3219,7 @@
         },
         {
           "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
-          "points": 399,
+          "points": 400,
           "url": "https://github.com/devenjarvis/lathe"
         }
       ],
@@ -2938,7 +3253,7 @@
         },
         {
           "title": "Ask HN: Why is the HN crowd so anti-AI?",
-          "points": 459,
+          "points": 461,
           "url": "https://news.ycombinator.com/item?id=48420827"
         },
         {
@@ -56150,8 +56465,8 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 457,
-      "release_count": 166,
+      "change_count": 458,
+      "release_count": 167,
       "avg_importance": 3.11,
       "maturity": {
         "score": 92,
@@ -56162,14 +56477,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-06-10",
-        "version": "2.1.172"
+        "date": "2026-06-11",
+        "version": "2.1.174"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 295
+          "change_count": 296
         },
         {
           "epoch_id": "epoch4",
@@ -56245,8 +56560,8 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 945,
-      "release_count": 203,
+      "change_count": 948,
+      "release_count": 204,
       "avg_importance": 3.25,
       "maturity": {
         "score": 93,
@@ -56257,14 +56572,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-06-10",
-        "version": "2.1.172"
+        "date": "2026-06-11",
+        "version": "2.1.174"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 644
+          "change_count": 647
         },
         {
           "epoch_id": "epoch1",
@@ -56340,9 +56655,9 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 617,
-      "release_count": 159,
-      "avg_importance": 3.19,
+      "change_count": 624,
+      "release_count": 161,
+      "avg_importance": 3.18,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -56352,14 +56667,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-06-10",
-        "version": "2.1.172"
+        "date": "2026-06-11",
+        "version": "2.1.173"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 453
+          "change_count": 460
         },
         {
           "epoch_id": "epoch1",
@@ -56435,8 +56750,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 789,
-      "release_count": 211,
+      "change_count": 792,
+      "release_count": 212,
       "avg_importance": 3.26,
       "maturity": {
         "score": 93,
@@ -56447,14 +56762,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-06-10",
-        "version": "2.1.172"
+        "date": "2026-06-11",
+        "version": "2.1.174"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 527
+          "change_count": 530
         },
         {
           "epoch_id": "epoch1",
@@ -56530,9 +56845,9 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 378,
-      "release_count": 130,
-      "avg_importance": 3.29,
+      "change_count": 381,
+      "release_count": 131,
+      "avg_importance": 3.28,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -56542,14 +56857,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-06-10",
-        "version": "2.1.172"
+        "date": "2026-06-11",
+        "version": "2.1.174"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 287
+          "change_count": 290
         },
         {
           "epoch_id": "epoch1",
@@ -56625,8 +56940,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 1156,
-      "release_count": 238,
+      "change_count": 1160,
+      "release_count": 239,
       "avg_importance": 3.11,
       "maturity": {
         "score": 92,
@@ -56637,14 +56952,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-06-10",
-        "version": "2.1.172"
+        "date": "2026-06-11",
+        "version": "2.1.174"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 790
+          "change_count": 794
         },
         {
           "epoch_id": "epoch1",
@@ -56720,9 +57035,9 @@
         "Emacs",
         "web"
       ],
-      "change_count": 784,
-      "release_count": 181,
-      "avg_importance": 2.68,
+      "change_count": 787,
+      "release_count": 184,
+      "avg_importance": 2.69,
       "maturity": {
         "score": 91,
         "level": "成熟"
@@ -56732,14 +57047,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-06-10",
-        "version": "2.1.172"
+        "date": "2026-06-12",
+        "version": "2.1.175"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 575
+          "change_count": 578
         },
         {
           "epoch_id": "epoch4",
@@ -56815,8 +57130,8 @@
         "policy",
         "auditing"
       ],
-      "change_count": 772,
-      "release_count": 207,
+      "change_count": 780,
+      "release_count": 210,
       "avg_importance": 3.38,
       "maturity": {
         "score": 94,
@@ -56827,14 +57142,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-06-10",
-        "version": "2.1.172"
+        "date": "2026-06-12",
+        "version": "2.1.175"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 536
+          "change_count": 544
         },
         {
           "epoch_id": "epoch4",
