@@ -1,8 +1,8 @@
 {
   "meta": {
-    "generated_at": "2026-06-12T05:28:49.936Z",
+    "generated_at": "2026-06-13T05:18:25.113Z",
     "agent_model": "openai/gpt-5.4-mini",
-    "total_versions": 317,
+    "total_versions": 318,
     "date_range": {
       "start": "2025-03-04",
       "end": "2026-06-12"
@@ -70,11 +70,337 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。adaptive thinking 把推理深度交给模型自己决定，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界——从 Opus 4.6 到 4.8，每一代都在加速这条路。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Adaptive thinking hands reasoning depth to the model itself, while worktree isolation and 1M context push the agent toward hours-long unattended runs — from Opus 4.6 through 4.8, each generation accelerates the path.",
-      "release_count": 101,
+      "release_count": 102,
       "highlight_count": 18
     }
   ],
   "releases": [
+    {
+      "version": "2.1.176",
+      "date": "2026-06-12",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Session titles are now generated in the language of your conversation (set the `language` setting to pin a specific language)",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "会话标题按对话语言生成",
+          "summary_en": "Session titles match conversation language",
+          "why_matters": "这样会让会话标题更自然，也更符合用户当前使用的语言习惯。",
+          "why_matters_en": "This makes session titles feel more natural and aligned with the user's current language.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Added `footerLinksRegexes` setting for regex-matched link badges in the footer row, configurable via user or managed settings",
+          "category": "feat",
+          "importance": 2,
+          "summary": "支持页脚链接正则徽章",
+          "summary_en": "Add regex-based footer link badges",
+          "why_matters": "用户和管理员可以更灵活地在页脚展示匹配规则的链接徽章。",
+          "why_matters_en": "Users and admins can display footer link badges with flexible regex-based matching.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Improved Bedrock credential caching: credentials from `awsCredentialExport` are now cached until their `Expiration` instead of a fixed 1 hour",
+          "category": "fix",
+          "importance": 4,
+          "summary": "Bedrock 凭证缓存更准确",
+          "summary_en": "Cache Bedrock creds until expiration",
+          "why_matters": "避免凭证过早失效导致反复认证或请求失败。",
+          "why_matters_en": "This prevents credentials from expiring too early and causing repeated auth or failed requests.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed `availableModels` enforcement: alias model picks can no longer be redirected to a blocked model via `ANTHROPIC_DEFAULT_*_MODEL` environment variables, and `/fast` now refuses to toggle when it would switch to a model outside the allowlist",
+          "category": "security",
+          "importance": 5,
+          "summary": "模型白名单绕过已修复",
+          "summary_en": "Fix allowlist bypass via env vars",
+          "why_matters": "这阻止了被禁用模型通过环境变量或快捷切换绕过限制。",
+          "why_matters_en": "This stops blocked models from being reached through environment variables or quick switches.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed auto mode failing on Fable 5 for organizations without Opus 4.8 enabled — the classifier now falls back to the best available Opus model",
+          "category": "fix",
+          "importance": 3,
+          "summary": "自动模式回退到可用 Opus",
+          "summary_en": "Auto mode falls back to available Opus",
+          "why_matters": "即使某个高端模型不可用，自动模式也能继续正常工作。",
+          "why_matters_en": "Auto mode keeps working even when the preferred high-end model is unavailable.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed hook `if` conditions for Read/Edit/Write tool paths: documented patterns like `Edit(src/**)`, `Read(~/.ssh/**)`, and `Read(.env)` now match correctly",
+          "category": "fix",
+          "importance": 3,
+          "summary": "Hook 文件路径匹配已修复",
+          "summary_en": "Fix hook path pattern matching",
+          "why_matters": "文档里的通配路径现在能正确触发 hook，减少配置失效。",
+          "why_matters_en": "Documented wildcard paths now trigger hooks correctly, reducing broken configurations.",
+          "capability_ids": [
+            "automation_autonomy",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed Linux sandbox failing to start when `.claude/settings.json` is a symlink with an absolute target",
+          "category": "fix",
+          "importance": 4,
+          "summary": "Linux 沙箱支持绝对 symlink",
+          "summary_en": "Linux sandbox handles absolute symlinks",
+          "why_matters": "避免配置文件是绝对链接时沙箱启动失败。",
+          "why_matters_en": "This prevents sandbox startup failures when the settings file is an absolute symlink.",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed `/copy` and mouse-selection copy not reaching the system clipboard inside tmux over SSH, and tmux paste buffer not loading on versions older than 3.2",
+          "category": "fix",
+          "importance": 4,
+          "summary": "tmux SSH 复制可进系统剪贴板",
+          "summary_en": "Clipboard copy works in tmux over SSH",
+          "why_matters": "远程终端里复制和粘贴更可靠，提升日常使用体验。",
+          "why_matters_en": "Copying and pasting becomes reliable in remote terminals, improving everyday usability.",
+          "capability_ids": [
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed Remote Control connecting from web/mobile silently switching the session's model",
+          "category": "fix",
+          "importance": 4,
+          "summary": "远程控制不再改模型",
+          "summary_en": "Remote Control no longer changes model",
+          "why_matters": "网页或移动端接入会话时不会意外切换当前模型。",
+          "why_matters_en": "Connecting from web or mobile no longer unexpectedly switches the active model.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed Remote Control disconnect notifications showing a bare numeric code instead of a human-readable reason, and connection failures adding a duplicate line to the conversation transcript",
+          "category": "fix",
+          "importance": 2,
+          "summary": "远程控制断开提示更清晰",
+          "summary_en": "Clearer Remote Control disconnect messages",
+          "why_matters": "用户能更快理解断开原因，也避免转录里出现重复信息。",
+          "why_matters_en": "Users can understand disconnect reasons faster, and transcripts stay cleaner.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "memory_context",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed Remote Control sessions not disconnecting when you sign in to a different account",
+          "category": "fix",
+          "importance": 3,
+          "summary": "切换账号会断开远控会话",
+          "summary_en": "Switching accounts disconnects sessions",
+          "why_matters": "避免不同账号之间的远程控制连接继续保持，减少权限混淆。",
+          "why_matters_en": "This prevents remote-control connections from persisting across accounts and reduces permission confusion.",
+          "capability_ids": [
+            "governance_security",
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `/cd` and worktree moves leaving the session reporting the previous directory's git branch",
+          "category": "fix",
+          "importance": 2,
+          "summary": "cd 和 worktree 分支显示正确",
+          "summary_en": "Branch display updates after cd/worktree",
+          "why_matters": "会话里的 git 分支信息会跟随当前目录及时更新。",
+          "why_matters_en": "Git branch info in the session now updates correctly with the current directory.",
+          "capability_ids": [
+            "execution_workspace",
+            "memory_context",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed `claude agents`: pressing back in one window no longer detaches other windows attached to the same session",
+          "category": "fix",
+          "importance": 3,
+          "summary": "agents 后退不再断开其他窗",
+          "summary_en": "Back in one agents window won't detach others",
+          "why_matters": "同一会话的多个窗口协作时更稳定，不会互相影响。",
+          "why_matters_en": "Multiple windows attached to the same session remain stable and don't interfere with each other.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed backgrounded sessions showing \"Working\" forever when `/bg` mid-turn had nothing left to continue",
+          "category": "fix",
+          "importance": 2,
+          "summary": "后台会话卡住状态已修复",
+          "summary_en": "Fix stuck 'Working' background sessions",
+          "why_matters": "后台运行的任务不会无意义地一直显示工作中。",
+          "why_matters_en": "Background tasks no longer appear to be working forever when nothing remains to do.",
+          "capability_ids": [
+            "automation_autonomy",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed background agent search by PR URL: PRs opened during scheduled wakeups or while a job was blocked now appear in `claude agents` search",
+          "category": "fix",
+          "importance": 2,
+          "summary": "PR 搜索能找到更多后台任务",
+          "summary_en": "PR search finds more background jobs",
+          "why_matters": "按 PR URL 查找后台代理时，检索结果更完整。",
+          "why_matters_en": "Searching background agents by PR URL now returns more complete results.",
+          "capability_ids": [
+            "automation_autonomy",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed the agents view input showing no text cursor on Windows",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复 Windows 输入光标显示",
+          "summary_en": "Fix input cursor on Windows",
+          "why_matters": "Windows 上输入框光标异常会影响基本交互体验，修复后更易正常输入。",
+          "why_matters_en": "A missing cursor on Windows hurts basic usability, and this fix restores normal typing.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `claude --bg -cn <name>` not seeding the session name",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复后台会话名未写入",
+          "summary_en": "Fix background session name seeding",
+          "why_matters": "会话名不能正确设置会降低会话管理和后续定位的便利性。",
+          "why_matters_en": "If the session name is not seeded correctly, managing and finding sessions becomes harder.",
+          "capability_ids": [
+            "automation_autonomy",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed background sessions to neutralize Windows network paths in persisted state before respawn",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复后台状态中的 Windows 路径",
+          "summary_en": "Fix Windows paths in persisted state",
+          "why_matters": "持久化状态若包含异常网络路径，后台会话重启可能失败或行为不稳定。",
+          "why_matters_en": "Bad network paths in persisted state can break respawn and make background sessions unstable.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed background-session respawn rejecting malformed resume IDs from corrupted state files",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复损坏状态导致恢复失败",
+          "summary_en": "Handle malformed resume IDs on respawn",
+          "why_matters": "对损坏状态更健壮可避免后台会话因异常恢复 ID 直接失效。",
+          "why_matters_en": "Better handling of corrupted state prevents background sessions from failing on bad resume IDs.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed the Windows background-service daemon not starting when `~/.claude/daemon` has the ReadOnly attribute set",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复只读目录下守护进程启动",
+          "summary_en": "Fix daemon start with read-only dir",
+          "why_matters": "Windows 上目录属性异常时仍能启动守护进程，可减少环境问题导致的不可用。",
+          "why_matters_en": "Starting the daemon even with a read-only attribute reduces environment-related downtime on Windows.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed cloud sessions failing with \"Could not resolve authentication method\" when idle for too long before being claimed",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复空闲过久后云会话认证失败",
+          "summary_en": "Fix auth resolution for idle cloud sessions",
+          "why_matters": "云会话长时间空闲后仍可接管，避免因认证问题导致任务中断。",
+          "why_matters_en": "Cloud sessions can still be claimed after being idle, preventing interruptions from auth failures.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "automation_autonomy",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Background sessions now show clearer guidance when a window left open across an auto-update can't submit a reply, and `claude daemon status` explains version-skew behavior",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "改进后台会话更新提示",
+          "summary_en": "Improve background session update guidance",
+          "why_matters": "更清晰的提示能帮助用户理解自动更新后的版本差异并顺利继续操作。",
+          "why_matters_en": "Clearer guidance helps users understand version skew after auto-updates and keep working smoothly.",
+          "capability_ids": [
+            "automation_autonomy",
+            "memory_context"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 599,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
+        },
+        {
+          "title": "Anthropic, please ship an official Claude Desktop for Linux",
+          "points": 537,
+          "url": "https://github.com/anthropics/claude-code/issues/65697"
+        },
+        {
+          "title": "Ask HN: Why is the HN crowd so anti-AI?",
+          "points": 461,
+          "url": "https://news.ycombinator.com/item?id=48420827"
+        },
+        {
+          "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
+          "points": 431,
+          "url": "https://github.com/anthropics/claude-code/issues/29045"
+        },
+        {
+          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
+          "points": 419,
+          "url": "https://news.ycombinator.com/item?id=48473166"
+        }
+      ],
+      "highlight_score": 50
+    },
     {
       "version": "2.1.175",
       "date": "2026-06-12",
@@ -98,12 +424,12 @@
       "signals": [
         {
           "title": "Anthropic requires 30 day data retention for Fable and Mythos",
-          "points": 590,
+          "points": 599,
           "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
-          "points": 536,
+          "points": 537,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
@@ -113,12 +439,12 @@
         },
         {
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
-          "points": 429,
+          "points": 431,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
         },
         {
           "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
-          "points": 416,
+          "points": 419,
           "url": "https://news.ycombinator.com/item?id=48473166"
         }
       ],
@@ -303,12 +629,12 @@
       "signals": [
         {
           "title": "Anthropic requires 30 day data retention for Fable and Mythos",
-          "points": 590,
+          "points": 599,
           "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
-          "points": 536,
+          "points": 537,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
@@ -318,12 +644,12 @@
         },
         {
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
-          "points": 429,
+          "points": 431,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
         },
         {
           "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
-          "points": 416,
+          "points": 419,
           "url": "https://news.ycombinator.com/item?id=48473166"
         }
       ],
@@ -364,12 +690,12 @@
       "signals": [
         {
           "title": "Anthropic requires 30 day data retention for Fable and Mythos",
-          "points": 590,
+          "points": 599,
           "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
-          "points": 536,
+          "points": 537,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
@@ -379,12 +705,12 @@
         },
         {
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
-          "points": 429,
+          "points": 431,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
         },
         {
           "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
-          "points": 416,
+          "points": 419,
           "url": "https://news.ycombinator.com/item?id=48473166"
         }
       ],
@@ -790,12 +1116,12 @@
       "signals": [
         {
           "title": "Anthropic requires 30 day data retention for Fable and Mythos",
-          "points": 590,
+          "points": 599,
           "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
-          "points": 536,
+          "points": 537,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
@@ -805,12 +1131,12 @@
         },
         {
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
-          "points": 429,
+          "points": 431,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
         },
         {
           "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
-          "points": 416,
+          "points": 419,
           "url": "https://news.ycombinator.com/item?id=48473166"
         }
       ],
@@ -858,12 +1184,12 @@
         },
         {
           "title": "Anthropic requires 30 day data retention for Fable and Mythos",
-          "points": 590,
+          "points": 599,
           "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
-          "points": 536,
+          "points": 537,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
@@ -873,7 +1199,7 @@
         },
         {
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
-          "points": 429,
+          "points": 431,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
         }
       ],
@@ -1287,12 +1613,12 @@
         },
         {
           "title": "Anthropic requires 30 day data retention for Fable and Mythos",
-          "points": 590,
+          "points": 599,
           "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
-          "points": 536,
+          "points": 537,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
@@ -1302,7 +1628,7 @@
         },
         {
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
-          "points": 429,
+          "points": 431,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
         }
       ],
@@ -1333,12 +1659,12 @@
         },
         {
           "title": "Anthropic requires 30 day data retention for Fable and Mythos",
-          "points": 590,
+          "points": 599,
           "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
-          "points": 536,
+          "points": 537,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
@@ -1348,7 +1674,7 @@
         },
         {
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
-          "points": 429,
+          "points": 431,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
         }
       ],
@@ -1379,12 +1705,12 @@
         },
         {
           "title": "Anthropic requires 30 day data retention for Fable and Mythos",
-          "points": 590,
+          "points": 599,
           "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
-          "points": 536,
+          "points": 537,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
@@ -1394,7 +1720,7 @@
         },
         {
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
-          "points": 429,
+          "points": 431,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
         }
       ],
@@ -1687,12 +2013,12 @@
         },
         {
           "title": "Anthropic requires 30 day data retention for Fable and Mythos",
-          "points": 590,
+          "points": 599,
           "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
-          "points": 536,
+          "points": 537,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
@@ -1702,7 +2028,7 @@
         },
         {
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
-          "points": 429,
+          "points": 431,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
         }
       ],
@@ -1733,12 +2059,12 @@
         },
         {
           "title": "Anthropic requires 30 day data retention for Fable and Mythos",
-          "points": 590,
+          "points": 599,
           "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
-          "points": 536,
+          "points": 537,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
@@ -1748,7 +2074,7 @@
         },
         {
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
-          "points": 429,
+          "points": 431,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
         }
       ],
@@ -2053,12 +2379,12 @@
         },
         {
           "title": "Anthropic requires 30 day data retention for Fable and Mythos",
-          "points": 590,
+          "points": 599,
           "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
-          "points": 536,
+          "points": 537,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
@@ -2068,7 +2394,7 @@
         },
         {
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
-          "points": 429,
+          "points": 431,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
         }
       ],
@@ -2454,12 +2780,12 @@
         },
         {
           "title": "Anthropic requires 30 day data retention for Fable and Mythos",
-          "points": 590,
+          "points": 599,
           "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
-          "points": 536,
+          "points": 537,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
@@ -2776,12 +3102,12 @@
         },
         {
           "title": "Anthropic requires 30 day data retention for Fable and Mythos",
-          "points": 590,
+          "points": 599,
           "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
-          "points": 536,
+          "points": 537,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
@@ -3158,7 +3484,7 @@
         },
         {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
-          "points": 536,
+          "points": 537,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
@@ -3204,7 +3530,7 @@
         },
         {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
-          "points": 536,
+          "points": 537,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
@@ -56465,8 +56791,8 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 458,
-      "release_count": 167,
+      "change_count": 459,
+      "release_count": 168,
       "avg_importance": 3.11,
       "maturity": {
         "score": 92,
@@ -56477,14 +56803,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-06-11",
-        "version": "2.1.174"
+        "date": "2026-06-12",
+        "version": "2.1.176"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 296
+          "change_count": 297
         },
         {
           "epoch_id": "epoch4",
@@ -56560,8 +56886,8 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 948,
-      "release_count": 204,
+      "change_count": 955,
+      "release_count": 205,
       "avg_importance": 3.25,
       "maturity": {
         "score": 93,
@@ -56572,14 +56898,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-06-11",
-        "version": "2.1.174"
+        "date": "2026-06-12",
+        "version": "2.1.176"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 647
+          "change_count": 654
         },
         {
           "epoch_id": "epoch1",
@@ -56655,9 +56981,9 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 624,
-      "release_count": 161,
-      "avg_importance": 3.18,
+      "change_count": 631,
+      "release_count": 162,
+      "avg_importance": 3.17,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -56667,14 +56993,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-06-11",
-        "version": "2.1.173"
+        "date": "2026-06-12",
+        "version": "2.1.176"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 460
+          "change_count": 467
         },
         {
           "epoch_id": "epoch1",
@@ -56750,9 +57076,9 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 792,
-      "release_count": 212,
-      "avg_importance": 3.26,
+      "change_count": 804,
+      "release_count": 213,
+      "avg_importance": 3.25,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -56762,14 +57088,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-06-11",
-        "version": "2.1.174"
+        "date": "2026-06-12",
+        "version": "2.1.176"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 530
+          "change_count": 542
         },
         {
           "epoch_id": "epoch1",
@@ -56794,6 +57120,14 @@
       ],
       "samples": [
         {
+          "date": "2026-06-12",
+          "version": "2.1.176",
+          "raw": "Fixed `availableModels` enforcement: alias model picks can no longer be redirected to a blocked model via `ANTHROPIC_DEFAULT_*_MODEL` environment variables, and `/fast` now refuses to toggle when it would switch to a model outside the allowlist",
+          "summary": "模型白名单绕过已修复",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-06-10",
           "version": "2.1.172",
           "raw": "Fixed sessions using 1M context without usage credits getting permanently stuck — the session now automatically compacts back under the standard context limit",
@@ -56816,14 +57150,6 @@
           "summary": "跨会话消息去授权",
           "importance": 5,
           "category": "security"
-        },
-        {
-          "date": "2026-06-05",
-          "version": "2.1.166",
-          "raw": "Fixed background agent sessions that entered a git worktree crash-looping with \"No conversation found\" when reopened from `claude agents`",
-          "summary": "修复后台代理重开崩溃",
-          "importance": 5,
-          "category": "fix"
         }
       ]
     },
@@ -56845,9 +57171,9 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 381,
-      "release_count": 131,
-      "avg_importance": 3.28,
+      "change_count": 387,
+      "release_count": 132,
+      "avg_importance": 3.27,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -56857,14 +57183,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-06-11",
-        "version": "2.1.174"
+        "date": "2026-06-12",
+        "version": "2.1.176"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 290
+          "change_count": 296
         },
         {
           "epoch_id": "epoch1",
@@ -56940,8 +57266,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 1160,
-      "release_count": 239,
+      "change_count": 1164,
+      "release_count": 240,
       "avg_importance": 3.11,
       "maturity": {
         "score": 92,
@@ -56952,14 +57278,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-06-11",
-        "version": "2.1.174"
+        "date": "2026-06-12",
+        "version": "2.1.176"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 794
+          "change_count": 798
         },
         {
           "epoch_id": "epoch1",
@@ -57035,8 +57361,8 @@
         "Emacs",
         "web"
       ],
-      "change_count": 787,
-      "release_count": 184,
+      "change_count": 793,
+      "release_count": 185,
       "avg_importance": 2.69,
       "maturity": {
         "score": 91,
@@ -57054,7 +57380,7 @@
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 578
+          "change_count": 584
         },
         {
           "epoch_id": "epoch4",
@@ -57079,6 +57405,14 @@
       ],
       "samples": [
         {
+          "date": "2026-06-12",
+          "version": "2.1.176",
+          "raw": "Fixed `availableModels` enforcement: alias model picks can no longer be redirected to a blocked model via `ANTHROPIC_DEFAULT_*_MODEL` environment variables, and `/fast` now refuses to toggle when it would switch to a model outside the allowlist",
+          "summary": "模型白名单绕过已修复",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-06-08",
           "version": "2.1.169",
           "raw": "Fixed enterprise managed MCP policies (`allowedMcpServers`/`deniedMcpServers`) not being enforced on reconnect, IDE-typed configs, `--mcp-config` servers during the first session after install, or before remote settings loaded; also fixed slow cold starts for orgs without remote settings",
@@ -57099,14 +57433,6 @@
           "version": "2.1.163",
           "raw": "Fixed deny rules on home-directory paths (e.g. `Read(~/Desktop/**)`) not blocking Bash commands that reference the path via `$HOME`",
           "summary": "修复 HOME 路径拒绝规则",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-06-02",
-          "version": "2.1.161",
-          "raw": "Fixed `forceLoginOrgUUID`/`forceLoginMethod` managed-settings policies blocking third-party provider sessions (Bedrock, Vertex, Foundry, Mantle) alongside the org pin (regression in 2.1.146)",
-          "summary": "修复登录策略误拦截会话",
           "importance": 5,
           "category": "fix"
         }
@@ -57130,8 +57456,8 @@
         "policy",
         "auditing"
       ],
-      "change_count": 780,
-      "release_count": 210,
+      "change_count": 785,
+      "release_count": 211,
       "avg_importance": 3.38,
       "maturity": {
         "score": 94,
@@ -57149,7 +57475,7 @@
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 544
+          "change_count": 549
         },
         {
           "epoch_id": "epoch4",
@@ -57174,6 +57500,14 @@
       ],
       "samples": [
         {
+          "date": "2026-06-12",
+          "version": "2.1.176",
+          "raw": "Fixed `availableModels` enforcement: alias model picks can no longer be redirected to a blocked model via `ANTHROPIC_DEFAULT_*_MODEL` environment variables, and `/fast` now refuses to toggle when it would switch to a model outside the allowlist",
+          "summary": "模型白名单绕过已修复",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-06-08",
           "version": "2.1.169",
           "raw": "Added `--safe-mode` flag (and `CLAUDE_CODE_SAFE_MODE`) to start Claude Code with all customizations (CLAUDE.md, plugins, skills, hooks, MCP servers) disabled for troubleshooting",
@@ -57194,14 +57528,6 @@
           "version": "2.1.169",
           "raw": "Fixed untrusted project settings being able to set OTEL client-certificate paths without trust confirmation",
           "summary": "限制未信任设置改证书路径",
-          "importance": 5,
-          "category": "security"
-        },
-        {
-          "date": "2026-06-05",
-          "version": "2.1.166",
-          "raw": "Hardened cross-session messaging: messages relayed via `SendMessage` from other Claude sessions no longer carry user authority — receivers refuse relayed permission requests, and auto mode blocks them",
-          "summary": "跨会话消息去授权",
           "importance": 5,
           "category": "security"
         }
