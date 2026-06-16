@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-06-15T06:21:01.593Z",
+    "generated_at": "2026-06-16T06:31:21.024Z",
     "agent_model": "openai/gpt-5.4-mini",
-    "total_versions": 318,
+    "total_versions": 319,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-06-12"
+      "end": "2026-06-15"
     },
     "highlight_count": 39,
     "capability_count": 8,
@@ -70,11 +70,329 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。adaptive thinking 把推理深度交给模型自己决定，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界——从 Opus 4.6 到 4.8，每一代都在加速这条路。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Adaptive thinking hands reasoning depth to the model itself, while worktree isolation and 1M context push the agent toward hours-long unattended runs — from Opus 4.6 through 4.8, each generation accelerates the path.",
-      "release_count": 102,
+      "release_count": 103,
       "highlight_count": 18
     }
   ],
   "releases": [
+    {
+      "version": "2.1.178",
+      "date": "2026-06-15",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added `Tool(param:value)` syntax for permission rules to match a tool's input parameters (with `*` wildcard), e.g. `Agent(model:opus)` to block Opus subagents",
+          "category": "security",
+          "importance": 4,
+          "summary": "权限规则支持参数匹配",
+          "summary_en": "Permission rules can match tool args",
+          "why_matters": "这让权限控制可以精确限制特定工具参数，减少高风险子代理或操作被误放行。",
+          "why_matters_en": "This enables precise permission controls for specific tool arguments, reducing the chance of risky subagent actions slipping through.",
+          "capability_ids": [
+            "governance_security",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Skills in nested `.claude/skills` directories now load when working on files there; on a name clash, the nested skill appears as `<dir>:<name>` so both stay available",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "嵌套技能可自动加载",
+          "summary_en": "Nested skills now load in subdirs",
+          "why_matters": "在子目录中工作时也能自动找到对应技能，并避免同名技能丢失。",
+          "why_matters_en": "Skills now load correctly in nested working areas, while name clashes no longer hide either skill.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Nested `.claude/` directories: the agent, workflow, and output-style closest to the working directory now wins when names collide; project-scope workflow saves now target the closest existing `.claude/workflows/`",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "就近生效的嵌套配置",
+          "summary_en": "Closest nested config now wins",
+          "why_matters": "项目里不同层级的设置会按当前位置优先匹配，减少配置冲突和意外覆盖。",
+          "why_matters_en": "Settings now resolve to the nearest relevant scope, reducing config conflicts and surprises.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Improved auto mode: subagent spawns are now evaluated by the classifier before launch, closing a gap where a subagent could request a blocked action without review",
+          "category": "security",
+          "importance": 5,
+          "summary": "自动模式先审查子代理",
+          "summary_en": "Auto mode reviews subagent spawns first",
+          "why_matters": "补上了自动模式的权限漏洞，防止子代理绕过审查执行被禁止的动作。",
+          "why_matters_en": "This closes an auto-mode permission gap so subagents cannot bypass review for blocked actions.",
+          "capability_ids": [
+            "automation_autonomy",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Improved `/doctor` with consistent flat tree layout across all sections, clearer section status icons, and highlighted command names",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "/doctor 状态展示更清晰",
+          "summary_en": "/doctor now shows clearer status layout",
+          "why_matters": "诊断信息更容易扫读，能更快定位 CLI 状态问题。",
+          "why_matters_en": "The diagnostic output is easier to scan, making CLI status issues faster to spot.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Improved the skill listing truncation warning to show how many skill descriptions are affected",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "技能截断提示更具体",
+          "summary_en": "Truncation warning shows affected count",
+          "why_matters": "用户能立即知道有多少技能描述被截断，便于判断信息是否足够。",
+          "why_matters_en": "Users can now see how many skill descriptions were truncated, making the impact clearer.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Changed the workflow prompt keyword to use a purple shimmer highlight and trigger only on explicit phrases like \"run a workflow\" or \"workflow:\", not on any mention of the word",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "工作流触发更精准醒目",
+          "summary_en": "Workflow prompts are more explicit",
+          "why_matters": "减少误触发并让工作流入口更显眼，提升交互准确性。",
+          "why_matters_en": "This reduces accidental triggers and makes workflow entry points clearer.",
+          "capability_ids": [
+            "automation_autonomy",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Improved Remote Control error messages: connection failures now show a persistent red \"/rc failed\" indicator in the footer, and the \"not yet enabled\" error now explains whether it's a gate, a check failure, stale entitlement, or org policy",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "远程控制失败更易理解",
+          "summary_en": "Remote Control failures are clearer",
+          "why_matters": "连接或启用失败时会给出更明确原因，帮助更快排查权限和状态问题。",
+          "why_matters_en": "Connection and enablement failures now explain the cause better, speeding up troubleshooting.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security",
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "`/bug` now requires a description before submitting, and no longer uses model-refusal text as the GitHub issue title",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "/bug 提交更规范",
+          "summary_en": "/bug now requires a description",
+          "why_matters": "减少无效问题单，并避免把拒绝文本误当作 GitHub 标题。",
+          "why_matters_en": "This reduces low-quality reports and prevents refusal text from becoming the GitHub issue title.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed a crash (out-of-memory) when the CLI inherits a stale websocket/OAuth file-descriptor environment variable from a parent process",
+          "category": "fix",
+          "importance": 5,
+          "summary": "修复 stale fd 导致崩溃",
+          "summary_en": "Fixed OOM crash from stale FD env",
+          "why_matters": "避免 CLI 因继承异常环境变量而直接内存耗尽崩溃。",
+          "why_matters_en": "This prevents the CLI from crashing with out-of-memory errors due to inherited bad environment variables.",
+          "capability_ids": [
+            "execution_workspace",
+            "memory_context",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed Claude in Chrome silently failing to connect when the OAuth token belongs to a different account than the Claude Code login",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复 Chrome OAuth 账户不匹配",
+          "summary_en": "Fixed Chrome connect with mismatched OAuth",
+          "why_matters": "不同账号登录时不再静默失败，减少浏览器连接排障成本。",
+          "why_matters_en": "Chrome connection no longer fails silently when account identities differ, reducing setup confusion.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed nested `.claude/skills` skills with directory-qualified names being blocked by permission prompts in non-interactive runs",
+          "category": "fix",
+          "importance": 3,
+          "summary": "目录化技能不再被误拦截",
+          "summary_en": "Qualified nested skills no longer blocked",
+          "why_matters": "非交互运行中嵌套技能可以正常通过权限检查并执行。",
+          "why_matters_en": "Directory-qualified nested skills now pass permission checks and run in non-interactive mode.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed several subagent issues: viewing a subagent's transcript now shows tool results and live progress, messages sent while it finishes its turn are no longer dropped, and backgrounding a running subagent (ctrl+b) no longer restarts it from scratch",
+          "category": "fix",
+          "importance": 4,
+          "summary": "子代理交互问题已修复",
+          "summary_en": "Fixed several subagent interaction bugs",
+          "why_matters": "子代理的进度、转录和后台切换更可靠，协作过程不会丢消息或重启丢状态。",
+          "why_matters_en": "Subagent progress, transcripts, and backgrounding are now more reliable, preventing lost messages and resets.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed `claude agents` workers failing with `401 Invalid bearer token` when the daemon was started from a shell with a custom API gateway via `ANTHROPIC_BASE_URL` and `ANTHROPIC_AUTH_TOKEN`",
+          "category": "fix",
+          "importance": 4,
+          "summary": "自定义网关下代理认证修复",
+          "summary_en": "Fixed agent auth with custom gateway",
+          "why_matters": "使用自定义 API 网关时，代理工作进程不再因令牌错误而失败。",
+          "why_matters_en": "Workers now authenticate correctly when launched from shells using a custom API gateway.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed compaction not honoring `--fallback-model`: compaction now falls back to the configured fallback model chain on overload or model-availability errors",
+          "category": "fix",
+          "importance": 4,
+          "summary": "压缩回退模型链生效",
+          "summary_en": "Compaction now honors fallback chain",
+          "why_matters": "在模型过载或不可用时，压缩流程能继续用备用模型完成，减少中断。",
+          "why_matters_en": "Compaction can now continue via the configured fallback chain when the primary model is overloaded or unavailable.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed model requests continuing to fail with auth errors after credentials were refreshed outside the session, due to a stale cached request configuration",
+          "category": "fix",
+          "importance": 4,
+          "summary": "刷新凭据后恢复模型请求",
+          "summary_en": "Restore model requests after credential refresh",
+          "why_matters": "避免外部刷新登录后仍因旧配置导致请求失败，减少中断和重试成本。",
+          "why_matters_en": "Prevents request failures after external credential refresh, reducing interruptions and retries.",
+          "capability_ids": [
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed background sessions created with `/bg` or `←←` after a turn finished showing \"Working\" forever in the agents list",
+          "category": "fix",
+          "importance": 4,
+          "summary": "后台会话不再一直显示工作中",
+          "summary_en": "Background sessions stop stuck on Working",
+          "why_matters": "让后台任务状态准确结束，避免用户误以为任务仍在运行。",
+          "why_matters_en": "Keeps background task status accurate so users are not misled into thinking work is still running.",
+          "capability_ids": [
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed `CLAUDE_CODE_PLUGIN_KEEP_MARKETPLACE_ON_FAILURE=1` preventing fresh marketplace installs from cloning",
+          "category": "fix",
+          "importance": 3,
+          "summary": "插件失败后仍可正常装市场",
+          "summary_en": "Marketplace installs work after plugin failure",
+          "why_matters": "修复失败后保留设置导致的新安装无法克隆的问题，恢复插件安装流程。",
+          "why_matters_en": "Fixes installs getting stuck after a failed plugin attempt, restoring the plugin installation flow.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed MCP server-level specs (`mcp__server`, `mcp__server__*`, `mcp__*`) in subagent `disallowedTools` being silently ignored",
+          "category": "fix",
+          "importance": 4,
+          "summary": "子代理屏蔽 MCP 工具生效",
+          "summary_en": "Subagent MCP tool blocks are now enforced",
+          "why_matters": "确保子代理的禁用工具配置真正生效，提升控制力和安全隔离。",
+          "why_matters_en": "Ensures subagent disallowed-tool settings are actually enforced, improving control and isolation.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed vim mode undo: `u` now steps through NORMAL/VISUAL-mode commands one at a time instead of merging commands in quick succession into a single undo step",
+          "category": "fix",
+          "importance": 2,
+          "summary": "vim 撤销按步回退命令",
+          "summary_en": "Vim undo now steps through commands",
+          "why_matters": "让 Vim 模式撤销行为更符合预期，减少误撤销带来的编辑返工。",
+          "why_matters_en": "Makes Vim-mode undo behave as expected, reducing rework from overly broad undo steps.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed statusline links with custom URI schemes (e.g. `vscode://`) not opening when clicked in `claude agents`",
+          "category": "fix",
+          "importance": 2,
+          "summary": "状态栏自定义链接可点击打开",
+          "summary_en": "Custom statusline links open correctly",
+          "why_matters": "支持自定义 URI 链接正常打开，方便在外部编辑器或工具间跳转。",
+          "why_matters_en": "Allows custom URI links to open correctly, making it easier to jump to external editors or tools.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed pressing Esc to dismiss a CJK IME candidate window canceling the running Claude task",
+          "category": "fix",
+          "importance": 4,
+          "summary": "VSCode 中 Esc 不再误取消任务",
+          "summary_en": "Esc no longer cancels tasks during CJK IME",
+          "why_matters": "避免中文输入法候选窗被关闭时误中断 Claude 任务，提升在 VSCode 中的稳定性。",
+          "why_matters_en": "Prevents Claude tasks from being accidentally canceled when dismissing a CJK IME candidate window in VSCode.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "execution_workspace"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
+          "points": 868,
+          "url": "https://news.ycombinator.com/item?id=48542100"
+        },
+        {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 607,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
+        },
+        {
+          "title": "Apple Foundation Models",
+          "points": 470,
+          "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
+        },
+        {
+          "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
+          "points": 432,
+          "url": "https://github.com/anthropics/claude-code/issues/29045"
+        },
+        {
+          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
+          "points": 424,
+          "url": "https://news.ycombinator.com/item?id=48473166"
+        }
+      ],
+      "highlight_score": 50
+    },
     {
       "version": "2.1.176",
       "date": "2026-06-12",
@@ -374,8 +692,13 @@
       ],
       "signals": [
         {
+          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
+          "points": 868,
+          "url": "https://news.ycombinator.com/item?id=48542100"
+        },
+        {
           "title": "Anthropic requires 30 day data retention for Fable and Mythos",
-          "points": 604,
+          "points": 607,
           "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
@@ -384,19 +707,14 @@
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
+          "title": "Apple Foundation Models",
+          "points": 470,
+          "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
+        },
+        {
           "title": "Ask HN: Why is the HN crowd so anti-AI?",
           "points": 463,
           "url": "https://news.ycombinator.com/item?id=48420827"
-        },
-        {
-          "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
-          "points": 432,
-          "url": "https://github.com/anthropics/claude-code/issues/29045"
-        },
-        {
-          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
-          "points": 423,
-          "url": "https://news.ycombinator.com/item?id=48473166"
         }
       ],
       "highlight_score": 50
@@ -423,8 +741,13 @@
       ],
       "signals": [
         {
+          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
+          "points": 868,
+          "url": "https://news.ycombinator.com/item?id=48542100"
+        },
+        {
           "title": "Anthropic requires 30 day data retention for Fable and Mythos",
-          "points": 604,
+          "points": 607,
           "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
@@ -433,19 +756,14 @@
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
+          "title": "Apple Foundation Models",
+          "points": 470,
+          "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
+        },
+        {
           "title": "Ask HN: Why is the HN crowd so anti-AI?",
           "points": 463,
           "url": "https://news.ycombinator.com/item?id=48420827"
-        },
-        {
-          "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
-          "points": 432,
-          "url": "https://github.com/anthropics/claude-code/issues/29045"
-        },
-        {
-          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
-          "points": 423,
-          "url": "https://news.ycombinator.com/item?id=48473166"
         }
       ],
       "highlight_score": 50
@@ -628,8 +946,13 @@
       ],
       "signals": [
         {
+          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
+          "points": 868,
+          "url": "https://news.ycombinator.com/item?id=48542100"
+        },
+        {
           "title": "Anthropic requires 30 day data retention for Fable and Mythos",
-          "points": 604,
+          "points": 607,
           "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
@@ -638,19 +961,14 @@
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
+          "title": "Apple Foundation Models",
+          "points": 470,
+          "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
+        },
+        {
           "title": "Ask HN: Why is the HN crowd so anti-AI?",
           "points": 463,
           "url": "https://news.ycombinator.com/item?id=48420827"
-        },
-        {
-          "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
-          "points": 432,
-          "url": "https://github.com/anthropics/claude-code/issues/29045"
-        },
-        {
-          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
-          "points": 423,
-          "url": "https://news.ycombinator.com/item?id=48473166"
         }
       ],
       "highlight_score": 50
@@ -689,8 +1007,13 @@
       ],
       "signals": [
         {
+          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
+          "points": 868,
+          "url": "https://news.ycombinator.com/item?id=48542100"
+        },
+        {
           "title": "Anthropic requires 30 day data retention for Fable and Mythos",
-          "points": 604,
+          "points": 607,
           "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
@@ -699,19 +1022,14 @@
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
+          "title": "Apple Foundation Models",
+          "points": 470,
+          "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
+        },
+        {
           "title": "Ask HN: Why is the HN crowd so anti-AI?",
           "points": 463,
           "url": "https://news.ycombinator.com/item?id=48420827"
-        },
-        {
-          "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
-          "points": 432,
-          "url": "https://github.com/anthropics/claude-code/issues/29045"
-        },
-        {
-          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
-          "points": 423,
-          "url": "https://news.ycombinator.com/item?id=48473166"
         }
       ],
       "highlight_score": 30
@@ -1115,8 +1433,13 @@
       ],
       "signals": [
         {
+          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
+          "points": 868,
+          "url": "https://news.ycombinator.com/item?id=48542100"
+        },
+        {
           "title": "Anthropic requires 30 day data retention for Fable and Mythos",
-          "points": 604,
+          "points": 607,
           "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
@@ -1125,19 +1448,14 @@
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
+          "title": "Apple Foundation Models",
+          "points": 470,
+          "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
+        },
+        {
           "title": "Ask HN: Why is the HN crowd so anti-AI?",
           "points": 463,
           "url": "https://news.ycombinator.com/item?id=48420827"
-        },
-        {
-          "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
-          "points": 432,
-          "url": "https://github.com/anthropics/claude-code/issues/29045"
-        },
-        {
-          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
-          "points": 423,
-          "url": "https://news.ycombinator.com/item?id=48473166"
         }
       ],
       "highlight_score": 50
@@ -1183,8 +1501,13 @@
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
+          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
+          "points": 868,
+          "url": "https://news.ycombinator.com/item?id=48542100"
+        },
+        {
           "title": "Anthropic requires 30 day data retention for Fable and Mythos",
-          "points": 604,
+          "points": 607,
           "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
@@ -1193,14 +1516,9 @@
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
-          "title": "Ask HN: Why is the HN crowd so anti-AI?",
-          "points": 463,
-          "url": "https://news.ycombinator.com/item?id=48420827"
-        },
-        {
-          "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
-          "points": 432,
-          "url": "https://github.com/anthropics/claude-code/issues/29045"
+          "title": "Apple Foundation Models",
+          "points": 470,
+          "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
         }
       ],
       "highlight_score": 50
@@ -1612,8 +1930,13 @@
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
+          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
+          "points": 868,
+          "url": "https://news.ycombinator.com/item?id=48542100"
+        },
+        {
           "title": "Anthropic requires 30 day data retention for Fable and Mythos",
-          "points": 604,
+          "points": 607,
           "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
@@ -1622,14 +1945,9 @@
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
-          "title": "Ask HN: Why is the HN crowd so anti-AI?",
-          "points": 463,
-          "url": "https://news.ycombinator.com/item?id=48420827"
-        },
-        {
-          "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
-          "points": 432,
-          "url": "https://github.com/anthropics/claude-code/issues/29045"
+          "title": "Apple Foundation Models",
+          "points": 470,
+          "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
         }
       ],
       "highlight_score": 50
@@ -1659,7 +1977,7 @@
         },
         {
           "title": "Anthropic requires 30 day data retention for Fable and Mythos",
-          "points": 604,
+          "points": 607,
           "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
@@ -1705,7 +2023,7 @@
         },
         {
           "title": "Anthropic requires 30 day data retention for Fable and Mythos",
-          "points": 604,
+          "points": 607,
           "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
@@ -2013,7 +2331,7 @@
         },
         {
           "title": "Anthropic requires 30 day data retention for Fable and Mythos",
-          "points": 604,
+          "points": 607,
           "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
@@ -2059,7 +2377,7 @@
         },
         {
           "title": "Anthropic requires 30 day data retention for Fable and Mythos",
-          "points": 604,
+          "points": 607,
           "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
@@ -2379,7 +2697,7 @@
         },
         {
           "title": "Anthropic requires 30 day data retention for Fable and Mythos",
-          "points": 604,
+          "points": 607,
           "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
@@ -2780,7 +3098,7 @@
         },
         {
           "title": "Anthropic requires 30 day data retention for Fable and Mythos",
-          "points": 604,
+          "points": 607,
           "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
@@ -3102,7 +3420,7 @@
         },
         {
           "title": "Anthropic requires 30 day data retention for Fable and Mythos",
-          "points": 604,
+          "points": 607,
           "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
@@ -3499,7 +3817,7 @@
         },
         {
           "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
-          "points": 400,
+          "points": 401,
           "url": "https://github.com/devenjarvis/lathe"
         }
       ],
@@ -3545,7 +3863,7 @@
         },
         {
           "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
-          "points": 400,
+          "points": 401,
           "url": "https://github.com/devenjarvis/lathe"
         }
       ],
@@ -40033,6 +40351,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Show HN: Z80-μLM, a 'Conversational AI' That Fits in 40KB",
           "points": 514,
           "url": "https://github.com/HarryR/z80ai"
@@ -40051,11 +40374,6 @@
           "title": "Show HN: Vibe coding a bookshelf with Claude Code",
           "points": 284,
           "url": "https://balajmarius.com/writings/vibe-coding-a-bookshelf-with-claude-code/"
-        },
-        {
-          "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
-          "points": 216,
-          "url": "https://github.com/DeepMyst/Mysti"
         }
       ],
       "highlight_score": 30
@@ -40079,6 +40397,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -40097,11 +40420,6 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
-        },
-        {
-          "title": "Codex vs. Claude Code (today)",
-          "points": 104,
-          "url": "https://build.ms/2025/12/22/codex-vs-claude-code-today/"
         }
       ],
       "highlight_score": 30
@@ -40279,6 +40597,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -40297,11 +40620,6 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
-        },
-        {
-          "title": "Codex vs. Claude Code (today)",
-          "points": 104,
-          "url": "https://build.ms/2025/12/22/codex-vs-claude-code-today/"
         }
       ],
       "highlight_score": 50
@@ -40428,6 +40746,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -40446,11 +40769,6 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
-        },
-        {
-          "title": "Show HN: Superset – Terminal to run 10 parallel coding agents",
-          "points": 96,
-          "url": "https://superset.sh/"
         }
       ],
       "highlight_score": 50
@@ -40593,6 +40911,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -40611,11 +40934,6 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
-        },
-        {
-          "title": "Show HN: Superset – Terminal to run 10 parallel coding agents",
-          "points": 96,
-          "url": "https://superset.sh/"
         }
       ],
       "highlight_score": 55
@@ -40714,6 +41032,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -40732,11 +41055,6 @@
           "title": "Show HN: Local Privacy Firewall-blocks PII and secrets before ChatGPT sees them",
           "points": 111,
           "url": "https://github.com/privacyshield-ai/privacy-firewall"
-        },
-        {
-          "title": "Show HN: Superset – Terminal to run 10 parallel coding agents",
-          "points": 96,
-          "url": "https://superset.sh/"
         }
       ],
       "highlight_score": 50
@@ -40902,6 +41220,11 @@
       ],
       "signals": [
         {
+          "title": "A guide to local coding models",
+          "points": 607,
+          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
+        },
+        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -40920,11 +41243,6 @@
           "title": "Show HN: Local Privacy Firewall-blocks PII and secrets before ChatGPT sees them",
           "points": 111,
           "url": "https://github.com/privacyshield-ai/privacy-firewall"
-        },
-        {
-          "title": "Show HN: I open-sourced my Go and Next B2B SaaS Starter (deploy anywhere, MIT)",
-          "points": 83,
-          "url": "https://github.com/moasq/production-saas-starter"
         }
       ],
       "highlight_score": 55
@@ -56791,8 +57109,8 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 459,
-      "release_count": 168,
+      "change_count": 461,
+      "release_count": 169,
       "avg_importance": 3.11,
       "maturity": {
         "score": 92,
@@ -56803,14 +57121,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-06-12",
-        "version": "2.1.176"
+        "date": "2026-06-15",
+        "version": "2.1.178"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 297
+          "change_count": 299
         },
         {
           "epoch_id": "epoch4",
@@ -56886,8 +57204,8 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 955,
-      "release_count": 205,
+      "change_count": 962,
+      "release_count": 206,
       "avg_importance": 3.25,
       "maturity": {
         "score": 93,
@@ -56898,14 +57216,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-06-12",
-        "version": "2.1.176"
+        "date": "2026-06-15",
+        "version": "2.1.178"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 654
+          "change_count": 661
         },
         {
           "epoch_id": "epoch1",
@@ -56930,6 +57248,14 @@
       ],
       "samples": [
         {
+          "date": "2026-06-15",
+          "version": "2.1.178",
+          "raw": "Fixed a crash (out-of-memory) when the CLI inherits a stale websocket/OAuth file-descriptor environment variable from a parent process",
+          "summary": "修复 stale fd 导致崩溃",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-06-05",
           "version": "2.1.166",
           "raw": "Fixed background agent sessions that entered a git worktree crash-looping with \"No conversation found\" when reopened from `claude agents`",
@@ -56950,14 +57276,6 @@
           "version": "2.1.162",
           "raw": "Fixed a silent startup hang when the config directory is read-only or unwritable — Claude Code now starts with in-memory config and surfaces startup errors instead of showing a blank screen",
           "summary": "只读配置目录可正常启动",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-06-03",
-          "version": "2.1.162",
-          "raw": "Fixed backgrounding a session with ← silently losing the conversation when the background service cannot start; the session stays in the list as a failed row you can wake with Enter",
-          "summary": "后台化失败不再丢会话",
           "importance": 5,
           "category": "fix"
         }
@@ -56981,8 +57299,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 631,
-      "release_count": 162,
+      "change_count": 634,
+      "release_count": 163,
       "avg_importance": 3.17,
       "maturity": {
         "score": 93,
@@ -56993,14 +57311,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-06-12",
-        "version": "2.1.176"
+        "date": "2026-06-15",
+        "version": "2.1.178"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 467
+          "change_count": 470
         },
         {
           "epoch_id": "epoch1",
@@ -57025,6 +57343,14 @@
       ],
       "samples": [
         {
+          "date": "2026-06-15",
+          "version": "2.1.178",
+          "raw": "Fixed a crash (out-of-memory) when the CLI inherits a stale websocket/OAuth file-descriptor environment variable from a parent process",
+          "summary": "修复 stale fd 导致崩溃",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-06-10",
           "version": "2.1.172",
           "raw": "Fixed sessions using 1M context without usage credits getting permanently stuck — the session now automatically compacts back under the standard context limit",
@@ -57045,14 +57371,6 @@
           "version": "2.1.162",
           "raw": "Fixed a silent startup hang when the config directory is read-only or unwritable — Claude Code now starts with in-memory config and surfaces startup errors instead of showing a blank screen",
           "summary": "只读配置目录可正常启动",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-06-03",
-          "version": "2.1.162",
-          "raw": "Fixed backgrounding a session with ← silently losing the conversation when the background service cannot start; the session stays in the list as a failed row you can wake with Enter",
-          "summary": "后台化失败不再丢会话",
           "importance": 5,
           "category": "fix"
         }
@@ -57076,8 +57394,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 804,
-      "release_count": 213,
+      "change_count": 809,
+      "release_count": 214,
       "avg_importance": 3.25,
       "maturity": {
         "score": 93,
@@ -57088,14 +57406,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-06-12",
-        "version": "2.1.176"
+        "date": "2026-06-15",
+        "version": "2.1.178"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 542
+          "change_count": 547
         },
         {
           "epoch_id": "epoch1",
@@ -57120,6 +57438,14 @@
       ],
       "samples": [
         {
+          "date": "2026-06-15",
+          "version": "2.1.178",
+          "raw": "Improved auto mode: subagent spawns are now evaluated by the classifier before launch, closing a gap where a subagent could request a blocked action without review",
+          "summary": "自动模式先审查子代理",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-06-12",
           "version": "2.1.176",
           "raw": "Fixed `availableModels` enforcement: alias model picks can no longer be redirected to a blocked model via `ANTHROPIC_DEFAULT_*_MODEL` environment variables, and `/fast` now refuses to toggle when it would switch to a model outside the allowlist",
@@ -57142,14 +57468,6 @@
           "summary": "支持全新 Fable 5 模型",
           "importance": 5,
           "category": "feat"
-        },
-        {
-          "date": "2026-06-05",
-          "version": "2.1.166",
-          "raw": "Hardened cross-session messaging: messages relayed via `SendMessage` from other Claude sessions no longer carry user authority — receivers refuse relayed permission requests, and auto mode blocks them",
-          "summary": "跨会话消息去授权",
-          "importance": 5,
-          "category": "security"
         }
       ]
     },
@@ -57171,9 +57489,9 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 387,
-      "release_count": 132,
-      "avg_importance": 3.27,
+      "change_count": 391,
+      "release_count": 133,
+      "avg_importance": 3.28,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -57183,14 +57501,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-06-12",
-        "version": "2.1.176"
+        "date": "2026-06-15",
+        "version": "2.1.178"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 296
+          "change_count": 300
         },
         {
           "epoch_id": "epoch1",
@@ -57266,9 +57584,9 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 1164,
-      "release_count": 240,
-      "avg_importance": 3.11,
+      "change_count": 1174,
+      "release_count": 241,
+      "avg_importance": 3.12,
       "maturity": {
         "score": 92,
         "level": "成熟"
@@ -57278,14 +57596,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-06-12",
-        "version": "2.1.176"
+        "date": "2026-06-15",
+        "version": "2.1.178"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 798
+          "change_count": 808
         },
         {
           "epoch_id": "epoch1",
@@ -57310,6 +57628,14 @@
       ],
       "samples": [
         {
+          "date": "2026-06-15",
+          "version": "2.1.178",
+          "raw": "Fixed a crash (out-of-memory) when the CLI inherits a stale websocket/OAuth file-descriptor environment variable from a parent process",
+          "summary": "修复 stale fd 导致崩溃",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-06-08",
           "version": "2.1.169",
           "raw": "Added `--safe-mode` flag (and `CLAUDE_CODE_SAFE_MODE`) to start Claude Code with all customizations (CLAUDE.md, plugins, skills, hooks, MCP servers) disabled for troubleshooting",
@@ -57332,14 +57658,6 @@
           "summary": "修复登录策略误拦截会话",
           "importance": 5,
           "category": "fix"
-        },
-        {
-          "date": "2026-06-02",
-          "version": "2.1.161",
-          "raw": "Fixed `claude mcp` list/get/add printing secrets to the terminal: `${VAR}` references are no longer expanded, and credential headers and URL secrets are redacted",
-          "summary": "MCP 列表不再泄露密钥",
-          "importance": 5,
-          "category": "security"
         }
       ]
     },
@@ -57361,9 +57679,9 @@
         "Emacs",
         "web"
       ],
-      "change_count": 793,
-      "release_count": 185,
-      "avg_importance": 2.69,
+      "change_count": 798,
+      "release_count": 186,
+      "avg_importance": 2.7,
       "maturity": {
         "score": 91,
         "level": "成熟"
@@ -57373,14 +57691,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-06-12",
-        "version": "2.1.175"
+        "date": "2026-06-15",
+        "version": "2.1.178"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 584
+          "change_count": 589
         },
         {
           "epoch_id": "epoch4",
@@ -57405,6 +57723,14 @@
       ],
       "samples": [
         {
+          "date": "2026-06-15",
+          "version": "2.1.178",
+          "raw": "Fixed a crash (out-of-memory) when the CLI inherits a stale websocket/OAuth file-descriptor environment variable from a parent process",
+          "summary": "修复 stale fd 导致崩溃",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-06-12",
           "version": "2.1.176",
           "raw": "Fixed `availableModels` enforcement: alias model picks can no longer be redirected to a blocked model via `ANTHROPIC_DEFAULT_*_MODEL` environment variables, and `/fast` now refuses to toggle when it would switch to a model outside the allowlist",
@@ -57427,14 +57753,6 @@
           "summary": "限制可用版本启动",
           "importance": 5,
           "category": "security"
-        },
-        {
-          "date": "2026-06-04",
-          "version": "2.1.163",
-          "raw": "Fixed deny rules on home-directory paths (e.g. `Read(~/Desktop/**)`) not blocking Bash commands that reference the path via `$HOME`",
-          "summary": "修复 HOME 路径拒绝规则",
-          "importance": 5,
-          "category": "fix"
         }
       ]
     },
@@ -57456,9 +57774,9 @@
         "policy",
         "auditing"
       ],
-      "change_count": 785,
-      "release_count": 211,
-      "avg_importance": 3.38,
+      "change_count": 791,
+      "release_count": 212,
+      "avg_importance": 3.39,
       "maturity": {
         "score": 94,
         "level": "成熟"
@@ -57468,14 +57786,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-06-12",
-        "version": "2.1.175"
+        "date": "2026-06-15",
+        "version": "2.1.178"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 549
+          "change_count": 555
         },
         {
           "epoch_id": "epoch4",
@@ -57500,6 +57818,14 @@
       ],
       "samples": [
         {
+          "date": "2026-06-15",
+          "version": "2.1.178",
+          "raw": "Improved auto mode: subagent spawns are now evaluated by the classifier before launch, closing a gap where a subagent could request a blocked action without review",
+          "summary": "自动模式先审查子代理",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-06-12",
           "version": "2.1.176",
           "raw": "Fixed `availableModels` enforcement: alias model picks can no longer be redirected to a blocked model via `ANTHROPIC_DEFAULT_*_MODEL` environment variables, and `/fast` now refuses to toggle when it would switch to a model outside the allowlist",
@@ -57520,14 +57846,6 @@
           "version": "2.1.169",
           "raw": "Fixed enterprise managed MCP policies (`allowedMcpServers`/`deniedMcpServers`) not being enforced on reconnect, IDE-typed configs, `--mcp-config` servers during the first session after install, or before remote settings loaded; also fixed slow cold starts for orgs without remote settings",
           "summary": "重连时强制执行 MCP 策略",
-          "importance": 5,
-          "category": "security"
-        },
-        {
-          "date": "2026-06-08",
-          "version": "2.1.169",
-          "raw": "Fixed untrusted project settings being able to set OTEL client-certificate paths without trust confirmation",
-          "summary": "限制未信任设置改证书路径",
           "importance": 5,
           "category": "security"
         }
@@ -57615,6 +57933,12 @@
         "date": "2025-09-07"
       },
       {
+        "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
+        "points": 868,
+        "url": "https://news.ycombinator.com/item?id=48542100",
+        "date": "2026-06-15"
+      },
+      {
         "title": "Claude Code is all you need",
         "points": 851,
         "url": "https://dwyer.co.za/static/claude-code-is-all-you-need.html",
@@ -57637,12 +57961,6 @@
         "points": 782,
         "url": "https://github.com/manzaltu/claude-code-ide.el",
         "date": "2025-08-06"
-      },
-      {
-        "title": "Claude says “You're absolutely right!” about everything",
-        "points": 773,
-        "url": "https://github.com/anthropics/claude-code/issues/3382",
-        "date": "2025-08-13"
       }
     ],
     "blog_posts": [
