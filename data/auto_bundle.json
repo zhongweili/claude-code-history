@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-06-16T06:31:21.024Z",
+    "generated_at": "2026-06-17T06:06:56.594Z",
     "agent_model": "openai/gpt-5.4-mini",
-    "total_versions": 319,
+    "total_versions": 320,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-06-15"
+      "end": "2026-06-16"
     },
     "highlight_count": 39,
     "capability_count": 8,
@@ -70,11 +70,151 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。adaptive thinking 把推理深度交给模型自己决定，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界——从 Opus 4.6 到 4.8，每一代都在加速这条路。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Adaptive thinking hands reasoning depth to the model itself, while worktree isolation and 1M context push the agent toward hours-long unattended runs — from Opus 4.6 through 4.8, each generation accelerates the path.",
-      "release_count": 103,
+      "release_count": 104,
       "highlight_count": 18
     }
   ],
   "releases": [
+    {
+      "version": "2.1.179",
+      "date": "2026-06-16",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Fixed mid-stream connection drops: partial responses are now preserved instead of showing a raw error, and the spinner no longer gets stuck at \"running tool\"",
+          "category": "fix",
+          "importance": 4,
+          "summary": "断线保留部分回复",
+          "summary_en": "Preserve partial output on disconnect",
+          "why_matters": "中途断线时保留已生成内容，避免用户丢失结果并减少误报错误。",
+          "why_matters_en": "Preserving partial output on disconnect prevents lost work and avoids misleading errors.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed mouse-wheel scrolling in WSL2 under Windows Terminal and VS Code (regression in 2.1.172)",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复WSL滚动异常",
+          "summary_en": "Fix mouse wheel scrolling in WSL2",
+          "why_matters": "修复 Windows Terminal 和 VS Code 中的滚轮问题，改善 WSL2 下的基本可用性。",
+          "why_matters_en": "This restores basic scrolling usability in WSL2 on Windows Terminal and VS Code.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed a sandbox `denyRead`/`allowRead` glob over a large directory tree making the Bash tool description enormous and the session unusable on Linux",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复沙盒说明过长",
+          "summary_en": "Prevent huge sandbox tool descriptions",
+          "why_matters": "避免大目录下规则展开导致工具说明膨胀，防止会话卡死不可用。",
+          "why_matters_en": "This prevents oversized tool descriptions from making sessions unusable on large trees.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed the feedback survey capturing a single-digit reply as a session rating immediately after a turn completes",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复满意度误提交",
+          "summary_en": "Fix accidental survey rating capture",
+          "why_matters": "避免刚完成一轮对话时把单个数字误识别为评分，减少错误反馈。",
+          "why_matters_en": "This stops single-digit replies from being misread as survey ratings immediately after a turn.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed the welcome screen stacking multiple promotional banners — at most one promo now shows per session",
+          "category": "fix",
+          "importance": 1,
+          "summary": "欢迎页仅显示一条推广",
+          "summary_en": "Show at most one promo banner",
+          "why_matters": "减少欢迎页广告叠加造成的视觉干扰，让界面更清爽。",
+          "why_matters_en": "This reduces visual clutter on the welcome screen by limiting promotional banners.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed Ctrl+O not showing the subagent's transcript when viewing a subagent",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复子代理转录快捷键",
+          "summary_en": "Fix subagent transcript shortcut",
+          "why_matters": "让查看子代理对话记录的快捷键恢复正常，便于追踪执行过程。",
+          "why_matters_en": "This restores the shortcut for viewing subagent transcripts and helps users inspect execution.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed clicking the prompt input not returning focus from the subagent/footer panel",
+          "category": "fix",
+          "importance": 2,
+          "summary": "点击输入框可恢复焦点",
+          "summary_en": "Restore focus to the prompt input",
+          "why_matters": "修复焦点切换问题，避免在子代理或底部面板中无法继续输入。",
+          "why_matters_en": "This fixes focus handling so users can keep typing after interacting with subagent or footer panels.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed remote session background tasks appearing stuck as \"still running\" between turns",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复远程任务假卡住",
+          "summary_en": "Fix stuck remote background tasks",
+          "why_matters": "减少远程会话中任务被误显示为仍在运行，提升状态准确性。",
+          "why_matters_en": "This improves remote session status accuracy by preventing tasks from appearing stuck between turns.",
+          "capability_ids": [
+            "automation_autonomy",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Improved plugin loading performance in remote sessions",
+          "category": "perf",
+          "importance": 3,
+          "summary": "提升远程插件加载速度",
+          "summary_en": "Improve remote plugin loading speed",
+          "why_matters": "加快远程会话启动与可用插件就绪时间，改善整体响应体验。",
+          "why_matters_en": "This shortens remote session startup and plugin readiness time for a smoother experience.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "execution_workspace"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
+          "points": 1248,
+          "url": "https://news.ycombinator.com/item?id=48542100"
+        },
+        {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 607,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
+        },
+        {
+          "title": "Apple Foundation Models",
+          "points": 479,
+          "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
+        },
+        {
+          "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
+          "points": 432,
+          "url": "https://github.com/anthropics/claude-code/issues/29045"
+        },
+        {
+          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
+          "points": 426,
+          "url": "https://news.ycombinator.com/item?id=48473166"
+        }
+      ],
+      "highlight_score": 50
+    },
     {
       "version": "2.1.178",
       "date": "2026-06-15",
@@ -367,7 +507,7 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 868,
+          "points": 1248,
           "url": "https://news.ycombinator.com/item?id=48542100"
         },
         {
@@ -377,7 +517,7 @@
         },
         {
           "title": "Apple Foundation Models",
-          "points": 470,
+          "points": 479,
           "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
         },
         {
@@ -387,7 +527,7 @@
         },
         {
           "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
-          "points": 424,
+          "points": 426,
           "url": "https://news.ycombinator.com/item?id=48473166"
         }
       ],
@@ -693,7 +833,7 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 868,
+          "points": 1248,
           "url": "https://news.ycombinator.com/item?id=48542100"
         },
         {
@@ -708,7 +848,7 @@
         },
         {
           "title": "Apple Foundation Models",
-          "points": 470,
+          "points": 479,
           "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
         },
         {
@@ -742,7 +882,7 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 868,
+          "points": 1248,
           "url": "https://news.ycombinator.com/item?id=48542100"
         },
         {
@@ -757,7 +897,7 @@
         },
         {
           "title": "Apple Foundation Models",
-          "points": 470,
+          "points": 479,
           "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
         },
         {
@@ -947,7 +1087,7 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 868,
+          "points": 1248,
           "url": "https://news.ycombinator.com/item?id=48542100"
         },
         {
@@ -962,7 +1102,7 @@
         },
         {
           "title": "Apple Foundation Models",
-          "points": 470,
+          "points": 479,
           "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
         },
         {
@@ -1008,7 +1148,7 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 868,
+          "points": 1248,
           "url": "https://news.ycombinator.com/item?id=48542100"
         },
         {
@@ -1023,7 +1163,7 @@
         },
         {
           "title": "Apple Foundation Models",
-          "points": 470,
+          "points": 479,
           "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
         },
         {
@@ -1434,7 +1574,7 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 868,
+          "points": 1248,
           "url": "https://news.ycombinator.com/item?id=48542100"
         },
         {
@@ -1449,7 +1589,7 @@
         },
         {
           "title": "Apple Foundation Models",
-          "points": 470,
+          "points": 479,
           "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
         },
         {
@@ -1496,14 +1636,14 @@
       ],
       "signals": [
         {
+          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
+          "points": 1248,
+          "url": "https://news.ycombinator.com/item?id=48542100"
+        },
+        {
           "title": "Please don't spam people looking for employment. It's just cruel",
           "points": 969,
           "url": "https://news.ycombinator.com/item?id=48370330"
-        },
-        {
-          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 868,
-          "url": "https://news.ycombinator.com/item?id=48542100"
         },
         {
           "title": "Anthropic requires 30 day data retention for Fable and Mythos",
@@ -1517,7 +1657,7 @@
         },
         {
           "title": "Apple Foundation Models",
-          "points": 470,
+          "points": 479,
           "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
         }
       ],
@@ -1925,14 +2065,14 @@
       ],
       "signals": [
         {
+          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
+          "points": 1248,
+          "url": "https://news.ycombinator.com/item?id=48542100"
+        },
+        {
           "title": "Please don't spam people looking for employment. It's just cruel",
           "points": 969,
           "url": "https://news.ycombinator.com/item?id=48370330"
-        },
-        {
-          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 868,
-          "url": "https://news.ycombinator.com/item?id=48542100"
         },
         {
           "title": "Anthropic requires 30 day data retention for Fable and Mythos",
@@ -1946,7 +2086,7 @@
         },
         {
           "title": "Apple Foundation Models",
-          "points": 470,
+          "points": 479,
           "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
         }
       ],
@@ -40351,11 +40491,6 @@
       ],
       "signals": [
         {
-          "title": "A guide to local coding models",
-          "points": 607,
-          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
-        },
-        {
           "title": "Show HN: Z80-μLM, a 'Conversational AI' That Fits in 40KB",
           "points": 514,
           "url": "https://github.com/HarryR/z80ai"
@@ -40374,6 +40509,11 @@
           "title": "Show HN: Vibe coding a bookshelf with Claude Code",
           "points": 284,
           "url": "https://balajmarius.com/writings/vibe-coding-a-bookshelf-with-claude-code/"
+        },
+        {
+          "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
+          "points": 216,
+          "url": "https://github.com/DeepMyst/Mysti"
         }
       ],
       "highlight_score": 30
@@ -40397,11 +40537,6 @@
       ],
       "signals": [
         {
-          "title": "A guide to local coding models",
-          "points": 607,
-          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
-        },
-        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -40420,6 +40555,11 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
+        },
+        {
+          "title": "Codex vs. Claude Code (today)",
+          "points": 104,
+          "url": "https://build.ms/2025/12/22/codex-vs-claude-code-today/"
         }
       ],
       "highlight_score": 30
@@ -40597,11 +40737,6 @@
       ],
       "signals": [
         {
-          "title": "A guide to local coding models",
-          "points": 607,
-          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
-        },
-        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -40620,6 +40755,11 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
+        },
+        {
+          "title": "Codex vs. Claude Code (today)",
+          "points": 104,
+          "url": "https://build.ms/2025/12/22/codex-vs-claude-code-today/"
         }
       ],
       "highlight_score": 50
@@ -40746,11 +40886,6 @@
       ],
       "signals": [
         {
-          "title": "A guide to local coding models",
-          "points": 607,
-          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
-        },
-        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -40769,6 +40904,11 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
+        },
+        {
+          "title": "Show HN: Superset – Terminal to run 10 parallel coding agents",
+          "points": 96,
+          "url": "https://superset.sh/"
         }
       ],
       "highlight_score": 50
@@ -40911,11 +41051,6 @@
       ],
       "signals": [
         {
-          "title": "A guide to local coding models",
-          "points": 607,
-          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
-        },
-        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -40934,6 +41069,11 @@
           "title": "Show HN: Mysti – Claude, Codex, and Gemini debate your code, then synthesize",
           "points": 216,
           "url": "https://github.com/DeepMyst/Mysti"
+        },
+        {
+          "title": "Show HN: Superset – Terminal to run 10 parallel coding agents",
+          "points": 96,
+          "url": "https://superset.sh/"
         }
       ],
       "highlight_score": 55
@@ -41032,11 +41172,6 @@
       ],
       "signals": [
         {
-          "title": "A guide to local coding models",
-          "points": 607,
-          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
-        },
-        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -41055,6 +41190,11 @@
           "title": "Show HN: Local Privacy Firewall-blocks PII and secrets before ChatGPT sees them",
           "points": 111,
           "url": "https://github.com/privacyshield-ai/privacy-firewall"
+        },
+        {
+          "title": "Show HN: Superset – Terminal to run 10 parallel coding agents",
+          "points": 96,
+          "url": "https://superset.sh/"
         }
       ],
       "highlight_score": 50
@@ -41220,11 +41360,6 @@
       ],
       "signals": [
         {
-          "title": "A guide to local coding models",
-          "points": 607,
-          "url": "https://www.aiforswes.com/p/you-dont-need-to-spend-100mo-on-claude"
-        },
-        {
           "title": "Claude Code gets native LSP support",
           "points": 511,
           "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md"
@@ -41243,6 +41378,11 @@
           "title": "Show HN: Local Privacy Firewall-blocks PII and secrets before ChatGPT sees them",
           "points": 111,
           "url": "https://github.com/privacyshield-ai/privacy-firewall"
+        },
+        {
+          "title": "Show HN: I open-sourced my Go and Next B2B SaaS Starter (deploy anywhere, MIT)",
+          "points": 83,
+          "url": "https://github.com/moasq/production-saas-starter"
         }
       ],
       "highlight_score": 55
@@ -57204,8 +57344,8 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 962,
-      "release_count": 206,
+      "change_count": 965,
+      "release_count": 207,
       "avg_importance": 3.25,
       "maturity": {
         "score": 93,
@@ -57216,14 +57356,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-06-15",
-        "version": "2.1.178"
+        "date": "2026-06-16",
+        "version": "2.1.179"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 661
+          "change_count": 664
         },
         {
           "epoch_id": "epoch1",
@@ -57299,8 +57439,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 634,
-      "release_count": 163,
+      "change_count": 635,
+      "release_count": 164,
       "avg_importance": 3.17,
       "maturity": {
         "score": 93,
@@ -57311,14 +57451,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-06-15",
-        "version": "2.1.178"
+        "date": "2026-06-16",
+        "version": "2.1.179"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 470
+          "change_count": 471
         },
         {
           "epoch_id": "epoch1",
@@ -57394,8 +57534,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 809,
-      "release_count": 214,
+      "change_count": 810,
+      "release_count": 215,
       "avg_importance": 3.25,
       "maturity": {
         "score": 93,
@@ -57406,14 +57546,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-06-15",
-        "version": "2.1.178"
+        "date": "2026-06-16",
+        "version": "2.1.179"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 547
+          "change_count": 548
         },
         {
           "epoch_id": "epoch1",
@@ -57489,8 +57629,8 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 391,
-      "release_count": 133,
+      "change_count": 392,
+      "release_count": 134,
       "avg_importance": 3.28,
       "maturity": {
         "score": 93,
@@ -57501,14 +57641,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-06-15",
-        "version": "2.1.178"
+        "date": "2026-06-16",
+        "version": "2.1.179"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 300
+          "change_count": 301
         },
         {
           "epoch_id": "epoch1",
@@ -57584,8 +57724,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 1174,
-      "release_count": 241,
+      "change_count": 1175,
+      "release_count": 242,
       "avg_importance": 3.12,
       "maturity": {
         "score": 92,
@@ -57596,14 +57736,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-06-15",
-        "version": "2.1.178"
+        "date": "2026-06-16",
+        "version": "2.1.179"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 808
+          "change_count": 809
         },
         {
           "epoch_id": "epoch1",
@@ -57679,8 +57819,8 @@
         "Emacs",
         "web"
       ],
-      "change_count": 798,
-      "release_count": 186,
+      "change_count": 799,
+      "release_count": 187,
       "avg_importance": 2.7,
       "maturity": {
         "score": 91,
@@ -57691,14 +57831,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-06-15",
-        "version": "2.1.178"
+        "date": "2026-06-16",
+        "version": "2.1.179"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 589
+          "change_count": 590
         },
         {
           "epoch_id": "epoch4",
@@ -57774,8 +57914,8 @@
         "policy",
         "auditing"
       ],
-      "change_count": 791,
-      "release_count": 212,
+      "change_count": 792,
+      "release_count": 213,
       "avg_importance": 3.39,
       "maturity": {
         "score": 94,
@@ -57786,14 +57926,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-06-15",
-        "version": "2.1.178"
+        "date": "2026-06-16",
+        "version": "2.1.179"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 555
+          "change_count": 556
         },
         {
           "epoch_id": "epoch4",
@@ -57897,6 +58037,12 @@
         "date": "2026-04-29"
       },
       {
+        "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
+        "points": 1248,
+        "url": "https://news.ycombinator.com/item?id=48542100",
+        "date": "2026-06-15"
+      },
+      {
         "title": "Claude Code Unpacked : A visual guide",
         "points": 1128,
         "url": "https://ccunpacked.dev/",
@@ -57931,12 +58077,6 @@
         "points": 929,
         "url": "https://dmitrybrant.com/2025/09/07/using-claude-code-to-modernize-a-25-year-old-kernel-driver",
         "date": "2025-09-07"
-      },
-      {
-        "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-        "points": 868,
-        "url": "https://news.ycombinator.com/item?id=48542100",
-        "date": "2026-06-15"
       },
       {
         "title": "Claude Code is all you need",
