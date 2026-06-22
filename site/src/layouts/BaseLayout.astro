@@ -137,7 +137,12 @@ const navItems = [
             }
           }
         },
-        { threshold: 0.08, rootMargin: "0px 0px -40px 0px" }
+        // threshold 0 = reveal as soon as any pixel enters the viewport.
+        // A positive threshold (e.g. 0.08) can never be met by sections taller
+        // than ~12× the viewport (e.g. the 12k-px milestones section), leaving
+        // them stuck at opacity:0. The -40px bottom rootMargin still delays the
+        // trigger slightly so reveals don't fire at the very edge.
+        { threshold: 0, rootMargin: "0px 0px -40px 0px" }
       );
       document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
 
