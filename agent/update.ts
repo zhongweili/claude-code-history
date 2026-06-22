@@ -238,8 +238,13 @@ async function fetchHnSignals(): Promise<{ title: string; points: number; url: s
   return [...seen.values()].sort((a, b) => b.points - a.points);
 }
 
-async function fetchBlogPosts(): Promise<{ title: string; slug: string; date: string; url: string }[]> {
-  // Use known posts — scraping anthropic.com is flaky
+type BlogPost = { title: string; slug: string; date: string; url: string; version?: string };
+
+function fetchBlogPosts(): BlogPost[] {
+  // Curated base list — hand-written titles. Scraping anthropic.com is flaky,
+  // so this stays the source of truth for titles. The changelog extractor below
+  // augments it with any official post Anthropic linked in the release notes
+  // (see extractBlogPostsFromChangelog) so new announcements are never dropped.
   return [
     { slug: "claude-3-7-sonnet", title: "Introducing Claude 3.7 Sonnet and Claude Code", date: "2025-02-24", url: "https://www.anthropic.com/news/claude-3-7-sonnet" },
     { slug: "best-practices-agentic-claude-code", title: "Best Practices for Agentic and Claude Code", date: "2025-04-19", url: "https://www.anthropic.com/news/best-practices-agentic-claude-code" },
@@ -249,6 +254,63 @@ async function fetchBlogPosts(): Promise<{ title: string; slug: string; date: st
     { slug: "claude-sonnet-4-6", title: "Claude Sonnet 4.6", date: "2026-02-17", url: "https://www.anthropic.com/news/claude-sonnet-4-6" },
     { slug: "claude-code-security", title: "Introducing Claude Code Security", date: "2026-02-20", url: "https://www.anthropic.com/news/claude-code-security" },
   ];
+}
+
+// Turn a slug into a readable fallback title: "claude-code-plugins" → "Claude Code Plugins".
+function humanizeSlug(slug: string): string {
+  return slug
+    .split("-")
+    .map((w) => (w ? w[0].toUpperCase() + w.slice(1) : w))
+    .join(" ");
+}
+
+// Derive a title from the changelog line that linked the post.
+// Prefers the announced product name ("Introducing Claude Fable 5", "Added Opus 4.5"),
+// falls back to a humanized slug ("Plugin announcement..." → "Claude Code Plugins").
+function deriveBlogTitle(raw: string, slug: string): string {
+  const withoutUrl = raw.replace(/https?:\/\/\S+/g, "").trim();
+  // Stop at a real sentence delimiter (`:` `!`, or a period that's followed by
+  // whitespace/end) so version numbers like "Opus 4.5" aren't cut at the decimal.
+  const m = withoutUrl.match(/^(?:Introducing|Added|New:?)\s+(.+?)\s*(?:[:!]|\.(?=\s|$)|$)/i);
+  if (m) return m[1].trim();
+  return humanizeSlug(slug);
+}
+
+// Scan parsed changelog for official anthropic.com/news links and turn them into
+// blog posts, merged into (and deduped against) the curated base list by slug.
+// This is the structural fix for the hardcoded list going stale: any release that
+// cites an official blog post now feeds both the "Anthropic Blog" block and the
+// highlight score (matchBlogPost → +20). Curated titles win on slug collision.
+function extractBlogPostsFromChangelog(
+  versions: ParsedVersion[],
+  base: BlogPost[],
+): BlogPost[] {
+  const bySlug = new Map<string, BlogPost>(base.map((p) => [p.slug, p]));
+  const urlRe = /https?:\/\/(?:www\.)?anthropic\.com\/news\/([a-z0-9-]+)/i;
+
+  for (const ver of versions) {
+    if (!ver.date) continue;
+    for (const ch of ver.changes) {
+      const m = ch.raw.match(urlRe);
+      if (!m) continue;
+      const slug = m[1].toLowerCase();
+      if (bySlug.has(slug)) continue; // curated entry wins
+      bySlug.set(slug, {
+        slug,
+        title: deriveBlogTitle(ch.raw, slug),
+        date: ver.date,
+        url: `https://www.anthropic.com/news/${slug}`,
+        // The link came from this exact release, so bind it to the version.
+        // matchBlogPost uses this for precise attribution instead of a fuzzy
+        // date window — otherwise neighbouring releases within ±3 days would
+        // wrongly inherit the blog bonus and flood the highlights.
+        version: ver.version,
+      });
+      log("blog", `Extracted from changelog: "${deriveBlogTitle(ch.raw, slug)}" (${ver.date})`);
+    }
+  }
+
+  return [...bySlug.values()].sort((a, b) => a.date.localeCompare(b.date));
 }
 
 // ── Phase 2: Parse ─────────────────────────────────────────────────────────
@@ -385,11 +447,19 @@ function matchHnSignals(
 }
 
 function matchBlogPost(
+  version: string,
   date: string | null,
-  blogs: { title: string; slug: string; date: string; url: string }[],
+  blogs: BlogPost[],
 ): { title: string; url: string } | undefined {
   if (!date) return undefined;
+  // Versioned posts (extracted from this exact release's changelog line) match
+  // only that version — no fuzzy window, so neighbours don't inherit the bonus.
+  const exact = blogs.find((b) => b.version === version);
+  if (exact) return { title: exact.title, url: exact.url };
+  // Curated posts have no version; fall back to the ±3-day date window. Skip any
+  // versioned post here so it can't fuzzy-match a different release by date.
   const post = blogs.find((b) => {
+    if (b.version) return false;
     const diff = Math.abs(
       (new Date(date).getTime() - new Date(b.date).getTime()) / 86400000,
     );
@@ -636,7 +706,7 @@ function assembleRelease(
   }
   const epochId = assignEpoch(ver.date, epochs);
   const signals = matchHnSignals(ver.date, hnSignals);
-  const blog = matchBlogPost(ver.date, blogPosts);
+  const blog = matchBlogPost(ver.version, ver.date, blogPosts);
   const rel: Release = {
     version: ver.version,
     date: ver.date,
@@ -733,7 +803,7 @@ async function generateHighlights(
     }
 
     const topChanges = [...rel.changes].sort((a, b) => b.importance - a.importance).slice(0, 5);
-    const blog = matchBlogPost(rel.date, blogPosts);
+    const blog = matchBlogPost(rel.version, rel.date, blogPosts);
     const override = editorialOverrides[rel.version];
     const hasCompleteOverride =
       override?.highlight_title &&
@@ -786,11 +856,10 @@ async function main() {
   const epochs = loadJson<EpochSeed[]>(EPOCHS_SEED);
 
   // Phase 1: Fetch
-  const [changelogRaw, npmTimes, hnSignals, blogPosts] = await Promise.all([
+  const [changelogRaw, npmTimes, hnSignals] = await Promise.all([
     fetchChangelog(),
     fetchNpmTimes(),
     fetchHnSignals(),
-    fetchBlogPosts(),
   ]);
 
   // Phase 2: Parse
@@ -802,6 +871,11 @@ async function main() {
       ver.date = npmTimes[ver.version];
     }
   }
+
+  // Blog posts: curated base + any official anthropic.com/news links cited in the
+  // changelog (needs dates, so it runs after npm date backfill above).
+  const blogPosts = extractBlogPostsFromChangelog(versions, fetchBlogPosts());
+  log("blog", `${blogPosts.length} blog posts (curated + changelog-extracted)`);
 
   if (SAMPLE > 0) {
     versions = versions.slice(-SAMPLE);
@@ -822,7 +896,7 @@ async function main() {
         // Still refresh HN signals + social proof (free API), then rewrite bundle
         const releases: Release[] = existing.releases.map((rel: any) => {
           const signals = matchHnSignals(rel.date, hnSignals);
-          const blog = matchBlogPost(rel.date, blogPosts);
+          const blog = matchBlogPost(rel.version, rel.date, blogPosts);
           return { ...rel, signals, highlight_score: calcHighlightScore({ ...rel, signals }, blog) };
         });
         const highlights = await generateHighlights(releases, existing.highlights, blogPosts);
@@ -847,7 +921,7 @@ async function main() {
           // Reuse existing release, but refresh signals
           const rel = existingReleaseMap.get(ver.version)!;
           const signals = matchHnSignals(ver.date, hnSignals);
-          const blog = matchBlogPost(ver.date, blogPosts);
+          const blog = matchBlogPost(ver.version, ver.date, blogPosts);
           return { ...rel, signals, highlight_score: calcHighlightScore({ ...rel, signals }, blog) };
         }
         const changes = newEnriched.get(ver.version) ?? [];
