@@ -23,12 +23,36 @@ const EDITORIAL_OVERRIDES = resolve(DATA, "editorial_overrides.json");
 const OUTPUT = resolve(DATA, "auto_bundle.json");
 
 // ── config ─────────────────────────────────────────────────────────────────
-const LLM_MODEL = process.env.OPENROUTER_API_KEY
-  ? "openai/gpt-5.4-mini"
-  : "gpt-5.4-mini";
-const LLM_API = process.env.OPENROUTER_API_KEY
-  ? "https://openrouter.ai/api/v1/chat/completions"
-  : "https://api.openai.com/v1/chat/completions";
+// LLM provider selection, in priority order. OpenCode Go is a subscription-based
+// OpenAI-compatible endpoint (cost: 0 per call) — preferred so CI can't run out
+// of pay-as-you-go credits. Falls back to OpenRouter, then OpenAI direct.
+// Each provider exposes /v1/chat/completions and authenticates with a Bearer key.
+const LLM_PROVIDER: { key: string; model: string; api: string; label: string } = (() => {
+  if (process.env.OPENCODE_API_KEY) {
+    return {
+      key: process.env.OPENCODE_API_KEY,
+      model: "glm-5",
+      api: "https://opencode.ai/zen/go/v1/chat/completions",
+      label: "opencode-go",
+    };
+  }
+  if (process.env.OPENROUTER_API_KEY) {
+    return {
+      key: process.env.OPENROUTER_API_KEY,
+      model: "openai/gpt-5.4-mini",
+      api: "https://openrouter.ai/api/v1/chat/completions",
+      label: "openrouter",
+    };
+  }
+  return {
+    key: process.env.OPENAI_API_KEY ?? "",
+    model: "gpt-5.4-mini",
+    api: "https://api.openai.com/v1/chat/completions",
+    label: "openai",
+  };
+})();
+const LLM_MODEL = LLM_PROVIDER.model;
+const LLM_API = LLM_PROVIDER.api;
 const SAMPLE = (() => {
   const idx = process.argv.indexOf("--sample");
   return idx !== -1 ? Number(process.argv[idx + 1]) : 0;
@@ -122,8 +146,8 @@ async function fetchJson<T>(url: string, headers?: Record<string, string>): Prom
 async function sleep(ms: number) { return new Promise((r) => setTimeout(r, ms)); }
 
 async function llm(systemPrompt: string, userPrompt: string): Promise<string> {
-  const apiKey = process.env.OPENROUTER_API_KEY || process.env.OPENAI_API_KEY;
-  if (!apiKey) throw new Error("OPENROUTER_API_KEY or OPENAI_API_KEY must be set");
+  const apiKey = LLM_PROVIDER.key;
+  if (!apiKey) throw new Error("Set OPENCODE_API_KEY, OPENROUTER_API_KEY, or OPENAI_API_KEY");
 
   const body = {
     model: LLM_MODEL,
@@ -852,6 +876,7 @@ async function generateHighlights(
 // ── Main ───────────────────────────────────────────────────────────────────
 async function main() {
   const startTime = Date.now();
+  log("config", `LLM provider: ${LLM_PROVIDER.label} (model: ${LLM_MODEL})`);
   const caps = loadJson<CapSeed[]>(CAPS_SEED);
   const epochs = loadJson<EpochSeed[]>(EPOCHS_SEED);
 

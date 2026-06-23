@@ -42,6 +42,9 @@ jobs:
             bun agent/update.ts --incremental
           fi
         env:
+          # Provider priority (see agent/update.ts): OpenCode Go → OpenRouter → OpenAI.
+          # OpenCode Go is subscription-based (no per-call credits) so it's preferred.
+          OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
