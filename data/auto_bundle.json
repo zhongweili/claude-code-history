@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-06-23T05:33:11.884Z",
+    "generated_at": "2026-06-24T05:01:45.531Z",
     "agent_model": "glm-5",
-    "total_versions": 324,
+    "total_versions": 325,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-06-22"
+      "end": "2026-06-23"
     },
     "highlight_count": 48,
     "capability_count": 8,
@@ -70,11 +70,312 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。adaptive thinking 把推理深度交给模型自己决定，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界——从 Opus 4.6 到 4.8，每一代都在加速这条路。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Adaptive thinking hands reasoning depth to the model itself, while worktree isolation and 1M context push the agent toward hours-long unattended runs — from Opus 4.6 through 4.8, each generation accelerates the path.",
-      "release_count": 108,
+      "release_count": 109,
       "highlight_count": 26
     }
   ],
   "releases": [
+    {
+      "version": "2.1.187",
+      "date": "2026-06-23",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added `sandbox.credentials` setting to block sandboxed commands from reading credential files and secret environment variables",
+          "category": "feat",
+          "importance": 4,
+          "summary": "沙箱凭证隔离，阻止读取密钥文件",
+          "summary_en": "Sandbox credential isolation blocks reading secret files",
+          "why_matters": "防止沙箱内命令意外或恶意读取凭证，提升安全性。",
+          "why_matters_en": "Prevents sandboxed commands from accidentally or maliciously reading credentials.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Added org-configured model restrictions to the model picker, `--model`, `/model`, and `ANTHROPIC_MODEL`, with a \"restricted by your organization's settings\" message when a restricted model is selected",
+          "category": "feat",
+          "importance": 4,
+          "summary": "组织级模型限制，选择受限模型时提示",
+          "summary_en": "Org-level model restrictions with restricted message on selection",
+          "why_matters": "让组织能统一管控可用模型，满足合规与成本管理需求。",
+          "why_matters_en": "Allows organizations to enforce model usage policies for compliance and cost control.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Added mouse click support to select menus (permission prompts, `/model`, `/config`, etc.) in fullscreen mode",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "全屏模式下选择菜单支持鼠标点击",
+          "summary_en": "Mouse click support for select menus in fullscreen mode",
+          "why_matters": "提升全屏交互体验，让用户操作更直观便捷。",
+          "why_matters_en": "Improves fullscreen interaction by enabling more intuitive mouse-based selection.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed `--resume` failing with \"No conversation found\" when the original `-p` run produced no model turns",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复无模型轮次时--resume报错",
+          "summary_en": "Fix --resume failing when original run had no model turns",
+          "why_matters": "避免空对话场景下恢复功能误报错误，提升可靠性。",
+          "why_matters_en": "Prevents false errors when resuming conversations that produced no model output.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed `--json-schema` and workflow `agent({schema})` structured output: the model can no longer re-call `StructuredOutput` indefinitely after a successful call, and follow-up turns now reliably return structured output",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复结构化输出无限重调用问题",
+          "summary_en": "Fix structured output infinite re-call and follow-up reliability",
+          "why_matters": "确保结构化输出只调用一次且后续轮次稳定返回，避免浪费和错误。",
+          "why_matters_en": "Ensures structured output is called once and follow-up turns reliably return structured data.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed remote MCP tool calls that hang with no response for 5 minutes — they now abort with an error instead of blocking indefinitely (override with `CLAUDE_CODE_MCP_TOOL_IDLE_TIMEOUT`)",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复远程MCP工具调用5分钟无响应挂起",
+          "summary_en": "Fix remote MCP tool calls hanging for 5 minutes with no response",
+          "why_matters": "避免MCP工具无响应时无限阻塞，提升远程调用可靠性。",
+          "why_matters_en": "Prevents indefinite blocking when MCP tools fail to respond, improving reliability.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed Claude Code Remote sessions taking ~2.7s longer to start after the agent proxy CA system-trust install was added",
+          "category": "perf",
+          "importance": 3,
+          "summary": "修复远程会话启动慢2.7秒的问题",
+          "summary_en": "Fix remote session startup taking ~2.7s longer than expected",
+          "why_matters": "减少远程会话启动延迟，提升用户体验和效率。",
+          "why_matters_en": "Reduces remote session startup latency for a smoother user experience.",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed pasted Korean/CJK text turning into mojibake in terminals that deliver paste as per-byte extended-key events",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复粘贴韩文/中日韩文字乱码问题",
+          "summary_en": "Fix pasted Korean/CJK text becoming mojibake in some terminals",
+          "why_matters": "确保CJK用户正确粘贴文本，避免输入损坏影响工作。",
+          "why_matters_en": "Ensures CJK users can paste text correctly without character corruption.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `/update` over Remote Control hanging when a startup trust dialog would have shown",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复远程控制下/update因信任对话框挂起",
+          "summary_en": "Fix /update hanging over Remote Control due to trust dialog",
+          "why_matters": "避免远程更新流程被信任对话框阻塞，确保更新可正常执行。",
+          "why_matters_en": "Prevents remote update flow from being blocked by startup trust dialogs.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace",
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed background jobs in the agents view getting stuck in \"working\" indefinitely when the agent ended a turn without producing structured output",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复后台任务无结构化输出时卡住",
+          "summary_en": "Fix background jobs stuck in working when no structured output produced",
+          "why_matters": "避免后台代理任务状态永久卡住，确保状态准确反映实际进度。",
+          "why_matters_en": "Prevents background agent jobs from being permanently stuck in working state.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed channel connections dropping after navigating to the agents view and back, and after `/bg`, `/tui`, or `/update`",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复导航后频道连接断开问题",
+          "summary_en": "Fix channel connections dropping after navigating agents view",
+          "why_matters": "确保视图切换后连接稳定，避免代理通信中断。",
+          "why_matters_en": "Ensures stable connections after view navigation, preventing agent communication drops.",
+          "capability_ids": [
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed agent stop notifications not correctly attributing who stopped the agent, and improved wording (\"finished\"/\"stopped\" instead of \"came to rest\")",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复代理停止通知归属及措辞",
+          "summary_en": "Fix agent stop notification attribution and improve wording",
+          "why_matters": "让停止通知更清晰准确，帮助用户了解代理状态变化。",
+          "why_matters_en": "Makes stop notifications clearer and more accurate about who stopped the agent.",
+          "capability_ids": [
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed subagent depth tracking: resumed subagents now restore their original spawn depth, and forked subagents now count toward the depth cap",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复子代理深度跟踪：恢复与fork计数",
+          "summary_en": "Fix subagent depth tracking for resumed and forked subagents",
+          "why_matters": "确保子代理深度限制正确执行，防止无限递归消耗资源。",
+          "why_matters_en": "Ensures subagent depth limits are correctly enforced, preventing resource overuse.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "automation_autonomy",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed leaked agent worktree registrations: locked `.git/worktrees/` entries from killed agents are now cleaned up automatically",
+          "category": "fix",
+          "importance": 3,
+          "summary": "自动清理被杀代理的git worktree锁",
+          "summary_en": "Auto-clean leaked git worktree registrations from killed agents",
+          "why_matters": "避免残留worktree锁导致git操作异常，维护工作区整洁。",
+          "why_matters_en": "Prevents leaked worktree locks from causing git issues, keeping workspaces clean.",
+          "capability_ids": [
+            "execution_workspace",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed Cmd+click not opening URLs in fullscreen mode in Ghostty on macOS",
+          "category": "fix",
+          "importance": 1,
+          "summary": "修复Ghostty全屏下Cmd+点击无法打开链接",
+          "summary_en": "Fix Cmd+click not opening URLs in fullscreen in Ghostty on macOS",
+          "why_matters": "让Ghostty用户在全屏模式下正常点击链接，提升细节体验。",
+          "why_matters_en": "Allows Ghostty users to click URLs normally in fullscreen mode.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `claude --help` not listing the `--bg`/`--background` flag",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复帮助信息缺少后台运行标志",
+          "summary_en": "Fix help text missing --bg/--background flag",
+          "why_matters": "帮助信息不完整会影响用户发现后台运行功能。",
+          "why_matters_en": "Incomplete help text prevents users from discovering background execution.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed Esc, Ctrl-C, and Ctrl-D not working while `/share` is uploading",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复分享上传时无法用快捷键中断",
+          "summary_en": "Fix Esc/Ctrl-C/Ctrl-D not working during share upload",
+          "why_matters": "上传卡住时用户无法取消，严重影响体验。",
+          "why_matters_en": "Users unable to cancel a stuck upload is a frustrating experience.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Improved `/install-github-app`: GitHub Actions workflow setup is now optional — you can install just the GitHub App and skip the workflow/secret steps",
+          "category": "improvement",
+          "importance": 4,
+          "summary": "GitHub应用安装支持跳过工作流配置",
+          "summary_en": "GitHub App install now allows skipping workflow setup",
+          "why_matters": "简化安装流程，降低使用门槛，让用户按需配置。",
+          "why_matters_en": "Simplifies onboarding by making workflow setup optional for users.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Improved `/btw` with ←/→ arrow navigation to step through earlier answers",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "/btw支持左右键浏览历史回答",
+          "summary_en": "/btw supports arrow key navigation through past answers",
+          "why_matters": "方便用户快速回顾之前的回答内容，提升交互效率。",
+          "why_matters_en": "Makes it easier to review previous answers quickly and efficiently.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Improved `/plugin` to surface plugins you haven't used recently so you can clean them up",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "插件管理显示近期未使用的插件",
+          "summary_en": "Plugin manager surfaces unused plugins for cleanup",
+          "why_matters": "帮助用户清理不活跃的插件，保持环境整洁。",
+          "why_matters_en": "Helps users identify and remove inactive plugins to keep things tidy.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed extension becoming unresponsive when resuming a large session",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复恢复大型会话时VSCode扩展无响应",
+          "summary_en": "Fix VSCode extension freezing on large session resume",
+          "why_matters": "大型会话恢复卡死严重影响工作效率，是高频痛点。",
+          "why_matters_en": "Freezing on large sessions severely impacts productivity for power users.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "There is minimal downside to switching to open models",
+          "points": 400,
+          "url": "https://www.marble.onl/posts/cancel_claude.html"
+        },
+        {
+          "title": "The text in Claude Code’s “Extended Thinking” output",
+          "points": 319,
+          "url": "https://patrickmccanna.net/the-text-in-claude-codes-extended-thinking-output-is-not-authentic/"
+        },
+        {
+          "title": "Launch HN: Adam (YC W25) – Open-Source AI CAD",
+          "points": 212,
+          "url": "https://github.com/Adam-CAD/CADAM"
+        },
+        {
+          "title": "Elevated error rate across multiple models",
+          "points": 206,
+          "url": "https://status.claude.com/incidents/jbhf20wjmzrf"
+        },
+        {
+          "title": "Claude: Elevated errors across many models [resolved]",
+          "points": 189,
+          "url": "https://status.claude.com/incidents/xmhsglsz3h3w"
+        }
+      ],
+      "highlight_score": 35
+    },
     {
       "version": "2.1.186",
       "date": "2026-06-22",
@@ -493,7 +794,7 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1308,
+          "points": 1311,
           "url": "https://news.ycombinator.com/item?id=48542100"
         },
         {
@@ -503,12 +804,12 @@
         },
         {
           "title": "There is minimal downside to switching to open models",
-          "points": 383,
+          "points": 400,
           "url": "https://www.marble.onl/posts/cancel_claude.html"
         },
         {
           "title": "The text in Claude Code’s “Extended Thinking” output",
-          "points": 293,
+          "points": 319,
           "url": "https://patrickmccanna.net/the-text-in-claude-codes-extended-thinking-output-is-not-authentic/"
         },
         {
@@ -539,7 +840,7 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1308,
+          "points": 1311,
           "url": "https://news.ycombinator.com/item?id=48542100"
         },
         {
@@ -549,12 +850,12 @@
         },
         {
           "title": "There is minimal downside to switching to open models",
-          "points": 383,
+          "points": 400,
           "url": "https://www.marble.onl/posts/cancel_claude.html"
         },
         {
           "title": "The text in Claude Code’s “Extended Thinking” output",
-          "points": 293,
+          "points": 319,
           "url": "https://patrickmccanna.net/the-text-in-claude-codes-extended-thinking-output-is-not-authentic/"
         },
         {
@@ -799,7 +1100,7 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1308,
+          "points": 1311,
           "url": "https://news.ycombinator.com/item?id=48542100"
         },
         {
@@ -809,12 +1110,12 @@
         },
         {
           "title": "There is minimal downside to switching to open models",
-          "points": 383,
+          "points": 400,
           "url": "https://www.marble.onl/posts/cancel_claude.html"
         },
         {
           "title": "The text in Claude Code’s “Extended Thinking” output",
-          "points": 293,
+          "points": 319,
           "url": "https://patrickmccanna.net/the-text-in-claude-codes-extended-thinking-output-is-not-authentic/"
         },
         {
@@ -1331,7 +1632,7 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1308,
+          "points": 1311,
           "url": "https://news.ycombinator.com/item?id=48542100"
         },
         {
@@ -1472,8 +1773,13 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1308,
+          "points": 1311,
           "url": "https://news.ycombinator.com/item?id=48542100"
+        },
+        {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 609,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
           "title": "Apple Foundation Models",
@@ -1489,11 +1795,6 @@
           "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
           "points": 427,
           "url": "https://news.ycombinator.com/item?id=48473166"
-        },
-        {
-          "title": "Claude Fable 5: mid-tier results on coding tasks",
-          "points": 410,
-          "url": "https://www.endorlabs.com/learn/claude-fable-5-mythos-grade-hype"
         }
       ],
       "highlight_score": 50
@@ -1821,8 +2122,13 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1308,
+          "points": 1311,
           "url": "https://news.ycombinator.com/item?id=48542100"
+        },
+        {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 609,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
           "title": "Apple Foundation Models",
@@ -1838,11 +2144,6 @@
           "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
           "points": 427,
           "url": "https://news.ycombinator.com/item?id=48473166"
-        },
-        {
-          "title": "Claude Fable 5: mid-tier results on coding tasks",
-          "points": 410,
-          "url": "https://www.endorlabs.com/learn/claude-fable-5-mythos-grade-hype"
         }
       ],
       "highlight_score": 55
@@ -2139,8 +2440,13 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1308,
+          "points": 1311,
           "url": "https://news.ycombinator.com/item?id=48542100"
+        },
+        {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 609,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
@@ -2156,11 +2462,6 @@
           "title": "Ask HN: Why is the HN crowd so anti-AI?",
           "points": 463,
           "url": "https://news.ycombinator.com/item?id=48420827"
-        },
-        {
-          "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
-          "points": 434,
-          "url": "https://github.com/anthropics/claude-code/issues/29045"
         }
       ],
       "highlight_score": 50
@@ -2188,8 +2489,13 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1308,
+          "points": 1311,
           "url": "https://news.ycombinator.com/item?id=48542100"
+        },
+        {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 609,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
@@ -2205,11 +2511,6 @@
           "title": "Ask HN: Why is the HN crowd so anti-AI?",
           "points": 463,
           "url": "https://news.ycombinator.com/item?id=48420827"
-        },
-        {
-          "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
-          "points": 434,
-          "url": "https://github.com/anthropics/claude-code/issues/29045"
         }
       ],
       "highlight_score": 50
@@ -2385,8 +2686,13 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1308,
+          "points": 1311,
           "url": "https://news.ycombinator.com/item?id=48542100"
+        },
+        {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 609,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
@@ -2402,11 +2708,6 @@
           "title": "Ask HN: Why is the HN crowd so anti-AI?",
           "points": 463,
           "url": "https://news.ycombinator.com/item?id=48420827"
-        },
-        {
-          "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
-          "points": 434,
-          "url": "https://github.com/anthropics/claude-code/issues/29045"
         }
       ],
       "highlight_score": 50
@@ -2447,8 +2748,13 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1308,
+          "points": 1311,
           "url": "https://news.ycombinator.com/item?id=48542100"
+        },
+        {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 609,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
@@ -2464,11 +2770,6 @@
           "title": "Ask HN: Why is the HN crowd so anti-AI?",
           "points": 463,
           "url": "https://news.ycombinator.com/item?id=48420827"
-        },
-        {
-          "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
-          "points": 434,
-          "url": "https://github.com/anthropics/claude-code/issues/29045"
         }
       ],
       "highlight_score": 30
@@ -2872,8 +3173,13 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1308,
+          "points": 1311,
           "url": "https://news.ycombinator.com/item?id=48542100"
+        },
+        {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 609,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
@@ -2889,11 +3195,6 @@
           "title": "Ask HN: Why is the HN crowd so anti-AI?",
           "points": 463,
           "url": "https://news.ycombinator.com/item?id=48420827"
-        },
-        {
-          "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
-          "points": 434,
-          "url": "https://github.com/anthropics/claude-code/issues/29045"
         }
       ],
       "highlight_score": 50
@@ -2934,13 +3235,18 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1308,
+          "points": 1311,
           "url": "https://news.ycombinator.com/item?id=48542100"
         },
         {
           "title": "Please don't spam people looking for employment. It's just cruel",
           "points": 969,
           "url": "https://news.ycombinator.com/item?id=48370330"
+        },
+        {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 609,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
@@ -2951,11 +3257,6 @@
           "title": "Apple Foundation Models",
           "points": 484,
           "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
-        },
-        {
-          "title": "Ask HN: Why is the HN crowd so anti-AI?",
-          "points": 463,
-          "url": "https://news.ycombinator.com/item?id=48420827"
         }
       ],
       "highlight_score": 70
@@ -3367,13 +3668,18 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1308,
+          "points": 1311,
           "url": "https://news.ycombinator.com/item?id=48542100"
         },
         {
           "title": "Please don't spam people looking for employment. It's just cruel",
           "points": 969,
           "url": "https://news.ycombinator.com/item?id=48370330"
+        },
+        {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 609,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
         },
         {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
@@ -3384,11 +3690,6 @@
           "title": "Apple Foundation Models",
           "points": 484,
           "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
-        },
-        {
-          "title": "Ask HN: Why is the HN crowd so anti-AI?",
-          "points": 463,
-          "url": "https://news.ycombinator.com/item?id=48420827"
         }
       ],
       "highlight_score": 50
@@ -3417,6 +3718,11 @@
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 609,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
+        },
+        {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
           "points": 538,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
@@ -3430,11 +3736,6 @@
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
           "points": 434,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
-        },
-        {
-          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
-          "points": 427,
-          "url": "https://news.ycombinator.com/item?id=48473166"
         }
       ],
       "highlight_score": 30
@@ -3463,6 +3764,11 @@
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 609,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
+        },
+        {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
           "points": 538,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
@@ -3476,11 +3782,6 @@
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
           "points": 434,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
-        },
-        {
-          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
-          "points": 427,
-          "url": "https://news.ycombinator.com/item?id=48473166"
         }
       ],
       "highlight_score": 30
@@ -3768,6 +4069,11 @@
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 609,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
+        },
+        {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
           "points": 538,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
@@ -3781,11 +4087,6 @@
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
           "points": 434,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
-        },
-        {
-          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
-          "points": 427,
-          "url": "https://news.ycombinator.com/item?id=48473166"
         }
       ],
       "highlight_score": 50
@@ -3814,6 +4115,11 @@
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 609,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
+        },
+        {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
           "points": 538,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
@@ -3827,11 +4133,6 @@
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
           "points": 434,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
-        },
-        {
-          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
-          "points": 427,
-          "url": "https://news.ycombinator.com/item?id=48473166"
         }
       ],
       "highlight_score": 30
@@ -4137,6 +4438,11 @@
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 609,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
+        },
+        {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
           "points": 538,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
@@ -4150,11 +4456,6 @@
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
           "points": 434,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
-        },
-        {
-          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
-          "points": 427,
-          "url": "https://news.ycombinator.com/item?id=48473166"
         }
       ],
       "highlight_score": 50
@@ -4541,6 +4842,11 @@
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 609,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
+        },
+        {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
           "points": 538,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
@@ -4554,11 +4860,6 @@
           "title": "Claude Code as a Daily Driver: Claude.md, Skills, Subagents, Plugins, and MCPs",
           "points": 451,
           "url": "https://arps18.github.io/posts/claude-code-mastery/"
-        },
-        {
-          "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
-          "points": 434,
-          "url": "https://github.com/anthropics/claude-code/issues/29045"
         }
       ],
       "highlight_score": 50
@@ -4865,6 +5166,11 @@
           "url": "https://news.ycombinator.com/item?id=48370330"
         },
         {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "points": 609,
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models"
+        },
+        {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
           "points": 538,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
@@ -4878,11 +5184,6 @@
           "title": "Claude Code as a Daily Driver: Claude.md, Skills, Subagents, Plugins, and MCPs",
           "points": 451,
           "url": "https://arps18.github.io/posts/claude-code-mastery/"
-        },
-        {
-          "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
-          "points": 402,
-          "url": "https://github.com/devenjarvis/lathe"
         }
       ],
       "highlight_score": 50
@@ -58991,8 +59292,8 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 473,
-      "release_count": 169,
+      "change_count": 474,
+      "release_count": 170,
       "avg_importance": 3.09,
       "maturity": {
         "score": 92,
@@ -59003,14 +59304,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-06-22",
-        "version": "2.1.186"
+        "date": "2026-06-23",
+        "version": "2.1.187"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 314
+          "change_count": 315
         },
         {
           "epoch_id": "epoch4",
@@ -59086,9 +59387,9 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 955,
-      "release_count": 213,
-      "avg_importance": 3.24,
+      "change_count": 963,
+      "release_count": 214,
+      "avg_importance": 3.25,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -59098,14 +59399,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-06-22",
-        "version": "2.1.186"
+        "date": "2026-06-23",
+        "version": "2.1.187"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 677
+          "change_count": 685
         },
         {
           "epoch_id": "epoch1",
@@ -59181,8 +59482,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 628,
-      "release_count": 174,
+      "change_count": 630,
+      "release_count": 175,
       "avg_importance": 3.15,
       "maturity": {
         "score": 93,
@@ -59193,14 +59494,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-06-22",
-        "version": "2.1.186"
+        "date": "2026-06-23",
+        "version": "2.1.187"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 457
+          "change_count": 459
         },
         {
           "epoch_id": "epoch1",
@@ -59276,8 +59577,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 816,
-      "release_count": 211,
+      "change_count": 817,
+      "release_count": 212,
       "avg_importance": 3.24,
       "maturity": {
         "score": 93,
@@ -59288,14 +59589,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-06-22",
-        "version": "2.1.186"
+        "date": "2026-06-23",
+        "version": "2.1.187"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 570
+          "change_count": 571
         },
         {
           "epoch_id": "epoch4",
@@ -59371,8 +59672,8 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 403,
-      "release_count": 129,
+      "change_count": 409,
+      "release_count": 130,
       "avg_importance": 3.24,
       "maturity": {
         "score": 93,
@@ -59383,14 +59684,14 @@
         "version": "0.2.50"
       },
       "latest_seen": {
-        "date": "2026-06-22",
-        "version": "2.1.186"
+        "date": "2026-06-23",
+        "version": "2.1.187"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 323
+          "change_count": 329
         },
         {
           "epoch_id": "epoch1",
@@ -59466,8 +59767,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 1203,
-      "release_count": 238,
+      "change_count": 1206,
+      "release_count": 239,
       "avg_importance": 3.1,
       "maturity": {
         "score": 92,
@@ -59478,14 +59779,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-06-22",
-        "version": "2.1.186"
+        "date": "2026-06-23",
+        "version": "2.1.187"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 848
+          "change_count": 851
         },
         {
           "epoch_id": "epoch1",
@@ -59561,8 +59862,8 @@
         "Emacs",
         "web"
       ],
-      "change_count": 812,
-      "release_count": 186,
+      "change_count": 820,
+      "release_count": 187,
       "avg_importance": 2.71,
       "maturity": {
         "score": 91,
@@ -59573,14 +59874,14 @@
         "version": "0.2.34"
       },
       "latest_seen": {
-        "date": "2026-06-22",
-        "version": "2.1.186"
+        "date": "2026-06-23",
+        "version": "2.1.187"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 622
+          "change_count": 630
         },
         {
           "epoch_id": "epoch4",
@@ -59656,9 +59957,9 @@
         "policy",
         "auditing"
       ],
-      "change_count": 811,
-      "release_count": 208,
-      "avg_importance": 3.4,
+      "change_count": 816,
+      "release_count": 209,
+      "avg_importance": 3.39,
       "maturity": {
         "score": 94,
         "level": "成熟"
@@ -59668,14 +59969,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-06-22",
-        "version": "2.1.186"
+        "date": "2026-06-23",
+        "version": "2.1.187"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 590
+          "change_count": 595
         },
         {
           "epoch_id": "epoch4",
@@ -59768,7 +60069,7 @@
       },
       {
         "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-        "points": 1308,
+        "points": 1311,
         "url": "https://news.ycombinator.com/item?id=48542100",
         "date": "2026-06-15"
       },
