@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-06-25T05:02:48.455Z",
+    "generated_at": "2026-06-26T05:06:30.775Z",
     "agent_model": "glm-5",
-    "total_versions": 327,
+    "total_versions": 328,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-06-24"
+      "end": "2026-06-25"
     },
     "highlight_count": 48,
     "capability_count": 8,
@@ -70,11 +70,234 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。adaptive thinking 把推理深度交给模型自己决定，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界——从 Opus 4.6 到 4.8，每一代都在加速这条路。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Adaptive thinking hands reasoning depth to the model itself, while worktree isolation and 1M context push the agent toward hours-long unattended runs — from Opus 4.6 through 4.8, each generation accelerates the path.",
-      "release_count": 111,
+      "release_count": 112,
       "highlight_count": 26
     }
   ],
   "releases": [
+    {
+      "version": "2.1.193",
+      "date": "2026-06-25",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added `autoMode.classifyAllShell` setting to route all Bash/PowerShell commands through the auto-mode classifier instead of only arbitrary-code-execution patterns",
+          "category": "feat",
+          "importance": 3,
+          "summary": "所有Shell命令经自动模式分类器路由",
+          "summary_en": "Route all shell commands through auto-mode classifier",
+          "why_matters": "让所有Shell命令都经过安全分类，提升自动化执行的安全管控粒度。",
+          "why_matters_en": "All shell commands now pass through the security classifier, improving automated execution safety.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Added auto-mode denial reasons to the transcript, the denial toast, and `/permissions` recent denials",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "自动模式拒绝原因显示在多处UI",
+          "summary_en": "Auto-mode denial reasons shown in transcript, toast, and permissions",
+          "why_matters": "用户能清楚了解命令被拒绝的具体原因，便于排查和调整权限配置。",
+          "why_matters_en": "Users can see exactly why commands were denied, making it easier to troubleshoot and adjust permissions.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Added `claude_code.assistant_response` OpenTelemetry log event containing the model's response text. Redacted unless `OTEL_LOG_ASSISTANT_RESPONSES=1`; when that var is unset it follows `OTEL_LOG_USER_PROMPTS`, so deployments that already log prompt content will start receiving response content on upgrade — set `OTEL_LOG_ASSISTANT_RESPONSES=0` to keep prompts-only.",
+          "category": "feat",
+          "importance": 3,
+          "summary": "新增助手响应OTel日志事件",
+          "summary_en": "Add assistant_response OpenTelemetry log event",
+          "why_matters": "支持可观测性平台记录模型响应内容，便于审计和调试，但默认脱敏保护隐私。",
+          "why_matters_en": "Enables observability platforms to log model responses for auditing and debugging, with redaction by default.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added live file path autocomplete to bash mode (`!`)",
+          "category": "feat",
+          "importance": 3,
+          "summary": "Bash模式新增文件路径自动补全",
+          "summary_en": "Live file path autocomplete in bash mode",
+          "why_matters": "在bash模式中输入命令时自动补全文件路径，减少手动输入错误并提升效率。",
+          "why_matters_en": "Autocompleting file paths in bash mode reduces manual typing errors and improves productivity.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Added a startup notice when MCP servers need authentication, pointing at `/mcp`",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "MCP服务器需认证时显示启动提示",
+          "summary_en": "Startup notice when MCP servers need authentication",
+          "why_matters": "帮助用户及时发现MCP服务器认证需求，避免工具调用因未认证而失败。",
+          "why_matters_en": "Helps users notice MCP server auth requirements early, avoiding tool call failures from missing authentication.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added automatic memory-pressure reaping for idle background shell commands (disable with `CLAUDE_CODE_DISABLE_BG_SHELL_PRESSURE_REAP=1`)",
+          "category": "feat",
+          "importance": 3,
+          "summary": "内存压力时自动清理空闲后台Shell",
+          "summary_en": "Auto-reap idle background shells under memory pressure",
+          "why_matters": "在内存紧张时自动回收空闲后台命令，防止系统资源耗尽影响正常使用。",
+          "why_matters_en": "Automatically reclaims idle background shells under memory pressure, preventing resource exhaustion.",
+          "capability_ids": [
+            "execution_workspace",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed `/model` and other client-data-gated UI showing stale/empty state immediately after `/login`",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复登录后UI显示过期/空状态",
+          "summary_en": "Fix stale/empty UI state after login",
+          "why_matters": "登录后界面不再显示过期数据，确保用户看到正确的模型和配置信息。",
+          "why_matters_en": "UI no longer shows stale data after login, ensuring users see correct model and config info.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed backgrounding (←←) spuriously cancelling with \"N background tasks would be abandoned\" when all running tasks carry over to the new session",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复后台任务误报会被放弃的取消提示",
+          "summary_en": "Fix spurious cancellation warning for background tasks",
+          "why_matters": "后台任务在新会话中可正常延续时不再误报将被放弃，避免用户困惑。",
+          "why_matters_en": "Background tasks that carry over to new sessions no longer trigger false abandonment warnings.",
+          "capability_ids": [
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed pinned background agents being re-prompted to \"Continue from where you left off\" after every auto-update",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复固定后台代理更新后重复提示",
+          "summary_en": "Fix pinned background agents re-prompted after auto-update",
+          "why_matters": "固定的后台代理不再在每次自动更新后被重复要求继续，减少不必要的干扰。",
+          "why_matters_en": "Pinned background agents no longer get repeatedly prompted to continue after every auto-update.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed backgrounding the main turn spawning a phantom \"general-purpose (resumed)\" subagent that re-ran the main conversation",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复后台化主轮次产生幽灵子代理",
+          "summary_en": "Fix phantom subagent spawned when backgrounding main turn",
+          "why_matters": "消除后台化主对话时产生的重复运行幽灵子代理，避免资源浪费和对话混乱。",
+          "why_matters_en": "Eliminates a phantom subagent that re-ran the main conversation when backgrounding, preventing wasted resources.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed agent panel hiding sibling agents when viewing a subagent",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复查看子代理时隐藏同级代理",
+          "summary_en": "Fix agent panel hiding sibling agents when viewing subagent",
+          "why_matters": "查看子代理时不再隐藏同级代理，让用户能同时掌握所有代理的状态。",
+          "why_matters_en": "Sibling agents remain visible when viewing a subagent, letting users track all agents at once.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Improved background agents: the launch result no longer instructs Claude to \"end your response\" — it keeps working on other tasks while the agent runs",
+          "category": "improvement",
+          "importance": 4,
+          "summary": "后台代理启动后不再要求结束响应",
+          "summary_en": "Background agents no longer told to end response",
+          "why_matters": "启动后台代理后Claude可继续处理其他任务，显著提升并行工作效率。",
+          "why_matters_en": "Claude can keep working on other tasks after launching a background agent, significantly improving parallel efficiency.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Improved MCP `headersHelper` auth: the helper now re-runs and reconnects automatically when a tool call returns 401/403",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "MCP认证助手在401/403时自动重连",
+          "summary_en": "MCP auth helper auto-reconnects on 401/403",
+          "why_matters": "工具调用遇到认证失效时自动重新认证并重连，减少手动干预提升使用连续性。",
+          "why_matters_en": "Automatically re-authenticates and reconnects when tool calls fail with auth errors, reducing manual intervention.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Improved plugin auto-rename: marketplace `renames` maps are now followed automatically, updating your settings to the new name",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "插件自动跟随市场重命名映射",
+          "summary_en": "Plugin auto-rename follows marketplace rename maps",
+          "why_matters": "插件重命名后自动更新用户设置，避免因名称变更导致配置失效。",
+          "why_matters_en": "Automatically updates user settings when plugins are renamed, preventing config breakage from name changes.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Improved `/add-dir` message when the directory is already a working directory",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "改进目录已存在时的提示信息",
+          "summary_en": "Better message when directory already added",
+          "why_matters": "当目录已是工作目录时给出更清晰的提示，减少用户困惑。",
+          "why_matters_en": "Provides a clearer message when the directory is already a working directory, reducing user confusion.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
+          "points": 756,
+          "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
+        },
+        {
+          "title": "There is minimal downside to switching to open models",
+          "points": 405,
+          "url": "https://www.marble.onl/posts/cancel_claude.html"
+        },
+        {
+          "title": "The text in Claude Code’s “Extended Thinking” output",
+          "points": 325,
+          "url": "https://patrickmccanna.net/the-text-in-claude-codes-extended-thinking-output-is-not-authentic/"
+        },
+        {
+          "title": "Show HN: OpenKnowledge – open source AI-first alternative to Obsidian/Notion",
+          "points": 234,
+          "url": "https://github.com/inkeep/open-knowledge"
+        },
+        {
+          "title": "Elevated error rate across multiple models",
+          "points": 213,
+          "url": "https://status.claude.com/incidents/jbhf20wjmzrf"
+        }
+      ],
+      "highlight_score": 50
+    },
     {
       "version": "2.1.191",
       "date": "2026-06-24",
@@ -334,8 +557,13 @@
       ],
       "signals": [
         {
+          "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
+          "points": 756,
+          "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
+        },
+        {
           "title": "There is minimal downside to switching to open models",
-          "points": 403,
+          "points": 405,
           "url": "https://www.marble.onl/posts/cancel_claude.html"
         },
         {
@@ -344,22 +572,17 @@
           "url": "https://patrickmccanna.net/the-text-in-claude-codes-extended-thinking-output-is-not-authentic/"
         },
         {
-          "title": "Elevated error rate across multiple models",
-          "points": 213,
-          "url": "https://status.claude.com/incidents/jbhf20wjmzrf"
+          "title": "Show HN: OpenKnowledge – open source AI-first alternative to Obsidian/Notion",
+          "points": 234,
+          "url": "https://github.com/inkeep/open-knowledge"
         },
         {
           "title": "Launch HN: Adam (YC W25) – Open-Source AI CAD",
-          "points": 213,
+          "points": 214,
           "url": "https://github.com/Adam-CAD/CADAM"
-        },
-        {
-          "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
-          "points": 209,
-          "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
         }
       ],
-      "highlight_score": 35
+      "highlight_score": 50
     },
     {
       "version": "2.1.190",
@@ -380,8 +603,13 @@
       ],
       "signals": [
         {
+          "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
+          "points": 756,
+          "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
+        },
+        {
           "title": "There is minimal downside to switching to open models",
-          "points": 403,
+          "points": 405,
           "url": "https://www.marble.onl/posts/cancel_claude.html"
         },
         {
@@ -390,22 +618,17 @@
           "url": "https://patrickmccanna.net/the-text-in-claude-codes-extended-thinking-output-is-not-authentic/"
         },
         {
-          "title": "Elevated error rate across multiple models",
-          "points": 213,
-          "url": "https://status.claude.com/incidents/jbhf20wjmzrf"
+          "title": "Show HN: OpenKnowledge – open source AI-first alternative to Obsidian/Notion",
+          "points": 234,
+          "url": "https://github.com/inkeep/open-knowledge"
         },
         {
           "title": "Launch HN: Adam (YC W25) – Open-Source AI CAD",
-          "points": 213,
+          "points": 214,
           "url": "https://github.com/Adam-CAD/CADAM"
-        },
-        {
-          "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
-          "points": 209,
-          "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
         }
       ],
-      "highlight_score": 15
+      "highlight_score": 30
     },
     {
       "version": "2.1.187",
@@ -681,8 +904,13 @@
       ],
       "signals": [
         {
+          "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
+          "points": 756,
+          "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
+        },
+        {
           "title": "There is minimal downside to switching to open models",
-          "points": 403,
+          "points": 405,
           "url": "https://www.marble.onl/posts/cancel_claude.html"
         },
         {
@@ -691,22 +919,17 @@
           "url": "https://patrickmccanna.net/the-text-in-claude-codes-extended-thinking-output-is-not-authentic/"
         },
         {
-          "title": "Elevated error rate across multiple models",
-          "points": 213,
-          "url": "https://status.claude.com/incidents/jbhf20wjmzrf"
+          "title": "Show HN: OpenKnowledge – open source AI-first alternative to Obsidian/Notion",
+          "points": 234,
+          "url": "https://github.com/inkeep/open-knowledge"
         },
         {
           "title": "Launch HN: Adam (YC W25) – Open-Source AI CAD",
-          "points": 213,
+          "points": 214,
           "url": "https://github.com/Adam-CAD/CADAM"
-        },
-        {
-          "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
-          "points": 209,
-          "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
         }
       ],
-      "highlight_score": 35
+      "highlight_score": 50
     },
     {
       "version": "2.1.186",
@@ -1126,12 +1349,17 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1314,
+          "points": 1315,
           "url": "https://news.ycombinator.com/item?id=48542100"
         },
         {
+          "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
+          "points": 756,
+          "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
+        },
+        {
           "title": "There is minimal downside to switching to open models",
-          "points": 403,
+          "points": 405,
           "url": "https://www.marble.onl/posts/cancel_claude.html"
         },
         {
@@ -1140,14 +1368,9 @@
           "url": "https://patrickmccanna.net/the-text-in-claude-codes-extended-thinking-output-is-not-authentic/"
         },
         {
-          "title": "Elevated error rate across multiple models",
-          "points": 213,
-          "url": "https://status.claude.com/incidents/jbhf20wjmzrf"
-        },
-        {
-          "title": "Launch HN: Adam (YC W25) – Open-Source AI CAD",
-          "points": 213,
-          "url": "https://github.com/Adam-CAD/CADAM"
+          "title": "Show HN: OpenKnowledge – open source AI-first alternative to Obsidian/Notion",
+          "points": 234,
+          "url": "https://github.com/inkeep/open-knowledge"
         }
       ],
       "highlight_score": 50
@@ -1172,12 +1395,17 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1314,
+          "points": 1315,
           "url": "https://news.ycombinator.com/item?id=48542100"
         },
         {
+          "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
+          "points": 756,
+          "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
+        },
+        {
           "title": "There is minimal downside to switching to open models",
-          "points": 403,
+          "points": 405,
           "url": "https://www.marble.onl/posts/cancel_claude.html"
         },
         {
@@ -1186,14 +1414,9 @@
           "url": "https://patrickmccanna.net/the-text-in-claude-codes-extended-thinking-output-is-not-authentic/"
         },
         {
-          "title": "Elevated error rate across multiple models",
-          "points": 213,
-          "url": "https://status.claude.com/incidents/jbhf20wjmzrf"
-        },
-        {
-          "title": "Launch HN: Adam (YC W25) – Open-Source AI CAD",
-          "points": 213,
-          "url": "https://github.com/Adam-CAD/CADAM"
+          "title": "Show HN: OpenKnowledge – open source AI-first alternative to Obsidian/Notion",
+          "points": 234,
+          "url": "https://github.com/inkeep/open-knowledge"
         }
       ],
       "highlight_score": 30
@@ -1432,12 +1655,17 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1314,
+          "points": 1315,
           "url": "https://news.ycombinator.com/item?id=48542100"
         },
         {
+          "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
+          "points": 756,
+          "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
+        },
+        {
           "title": "There is minimal downside to switching to open models",
-          "points": 403,
+          "points": 405,
           "url": "https://www.marble.onl/posts/cancel_claude.html"
         },
         {
@@ -1446,14 +1674,9 @@
           "url": "https://patrickmccanna.net/the-text-in-claude-codes-extended-thinking-output-is-not-authentic/"
         },
         {
-          "title": "Elevated error rate across multiple models",
-          "points": 213,
-          "url": "https://status.claude.com/incidents/jbhf20wjmzrf"
-        },
-        {
-          "title": "Launch HN: Adam (YC W25) – Open-Source AI CAD",
-          "points": 213,
-          "url": "https://github.com/Adam-CAD/CADAM"
+          "title": "Show HN: OpenKnowledge – open source AI-first alternative to Obsidian/Notion",
+          "points": 234,
+          "url": "https://github.com/inkeep/open-knowledge"
         }
       ],
       "highlight_score": 50
@@ -1964,8 +2187,13 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1314,
+          "points": 1315,
           "url": "https://news.ycombinator.com/item?id=48542100"
+        },
+        {
+          "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
+          "points": 756,
+          "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
         },
         {
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
@@ -1979,13 +2207,8 @@
         },
         {
           "title": "There is minimal downside to switching to open models",
-          "points": 403,
+          "points": 405,
           "url": "https://www.marble.onl/posts/cancel_claude.html"
-        },
-        {
-          "title": "The text in Claude Code’s “Extended Thinking” output",
-          "points": 325,
-          "url": "https://patrickmccanna.net/the-text-in-claude-codes-extended-thinking-output-is-not-authentic/"
         }
       ],
       "highlight_score": 50
@@ -2105,7 +2328,7 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1314,
+          "points": 1315,
           "url": "https://news.ycombinator.com/item?id=48542100"
         },
         {
@@ -2120,7 +2343,7 @@
         },
         {
           "title": "There is minimal downside to switching to open models",
-          "points": 403,
+          "points": 405,
           "url": "https://www.marble.onl/posts/cancel_claude.html"
         },
         {
@@ -2454,7 +2677,7 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1314,
+          "points": 1315,
           "url": "https://news.ycombinator.com/item?id=48542100"
         },
         {
@@ -2469,7 +2692,7 @@
         },
         {
           "title": "There is minimal downside to switching to open models",
-          "points": 403,
+          "points": 405,
           "url": "https://www.marble.onl/posts/cancel_claude.html"
         },
         {
@@ -2772,7 +2995,7 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1314,
+          "points": 1315,
           "url": "https://news.ycombinator.com/item?id=48542100"
         },
         {
@@ -2821,7 +3044,7 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1314,
+          "points": 1315,
           "url": "https://news.ycombinator.com/item?id=48542100"
         },
         {
@@ -3018,7 +3241,7 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1314,
+          "points": 1315,
           "url": "https://news.ycombinator.com/item?id=48542100"
         },
         {
@@ -3080,7 +3303,7 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1314,
+          "points": 1315,
           "url": "https://news.ycombinator.com/item?id=48542100"
         },
         {
@@ -3505,7 +3728,7 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1314,
+          "points": 1315,
           "url": "https://news.ycombinator.com/item?id=48542100"
         },
         {
@@ -3567,7 +3790,7 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1314,
+          "points": 1315,
           "url": "https://news.ycombinator.com/item?id=48542100"
         },
         {
@@ -4000,7 +4223,7 @@
       "signals": [
         {
           "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1314,
+          "points": 1315,
           "url": "https://news.ycombinator.com/item?id=48542100"
         },
         {
@@ -59719,9 +59942,9 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 965,
-      "release_count": 215,
-      "avg_importance": 3.25,
+      "change_count": 968,
+      "release_count": 216,
+      "avg_importance": 3.24,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -59731,14 +59954,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-06-24",
-        "version": "2.1.191"
+        "date": "2026-06-25",
+        "version": "2.1.193"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 687
+          "change_count": 690
         },
         {
           "epoch_id": "epoch1",
@@ -59814,8 +60037,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 632,
-      "release_count": 176,
+      "change_count": 634,
+      "release_count": 177,
       "avg_importance": 3.16,
       "maturity": {
         "score": 93,
@@ -59826,14 +60049,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-06-24",
-        "version": "2.1.191"
+        "date": "2026-06-25",
+        "version": "2.1.193"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 461
+          "change_count": 463
         },
         {
           "epoch_id": "epoch1",
@@ -59909,8 +60132,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 820,
-      "release_count": 213,
+      "change_count": 823,
+      "release_count": 214,
       "avg_importance": 3.24,
       "maturity": {
         "score": 93,
@@ -59921,14 +60144,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-06-24",
-        "version": "2.1.191"
+        "date": "2026-06-25",
+        "version": "2.1.193"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 574
+          "change_count": 577
         },
         {
           "epoch_id": "epoch4",
@@ -60004,8 +60227,8 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 413,
-      "release_count": 131,
+      "change_count": 418,
+      "release_count": 132,
       "avg_importance": 3.23,
       "maturity": {
         "score": 93,
@@ -60016,14 +60239,14 @@
         "version": "0.2.50"
       },
       "latest_seen": {
-        "date": "2026-06-24",
-        "version": "2.1.191"
+        "date": "2026-06-25",
+        "version": "2.1.193"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 333
+          "change_count": 338
         },
         {
           "epoch_id": "epoch1",
@@ -60099,8 +60322,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 1213,
-      "release_count": 240,
+      "change_count": 1217,
+      "release_count": 241,
       "avg_importance": 3.1,
       "maturity": {
         "score": 92,
@@ -60111,14 +60334,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-06-24",
-        "version": "2.1.191"
+        "date": "2026-06-25",
+        "version": "2.1.193"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 858
+          "change_count": 862
         },
         {
           "epoch_id": "epoch1",
@@ -60194,8 +60417,8 @@
         "Emacs",
         "web"
       ],
-      "change_count": 827,
-      "release_count": 188,
+      "change_count": 829,
+      "release_count": 189,
       "avg_importance": 2.71,
       "maturity": {
         "score": 91,
@@ -60206,14 +60429,14 @@
         "version": "0.2.34"
       },
       "latest_seen": {
-        "date": "2026-06-24",
-        "version": "2.1.191"
+        "date": "2026-06-25",
+        "version": "2.1.193"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 637
+          "change_count": 639
         },
         {
           "epoch_id": "epoch4",
@@ -60289,9 +60512,9 @@
         "policy",
         "auditing"
       ],
-      "change_count": 821,
-      "release_count": 210,
-      "avg_importance": 3.4,
+      "change_count": 824,
+      "release_count": 211,
+      "avg_importance": 3.39,
       "maturity": {
         "score": 94,
         "level": "成熟"
@@ -60301,14 +60524,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-06-24",
-        "version": "2.1.191"
+        "date": "2026-06-25",
+        "version": "2.1.193"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 600
+          "change_count": 603
         },
         {
           "epoch_id": "epoch4",
@@ -60401,7 +60624,7 @@
       },
       {
         "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-        "points": 1314,
+        "points": 1315,
         "url": "https://news.ycombinator.com/item?id=48542100",
         "date": "2026-06-15"
       },
