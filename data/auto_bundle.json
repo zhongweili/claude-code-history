@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-06-29T05:27:33.448Z",
+    "generated_at": "2026-06-30T05:02:14.608Z",
     "agent_model": "glm-5",
-    "total_versions": 329,
+    "total_versions": 330,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-06-26"
+      "end": "2026-06-29"
     },
     "highlight_count": 48,
     "capability_count": 8,
@@ -70,11 +70,391 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。adaptive thinking 把推理深度交给模型自己决定，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界——从 Opus 4.6 到 4.8，每一代都在加速这条路。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Adaptive thinking hands reasoning depth to the model itself, while worktree isolation and 1M context push the agent toward hours-long unattended runs — from Opus 4.6 through 4.8, each generation accelerates the path.",
-      "release_count": 113,
+      "release_count": 114,
       "highlight_count": 26
     }
   ],
   "releases": [
+    {
+      "version": "2.1.196",
+      "date": "2026-06-29",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added support for organization default models — admins set it in the org console; it shows as \"Org default\" (or \"Role default\") in `/model` when you haven't picked one yourself",
+          "category": "feat",
+          "importance": 4,
+          "summary": "支持组织默认模型，管理员可统一配置",
+          "summary_en": "Org admins can set default models for members",
+          "why_matters": "团队管理员可统一模型策略，减少成员手动选择成本。",
+          "why_matters_en": "Org admins can enforce model policy and reduce manual selection overhead.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added readable default names for sessions at start, making them easier to identify and message",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "会话默认名称更可读，便于识别和管理",
+          "summary_en": "Sessions get readable default names for easier identification",
+          "why_matters": "用户能更快定位和区分不同会话，提升多会话管理效率。",
+          "why_matters_en": "Users can quickly locate and distinguish sessions, improving multi-session management.",
+          "capability_ids": [
+            "memory_context",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Added clickable file attachments in chat — Cmd/Ctrl-click reveals the file in Finder/Explorer",
+          "category": "feat",
+          "importance": 3,
+          "summary": "聊天中文件附件可点击，直接在系统中打开",
+          "summary_en": "Clickable file attachments open in Finder/Explorer",
+          "why_matters": "用户可快速跳转到文件所在位置，减少手动查找步骤。",
+          "why_matters_en": "Users can quickly jump to file locations, reducing manual navigation steps.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Security: `claude mcp list`/`get` no longer spawn `.mcp.json` servers that a repo self-approved via a committed `.claude/settings.json`; untrusted workspaces show `⏸ Pending approval`",
+          "category": "security",
+          "importance": 5,
+          "summary": "MCP列表不再自动启动仓库自批准的服务器",
+          "summary_en": "MCP list/get no longer auto-spawns repo-self-approved servers",
+          "why_matters": "防止不受信任仓库通过提交的配置文件自动启动潜在恶意MCP服务器。",
+          "why_matters_en": "Prevents untrusted repos from auto-launching potentially malicious MCP servers via committed config.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed waking a background job permanently deleting its conversation and re-running the original prompt when the transcript probe misread a real transcript; the file is now set aside, never deleted",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复唤醒后台任务误删对话并重跑原始提示",
+          "summary_en": "Fix waking background job deleting conversation and re-running prompt",
+          "why_matters": "避免用户重要对话数据被意外删除，保障后台任务恢复可靠性。",
+          "why_matters_en": "Prevents accidental deletion of important conversation data during background job recovery.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed the rate-limit warning flickering off and rate-limit telemetry being over-counted when multiple parallel requests were in flight at the moment a usage limit was hit",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复并行请求时限流警告闪烁和遥测多计",
+          "summary_en": "Fix rate-limit warning flicker and telemetry over-count with parallel requests",
+          "why_matters": "确保限流提示准确稳定，避免遥测数据误导用户和系统。",
+          "why_matters_en": "Ensures stable rate-limit indicators and accurate telemetry data for users and systems.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed duplicate recap lines after a background session's turn: a schema-rejected StructuredOutput attempt no longer renders alongside its retry",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复后台会话回合后重复显示摘要行",
+          "summary_en": "Fix duplicate recap lines after background session turn",
+          "why_matters": "消除冗余输出，提升后台会话输出的清晰度和可读性。",
+          "why_matters_en": "Eliminates redundant output, improving clarity of background session results.",
+          "capability_ids": [
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed PowerShell `git diff`/`git grep`, `egrep`/`fgrep`, and quoted search patterns containing `|` being reported as failures when they exit 1, matching Bash behavior",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复PowerShell下git diff/grep等误报失败",
+          "summary_en": "Fix PowerShell git diff/grep false failures on exit code 1",
+          "why_matters": "PowerShell用户不再因退出码差异被误判为命令失败，与Bash行为一致。",
+          "why_matters_en": "PowerShell users no longer get false failure reports due to exit code differences, matching Bash behavior.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed multiple `claude agents` side panel issues: keyboard focus getting stuck when opening an agent, background jobs losing their subagent types on every open, and sessions showing incorrect status while actively running",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复agents侧面板多项焦点和状态显示问题",
+          "summary_en": "Fix multiple agents side panel focus and status display issues",
+          "why_matters": "提升多智能体管理界面的交互稳定性和状态准确性。",
+          "why_matters_en": "Improves interaction stability and status accuracy in the multi-agent management panel.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `claude agents --dangerously-skip-permissions` silently falling back to auto mode instead of showing the bypass disclaimer and applying bypass mode to spawned agents",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复agents跳过权限选项静默回退自动模式",
+          "summary_en": "Fix agents --dangerously-skip-permissions silently falling back to auto mode",
+          "why_matters": "确保权限跳过模式正确生效，避免子智能体在未授权模式下运行的安全隐患。",
+          "why_matters_en": "Ensures bypass mode is correctly applied to spawned agents, avoiding silent security fallbacks.",
+          "capability_ids": [
+            "governance_security",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed mid-turn crash recovery for Remote sessions — sessions interrupted by a server restart now auto-resume on the next worker",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复远程会话中途崩溃后自动恢复",
+          "summary_en": "Fix mid-turn crash auto-resume for Remote sessions",
+          "why_matters": "远程会话在服务器重启后可自动恢复，避免用户工作丢失。",
+          "why_matters_en": "Remote sessions auto-resume after server restarts, preventing loss of user work.",
+          "capability_ids": [
+            "execution_workspace",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed sessions moved with `/cd` reappearing in the old directory's resume list after a non-graceful exit when the old path contained special characters",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复/cd移动会话后旧目录恢复列表残留",
+          "summary_en": "Fix /cd-moved sessions reappearing in old directory resume list",
+          "why_matters": "消除含特殊字符路径下会话恢复列表的冗余条目，避免混淆。",
+          "why_matters_en": "Removes stale resume entries for sessions moved via /cd, avoiding confusion with special-character paths.",
+          "capability_ids": [
+            "execution_workspace",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed `claude plugin validate` skipping local plugins whose source is \".\" and stopping after the first error class",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复plugin validate跳过本地插件且仅报首类错误",
+          "summary_en": "Fix plugin validate skipping local plugins and stopping at first error class",
+          "why_matters": "插件开发者能获得更完整的验证反馈，提升本地插件开发效率。",
+          "why_matters_en": "Plugin developers get more complete validation feedback, improving local plugin development efficiency.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed Esc Esc at an idle prompt not opening the rewind menu (regression); use Ctrl+C or Ctrl+X Ctrl+K to stop background agents",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复空闲时Esc Esc未打开回退菜单的回归",
+          "summary_en": "Fix Esc Esc at idle prompt not opening rewind menu (regression)",
+          "why_matters": "恢复常用快捷键交互，避免用户依赖的回退功能不可用。",
+          "why_matters_en": "Restores a commonly used keyboard shortcut, ensuring the rewind menu remains accessible.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed MCP OAuth requesting the authorization server's full `scopes_supported` catalog when no scope is specified, causing `invalid_scope` failures on GitLab self-hosted and other enterprise IdPs",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复MCP OAuth未指定scope时请求全部导致失败",
+          "summary_en": "Fix MCP OAuth requesting full scope catalog when no scope specified",
+          "why_matters": "企业自托管GitLab等IdP的MCP OAuth认证不再因scope问题失败。",
+          "why_matters_en": "MCP OAuth authentication no longer fails on enterprise IdPs like self-hosted GitLab due to scope issues.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed `/context` showing 0 tokens for all tool groups on Bedrock",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复Bedrock下/context显示0 token问题",
+          "summary_en": "Fix /context showing 0 tokens on Bedrock",
+          "why_matters": "Bedrock用户无法正确查看上下文token用量，影响成本管理。",
+          "why_matters_en": "Bedrock users couldn't see context token usage, impacting cost management.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed `/deep-research` misreporting verifier failures as \"all claims refuted\" instead of `unverified`",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复深度研究验证失败误报为全部被驳斥",
+          "summary_en": "Fix /deep-research misreporting verifier failures as refuted",
+          "why_matters": "错误的验证结论会误导用户对研究结果的信任判断。",
+          "why_matters_en": "Incorrect verification conclusions mislead user trust in research results.",
+          "capability_ids": [
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed plugin dependency version pins not being honored when the marketplace was added as a local folder path backed by a git repo",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复本地git仓库插件依赖版本锁定失效",
+          "summary_en": "Fix plugin dependency version pins ignored for local git folder",
+          "why_matters": "版本锁定失效可能导致插件加载不兼容版本引发错误。",
+          "why_matters_en": "Unhonored version pins could load incompatible plugin versions causing errors.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed `claude agents` session status: completed rows no longer flip between \"Done\" and \"Needs your input\", stalled agents are now labeled \"Needs attention\", and results that mention a PR show a clickable link",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复agents会话状态显示不稳定问题",
+          "summary_en": "Fix agents session status flickering and add PR links",
+          "why_matters": "状态显示混乱会误导用户对多智能体任务进度的判断。",
+          "why_matters_en": "Unstable status display misleads users about multi-agent task progress.",
+          "capability_ids": [
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed voice dictation swallowing spaces and spuriously starting a recording during very fast typing when voice mode is enabled",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复语音模式吞空格和误触发录音",
+          "summary_en": "Fix voice mode swallowing spaces and spurious recording",
+          "why_matters": "语音与快速打字同时使用时输入体验严重受损。",
+          "why_matters_en": "Input experience degrades severely when voice and fast typing overlap.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Improved background session reliability: long-running commands and workflows now survive the session's process being stopped, restarted, or updated — including on Windows, where background shells are handed off instead of being killed",
+          "category": "improvement",
+          "importance": 5,
+          "summary": "后台会话在进程停止/重启/更新后仍存活",
+          "summary_en": "Background sessions survive process stop/restart/update",
+          "why_matters": "长时间运行的任务不再因更新或重启而丢失，大幅提升可靠性。",
+          "why_matters_en": "Long-running tasks no longer lost on update or restart, greatly improving reliability.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Improved background agents: workers killed by a daemon restart are now automatically resumed from where they left off the next time the agents view opens",
+          "category": "improvement",
+          "importance": 4,
+          "summary": "后台agent被守护进程杀死后自动恢复",
+          "summary_en": "Background agents auto-resume after daemon restart kill",
+          "why_matters": "守护进程重启不再导致后台agent任务丢失，减少用户手动恢复负担。",
+          "why_matters_en": "Daemon restarts no longer lose background agent work, reducing manual recovery burden.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "automation_autonomy",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Improved `/code-review` workflow: merged five cleanup finders into one, cutting token usage by roughly 25%",
+          "category": "perf",
+          "importance": 3,
+          "summary": "合并代码审查清理查找器，token减少25%",
+          "summary_en": "Merge code-review cleanup finders, cut tokens ~25%",
+          "why_matters": "减少token消耗直接降低使用成本并加快审查速度。",
+          "why_matters_en": "Reducing token usage directly lowers cost and speeds up review.",
+          "capability_ids": [
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Reduced per-frame rendering work in the terminal UI by skipping no-op subtree walks during streaming",
+          "category": "perf",
+          "importance": 2,
+          "summary": "流式输出时跳过无操作子树遍历减少渲染",
+          "summary_en": "Skip no-op subtree walks during streaming to reduce rendering",
+          "why_matters": "降低终端UI渲染开销，提升大输出场景的流畅度。",
+          "why_matters_en": "Reduces terminal UI rendering overhead for smoother large output scenarios.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "The streaming idle watchdog is now on by default for all providers — it aborts and retries when a response stream produces no events for 5 minutes. Set `CLAUDE_ENABLE_STREAM_WATCHDOG=0` to disable.",
+          "category": "improvement",
+          "importance": 4,
+          "summary": "流式空闲看门狗默认开启，5分钟无事件自动重试",
+          "summary_en": "Streaming idle watchdog on by default, retries after 5min idle",
+          "why_matters": "防止响应流卡死导致用户无限等待，提升可靠性。",
+          "why_matters_en": "Prevents stuck response streams from causing infinite user waits, improving reliability.",
+          "capability_ids": [
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Remote Control is now disabled when `ANTHROPIC_BASE_URL` points at a non-Anthropic host, matching the existing behavior under `CLAUDE_CODE_USE_BEDROCK`/`_VERTEX`/`_FOUNDRY`",
+          "category": "security",
+          "importance": 4,
+          "summary": "非Anthropic主机时禁用远程控制功能",
+          "summary_en": "Disable Remote Control for non-Anthropic base URLs",
+          "why_matters": "防止远程控制功能在第三方端点上意外启用带来的安全风险。",
+          "why_matters_en": "Prevents security risk of Remote Control activating on third-party endpoints.",
+          "capability_ids": [
+            "governance_security",
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Changed opening the agents view from a foreground session to require a single `←` press instead of two, matching the behavior in background sessions",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "前台会话打开agents视图改为单次←键",
+          "summary_en": "Opening agents view in foreground now needs single ← press",
+          "why_matters": "统一前后台交互方式，减少按键摩擦提升操作一致性。",
+          "why_matters_en": "Unifies foreground/background interaction, reducing key friction for consistency.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
+          "points": 810,
+          "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
+        },
+        {
+          "title": "I used Claude Code to get a second opinion on my MRI",
+          "points": 549,
+          "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
+        },
+        {
+          "title": "Show HN: OpenKnowledge – open source AI-first alternative to Obsidian/Notion",
+          "points": 376,
+          "url": "https://github.com/inkeep/open-knowledge"
+        },
+        {
+          "title": "The text in Claude Code’s “Extended Thinking” output",
+          "points": 326,
+          "url": "https://patrickmccanna.net/the-text-in-claude-codes-extended-thinking-output-is-not-authentic/"
+        },
+        {
+          "title": "Elevated error rate across multiple models",
+          "points": 213,
+          "url": "https://status.claude.com/incidents/jbhf20wjmzrf"
+        }
+      ],
+      "highlight_score": 50
+    },
     {
       "version": "2.1.195",
       "date": "2026-06-26",
@@ -238,8 +618,13 @@
       "signals": [
         {
           "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
-          "points": 809,
+          "points": 810,
           "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
+        },
+        {
+          "title": "I used Claude Code to get a second opinion on my MRI",
+          "points": 549,
+          "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
         },
         {
           "title": "There is minimal downside to switching to open models",
@@ -247,13 +632,8 @@
           "url": "https://www.marble.onl/posts/cancel_claude.html"
         },
         {
-          "title": "I used Claude Code to get a second opinion on my MRI",
-          "points": 388,
-          "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
-        },
-        {
           "title": "Show HN: OpenKnowledge – open source AI-first alternative to Obsidian/Notion",
-          "points": 374,
+          "points": 376,
           "url": "https://github.com/inkeep/open-knowledge"
         },
         {
@@ -461,8 +841,13 @@
       "signals": [
         {
           "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
-          "points": 809,
+          "points": 810,
           "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
+        },
+        {
+          "title": "I used Claude Code to get a second opinion on my MRI",
+          "points": 549,
+          "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
         },
         {
           "title": "There is minimal downside to switching to open models",
@@ -470,13 +855,8 @@
           "url": "https://www.marble.onl/posts/cancel_claude.html"
         },
         {
-          "title": "I used Claude Code to get a second opinion on my MRI",
-          "points": 388,
-          "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
-        },
-        {
           "title": "Show HN: OpenKnowledge – open source AI-first alternative to Obsidian/Notion",
-          "points": 374,
+          "points": 376,
           "url": "https://github.com/inkeep/open-knowledge"
         },
         {
@@ -747,8 +1127,13 @@
       "signals": [
         {
           "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
-          "points": 809,
+          "points": 810,
           "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
+        },
+        {
+          "title": "I used Claude Code to get a second opinion on my MRI",
+          "points": 549,
+          "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
         },
         {
           "title": "There is minimal downside to switching to open models",
@@ -756,13 +1141,8 @@
           "url": "https://www.marble.onl/posts/cancel_claude.html"
         },
         {
-          "title": "I used Claude Code to get a second opinion on my MRI",
-          "points": 388,
-          "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
-        },
-        {
           "title": "Show HN: OpenKnowledge – open source AI-first alternative to Obsidian/Notion",
-          "points": 374,
+          "points": 376,
           "url": "https://github.com/inkeep/open-knowledge"
         },
         {
@@ -793,8 +1173,13 @@
       "signals": [
         {
           "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
-          "points": 809,
+          "points": 810,
           "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
+        },
+        {
+          "title": "I used Claude Code to get a second opinion on my MRI",
+          "points": 549,
+          "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
         },
         {
           "title": "There is minimal downside to switching to open models",
@@ -802,13 +1187,8 @@
           "url": "https://www.marble.onl/posts/cancel_claude.html"
         },
         {
-          "title": "I used Claude Code to get a second opinion on my MRI",
-          "points": 388,
-          "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
-        },
-        {
           "title": "Show HN: OpenKnowledge – open source AI-first alternative to Obsidian/Notion",
-          "points": 374,
+          "points": 376,
           "url": "https://github.com/inkeep/open-knowledge"
         },
         {
@@ -1094,8 +1474,13 @@
       "signals": [
         {
           "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
-          "points": 809,
+          "points": 810,
           "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
+        },
+        {
+          "title": "I used Claude Code to get a second opinion on my MRI",
+          "points": 549,
+          "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
         },
         {
           "title": "There is minimal downside to switching to open models",
@@ -1103,13 +1488,8 @@
           "url": "https://www.marble.onl/posts/cancel_claude.html"
         },
         {
-          "title": "I used Claude Code to get a second opinion on my MRI",
-          "points": 388,
-          "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
-        },
-        {
           "title": "Show HN: OpenKnowledge – open source AI-first alternative to Obsidian/Notion",
-          "points": 374,
+          "points": 376,
           "url": "https://github.com/inkeep/open-knowledge"
         },
         {
@@ -1543,8 +1923,13 @@
         },
         {
           "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
-          "points": 809,
+          "points": 810,
           "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
+        },
+        {
+          "title": "I used Claude Code to get a second opinion on my MRI",
+          "points": 549,
+          "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
         },
         {
           "title": "There is minimal downside to switching to open models",
@@ -1552,13 +1937,8 @@
           "url": "https://www.marble.onl/posts/cancel_claude.html"
         },
         {
-          "title": "I used Claude Code to get a second opinion on my MRI",
-          "points": 388,
-          "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
-        },
-        {
           "title": "Show HN: OpenKnowledge – open source AI-first alternative to Obsidian/Notion",
-          "points": 374,
+          "points": 376,
           "url": "https://github.com/inkeep/open-knowledge"
         }
       ],
@@ -1589,7 +1969,7 @@
         },
         {
           "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
-          "points": 809,
+          "points": 810,
           "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
         },
         {
@@ -1599,7 +1979,7 @@
         },
         {
           "title": "Show HN: OpenKnowledge – open source AI-first alternative to Obsidian/Notion",
-          "points": 374,
+          "points": 376,
           "url": "https://github.com/inkeep/open-knowledge"
         },
         {
@@ -1849,7 +2229,7 @@
         },
         {
           "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
-          "points": 809,
+          "points": 810,
           "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
         },
         {
@@ -1859,7 +2239,7 @@
         },
         {
           "title": "Show HN: OpenKnowledge – open source AI-first alternative to Obsidian/Notion",
-          "points": 374,
+          "points": 376,
           "url": "https://github.com/inkeep/open-knowledge"
         },
         {
@@ -2381,7 +2761,7 @@
         },
         {
           "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
-          "points": 809,
+          "points": 810,
           "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
         },
         {
@@ -2537,7 +2917,7 @@
         },
         {
           "title": "Launch HN: Adam (YC W25) – Open-Source AI CAD",
-          "points": 214,
+          "points": 215,
           "url": "https://github.com/Adam-CAD/CADAM"
         }
       ],
@@ -2886,7 +3266,7 @@
         },
         {
           "title": "Launch HN: Adam (YC W25) – Open-Source AI CAD",
-          "points": 214,
+          "points": 215,
           "url": "https://github.com/Adam-CAD/CADAM"
         }
       ],
@@ -60036,8 +60416,8 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 474,
-      "release_count": 170,
+      "change_count": 476,
+      "release_count": 171,
       "avg_importance": 3.09,
       "maturity": {
         "score": 92,
@@ -60048,14 +60428,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-06-23",
-        "version": "2.1.187"
+        "date": "2026-06-29",
+        "version": "2.1.196"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 315
+          "change_count": 317
         },
         {
           "epoch_id": "epoch4",
@@ -60131,8 +60511,8 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 972,
-      "release_count": 217,
+      "change_count": 979,
+      "release_count": 218,
       "avg_importance": 3.25,
       "maturity": {
         "score": 93,
@@ -60143,14 +60523,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-06-26",
-        "version": "2.1.195"
+        "date": "2026-06-29",
+        "version": "2.1.196"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 694
+          "change_count": 701
         },
         {
           "epoch_id": "epoch1",
@@ -60175,6 +60555,14 @@
       ],
       "samples": [
         {
+          "date": "2026-06-29",
+          "version": "2.1.196",
+          "raw": "Improved background session reliability: long-running commands and workflows now survive the session's process being stopped, restarted, or updated — including on Windows, where background shells are handed off instead of being killed",
+          "summary": "后台会话在进程停止/重启/更新后仍存活",
+          "importance": 5,
+          "category": "improvement"
+        },
+        {
           "date": "2026-06-19",
           "version": "2.1.183",
           "raw": "Improved auto mode safety: destructive git commands (`git reset --hard`, `git checkout -- .`, `git clean -fd`, `git stash drop`) are now blocked when you didn't ask to discard local work, `git commit --amend` is blocked when the commit wasn't made by the agent this session, and `terraform destroy`/`pulumi destroy`/`cdk destroy` are blocked unless you asked for the specific stack",
@@ -60195,14 +60583,6 @@
           "version": "2.1.178",
           "raw": "Fixed a crash (out-of-memory) when the CLI inherits a stale websocket/OAuth file-descriptor environment variable from a parent process",
           "summary": "修复旧 WebSocket/OAuth 崩溃",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-06-10",
-          "version": "2.1.172",
-          "raw": "Fixed sessions using 1M context without usage credits getting permanently stuck — the session now automatically compacts back under the standard context limit",
-          "summary": "1M上下文无额度不再卡死",
           "importance": 5,
           "category": "fix"
         }
@@ -60226,8 +60606,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 634,
-      "release_count": 177,
+      "change_count": 639,
+      "release_count": 178,
       "avg_importance": 3.16,
       "maturity": {
         "score": 93,
@@ -60238,14 +60618,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-06-25",
-        "version": "2.1.193"
+        "date": "2026-06-29",
+        "version": "2.1.196"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 463
+          "change_count": 468
         },
         {
           "epoch_id": "epoch1",
@@ -60321,9 +60701,9 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 825,
-      "release_count": 215,
-      "avg_importance": 3.24,
+      "change_count": 829,
+      "release_count": 216,
+      "avg_importance": 3.25,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -60333,14 +60713,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-06-26",
-        "version": "2.1.195"
+        "date": "2026-06-29",
+        "version": "2.1.196"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 579
+          "change_count": 583
         },
         {
           "epoch_id": "epoch4",
@@ -60365,6 +60745,14 @@
       ],
       "samples": [
         {
+          "date": "2026-06-29",
+          "version": "2.1.196",
+          "raw": "Improved background session reliability: long-running commands and workflows now survive the session's process being stopped, restarted, or updated — including on Windows, where background shells are handed off instead of being killed",
+          "summary": "后台会话在进程停止/重启/更新后仍存活",
+          "importance": 5,
+          "category": "improvement"
+        },
+        {
           "date": "2026-06-19",
           "version": "2.1.183",
           "raw": "Improved auto mode safety: destructive git commands (`git reset --hard`, `git checkout -- .`, `git clean -fd`, `git stash drop`) are now blocked when you didn't ask to discard local work, `git commit --amend` is blocked when the commit wasn't made by the agent this session, and `terraform destroy`/`pulumi destroy`/`cdk destroy` are blocked unless you asked for the specific stack",
@@ -60385,14 +60773,6 @@
           "version": "2.1.166",
           "raw": "Fixed background agent sessions that entered a git worktree crash-looping with \"No conversation found\" when reopened from `claude agents`",
           "summary": "修复工作树会话崩溃",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-06-03",
-          "version": "2.1.162",
-          "raw": "Fixed backgrounding a session with ← silently losing the conversation when the background service cannot start; the session stays in the list as a failed row you can wake with Enter",
-          "summary": "后台失败不再丢失会话",
           "importance": 5,
           "category": "fix"
         }
@@ -60416,9 +60796,9 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 422,
-      "release_count": 133,
-      "avg_importance": 3.23,
+      "change_count": 428,
+      "release_count": 134,
+      "avg_importance": 3.24,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -60428,14 +60808,14 @@
         "version": "0.2.50"
       },
       "latest_seen": {
-        "date": "2026-06-26",
-        "version": "2.1.195"
+        "date": "2026-06-29",
+        "version": "2.1.196"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 342
+          "change_count": 348
         },
         {
           "epoch_id": "epoch1",
@@ -60511,8 +60891,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 1221,
-      "release_count": 242,
+      "change_count": 1227,
+      "release_count": 243,
       "avg_importance": 3.1,
       "maturity": {
         "score": 92,
@@ -60523,14 +60903,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-06-26",
-        "version": "2.1.195"
+        "date": "2026-06-29",
+        "version": "2.1.196"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 866
+          "change_count": 872
         },
         {
           "epoch_id": "epoch1",
@@ -60555,6 +60935,14 @@
       ],
       "samples": [
         {
+          "date": "2026-06-29",
+          "version": "2.1.196",
+          "raw": "Security: `claude mcp list`/`get` no longer spawn `.mcp.json` servers that a repo self-approved via a committed `.claude/settings.json`; untrusted workspaces show `⏸ Pending approval`",
+          "summary": "MCP列表不再自动启动仓库自批准的服务器",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-06-17",
           "version": "2.1.181",
           "raw": "Fixed `open`, `osascript`, and browser-based auth flows failing with error -600 on macOS by adding the Apple Events entitlement",
@@ -60577,14 +60965,6 @@
           "summary": "修复后台代理目录串读",
           "importance": 5,
           "category": "security"
-        },
-        {
-          "date": "2026-06-08",
-          "version": "2.1.169",
-          "raw": "Fixed enterprise managed MCP policies (`allowedMcpServers`/`deniedMcpServers`) not being enforced on reconnect, IDE-typed configs, `--mcp-config` servers during the first session after install, or before remote settings loaded; also fixed slow cold starts for orgs without remote settings",
-          "summary": "修复企业 MCP 策略生效问题",
-          "importance": 5,
-          "category": "fix"
         }
       ]
     },
@@ -60606,8 +60986,8 @@
         "Emacs",
         "web"
       ],
-      "change_count": 834,
-      "release_count": 190,
+      "change_count": 845,
+      "release_count": 191,
       "avg_importance": 2.71,
       "maturity": {
         "score": 91,
@@ -60618,14 +60998,14 @@
         "version": "0.2.34"
       },
       "latest_seen": {
-        "date": "2026-06-26",
-        "version": "2.1.195"
+        "date": "2026-06-29",
+        "version": "2.1.196"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 644
+          "change_count": 655
         },
         {
           "epoch_id": "epoch4",
@@ -60701,8 +61081,8 @@
         "policy",
         "auditing"
       ],
-      "change_count": 826,
-      "release_count": 212,
+      "change_count": 832,
+      "release_count": 213,
       "avg_importance": 3.4,
       "maturity": {
         "score": 94,
@@ -60713,14 +61093,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-06-26",
-        "version": "2.1.195"
+        "date": "2026-06-29",
+        "version": "2.1.196"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 605
+          "change_count": 611
         },
         {
           "epoch_id": "epoch4",
@@ -60745,6 +61125,14 @@
       ],
       "samples": [
         {
+          "date": "2026-06-29",
+          "version": "2.1.196",
+          "raw": "Security: `claude mcp list`/`get` no longer spawn `.mcp.json` servers that a repo self-approved via a committed `.claude/settings.json`; untrusted workspaces show `⏸ Pending approval`",
+          "summary": "MCP列表不再自动启动仓库自批准的服务器",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-06-19",
           "version": "2.1.183",
           "raw": "Improved auto mode safety: destructive git commands (`git reset --hard`, `git checkout -- .`, `git clean -fd`, `git stash drop`) are now blocked when you didn't ask to discard local work, `git commit --amend` is blocked when the commit wasn't made by the agent this session, and `terraform destroy`/`pulumi destroy`/`cdk destroy` are blocked unless you asked for the specific stack",
@@ -60765,14 +61153,6 @@
           "version": "2.1.181",
           "raw": "Fixed `open`, `osascript`, and browser-based auth flows failing with error -600 on macOS by adding the Apple Events entitlement",
           "summary": "macOS 授权流程不再报错",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-06-17",
-          "version": "2.1.181",
-          "raw": "Fixed startup crash (`TypeError: Cannot read properties of null`) when `.claude.json` contains corrupted null project entries",
-          "summary": "修复损坏项目配置启动崩溃",
           "importance": 5,
           "category": "fix"
         }
@@ -60885,7 +61265,7 @@
       },
       {
         "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
-        "points": 809,
+        "points": 810,
         "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/",
         "date": "2026-06-24"
       }
