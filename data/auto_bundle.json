@@ -1,13 +1,13 @@
 {
   "meta": {
-    "generated_at": "2026-07-03T04:41:42.907Z",
+    "generated_at": "2026-07-04T04:32:58.653Z",
     "agent_model": "glm-5",
-    "total_versions": 333,
+    "total_versions": 335,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-07-02"
+      "end": "2026-07-03"
     },
-    "highlight_count": 50,
+    "highlight_count": 51,
     "capability_count": 8,
     "hn_signal_count": 18,
     "blog_post_count": 11
@@ -70,11 +70,314 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。adaptive thinking 把推理深度交给模型自己决定，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界——从 Opus 4.6 到 4.8，每一代都在加速这条路。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Adaptive thinking hands reasoning depth to the model itself, while worktree isolation and 1M context push the agent toward hours-long unattended runs — from Opus 4.6 through 4.8, each generation accelerates the path.",
-      "release_count": 117,
-      "highlight_count": 28
+      "release_count": 119,
+      "highlight_count": 29
     }
   ],
   "releases": [
+    {
+      "version": "2.1.201",
+      "date": "2026-07-03",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Claude Sonnet 5 sessions no longer use the mid-conversation system role for harness reminders",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复Sonnet 5会话中途系统提醒问题",
+          "summary_en": "Fix mid-conversation system role reminders in Sonnet 5",
+          "why_matters": "避免在对话中途插入系统角色提醒，提升对话连贯性和输出质量。",
+          "why_matters_en": "Prevents injecting system role reminders mid-conversation, improving coherence and output quality.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Claude Code is steganographically marking requests",
+          "points": 2432,
+          "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
+        },
+        {
+          "title": "I used Claude Code to get a second opinion on my MRI",
+          "points": 561,
+          "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
+        },
+        {
+          "title": "Alibaba to ban Claude Code in workplace over alleged backdoor risks, source says",
+          "points": 320,
+          "url": "https://www.reuters.com/world/china/alibaba-ban-claude-code-workplace-over-alleged-backdoor-risks-source-says-2026-07-03/"
+        },
+        {
+          "title": "ZCode: Claude Code from the Makers of GLM",
+          "points": 277,
+          "url": "https://zcode.z.ai/cn"
+        },
+        {
+          "title": "Tell HN: Installing Cursor on iOS irreversibly changes your privacy settings",
+          "points": 246,
+          "url": "https://news.ycombinator.com/item?id=48737226"
+        }
+      ],
+      "highlight_score": 30
+    },
+    {
+      "version": "2.1.200",
+      "date": "2026-07-03",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Changed `AskUserQuestion` dialogs to no longer auto-continue by default; opt into an idle timeout via `/config`",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "问答对话框不再默认自动继续",
+          "summary_en": "AskUserQuestion dialogs no longer auto-continue by default",
+          "why_matters": "避免用户不在时对话自动继续导致意外操作。",
+          "why_matters_en": "Prevents unintended actions when users are away from the dialog.",
+          "capability_ids": [
+            "automation_autonomy",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Changed the \"default\" permission mode to \"Manual\" across the CLI, `--help`, VS Code, and JetBrains; `--permission-mode manual` and `\"defaultMode\": \"manual\"` are accepted alongside `default`",
+          "category": "breaking",
+          "importance": 4,
+          "summary": "默认权限模式改为手动",
+          "summary_en": "Default permission mode changed to Manual across all surfaces",
+          "why_matters": "提升安全性，用户需手动确认操作，减少误执行风险。",
+          "why_matters_en": "Improves safety by requiring manual confirmation, reducing risk of unintended execution.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed a crash at startup when `disabledMcpServers` or `enabledMcpServers` in `.claude.json` is set to a non-array value",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复MCP服务器配置非数组值导致启动崩溃",
+          "summary_en": "Fix startup crash when MCP server config is non-array",
+          "why_matters": "防止用户配置错误时工具无法启动。",
+          "why_matters_en": "Prevents the tool from failing to start due to user configuration errors.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed background sessions silently stopping mid-turn after sleep/wake or when reopening a stalled session",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复后台会话休眠后静默中断",
+          "summary_en": "Fix background sessions silently stopping after sleep/wake",
+          "why_matters": "确保长时间任务在系统休眠后能可靠恢复。",
+          "why_matters_en": "Ensures long-running tasks reliably resume after system sleep/wake.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed background sessions re-running a turn cancelled with Esc after a stall respawn",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复后台会话重运行已取消的回合",
+          "summary_en": "Fix background sessions re-running cancelled turns after respawn",
+          "why_matters": "避免已取消操作被重复执行，浪费资源和产生混乱。",
+          "why_matters_en": "Avoids duplicate execution of cancelled operations, saving resources and preventing confusion.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed background agents never starting again after a crash left a stale `daemon.lock` whose PID the OS reused",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复残留daemon.lock导致后台代理无法重启",
+          "summary_en": "Fix stale daemon.lock preventing background agents from restarting",
+          "why_matters": "消除因PID复用导致的死锁，保障后台代理可用性。",
+          "why_matters_en": "Eliminates deadlock from PID reuse, ensuring background agent availability.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed background-agent daemon handover so a reinstalled older build can no longer take over the daemon; build recency is now judged by the version's embedded build timestamp",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复旧版本可劫持后台代理守护进程",
+          "summary_en": "Fix older builds hijacking background-agent daemon via version check",
+          "why_matters": "防止旧版本意外接管守护进程导致行为不一致或安全问题。",
+          "why_matters_en": "Prevents older versions from unexpectedly taking over the daemon, avoiding inconsistency or security issues.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed background-agent roster issues: transient corruption permanently disabling orphan cleanup, older binaries not preserving fields written by newer versions, and socket auth tokens being stripped during daemon restarts",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复后台代理多个稳定性与安全问题",
+          "summary_en": "Fix multiple background-agent roster stability and security issues",
+          "why_matters": "解决令牌丢失、数据损坏等问题，提升后台代理整体可靠性。",
+          "why_matters_en": "Resolves token stripping and data corruption, improving overall background agent reliability.",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed subagents cut off by a rate limit before producing any text output returning an empty result instead of failing cleanly",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复子代理限流后返回空结果",
+          "summary_en": "Fix subagents returning empty result when rate-limited before output",
+          "why_matters": "使限流场景下子代理明确失败，避免上层误判空结果为有效。",
+          "why_matters_en": "Makes rate-limited subagents fail cleanly, preventing callers from mistaking empty results as valid.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed control bytes from background-agent output reaching the terminal in the agent view",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复后台代理控制字节泄漏到终端",
+          "summary_en": "Fix control bytes from background-agent output reaching terminal",
+          "why_matters": "防止终端显示乱码或被控制字符干扰。",
+          "why_matters_en": "Prevents terminal display corruption from control characters.",
+          "capability_ids": [
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `claude agents --plugin-dir <dir>` not showing the plugin's agents and skills in the agent view when the flag is placed after `agents`",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复--plugin-dir置于agents后时不显示插件",
+          "summary_en": "Fix --plugin-dir flag not loading plugin agents when placed after agents",
+          "why_matters": "确保命令行参数顺序不影响插件加载，提升用户体验。",
+          "why_matters_en": "Ensures flag order doesn't affect plugin loading, improving user experience.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed project-scoped plugins not loading correctly from git worktrees of the same repository",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复git worktree中项目插件无法加载",
+          "summary_en": "Fix project-scoped plugins not loading from git worktrees",
+          "why_matters": "支持worktree工作流用户正确使用项目级插件。",
+          "why_matters_en": "Enables worktree-based workflows to correctly use project-scoped plugins.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed `/mcp` server list not tracking focus for screen readers and magnifiers",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复/mcp列表缺少屏幕阅读器焦点追踪",
+          "summary_en": "Fix /mcp server list missing focus tracking for screen readers",
+          "why_matters": "提升无障碍访问体验，帮助视障用户使用MCP列表。",
+          "why_matters_en": "Improves accessibility, helping visually impaired users navigate the MCP list.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed voice dictation showing a misleading \"Voice connection failed\" message when a recording captures no audio",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复无音频录音时语音提示误导",
+          "summary_en": "Fix misleading voice connection error when recording captures no audio",
+          "why_matters": "避免误导性错误信息让用户误以为连接故障。",
+          "why_matters_en": "Prevents misleading error messages that make users think the connection failed.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed rendering flicker under tmux 3.4+ by enabling synchronized terminal output",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复tmux 3.4+下终端渲染闪烁",
+          "summary_en": "Fix rendering flicker under tmux 3.4+ via synchronized output",
+          "why_matters": "改善tmux用户界面稳定性，消除视觉闪烁干扰。",
+          "why_matters_en": "Improves UI stability for tmux users by eliminating visual flicker.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Improved screen-reader output: decorative glyphs are now hidden, transcript symbols read as short labels, and nested tables read as `Header: value.` lines",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "改善屏幕阅读器输出，隐藏装饰符号并优化表格朗读",
+          "summary_en": "Improved screen-reader output by hiding glyphs and optimizing tables",
+          "why_matters": "提升了视障用户的使用体验，使输出更易听懂。",
+          "why_matters_en": "Improves usability for visually impaired users by making output easier to understand.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Improved the install script to explain when installation is killed by the system running out of memory",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "安装脚本在内存不足终止时提供明确提示",
+          "summary_en": "Install script explains when killed by out of memory errors",
+          "why_matters": "帮助用户快速诊断安装失败的原因，减少困惑。",
+          "why_matters_en": "Helps users quickly diagnose installation failures caused by memory exhaustion.",
+          "capability_ids": [
+            "execution_workspace",
+            "memory_context"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Claude Code is steganographically marking requests",
+          "points": 2432,
+          "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
+        },
+        {
+          "title": "I used Claude Code to get a second opinion on my MRI",
+          "points": 561,
+          "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
+        },
+        {
+          "title": "Alibaba to ban Claude Code in workplace over alleged backdoor risks, source says",
+          "points": 320,
+          "url": "https://www.reuters.com/world/china/alibaba-ban-claude-code-workplace-over-alleged-backdoor-risks-source-says-2026-07-03/"
+        },
+        {
+          "title": "ZCode: Claude Code from the Makers of GLM",
+          "points": 277,
+          "url": "https://zcode.z.ai/cn"
+        },
+        {
+          "title": "Tell HN: Installing Cursor on iOS irreversibly changes your privacy settings",
+          "points": 246,
+          "url": "https://news.ycombinator.com/item?id=48737226"
+        }
+      ],
+      "highlight_score": 55
+    },
     {
       "version": "2.1.199",
       "date": "2026-07-02",
@@ -391,12 +694,12 @@
       "signals": [
         {
           "title": "Claude Code is steganographically marking requests",
-          "points": 2412,
+          "points": 2432,
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
           "title": "I used Claude Code to get a second opinion on my MRI",
-          "points": 560,
+          "points": 561,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
         },
         {
@@ -405,14 +708,14 @@
           "url": "https://github.com/inkeep/open-knowledge"
         },
         {
-          "title": "ZCode: Claude Code from the Makers of GLM",
-          "points": 276,
-          "url": "https://zcode.z.ai/cn"
+          "title": "Alibaba to ban Claude Code in workplace over alleged backdoor risks, source says",
+          "points": 320,
+          "url": "https://www.reuters.com/world/china/alibaba-ban-claude-code-workplace-over-alleged-backdoor-risks-source-says-2026-07-03/"
         },
         {
-          "title": "Tell HN: Installing Cursor on iOS irreversibly changes your privacy settings",
-          "points": 246,
-          "url": "https://news.ycombinator.com/item?id=48737226"
+          "title": "ZCode: Claude Code from the Makers of GLM",
+          "points": 277,
+          "url": "https://zcode.z.ai/cn"
         }
       ],
       "highlight_score": 50
@@ -836,7 +1139,7 @@
       "signals": [
         {
           "title": "Claude Code is steganographically marking requests",
-          "points": 2412,
+          "points": 2432,
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
@@ -846,7 +1149,7 @@
         },
         {
           "title": "I used Claude Code to get a second opinion on my MRI",
-          "points": 560,
+          "points": 561,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
         },
         {
@@ -855,9 +1158,9 @@
           "url": "https://github.com/inkeep/open-knowledge"
         },
         {
-          "title": "ZCode: Claude Code from the Makers of GLM",
-          "points": 276,
-          "url": "https://zcode.z.ai/cn"
+          "title": "Alibaba to ban Claude Code in workplace over alleged backdoor risks, source says",
+          "points": 320,
+          "url": "https://www.reuters.com/world/china/alibaba-ban-claude-code-workplace-over-alleged-backdoor-risks-source-says-2026-07-03/"
         }
       ],
       "highlight_score": 55
@@ -885,7 +1188,7 @@
       "signals": [
         {
           "title": "Claude Code is steganographically marking requests",
-          "points": 2412,
+          "points": 2432,
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
@@ -895,7 +1198,7 @@
         },
         {
           "title": "I used Claude Code to get a second opinion on my MRI",
-          "points": 560,
+          "points": 561,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
         },
         {
@@ -904,9 +1207,9 @@
           "url": "https://github.com/inkeep/open-knowledge"
         },
         {
-          "title": "ZCode: Claude Code from the Makers of GLM",
-          "points": 276,
-          "url": "https://zcode.z.ai/cn"
+          "title": "Alibaba to ban Claude Code in workplace over alleged backdoor risks, source says",
+          "points": 320,
+          "url": "https://www.reuters.com/world/china/alibaba-ban-claude-code-workplace-over-alleged-backdoor-risks-source-says-2026-07-03/"
         }
       ],
       "highlight_score": 70
@@ -1265,7 +1568,7 @@
       "signals": [
         {
           "title": "Claude Code is steganographically marking requests",
-          "points": 2412,
+          "points": 2432,
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
@@ -1275,7 +1578,7 @@
         },
         {
           "title": "I used Claude Code to get a second opinion on my MRI",
-          "points": 560,
+          "points": 561,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
         },
         {
@@ -1454,7 +1757,7 @@
       "signals": [
         {
           "title": "Claude Code is steganographically marking requests",
-          "points": 2412,
+          "points": 2432,
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
@@ -1464,12 +1767,12 @@
         },
         {
           "title": "I used Claude Code to get a second opinion on my MRI",
-          "points": 560,
+          "points": 561,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
         },
         {
           "title": "There is minimal downside to switching to open models",
-          "points": 406,
+          "points": 407,
           "url": "https://www.marble.onl/posts/cancel_claude.html"
         },
         {
@@ -1677,7 +1980,7 @@
       "signals": [
         {
           "title": "Claude Code is steganographically marking requests",
-          "points": 2412,
+          "points": 2432,
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
@@ -1687,12 +1990,12 @@
         },
         {
           "title": "I used Claude Code to get a second opinion on my MRI",
-          "points": 560,
+          "points": 561,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
         },
         {
           "title": "There is minimal downside to switching to open models",
-          "points": 406,
+          "points": 407,
           "url": "https://www.marble.onl/posts/cancel_claude.html"
         },
         {
@@ -1963,7 +2266,7 @@
       "signals": [
         {
           "title": "Claude Code is steganographically marking requests",
-          "points": 2412,
+          "points": 2432,
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
@@ -1973,12 +2276,12 @@
         },
         {
           "title": "I used Claude Code to get a second opinion on my MRI",
-          "points": 560,
+          "points": 561,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
         },
         {
           "title": "There is minimal downside to switching to open models",
-          "points": 406,
+          "points": 407,
           "url": "https://www.marble.onl/posts/cancel_claude.html"
         },
         {
@@ -2009,7 +2312,7 @@
       "signals": [
         {
           "title": "Claude Code is steganographically marking requests",
-          "points": 2412,
+          "points": 2432,
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
@@ -2019,12 +2322,12 @@
         },
         {
           "title": "I used Claude Code to get a second opinion on my MRI",
-          "points": 560,
+          "points": 561,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
         },
         {
           "title": "There is minimal downside to switching to open models",
-          "points": 406,
+          "points": 407,
           "url": "https://www.marble.onl/posts/cancel_claude.html"
         },
         {
@@ -2310,7 +2613,7 @@
       "signals": [
         {
           "title": "Claude Code is steganographically marking requests",
-          "points": 2412,
+          "points": 2432,
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
@@ -2320,12 +2623,12 @@
         },
         {
           "title": "I used Claude Code to get a second opinion on my MRI",
-          "points": 560,
+          "points": 561,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
         },
         {
           "title": "There is minimal downside to switching to open models",
-          "points": 406,
+          "points": 407,
           "url": "https://www.marble.onl/posts/cancel_claude.html"
         },
         {
@@ -2764,12 +3067,12 @@
         },
         {
           "title": "I used Claude Code to get a second opinion on my MRI",
-          "points": 560,
+          "points": 561,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
         },
         {
           "title": "There is minimal downside to switching to open models",
-          "points": 406,
+          "points": 407,
           "url": "https://www.marble.onl/posts/cancel_claude.html"
         },
         {
@@ -2810,7 +3113,7 @@
         },
         {
           "title": "There is minimal downside to switching to open models",
-          "points": 406,
+          "points": 407,
           "url": "https://www.marble.onl/posts/cancel_claude.html"
         },
         {
@@ -3070,7 +3373,7 @@
         },
         {
           "title": "There is minimal downside to switching to open models",
-          "points": 406,
+          "points": 407,
           "url": "https://www.marble.onl/posts/cancel_claude.html"
         },
         {
@@ -3606,14 +3909,14 @@
           "url": "https://github.com/anthropics/claude-code/issues/29045"
         },
         {
+          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
+          "points": 427,
+          "url": "https://news.ycombinator.com/item?id=48473166"
+        },
+        {
           "title": "Claude Fable 5: mid-tier results on coding tasks",
           "points": 410,
           "url": "https://www.endorlabs.com/learn/claude-fable-5-mythos-grade-hype"
-        },
-        {
-          "title": "There is minimal downside to switching to open models",
-          "points": 406,
-          "url": "https://www.marble.onl/posts/cancel_claude.html"
         }
       ],
       "highlight_score": 50
@@ -3747,14 +4050,14 @@
           "url": "https://github.com/anthropics/claude-code/issues/29045"
         },
         {
+          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
+          "points": 427,
+          "url": "https://news.ycombinator.com/item?id=48473166"
+        },
+        {
           "title": "Claude Fable 5: mid-tier results on coding tasks",
           "points": 410,
           "url": "https://www.endorlabs.com/learn/claude-fable-5-mythos-grade-hype"
-        },
-        {
-          "title": "There is minimal downside to switching to open models",
-          "points": 406,
-          "url": "https://www.marble.onl/posts/cancel_claude.html"
         }
       ],
       "highlight_score": 50
@@ -4096,14 +4399,14 @@
           "url": "https://github.com/anthropics/claude-code/issues/29045"
         },
         {
+          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
+          "points": 427,
+          "url": "https://news.ycombinator.com/item?id=48473166"
+        },
+        {
           "title": "Claude Fable 5: mid-tier results on coding tasks",
           "points": 410,
           "url": "https://www.endorlabs.com/learn/claude-fable-5-mythos-grade-hype"
-        },
-        {
-          "title": "There is minimal downside to switching to open models",
-          "points": 406,
-          "url": "https://www.marble.onl/posts/cancel_claude.html"
         }
       ],
       "highlight_score": 55
@@ -61357,6 +61660,73 @@
           }
         ]
       }
+    },
+    {
+      "version": "2.1.200",
+      "date": "2026-07-03",
+      "epoch_id": "epoch5",
+      "highlight_score": 55,
+      "highlight_title": "安全默认的时代",
+      "highlight_title_en": "The Era of Safe Defaults",
+      "highlight_summary": "权限模式默认切换至手动，意味着每一次操作都需要明确授权。这不是功能退步，而是对自主代理信任边界的重新校准。与此同时，后台代理的可靠性得到全面加固——从休眠唤醒到守护进程接管，沉默失败成为过去。",
+      "highlight_summary_en": "Default permission mode shifts to Manual, requiring explicit authorization for every action. This is not a regression but a recalibration of trust boundaries for autonomous agents. Meanwhile, background agent reliability is comprehensively hardened—from sleep/wake recovery to daemon handover, silent failures are now history.",
+      "highlight_why": "当代理能力越强，默认安全就越不是可选项，而是产品责任的底线。",
+      "highlight_why_en": "The stronger the agent, the less optional safe defaults become—they are the floor of product accountability.",
+      "capability_ids": [
+        "automation_autonomy",
+        "governance_security",
+        "multimodal_interfaces",
+        "integrations_ecosystem",
+        "execution_workspace",
+        "delegation_collaboration",
+        "memory_context"
+      ],
+      "evidence": {
+        "hn_signals": [
+          {
+            "title": "Claude Code is steganographically marking requests",
+            "points": 2432,
+            "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
+          },
+          {
+            "title": "I used Claude Code to get a second opinion on my MRI",
+            "points": 561,
+            "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
+          },
+          {
+            "title": "Alibaba to ban Claude Code in workplace over alleged backdoor risks, source says",
+            "points": 320,
+            "url": "https://www.reuters.com/world/china/alibaba-ban-claude-code-workplace-over-alleged-backdoor-risks-source-says-2026-07-03/"
+          },
+          {
+            "title": "ZCode: Claude Code from the Makers of GLM",
+            "points": 277,
+            "url": "https://zcode.z.ai/cn"
+          },
+          {
+            "title": "Tell HN: Installing Cursor on iOS irreversibly changes your privacy settings",
+            "points": 246,
+            "url": "https://news.ycombinator.com/item?id=48737226"
+          }
+        ],
+        "top_changes": [
+          {
+            "raw": "Changed the \"default\" permission mode to \"Manual\" across the CLI, `--help`, VS Code, and JetBrains; `--permission-mode manual` and `\"defaultMode\": \"manual\"` are accepted alongside `default`",
+            "summary": "默认权限模式改为手动",
+            "importance": 4
+          },
+          {
+            "raw": "Fixed background sessions silently stopping mid-turn after sleep/wake or when reopening a stalled session",
+            "summary": "修复后台会话休眠后静默中断",
+            "importance": 4
+          },
+          {
+            "raw": "Fixed background agents never starting again after a crash left a stale `daemon.lock` whose PID the OS reused",
+            "summary": "修复残留daemon.lock导致后台代理无法重启",
+            "importance": 4
+          }
+        ]
+      }
     }
   ],
   "capabilities": [
@@ -61471,8 +61841,8 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 992,
-      "release_count": 220,
+      "change_count": 1000,
+      "release_count": 221,
       "avg_importance": 3.25,
       "maturity": {
         "score": 93,
@@ -61483,14 +61853,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-07-02",
-        "version": "2.1.199"
+        "date": "2026-07-03",
+        "version": "2.1.200"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 714
+          "change_count": 722
         },
         {
           "epoch_id": "epoch1",
@@ -61566,8 +61936,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 643,
-      "release_count": 181,
+      "change_count": 645,
+      "release_count": 183,
       "avg_importance": 3.16,
       "maturity": {
         "score": 93,
@@ -61578,14 +61948,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-07-02",
-        "version": "2.1.199"
+        "date": "2026-07-03",
+        "version": "2.1.200"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 472
+          "change_count": 474
         },
         {
           "epoch_id": "epoch1",
@@ -61661,8 +62031,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 845,
-      "release_count": 218,
+      "change_count": 851,
+      "release_count": 219,
       "avg_importance": 3.25,
       "maturity": {
         "score": 93,
@@ -61673,14 +62043,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-07-02",
-        "version": "2.1.199"
+        "date": "2026-07-03",
+        "version": "2.1.200"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 599
+          "change_count": 605
         },
         {
           "epoch_id": "epoch4",
@@ -61756,8 +62126,8 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 448,
-      "release_count": 136,
+      "change_count": 450,
+      "release_count": 137,
       "avg_importance": 3.23,
       "maturity": {
         "score": 93,
@@ -61768,14 +62138,14 @@
         "version": "0.2.50"
       },
       "latest_seen": {
-        "date": "2026-07-02",
-        "version": "2.1.199"
+        "date": "2026-07-03",
+        "version": "2.1.200"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 368
+          "change_count": 370
         },
         {
           "epoch_id": "epoch1",
@@ -61851,8 +62221,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 1234,
-      "release_count": 245,
+      "change_count": 1238,
+      "release_count": 246,
       "avg_importance": 3.1,
       "maturity": {
         "score": 92,
@@ -61863,14 +62233,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-07-02",
-        "version": "2.1.199"
+        "date": "2026-07-03",
+        "version": "2.1.200"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 879
+          "change_count": 883
         },
         {
           "epoch_id": "epoch1",
@@ -61946,8 +62316,8 @@
         "Emacs",
         "web"
       ],
-      "change_count": 867,
-      "release_count": 193,
+      "change_count": 873,
+      "release_count": 194,
       "avg_importance": 2.7,
       "maturity": {
         "score": 91,
@@ -61958,14 +62328,14 @@
         "version": "0.2.34"
       },
       "latest_seen": {
-        "date": "2026-07-02",
-        "version": "2.1.199"
+        "date": "2026-07-03",
+        "version": "2.1.200"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 677
+          "change_count": 683
         },
         {
           "epoch_id": "epoch4",
@@ -62041,8 +62411,8 @@
         "policy",
         "auditing"
       ],
-      "change_count": 844,
-      "release_count": 215,
+      "change_count": 849,
+      "release_count": 216,
       "avg_importance": 3.4,
       "maturity": {
         "score": 94,
@@ -62053,14 +62423,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-07-02",
-        "version": "2.1.199"
+        "date": "2026-07-03",
+        "version": "2.1.200"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 623
+          "change_count": 628
         },
         {
           "epoch_id": "epoch4",
@@ -62123,7 +62493,7 @@
     "hn_top": [
       {
         "title": "Claude Code is steganographically marking requests",
-        "points": 2412,
+        "points": 2432,
         "url": "https://thereallo.dev/blog/claude-code-prompt-steganography",
         "date": "2026-06-30"
       },
