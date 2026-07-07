@@ -1,13 +1,13 @@
 {
   "meta": {
-    "generated_at": "2026-07-06T05:07:27.854Z",
+    "generated_at": "2026-07-07T04:49:17.477Z",
     "agent_model": "glm-5",
-    "total_versions": 335,
+    "total_versions": 336,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-07-03"
+      "end": "2026-07-06"
     },
-    "highlight_count": 50,
+    "highlight_count": 51,
     "capability_count": 8,
     "hn_signal_count": 18,
     "blog_post_count": 11
@@ -70,11 +70,278 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。adaptive thinking 把推理深度交给模型自己决定，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界——从 Opus 4.6 到 4.8，每一代都在加速这条路。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Adaptive thinking hands reasoning depth to the model itself, while worktree isolation and 1M context push the agent toward hours-long unattended runs — from Opus 4.6 through 4.8, each generation accelerates the path.",
-      "release_count": 119,
-      "highlight_count": 28
+      "release_count": 120,
+      "highlight_count": 29
     }
   ],
   "releases": [
+    {
+      "version": "2.1.202",
+      "date": "2026-07-06",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added a \"Dynamic workflow size\" setting in `/config` for controlling how large Claude generally makes dynamic workflows (small/medium/large agent counts) — an advisory guideline, not an enforced cap",
+          "category": "feat",
+          "importance": 3,
+          "summary": "新增动态工作流规模配置项",
+          "summary_en": "Add dynamic workflow size setting in /config",
+          "why_matters": "让用户能控制动态工作流的代理数量规模，平衡成本与能力。",
+          "why_matters_en": "Lets users control agent count in dynamic workflows, balancing cost and capability.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "automation_autonomy",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Added `workflow.run_id` and `workflow.name` OpenTelemetry attributes to telemetry emitted by workflow-spawned agents, so a workflow run's activity can be reconstructed from OTel data",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "工作流代理新增OTel追踪属性",
+          "summary_en": "Add workflow run_id and name OTel attributes",
+          "why_matters": "使工作流运行的活动可从OpenTelemetry数据中重建，提升可观测性。",
+          "why_matters_en": "Enables reconstruction of workflow run activity from OTel data, improving observability.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed a crash in the inline Ctrl+R history search when accepting or cancelling while the search was still scanning the history file",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复内联历史搜索崩溃问题",
+          "summary_en": "Fix crash in inline Ctrl+R history search",
+          "why_matters": "避免用户在历史搜索扫描过程中操作导致崩溃，提升交互稳定性。",
+          "why_matters_en": "Prevents crashes when accepting or cancelling during history search scanning.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `/rename` on background sessions being reverted when the job restarts, which broke addressing the session by its new name",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复后台会话重命名被回滚的问题",
+          "summary_en": "Fix /rename on background sessions being reverted on restart",
+          "why_matters": "确保后台会话重命名后能通过新名称正确寻址，避免会话管理混乱。",
+          "why_matters_en": "Ensures renamed background sessions remain addressable by their new name after restart.",
+          "capability_ids": [
+            "automation_autonomy",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed transient mTLS handshake failures when settings were re-applied during an in-place client certificate rotation",
+          "category": "security",
+          "importance": 4,
+          "summary": "修复证书轮转时mTLS握手失败",
+          "summary_en": "Fix transient mTLS handshake failures during cert rotation",
+          "why_matters": "保证客户端证书轮转期间连接不中断，对安全通信连续性至关重要。",
+          "why_matters_en": "Ensures uninterrupted secure connections during in-place client certificate rotation.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed commands sent from Remote Control (mobile/web) into an interactive session failing with \"Unknown command\"",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复远程控制发送命令失败问题",
+          "summary_en": "Fix Remote Control commands failing with Unknown command",
+          "why_matters": "恢复远程控制向交互会话发送命令的能力，保障移动端/网页端操控体验。",
+          "why_matters_en": "Restores ability to send commands from Remote Control into interactive sessions.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "integrations_ecosystem",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed images and files sent from the Remote Control mobile or web app without a caption being silently dropped",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复远程控制无标题图片被丢弃",
+          "summary_en": "Fix images/files without caption dropped from Remote Control",
+          "why_matters": "避免用户通过移动端发送的图片和文件被静默丢弃，保障多模态输入完整性。",
+          "why_matters_en": "Prevents silent dropping of images/files sent from Remote Control without captions.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "integrations_ecosystem",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed the sign-in URL printed by `claude auth login` and `claude mcp login --no-browser` not being reliably clickable when it wraps over SSH — it is now emitted as a single hyperlink",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复SSH下登录URL不可点击问题",
+          "summary_en": "Fix sign-in URL not clickable over SSH",
+          "why_matters": "使SSH环境下的登录链接可靠可点击，改善远程终端登录体验。",
+          "why_matters_en": "Makes sign-in URLs reliably clickable in SSH environments as a single hyperlink.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed opening a chat from `claude agents` sometimes failing with \"currently running as a background agent\" followed by a worker crash/respawn loop",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复从agents打开聊天崩溃循环",
+          "summary_en": "Fix chat open from claude agents causing worker crash loop",
+          "why_matters": "避免后台代理会话打开聊天时触发崩溃循环，影响核心可用性。",
+          "why_matters_en": "Prevents worker crash/respawn loops when opening chats from claude agents.",
+          "capability_ids": [
+            "automation_autonomy",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed workflow scripts with unicode quote escapes in strings being corrupted before parsing; workflow parse errors now show the offending line instead of always blaming TypeScript",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复工作流脚本Unicode引号解析损坏",
+          "summary_en": "Fix workflow scripts with unicode quote escapes corrupted",
+          "why_matters": "确保含Unicode引号的工作流脚本能正确解析，并显示准确错误信息。",
+          "why_matters_en": "Ensures workflow scripts with unicode quotes parse correctly with accurate error messages.",
+          "capability_ids": [
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed voice dictation retrying in an unbounded loop when the microphone or audio recorder fails — repeated capture failures now pause voice input",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复语音输入失败时无限重试",
+          "summary_en": "Fix voice dictation unbounded retry on mic failure",
+          "why_matters": "避免麦克风故障时语音输入无限重试导致资源浪费，改为暂停输入。",
+          "why_matters_en": "Prevents unbounded voice dictation retry loops on microphone failures.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `/remote-control` sessions showing the wrong permission mode in the mobile and web apps",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复远程控制权限模式显示错误",
+          "summary_en": "Fix /remote-control showing wrong permission mode",
+          "why_matters": "确保移动端和网页端正确显示权限模式，避免用户误判安全状态。",
+          "why_matters_en": "Ensures correct permission mode display in mobile and web Remote Control apps.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed resuming a session by name, or opening the resume picker, taking minutes and using a large amount of memory in repositories with many git worktrees",
+          "category": "perf",
+          "importance": 4,
+          "summary": "优化多worktree仓库会话恢复性能",
+          "summary_en": "Fix slow, memory-heavy session resume with many git worktrees",
+          "why_matters": "大幅减少多worktree仓库中恢复会话的时间和内存消耗，提升用户体验。",
+          "why_matters_en": "Greatly reduces time and memory usage when resuming sessions in repos with many worktrees.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed installer and updater downloads failing immediately with \"aborted\" when a proxy or network drops the connection mid-download — transient connection drops now retry",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复网络中断时下载失败不重试",
+          "summary_en": "Fix installer/updater download failure on connection drop",
+          "why_matters": "使安装和更新下载在网络瞬断时自动重试，提高安装可靠性。",
+          "why_matters_en": "Adds retry on transient connection drops for installer and updater downloads.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed re-invoking an already-loaded skill appending a duplicate copy of its instructions to context",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复重复加载技能导致指令重复",
+          "summary_en": "Fix duplicate skill instructions appended on re-load",
+          "why_matters": "避免重复调用已加载技能时上下文出现重复指令，节省token并减少干扰。",
+          "why_matters_en": "Prevents duplicate skill instructions from polluting context on re-invocation.",
+          "capability_ids": [
+            "memory_context",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Improved `/workflows` agent list layout: wider titles, a dedicated time column, shorter model names, and no per-row tool-call counts",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "优化工作流代理列表布局",
+          "summary_en": "Improved workflows agent list layout",
+          "why_matters": "提升用户查看代理列表的体验和可读性。",
+          "why_matters_en": "Improves readability and user experience when viewing agent lists.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Improved MCP error messages: clearer error when a server config has `url` but no `type`, suggesting `\"type\": \"http\"` instead of the misleading \"command: expected string\"",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复MCP配置错误提示",
+          "summary_en": "Fix MCP config error message for missing type",
+          "why_matters": "帮助用户更准确地定位并修复MCP服务器配置问题。",
+          "why_matters_en": "Helps users accurately identify and fix MCP server config issues.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Changed `/review <pr>` back to a fast single-pass review; use `/code-review <level> <pr#>` for the multi-agent review at a chosen effort level",
+          "category": "breaking",
+          "importance": 4,
+          "summary": "拆分PR审查命令以区分快慢模式",
+          "summary_en": "Split PR review commands for fast vs multi-agent review",
+          "why_matters": "让用户能根据需求选择快速审查或深度多代理审查。",
+          "why_matters_en": "Allows users to choose between fast review or deep multi-agent review.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "delegation_collaboration"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Claude Code is steganographically marking requests",
+          "points": 2440,
+          "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
+        },
+        {
+          "title": "Alibaba to ban Claude Code in workplace over alleged backdoor risks, source says",
+          "points": 336,
+          "url": "https://www.reuters.com/world/china/alibaba-ban-claude-code-workplace-over-alleged-backdoor-risks-source-says-2026-07-03/"
+        },
+        {
+          "title": "Potential session/cache leakage between workspace instances or consumer accounts",
+          "points": 313,
+          "url": "https://github.com/anthropics/claude-code/issues/74066"
+        },
+        {
+          "title": "ZCode: Claude Code from the Makers of GLM",
+          "points": 278,
+          "url": "https://zcode.z.ai/cn"
+        },
+        {
+          "title": "Tell HN: Installing Cursor on iOS irreversibly changes your privacy settings",
+          "points": 248,
+          "url": "https://news.ycombinator.com/item?id=48737226"
+        }
+      ],
+      "highlight_score": 55
+    },
     {
       "version": "2.1.201",
       "date": "2026-07-03",
@@ -97,17 +364,17 @@
       "signals": [
         {
           "title": "Claude Code is steganographically marking requests",
-          "points": 2436,
+          "points": 2440,
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
           "title": "I used Claude Code to get a second opinion on my MRI",
-          "points": 563,
+          "points": 564,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
         },
         {
           "title": "Alibaba to ban Claude Code in workplace over alleged backdoor risks, source says",
-          "points": 335,
+          "points": 336,
           "url": "https://www.reuters.com/world/china/alibaba-ban-claude-code-workplace-over-alleged-backdoor-risks-source-says-2026-07-03/"
         },
         {
@@ -117,7 +384,7 @@
         },
         {
           "title": "ZCode: Claude Code from the Makers of GLM",
-          "points": 277,
+          "points": 278,
           "url": "https://zcode.z.ai/cn"
         }
       ],
@@ -352,17 +619,17 @@
       "signals": [
         {
           "title": "Claude Code is steganographically marking requests",
-          "points": 2436,
+          "points": 2440,
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
           "title": "I used Claude Code to get a second opinion on my MRI",
-          "points": 563,
+          "points": 564,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
         },
         {
           "title": "Alibaba to ban Claude Code in workplace over alleged backdoor risks, source says",
-          "points": 335,
+          "points": 336,
           "url": "https://www.reuters.com/world/china/alibaba-ban-claude-code-workplace-over-alleged-backdoor-risks-source-says-2026-07-03/"
         },
         {
@@ -372,7 +639,7 @@
         },
         {
           "title": "ZCode: Claude Code from the Makers of GLM",
-          "points": 277,
+          "points": 278,
           "url": "https://zcode.z.ai/cn"
         }
       ],
@@ -694,12 +961,12 @@
       "signals": [
         {
           "title": "Claude Code is steganographically marking requests",
-          "points": 2436,
+          "points": 2440,
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
           "title": "I used Claude Code to get a second opinion on my MRI",
-          "points": 563,
+          "points": 564,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
         },
         {
@@ -709,7 +976,7 @@
         },
         {
           "title": "Alibaba to ban Claude Code in workplace over alleged backdoor risks, source says",
-          "points": 335,
+          "points": 336,
           "url": "https://www.reuters.com/world/china/alibaba-ban-claude-code-workplace-over-alleged-backdoor-risks-source-says-2026-07-03/"
         },
         {
@@ -1139,7 +1406,7 @@
       "signals": [
         {
           "title": "Claude Code is steganographically marking requests",
-          "points": 2436,
+          "points": 2440,
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
@@ -1149,7 +1416,7 @@
         },
         {
           "title": "I used Claude Code to get a second opinion on my MRI",
-          "points": 563,
+          "points": 564,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
         },
         {
@@ -1159,7 +1426,7 @@
         },
         {
           "title": "Alibaba to ban Claude Code in workplace over alleged backdoor risks, source says",
-          "points": 335,
+          "points": 336,
           "url": "https://www.reuters.com/world/china/alibaba-ban-claude-code-workplace-over-alleged-backdoor-risks-source-says-2026-07-03/"
         }
       ],
@@ -1188,7 +1455,7 @@
       "signals": [
         {
           "title": "Claude Code is steganographically marking requests",
-          "points": 2436,
+          "points": 2440,
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
@@ -1198,7 +1465,7 @@
         },
         {
           "title": "I used Claude Code to get a second opinion on my MRI",
-          "points": 563,
+          "points": 564,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
         },
         {
@@ -1208,7 +1475,7 @@
         },
         {
           "title": "Alibaba to ban Claude Code in workplace over alleged backdoor risks, source says",
-          "points": 335,
+          "points": 336,
           "url": "https://www.reuters.com/world/china/alibaba-ban-claude-code-workplace-over-alleged-backdoor-risks-source-says-2026-07-03/"
         }
       ],
@@ -1568,7 +1835,7 @@
       "signals": [
         {
           "title": "Claude Code is steganographically marking requests",
-          "points": 2436,
+          "points": 2440,
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
@@ -1578,7 +1845,7 @@
         },
         {
           "title": "I used Claude Code to get a second opinion on my MRI",
-          "points": 563,
+          "points": 564,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
         },
         {
@@ -1588,7 +1855,7 @@
         },
         {
           "title": "Alibaba to ban Claude Code in workplace over alleged backdoor risks, source says",
-          "points": 335,
+          "points": 336,
           "url": "https://www.reuters.com/world/china/alibaba-ban-claude-code-workplace-over-alleged-backdoor-risks-source-says-2026-07-03/"
         }
       ],
@@ -1757,7 +2024,7 @@
       "signals": [
         {
           "title": "Claude Code is steganographically marking requests",
-          "points": 2436,
+          "points": 2440,
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
@@ -1767,7 +2034,7 @@
         },
         {
           "title": "I used Claude Code to get a second opinion on my MRI",
-          "points": 563,
+          "points": 564,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
         },
         {
@@ -1777,7 +2044,7 @@
         },
         {
           "title": "Alibaba to ban Claude Code in workplace over alleged backdoor risks, source says",
-          "points": 335,
+          "points": 336,
           "url": "https://www.reuters.com/world/china/alibaba-ban-claude-code-workplace-over-alleged-backdoor-risks-source-says-2026-07-03/"
         }
       ],
@@ -1980,7 +2247,7 @@
       "signals": [
         {
           "title": "Claude Code is steganographically marking requests",
-          "points": 2436,
+          "points": 2440,
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
@@ -1990,7 +2257,7 @@
         },
         {
           "title": "I used Claude Code to get a second opinion on my MRI",
-          "points": 563,
+          "points": 564,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
         },
         {
@@ -2266,7 +2533,7 @@
       "signals": [
         {
           "title": "Claude Code is steganographically marking requests",
-          "points": 2436,
+          "points": 2440,
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
@@ -2276,7 +2543,7 @@
         },
         {
           "title": "I used Claude Code to get a second opinion on my MRI",
-          "points": 563,
+          "points": 564,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
         },
         {
@@ -2312,7 +2579,7 @@
       "signals": [
         {
           "title": "Claude Code is steganographically marking requests",
-          "points": 2436,
+          "points": 2440,
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
@@ -2322,7 +2589,7 @@
         },
         {
           "title": "I used Claude Code to get a second opinion on my MRI",
-          "points": 563,
+          "points": 564,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
         },
         {
@@ -2613,7 +2880,7 @@
       "signals": [
         {
           "title": "Claude Code is steganographically marking requests",
-          "points": 2436,
+          "points": 2440,
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
@@ -2623,7 +2890,7 @@
         },
         {
           "title": "I used Claude Code to get a second opinion on my MRI",
-          "points": 563,
+          "points": 564,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
         },
         {
@@ -3062,13 +3329,8 @@
         },
         {
           "title": "I used Claude Code to get a second opinion on my MRI",
-          "points": 563,
+          "points": 564,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
-        },
-        {
-          "title": "Apple Foundation Models",
-          "points": 485,
-          "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
         },
         {
           "title": "Show HN: OpenKnowledge – open source AI-first alternative to Obsidian/Notion",
@@ -3079,6 +3341,11 @@
           "title": "The text in Claude Code’s “Extended Thinking” output",
           "points": 326,
           "url": "https://patrickmccanna.net/the-text-in-claude-codes-extended-thinking-output-is-not-authentic/"
+        },
+        {
+          "title": "Show HN: Smart model routing directly in Claude, Codex and Cursor",
+          "points": 216,
+          "url": "https://github.com/workweave/router"
         }
       ],
       "highlight_score": 50
@@ -3107,11 +3374,6 @@
           "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
         },
         {
-          "title": "Apple Foundation Models",
-          "points": 485,
-          "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
-        },
-        {
           "title": "Show HN: OpenKnowledge – open source AI-first alternative to Obsidian/Notion",
           "points": 381,
           "url": "https://github.com/inkeep/open-knowledge"
@@ -3125,6 +3387,11 @@
           "title": "Show HN: Smart model routing directly in Claude, Codex and Cursor",
           "points": 216,
           "url": "https://github.com/workweave/router"
+        },
+        {
+          "title": "Launch HN: Adam (YC W25) – Open-Source AI CAD",
+          "points": 215,
+          "url": "https://github.com/Adam-CAD/CADAM"
         }
       ],
       "highlight_score": 30
@@ -3367,11 +3634,6 @@
           "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
         },
         {
-          "title": "Apple Foundation Models",
-          "points": 485,
-          "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
-        },
-        {
           "title": "Show HN: OpenKnowledge – open source AI-first alternative to Obsidian/Notion",
           "points": 381,
           "url": "https://github.com/inkeep/open-knowledge"
@@ -3385,6 +3647,11 @@
           "title": "Show HN: Smart model routing directly in Claude, Codex and Cursor",
           "points": 216,
           "url": "https://github.com/workweave/router"
+        },
+        {
+          "title": "Launch HN: Adam (YC W25) – Open-Source AI CAD",
+          "points": 215,
+          "url": "https://github.com/Adam-CAD/CADAM"
         }
       ],
       "highlight_score": 50
@@ -3899,11 +4166,6 @@
           "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
         },
         {
-          "title": "Apple Foundation Models",
-          "points": 485,
-          "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
-        },
-        {
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
           "points": 434,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
@@ -3917,6 +4179,11 @@
           "title": "Launch HN: Adam (YC W25) – Open-Source AI CAD",
           "points": 215,
           "url": "https://github.com/Adam-CAD/CADAM"
+        },
+        {
+          "title": "Show HN: Recall – Local project memory for Claude Code",
+          "points": 138,
+          "url": "https://github.com/raiyanyahya/recall"
         }
       ],
       "highlight_score": 50
@@ -4035,11 +4302,6 @@
       ],
       "signals": [
         {
-          "title": "Apple Foundation Models",
-          "points": 485,
-          "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
-        },
-        {
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
           "points": 434,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
@@ -4058,6 +4320,11 @@
           "title": "Show HN: Recall – Local project memory for Claude Code",
           "points": 138,
           "url": "https://github.com/raiyanyahya/recall"
+        },
+        {
+          "title": "Ask HN: How do you get into a flow state when using AI to code?",
+          "points": 98,
+          "url": "https://news.ycombinator.com/item?id=48492118"
         }
       ],
       "highlight_score": 35
@@ -4384,11 +4651,6 @@
       ],
       "signals": [
         {
-          "title": "Apple Foundation Models",
-          "points": 485,
-          "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
-        },
-        {
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
           "points": 434,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
@@ -4407,6 +4669,11 @@
           "title": "Show HN: Recall – Local project memory for Claude Code",
           "points": 138,
           "url": "https://github.com/raiyanyahya/recall"
+        },
+        {
+          "title": "Launch HN: Intuned (YC S22) – Build and run reliable browser automations as code",
+          "points": 117,
+          "url": "https://intunedhq.com"
         }
       ],
       "highlight_score": 40
@@ -4707,11 +4974,6 @@
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
-          "title": "Apple Foundation Models",
-          "points": 485,
-          "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
-        },
-        {
           "title": "Ask HN: Why is the HN crowd so anti-AI?",
           "points": 463,
           "url": "https://news.ycombinator.com/item?id=48420827"
@@ -4725,6 +4987,11 @@
           "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
           "points": 402,
           "url": "https://github.com/devenjarvis/lathe"
+        },
+        {
+          "title": "I design with Claude more than Figma now",
+          "points": 324,
+          "url": "https://blog.janestreet.com/i-design-with-claude-code-more-than-figma-now-index/"
         }
       ],
       "highlight_score": 50
@@ -4756,11 +5023,6 @@
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
-          "title": "Apple Foundation Models",
-          "points": 485,
-          "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
-        },
-        {
           "title": "Ask HN: Why is the HN crowd so anti-AI?",
           "points": 463,
           "url": "https://news.ycombinator.com/item?id=48420827"
@@ -4774,6 +5036,11 @@
           "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
           "points": 402,
           "url": "https://github.com/devenjarvis/lathe"
+        },
+        {
+          "title": "I design with Claude more than Figma now",
+          "points": 324,
+          "url": "https://blog.janestreet.com/i-design-with-claude-code-more-than-figma-now-index/"
         }
       ],
       "highlight_score": 50
@@ -4953,11 +5220,6 @@
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
-          "title": "Apple Foundation Models",
-          "points": 485,
-          "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
-        },
-        {
           "title": "Ask HN: Why is the HN crowd so anti-AI?",
           "points": 463,
           "url": "https://news.ycombinator.com/item?id=48420827"
@@ -4971,6 +5233,11 @@
           "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
           "points": 402,
           "url": "https://github.com/devenjarvis/lathe"
+        },
+        {
+          "title": "I design with Claude more than Figma now",
+          "points": 324,
+          "url": "https://blog.janestreet.com/i-design-with-claude-code-more-than-figma-now-index/"
         }
       ],
       "highlight_score": 50
@@ -5015,11 +5282,6 @@
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
-          "title": "Apple Foundation Models",
-          "points": 485,
-          "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
-        },
-        {
           "title": "Ask HN: Why is the HN crowd so anti-AI?",
           "points": 463,
           "url": "https://news.ycombinator.com/item?id=48420827"
@@ -5033,6 +5295,11 @@
           "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
           "points": 402,
           "url": "https://github.com/devenjarvis/lathe"
+        },
+        {
+          "title": "I design with Claude more than Figma now",
+          "points": 324,
+          "url": "https://blog.janestreet.com/i-design-with-claude-code-more-than-figma-now-index/"
         }
       ],
       "highlight_score": 30
@@ -5440,11 +5707,6 @@
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
-          "title": "Apple Foundation Models",
-          "points": 485,
-          "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
-        },
-        {
           "title": "Ask HN: Why is the HN crowd so anti-AI?",
           "points": 463,
           "url": "https://news.ycombinator.com/item?id=48420827"
@@ -5458,6 +5720,11 @@
           "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
           "points": 402,
           "url": "https://github.com/devenjarvis/lathe"
+        },
+        {
+          "title": "I design with Claude more than Figma now",
+          "points": 324,
+          "url": "https://blog.janestreet.com/i-design-with-claude-code-more-than-figma-now-index/"
         }
       ],
       "highlight_score": 50
@@ -5507,11 +5774,6 @@
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
-          "title": "Apple Foundation Models",
-          "points": 485,
-          "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
-        },
-        {
           "title": "Ask HN: Why is the HN crowd so anti-AI?",
           "points": 463,
           "url": "https://news.ycombinator.com/item?id=48420827"
@@ -5520,6 +5782,11 @@
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
           "points": 434,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
+        },
+        {
+          "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
+          "points": 402,
+          "url": "https://github.com/devenjarvis/lathe"
         }
       ],
       "highlight_score": 70
@@ -5940,11 +6207,6 @@
           "url": "https://github.com/anthropics/claude-code/issues/65697"
         },
         {
-          "title": "Apple Foundation Models",
-          "points": 485,
-          "url": "https://platform.claude.com/docs/en/cli-sdks-libraries/libraries/apple-foundation-models"
-        },
-        {
           "title": "Ask HN: Why is the HN crowd so anti-AI?",
           "points": 463,
           "url": "https://news.ycombinator.com/item?id=48420827"
@@ -5953,6 +6215,11 @@
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
           "points": 434,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
+        },
+        {
+          "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
+          "points": 402,
+          "url": "https://github.com/devenjarvis/lathe"
         }
       ],
       "highlight_score": 50
@@ -14419,11 +14686,6 @@
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
-          "title": "Kimi K2.6 just beat Claude, GPT-5.5, and Gemini in a coding challenge",
-          "points": 380,
-          "url": "https://thinkpol.ca/2026/04/30/an-open-weights-chinese-model-just-beat-claude-gpt-5-5-and-gemini-in-a-programming-challenge/"
-        },
-        {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
           "points": 302,
           "url": "https://news.ycombinator.com/item?id=48128003"
@@ -14432,6 +14694,11 @@
           "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
           "points": 253,
           "url": "https://github.com/DrCatHicks/learning-opportunities"
+        },
+        {
+          "title": "How Claude Code works in large codebases",
+          "points": 248,
+          "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start"
         }
       ],
       "highlight_score": 30
@@ -14467,11 +14734,6 @@
           "url": "https://twitter.com/trq212/status/2052809885763747935"
         },
         {
-          "title": "Kimi K2.6 just beat Claude, GPT-5.5, and Gemini in a coding challenge",
-          "points": 380,
-          "url": "https://thinkpol.ca/2026/04/30/an-open-weights-chinese-model-just-beat-claude-gpt-5-5-and-gemini-in-a-programming-challenge/"
-        },
-        {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
           "points": 302,
           "url": "https://news.ycombinator.com/item?id=48128003"
@@ -14480,6 +14742,11 @@
           "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
           "points": 253,
           "url": "https://github.com/DrCatHicks/learning-opportunities"
+        },
+        {
+          "title": "How Claude Code works in large codebases",
+          "points": 248,
+          "url": "https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start"
         }
       ],
       "highlight_score": 50
@@ -15145,14 +15412,14 @@
           "url": "https://www.briefs.co/news/uber-torches-entire-2026-ai-budget-on-claude-code-in-four-months/"
         },
         {
-          "title": "Kimi K2.6 just beat Claude, GPT-5.5, and Gemini in a coding challenge",
-          "points": 380,
-          "url": "https://thinkpol.ca/2026/04/30/an-open-weights-chinese-model-just-beat-claude-gpt-5-5-and-gemini-in-a-programming-challenge/"
-        },
-        {
           "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
           "points": 302,
           "url": "https://news.ycombinator.com/item?id=48128003"
+        },
+        {
+          "title": "A Claude Code and Codex Skill for Deliberate Skill Development",
+          "points": 253,
+          "url": "https://github.com/DrCatHicks/learning-opportunities"
         }
       ],
       "highlight_score": 55
@@ -15415,9 +15682,9 @@
           "url": "https://www.briefs.co/news/uber-torches-entire-2026-ai-budget-on-claude-code-in-four-months/"
         },
         {
-          "title": "Kimi K2.6 just beat Claude, GPT-5.5, and Gemini in a coding challenge",
-          "points": 380,
-          "url": "https://thinkpol.ca/2026/04/30/an-open-weights-chinese-model-just-beat-claude-gpt-5-5-and-gemini-in-a-programming-challenge/"
+          "title": "Tell HN: Dont use Claude Design, lost access to my projects after unsubscribing",
+          "points": 302,
+          "url": "https://news.ycombinator.com/item?id=48128003"
         }
       ],
       "highlight_score": 50
@@ -61659,6 +61926,74 @@
           }
         ]
       }
+    },
+    {
+      "version": "2.1.202",
+      "date": "2026-07-06",
+      "epoch_id": "epoch5",
+      "highlight_score": 55,
+      "highlight_title": "为代理自主性设界",
+      "highlight_title_en": "Boundaries on Agent Autonomy",
+      "highlight_summary": "安全握手与后台代理崩溃的修复，让多代理协作在边缘场景下不再脆弱。审查命令拆分为快速单遍与多代理深度两档，把节奏的选择权交还给开发者。全新的动态工作流规模设置，让代理的扩张本能有了可调节的缰绳。",
+      "highlight_summary_en": "Fixes to mTLS handshakes and background agent crashes make multi-agent collaboration resilient at the edges. The review command splits into fast single-pass and deep multi-agent modes, returning pacing control to developers. A new dynamic workflow size setting gives the agent's expansion instinct an adjustable rein.",
+      "highlight_why": "当代理能力开始向外扩张时，约束它的不是能力本身，而是用户对规模与节奏的掌控。",
+      "highlight_why_en": "When agent capabilities expand outward, what constrains them is not capability itself, but the user's grip on scale and pace.",
+      "capability_ids": [
+        "reasoning_workflows",
+        "automation_autonomy",
+        "multimodal_interfaces",
+        "governance_security",
+        "memory_context",
+        "integrations_ecosystem",
+        "delegation_collaboration",
+        "execution_workspace"
+      ],
+      "evidence": {
+        "hn_signals": [
+          {
+            "title": "Claude Code is steganographically marking requests",
+            "points": 2440,
+            "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
+          },
+          {
+            "title": "Alibaba to ban Claude Code in workplace over alleged backdoor risks, source says",
+            "points": 336,
+            "url": "https://www.reuters.com/world/china/alibaba-ban-claude-code-workplace-over-alleged-backdoor-risks-source-says-2026-07-03/"
+          },
+          {
+            "title": "Potential session/cache leakage between workspace instances or consumer accounts",
+            "points": 313,
+            "url": "https://github.com/anthropics/claude-code/issues/74066"
+          },
+          {
+            "title": "ZCode: Claude Code from the Makers of GLM",
+            "points": 278,
+            "url": "https://zcode.z.ai/cn"
+          },
+          {
+            "title": "Tell HN: Installing Cursor on iOS irreversibly changes your privacy settings",
+            "points": 248,
+            "url": "https://news.ycombinator.com/item?id=48737226"
+          }
+        ],
+        "top_changes": [
+          {
+            "raw": "Fixed transient mTLS handshake failures when settings were re-applied during an in-place client certificate rotation",
+            "summary": "修复证书轮转时mTLS握手失败",
+            "importance": 4
+          },
+          {
+            "raw": "Fixed opening a chat from `claude agents` sometimes failing with \"currently running as a background agent\" followed by a worker crash/respawn loop",
+            "summary": "修复从agents打开聊天崩溃循环",
+            "importance": 4
+          },
+          {
+            "raw": "Fixed resuming a session by name, or opening the resume picker, taking minutes and using a large amount of memory in repositories with many git worktrees",
+            "summary": "优化多worktree仓库会话恢复性能",
+            "importance": 4
+          }
+        ]
+      }
     }
   ],
   "capabilities": [
@@ -61678,8 +62013,8 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 483,
-      "release_count": 174,
+      "change_count": 488,
+      "release_count": 175,
       "avg_importance": 3.09,
       "maturity": {
         "score": 92,
@@ -61690,14 +62025,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-07-02",
-        "version": "2.1.199"
+        "date": "2026-07-06",
+        "version": "2.1.202"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 324
+          "change_count": 329
         },
         {
           "epoch_id": "epoch4",
@@ -61773,8 +62108,8 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 1000,
-      "release_count": 221,
+      "change_count": 1001,
+      "release_count": 222,
       "avg_importance": 3.25,
       "maturity": {
         "score": 93,
@@ -61785,14 +62120,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-07-03",
-        "version": "2.1.200"
+        "date": "2026-07-06",
+        "version": "2.1.202"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 722
+          "change_count": 723
         },
         {
           "epoch_id": "epoch1",
@@ -61868,8 +62203,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 645,
-      "release_count": 183,
+      "change_count": 648,
+      "release_count": 184,
       "avg_importance": 3.16,
       "maturity": {
         "score": 93,
@@ -61880,14 +62215,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-07-03",
-        "version": "2.1.200"
+        "date": "2026-07-06",
+        "version": "2.1.202"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 474
+          "change_count": 477
         },
         {
           "epoch_id": "epoch1",
@@ -61963,8 +62298,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 851,
-      "release_count": 219,
+      "change_count": 855,
+      "release_count": 220,
       "avg_importance": 3.25,
       "maturity": {
         "score": 93,
@@ -61975,14 +62310,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-07-03",
-        "version": "2.1.200"
+        "date": "2026-07-06",
+        "version": "2.1.202"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 605
+          "change_count": 609
         },
         {
           "epoch_id": "epoch4",
@@ -62058,9 +62393,9 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 450,
-      "release_count": 137,
-      "avg_importance": 3.23,
+      "change_count": 455,
+      "release_count": 138,
+      "avg_importance": 3.24,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -62070,14 +62405,14 @@
         "version": "0.2.50"
       },
       "latest_seen": {
-        "date": "2026-07-03",
-        "version": "2.1.200"
+        "date": "2026-07-06",
+        "version": "2.1.202"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 370
+          "change_count": 375
         },
         {
           "epoch_id": "epoch1",
@@ -62153,8 +62488,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 1238,
-      "release_count": 246,
+      "change_count": 1243,
+      "release_count": 247,
       "avg_importance": 3.1,
       "maturity": {
         "score": 92,
@@ -62165,14 +62500,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-07-03",
-        "version": "2.1.200"
+        "date": "2026-07-06",
+        "version": "2.1.202"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 883
+          "change_count": 888
         },
         {
           "epoch_id": "epoch1",
@@ -62248,8 +62583,8 @@
         "Emacs",
         "web"
       ],
-      "change_count": 873,
-      "release_count": 194,
+      "change_count": 880,
+      "release_count": 195,
       "avg_importance": 2.7,
       "maturity": {
         "score": 91,
@@ -62260,14 +62595,14 @@
         "version": "0.2.34"
       },
       "latest_seen": {
-        "date": "2026-07-03",
-        "version": "2.1.200"
+        "date": "2026-07-06",
+        "version": "2.1.202"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 683
+          "change_count": 690
         },
         {
           "epoch_id": "epoch4",
@@ -62343,8 +62678,8 @@
         "policy",
         "auditing"
       ],
-      "change_count": 849,
-      "release_count": 216,
+      "change_count": 852,
+      "release_count": 217,
       "avg_importance": 3.4,
       "maturity": {
         "score": 94,
@@ -62355,14 +62690,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-07-03",
-        "version": "2.1.200"
+        "date": "2026-07-06",
+        "version": "2.1.202"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 628
+          "change_count": 631
         },
         {
           "epoch_id": "epoch4",
@@ -62425,7 +62760,7 @@
     "hn_top": [
       {
         "title": "Claude Code is steganographically marking requests",
-        "points": 2436,
+        "points": 2440,
         "url": "https://thereallo.dev/blog/claude-code-prompt-steganography",
         "date": "2026-06-30"
       },
