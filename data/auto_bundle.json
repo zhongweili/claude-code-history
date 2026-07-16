@@ -1,13 +1,13 @@
 {
   "meta": {
-    "generated_at": "2026-07-15T03:58:11.185Z",
+    "generated_at": "2026-07-16T04:00:16.698Z",
     "agent_model": "glm-5",
-    "total_versions": 344,
+    "total_versions": 345,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-07-14"
+      "end": "2026-07-15"
     },
-    "highlight_count": 54,
+    "highlight_count": 53,
     "capability_count": 8,
     "hn_signal_count": 18,
     "blog_post_count": 11
@@ -70,11 +70,514 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。adaptive thinking 把推理深度交给模型自己决定，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界——从 Opus 4.6 到 4.8，每一代都在加速这条路。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Adaptive thinking hands reasoning depth to the model itself, while worktree isolation and 1M context push the agent toward hours-long unattended runs — from Opus 4.6 through 4.8, each generation accelerates the path.",
-      "release_count": 128,
-      "highlight_count": 32
+      "release_count": 129,
+      "highlight_count": 31
     }
   ],
   "releases": [
+    {
+      "version": "2.1.211",
+      "date": "2026-07-15",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added `--forward-subagent-text` flag and `CLAUDE_CODE_FORWARD_SUBAGENT_TEXT` environment variable to include subagent text and thinking in stream-json output",
+          "category": "feat",
+          "importance": 3,
+          "summary": "支持转发子代理文本到流式JSON输出",
+          "summary_en": "Forward subagent text and thinking to stream-json output",
+          "why_matters": "使自动化流程能获取子代理的完整推理过程。",
+          "why_matters_en": "Enables automation pipelines to capture subagent reasoning and text.",
+          "capability_ids": [
+            "automation_autonomy",
+            "delegation_collaboration",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed permission previews relayed to chat channels not neutralizing bidirectional-override, zero-width, and look-alike quote characters, so tool inputs cannot visually alter the approval message",
+          "category": "security",
+          "importance": 4,
+          "summary": "修复权限预览中的Unicode注入漏洞",
+          "summary_en": "Fix Unicode bidi/zero-width injection in permission previews",
+          "why_matters": "防止攻击者通过特殊字符篡改审批消息的视觉显示。",
+          "why_matters_en": "Prevents attackers from visually altering approval messages via special characters.",
+          "capability_ids": [
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed auto mode overriding a PreToolUse hook's `ask` decision for unsandboxed Bash — a hook `ask` now floors the decision at a prompt",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复自动模式覆盖钩子的ask决策",
+          "summary_en": "Fix auto mode overriding PreToolUse hook ask decision for Bash",
+          "why_matters": "确保安全钩子的审批决策不会被自动模式绕过。",
+          "why_matters_en": "Ensures security hook ask decisions are respected even in auto mode.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed parallel Claude Code sessions all logging out simultaneously after wake-from-sleep when many sessions share one credential store",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复多会话唤醒后同时登出问题",
+          "summary_en": "Fix parallel sessions all logging out after wake-from-sleep",
+          "why_matters": "避免多会话共享凭证时唤醒后全部掉线影响工作。",
+          "why_matters_en": "Prevents disruptive mass logouts when many sessions share one credential store.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed plugin MCP servers not reconnecting after an idle web session woke, leaving MCP calls failing until the next message",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复空闲唤醒后MCP服务器断连",
+          "summary_en": "Fix plugin MCP servers not reconnecting after idle session wake",
+          "why_matters": "确保唤醒后MCP工具调用能正常恢复工作。",
+          "why_matters_en": "Ensures MCP tool calls resume normally after idle session wakes.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed Claude Code on Vertex and Bedrock attempting the default Opus model at startup and printing a spurious fallback notice when a model is explicitly configured",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复Vertex/Bedrock启动时误报模型回退",
+          "summary_en": "Fix spurious Opus fallback notice on Vertex/Bedrock with explicit model",
+          "why_matters": "消除显式配置模型时的误导性回退提示。",
+          "why_matters_en": "Removes confusing fallback notices when a model is explicitly configured.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed subagents spawned with an explicit model override reverting to the parent's model when resumed or sent a follow-up message",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复子代理模型覆盖在恢复时丢失",
+          "summary_en": "Fix subagent model override reverting on resume or follow-up",
+          "why_matters": "确保子代理在恢复或追问时保持指定的模型配置。",
+          "why_matters_en": "Ensures subagents retain their explicit model override across resume and follow-ups.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "memory_context",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed nested `.claude/rules/*.md` files loading even when setting sources exclude project settings",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复排除项目设置时仍加载嵌套规则",
+          "summary_en": "Fix nested .claude/rules loading when settings exclude project config",
+          "why_matters": "尊重设置排除项，避免加载不应加载的规则文件。",
+          "why_matters_en": "Respects setting exclusion sources so unwanted nested rules are not loaded.",
+          "capability_ids": [
+            "memory_context",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed file upload validation: filenames ending in a DOS device suffix (`.prn`) or trailing dot are now accepted, and files with multiple hard links are refused",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复文件上传校验对DOS设备名和硬链接",
+          "summary_en": "Fix file upload validation for DOS device suffixes and hard links",
+          "why_matters": "正确处理特殊文件名并拒绝多硬链接文件以避免歧义。",
+          "why_matters_en": "Correctly handles special filenames and refuses multi-hard-link files to avoid ambiguity.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed file uploads to Claude in Chrome from remote and CLI sessions",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复Chrome扩展远程和CLI文件上传",
+          "summary_en": "Fix file uploads to Claude in Chrome from remote and CLI sessions",
+          "why_matters": "恢复远程和CLI会话中文件上传的正常功能。",
+          "why_matters_en": "Restores file upload functionality in remote and CLI sessions via Chrome.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed edits that leave the input as \"?\" being silently swallowed and toggling the shortcuts panel",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复问号输入被吞并触发快捷键面板",
+          "summary_en": "Fix '?' input edits being swallowed and toggling shortcuts panel",
+          "why_matters": "避免用户编辑输入为问号时的意外行为。",
+          "why_matters_en": "Prevents unexpected behavior when user edits input to a single question mark.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed a startup hang when the Claude in Chrome extension is enabled but Chrome is not running",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复Chrome未运行时扩展导致启动挂起",
+          "summary_en": "Fix startup hang when Chrome extension enabled but Chrome not running",
+          "why_matters": "避免Chrome未运行时Claude Code启动卡死。",
+          "why_matters_en": "Prevents Claude Code from hanging at startup when Chrome is not running.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed a 300ms delay revealing async content (Settings tabs, Stats, diff views, and other loading states)",
+          "category": "perf",
+          "importance": 3,
+          "summary": "修复300ms延迟导致异步内容闪现",
+          "summary_en": "Fix 300ms delay revealing async loading states prematurely",
+          "why_matters": "消除加载状态闪烁，提升界面响应体验。",
+          "why_matters_en": "Eliminates premature loading state flicker for smoother UI experience.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed reopening a just-stopped background session from the agents view starting a blank conversation under the same session id",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复重开后台会话启动空白对话",
+          "summary_en": "Fix reopening stopped background session starting blank conversation",
+          "why_matters": "避免重开已停止会话时丢失历史对话内容。",
+          "why_matters_en": "Prevents loss of conversation history when reopening a stopped background session.",
+          "capability_ids": [
+            "execution_workspace",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed `/loop` hiding the session from `/resume` after a single use",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复/loop使用后会话从/resume消失",
+          "summary_en": "Fix /loop hiding session from /resume after single use",
+          "why_matters": "确保循环会话仍可通过resume恢复，不丢失工作。",
+          "why_matters_en": "Ensures looped sessions remain resumable so users don't lose work.",
+          "capability_ids": [
+            "automation_autonomy",
+            "execution_workspace",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed screen reader users losing the audible terminal bell after `/terminal-setup` or onboarding terminal setup",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复终端设置后屏幕阅读器丢失铃声",
+          "summary_en": "Fix screen reader bell loss after terminal setup",
+          "why_matters": "无障碍体验对依赖屏幕阅读器的用户至关重要。",
+          "why_matters_en": "Accessibility is critical for screen reader users.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed background jobs on LLM gateway auth (`ANTHROPIC_AUTH_TOKEN` + `ANTHROPIC_BASE_URL`) coming back \"Not logged in\" after the daemon respawns them",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复LLM网关后台任务认证失效问题",
+          "summary_en": "Fix background job auth failure on LLM gateway after daemon respawn",
+          "why_matters": "使用自定义网关的后台任务认证中断会导致任务无法执行。",
+          "why_matters_en": "Auth failures on custom gateways break background task execution.",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed `claude agents` jobs becoming permanently undeletable when git no longer recognizes their worktree — the row now shows why the delete was refused instead of silently reappearing",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复git无法识别worktree时代理任务无法删除",
+          "summary_en": "Fix undeletable agent jobs when git loses worktree recognition",
+          "why_matters": "任务无法删除且无提示会严重干扰用户的工作流管理。",
+          "why_matters_en": "Silently undeletable jobs severely disrupt workflow management.",
+          "capability_ids": [
+            "execution_workspace",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed `/clear` not resetting the session cost counter — the statusline's cost now starts at $0 after `/clear`",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复/clear后费用计数器未重置",
+          "summary_en": "Fix session cost counter not resetting after /clear",
+          "why_matters": "费用显示不准确会误导用户对成本的判断。",
+          "why_matters_en": "Inaccurate cost display misleads users about spending.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed Claude in Chrome setup pages failing to open in the browser on Windows",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复Windows上浏览器无法打开Claude设置页",
+          "summary_en": "Fix Claude in Chrome setup pages not opening on Windows",
+          "why_matters": "Windows用户无法完成浏览器集成设置会阻断使用流程。",
+          "why_matters_en": "Windows users are blocked from completing browser integration setup.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed headless print-mode sessions on Windows crashing or silently exiting when stdin is unreadable",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复Windows无头模式stdin不可读时崩溃",
+          "summary_en": "Fix headless print-mode crash on Windows when stdin is unreadable",
+          "why_matters": "无头模式崩溃会中断自动化和CI/CD流水线中的使用。",
+          "why_matters_en": "Headless crashes disrupt automation and CI/CD pipeline usage.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed background session titles in the agents view showing the naming model's refusal text when the prompt contains a link",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复后台代理标题显示模型拒绝文本",
+          "summary_en": "Fix background agent titles showing model refusal text",
+          "why_matters": "标题显示错误信息会降低代理视图的可读性和可用性。",
+          "why_matters_en": "Refusal text in titles degrades agent view readability and usability.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed background agents killed by the user auto-respawning, and revived agents re-running stale prompts from old sessions",
+          "category": "fix",
+          "importance": 5,
+          "summary": "修复被用户终止的后台代理自动重启并重跑旧提示",
+          "summary_en": "Fix killed background agents auto-respawning and re-running stale prompts",
+          "why_matters": "用户终止的代理自动重启并执行旧指令可能导致意外操作和资源浪费。",
+          "why_matters_en": "Auto-reviving killed agents with stale prompts risks unintended actions and wasted resources.",
+          "capability_ids": [
+            "automation_autonomy",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed routines with no schedule reporting a next run time in the year 1",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复无计划例程显示公元1年的下次运行时间",
+          "summary_en": "Fix unscheduled routines showing year 1 next run time",
+          "why_matters": "显示荒谬的时间戳会降低用户对调度系统的信任。",
+          "why_matters_en": "Absurd timestamps undermine user trust in the scheduling system.",
+          "capability_ids": [
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Hardened synced skill/plugin directory naming on Windows and kept CCR web fetch/search proxies working after `/clear`",
+          "category": "fix",
+          "importance": 3,
+          "summary": "加固Windows插件目录命名并修复/clear后代理失效",
+          "summary_en": "Harden plugin dir naming on Windows and keep proxies working after /clear",
+          "why_matters": "目录命名安全性和代理持久性直接影响插件和搜索功能的可靠性。",
+          "why_matters_en": "Directory naming safety and proxy persistence directly affect plugin and search reliability.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Improved terminal layout and rendering performance",
+          "category": "perf",
+          "importance": 3,
+          "summary": "提升终端布局和渲染性能",
+          "summary_en": "Improve terminal layout and rendering performance",
+          "why_matters": "更流畅的终端渲染显著改善用户交互体验。",
+          "why_matters_en": "Smoother terminal rendering significantly improves user interaction experience.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Improved background agent result reporting — Claude now reports the status of still-running agents and waits for the real completion instead of fabricating results",
+          "category": "improvement",
+          "importance": 4,
+          "summary": "改进后台代理结果报告，不再编造结果",
+          "summary_en": "Improve background agent reporting to wait for real completion",
+          "why_matters": "编造结果会误导用户决策，等待真实完成确保结果可信。",
+          "why_matters_en": "Fabricated results mislead decisions; waiting for real completion ensures trustworthiness.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "reasoning_workflows",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Improved the memory index over-limit warning to measure only loaded content, excluding frontmatter and HTML comments",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "改进内存索引超限警告，排除元数据",
+          "summary_en": "Improve memory index over-limit warning to exclude frontmatter",
+          "why_matters": "更准确的超限测量避免误报警告，减少用户困扰。",
+          "why_matters_en": "More accurate limit measurement avoids false warnings and reduces user friction.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Updated integer environment variables (timeouts, token budgets, retry counts) to accept scientific notation and digit-separator spellings like `1e6` and `64_000`",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "环境变量支持科学计数法和数字分隔符",
+          "summary_en": "Integer env vars now accept scientific notation and digit separators",
+          "why_matters": "更灵活的数值格式提升配置便捷性和可读性。",
+          "why_matters_en": "Flexible number formats improve configuration convenience and readability.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Updated documentation links to the current docs sites",
+          "category": "other",
+          "importance": 1,
+          "summary": "更新文档链接至最新文档站点",
+          "summary_en": "Update documentation links to current docs sites",
+          "why_matters": "确保用户访问最新文档，避免链接失效。",
+          "why_matters_en": "Ensures users access current documentation and avoids broken links.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Changed \"always allow\" permission rules to save at the repository root, so approvals granted in a git worktree persist across sessions and worktrees",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "允许规则保存至仓库根目录，跨工作树持久化",
+          "summary_en": "Permission rules saved at repo root, persist across worktrees",
+          "why_matters": "用户在git worktree中授权后无需重复操作，提升多工作树场景下的效率。",
+          "why_matters_en": "Users don't need to re-approve permissions in each worktree, improving multi-worktree workflows.",
+          "capability_ids": [
+            "governance_security",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Changed `/usage-credits` to ask for confirmation before sending a request to organization admins",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "使用额度请求前需确认，避免误发管理员",
+          "summary_en": "Usage credits request now asks confirmation before contacting admins",
+          "why_matters": "防止用户意外向组织管理员发送请求，减少不必要的打扰。",
+          "why_matters_en": "Prevents accidental requests being sent to organization admins, reducing unnecessary interruptions.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Changed Vim mode `s` and `S` (substitute char/line) to work in NORMAL mode, matching vim behavior",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复Vim模式s/S替换命令，匹配标准行为",
+          "summary_en": "Fixed Vim mode s/S substitute commands to match standard vim behavior",
+          "why_matters": "Vim用户可获得符合预期的编辑体验，减少操作困惑。",
+          "why_matters_en": "Vim users get expected editing behavior, reducing confusion during use.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Updated the Remote Control banner to describe what it does",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "更新VSCode远程控制横幅说明",
+          "summary_en": "Updated VSCode Remote Control banner description",
+          "why_matters": "用户能更好理解远程控制功能的用途，提升使用透明度。",
+          "why_matters_en": "Users better understand what Remote Control does, improving feature transparency.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Claude in Chrome: hardened file-upload path validation",
+          "category": "security",
+          "importance": 4,
+          "summary": "强化Chrome扩展文件上传路径校验",
+          "summary_en": "Hardened file-upload path validation in Claude in Chrome",
+          "why_matters": "防止路径遍历等安全风险，保护用户文件系统安全。",
+          "why_matters_en": "Prevents path traversal and other security risks, protecting user filesystem integrity.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Claude in Chrome: `save_to_disk` on screenshot actions now writes the image to disk and returns the path; previously it did nothing",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复截图保存到磁盘功能，之前无效",
+          "summary_en": "Fixed save_to_disk on screenshots; now writes image and returns path",
+          "why_matters": "截图保存功能现在可正常使用，之前完全不起作用。",
+          "why_matters_en": "Screenshot saving now works as expected; previously the action did nothing.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed a prompt-caching regression on Bedrock, Vertex, Mantle, and Foundry that billed the trailing system context block as fresh input tokens on every request.",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复多平台提示缓存回归，避免重复计费",
+          "summary_en": "Fixed prompt-caching regression causing repeated billing on Bedrock/Vertex/etc",
+          "why_matters": "避免用户因缓存失效在每次请求中产生额外token费用，显著降低使用成本。",
+          "why_matters_en": "Prevents unnecessary token costs from caching regression, significantly reducing usage expenses.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+          "points": 931,
+          "url": "https://github.com/JustVugg/colibri"
+        },
+        {
+          "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
+          "points": 699,
+          "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
+        },
+        {
+          "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
+          "points": 273,
+          "url": "https://github.com/juggler-ai/juggler"
+        },
+        {
+          "title": "Geosql: A Claude/Codex skill for geospatial data",
+          "points": 138,
+          "url": "https://github.com/dekart-xyz/geosql"
+        },
+        {
+          "title": "Claude Code plugin that plays a Mr. Meeseeks voice line whene Claude is waiting",
+          "points": 131,
+          "url": "https://github.com/thephw/claude-meseeks"
+        }
+      ],
+      "highlight_score": 50
+    },
     {
       "version": "2.1.210",
       "date": "2026-07-14",
@@ -510,13 +1013,18 @@
       "signals": [
         {
           "title": "Show HN: Getting GLM 5.2 running on my slow computer",
-          "points": 928,
+          "points": 931,
           "url": "https://github.com/JustVugg/colibri"
         },
         {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
-          "points": 695,
+          "points": 699,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
+        },
+        {
+          "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
+          "points": 273,
+          "url": "https://github.com/juggler-ai/juggler"
         },
         {
           "title": "Show HN: Yamanote.fun – A complete soundscape for Tokyo's Yamanote line",
@@ -525,13 +1033,8 @@
         },
         {
           "title": "Show HN: Rowboat – Open-source, local-first alternative to Claude Desktop",
-          "points": 218,
+          "points": 219,
           "url": "https://github.com/rowboatlabs/rowboat"
-        },
-        {
-          "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
-          "points": 197,
-          "url": "https://github.com/juggler-ai/juggler"
         }
       ],
       "highlight_score": 50
@@ -559,13 +1062,18 @@
       "signals": [
         {
           "title": "Show HN: Getting GLM 5.2 running on my slow computer",
-          "points": 928,
+          "points": 931,
           "url": "https://github.com/JustVugg/colibri"
         },
         {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
-          "points": 695,
+          "points": 699,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
+        },
+        {
+          "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
+          "points": 273,
+          "url": "https://github.com/juggler-ai/juggler"
         },
         {
           "title": "Show HN: Yamanote.fun – A complete soundscape for Tokyo's Yamanote line",
@@ -574,13 +1082,8 @@
         },
         {
           "title": "Show HN: Rowboat – Open-source, local-first alternative to Claude Desktop",
-          "points": 218,
+          "points": 219,
           "url": "https://github.com/rowboatlabs/rowboat"
-        },
-        {
-          "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
-          "points": 197,
-          "url": "https://github.com/juggler-ai/juggler"
         }
       ],
       "highlight_score": 30
@@ -1171,13 +1674,18 @@
       "signals": [
         {
           "title": "Show HN: Getting GLM 5.2 running on my slow computer",
-          "points": 928,
+          "points": 931,
           "url": "https://github.com/JustVugg/colibri"
         },
         {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
-          "points": 695,
+          "points": 699,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
+        },
+        {
+          "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
+          "points": 273,
+          "url": "https://github.com/juggler-ai/juggler"
         },
         {
           "title": "Show HN: Yamanote.fun – A complete soundscape for Tokyo's Yamanote line",
@@ -1186,13 +1694,8 @@
         },
         {
           "title": "Show HN: Rowboat – Open-source, local-first alternative to Claude Desktop",
-          "points": 218,
+          "points": 219,
           "url": "https://github.com/rowboatlabs/rowboat"
-        },
-        {
-          "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
-          "points": 197,
-          "url": "https://github.com/juggler-ai/juggler"
         }
       ],
       "highlight_score": 50
@@ -1514,12 +2017,12 @@
       "signals": [
         {
           "title": "Show HN: Getting GLM 5.2 running on my slow computer",
-          "points": 928,
+          "points": 931,
           "url": "https://github.com/JustVugg/colibri"
         },
         {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
-          "points": 695,
+          "points": 699,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
         },
         {
@@ -1533,9 +2036,9 @@
           "url": "https://github.com/anthropics/claude-code/issues/74066"
         },
         {
-          "title": "Show HN: Yamanote.fun – A complete soundscape for Tokyo's Yamanote line",
-          "points": 237,
-          "url": "https://www.yamanote.fun/"
+          "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
+          "points": 273,
+          "url": "https://github.com/juggler-ai/juggler"
         }
       ],
       "highlight_score": 60
@@ -1886,12 +2389,12 @@
       "signals": [
         {
           "title": "Show HN: Getting GLM 5.2 running on my slow computer",
-          "points": 928,
+          "points": 931,
           "url": "https://github.com/JustVugg/colibri"
         },
         {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
-          "points": 695,
+          "points": 699,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
         },
         {
@@ -1905,9 +2408,9 @@
           "url": "https://github.com/anthropics/claude-code/issues/74066"
         },
         {
-          "title": "Show HN: Yamanote.fun – A complete soundscape for Tokyo's Yamanote line",
-          "points": 237,
-          "url": "https://www.yamanote.fun/"
+          "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
+          "points": 273,
+          "url": "https://github.com/juggler-ai/juggler"
         }
       ],
       "highlight_score": 50
@@ -2215,12 +2718,12 @@
       "signals": [
         {
           "title": "Show HN: Getting GLM 5.2 running on my slow computer",
-          "points": 928,
+          "points": 931,
           "url": "https://github.com/JustVugg/colibri"
         },
         {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
-          "points": 695,
+          "points": 699,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
         },
         {
@@ -2265,12 +2768,12 @@
       "signals": [
         {
           "title": "Show HN: Getting GLM 5.2 running on my slow computer",
-          "points": 928,
+          "points": 931,
           "url": "https://github.com/JustVugg/colibri"
         },
         {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
-          "points": 695,
+          "points": 699,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
         },
         {
@@ -2780,12 +3283,12 @@
         },
         {
           "title": "Show HN: Getting GLM 5.2 running on my slow computer",
-          "points": 928,
+          "points": 931,
           "url": "https://github.com/JustVugg/colibri"
         },
         {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
-          "points": 695,
+          "points": 699,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
         },
         {
@@ -3047,12 +3550,12 @@
         },
         {
           "title": "Show HN: Getting GLM 5.2 running on my slow computer",
-          "points": 928,
+          "points": 931,
           "url": "https://github.com/JustVugg/colibri"
         },
         {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
-          "points": 695,
+          "points": 699,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
         },
         {
@@ -3095,7 +3598,7 @@
         },
         {
           "title": "Show HN: Getting GLM 5.2 running on my slow computer",
-          "points": 928,
+          "points": 931,
           "url": "https://github.com/JustVugg/colibri"
         },
         {
@@ -3350,7 +3853,7 @@
         },
         {
           "title": "Show HN: Getting GLM 5.2 running on my slow computer",
-          "points": 928,
+          "points": 931,
           "url": "https://github.com/JustVugg/colibri"
         },
         {
@@ -3692,7 +4195,7 @@
         },
         {
           "title": "Show HN: Getting GLM 5.2 running on my slow computer",
-          "points": 928,
+          "points": 931,
           "url": "https://github.com/JustVugg/colibri"
         },
         {
@@ -4136,11 +4639,6 @@
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
-          "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
-          "points": 813,
-          "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
-        },
-        {
           "title": "I used Claude Code to get a second opinion on my MRI",
           "points": 566,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
@@ -4154,6 +4652,11 @@
           "title": "Alibaba to ban Claude Code in workplace over alleged backdoor risks, source says",
           "points": 336,
           "url": "https://www.reuters.com/world/china/alibaba-ban-claude-code-workplace-over-alleged-backdoor-risks-source-says-2026-07-03/"
+        },
+        {
+          "title": "Potential session/cache leakage between workspace instances or consumer accounts",
+          "points": 314,
+          "url": "https://github.com/anthropics/claude-code/issues/74066"
         }
       ],
       "highlight_score": 55
@@ -4185,11 +4688,6 @@
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
-          "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
-          "points": 813,
-          "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
-        },
-        {
           "title": "I used Claude Code to get a second opinion on my MRI",
           "points": 566,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
@@ -4203,6 +4701,11 @@
           "title": "Alibaba to ban Claude Code in workplace over alleged backdoor risks, source says",
           "points": 336,
           "url": "https://www.reuters.com/world/china/alibaba-ban-claude-code-workplace-over-alleged-backdoor-risks-source-says-2026-07-03/"
+        },
+        {
+          "title": "Potential session/cache leakage between workspace instances or consumer accounts",
+          "points": 314,
+          "url": "https://github.com/anthropics/claude-code/issues/74066"
         }
       ],
       "highlight_score": 70
@@ -4565,11 +5068,6 @@
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
-          "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
-          "points": 813,
-          "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
-        },
-        {
           "title": "I used Claude Code to get a second opinion on my MRI",
           "points": 566,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
@@ -4583,6 +5081,11 @@
           "title": "Alibaba to ban Claude Code in workplace over alleged backdoor risks, source says",
           "points": 336,
           "url": "https://www.reuters.com/world/china/alibaba-ban-claude-code-workplace-over-alleged-backdoor-risks-source-says-2026-07-03/"
+        },
+        {
+          "title": "The text in Claude Code’s “Extended Thinking” output",
+          "points": 326,
+          "url": "https://patrickmccanna.net/the-text-in-claude-codes-extended-thinking-output-is-not-authentic/"
         }
       ],
       "highlight_score": 50
@@ -4754,11 +5257,6 @@
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
-          "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
-          "points": 813,
-          "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
-        },
-        {
           "title": "I used Claude Code to get a second opinion on my MRI",
           "points": 566,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
@@ -4772,6 +5270,11 @@
           "title": "Alibaba to ban Claude Code in workplace over alleged backdoor risks, source says",
           "points": 336,
           "url": "https://www.reuters.com/world/china/alibaba-ban-claude-code-workplace-over-alleged-backdoor-risks-source-says-2026-07-03/"
+        },
+        {
+          "title": "The text in Claude Code’s “Extended Thinking” output",
+          "points": 326,
+          "url": "https://patrickmccanna.net/the-text-in-claude-codes-extended-thinking-output-is-not-authentic/"
         }
       ],
       "highlight_score": 50
@@ -4977,11 +5480,6 @@
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
-          "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
-          "points": 813,
-          "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
-        },
-        {
           "title": "I used Claude Code to get a second opinion on my MRI",
           "points": 566,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
@@ -4995,6 +5493,11 @@
           "title": "The text in Claude Code’s “Extended Thinking” output",
           "points": 326,
           "url": "https://patrickmccanna.net/the-text-in-claude-codes-extended-thinking-output-is-not-authentic/"
+        },
+        {
+          "title": "ZCode: Claude Code from the Makers of GLM",
+          "points": 278,
+          "url": "https://zcode.z.ai/cn"
         }
       ],
       "highlight_score": 50
@@ -5263,11 +5766,6 @@
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
-          "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
-          "points": 813,
-          "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
-        },
-        {
           "title": "I used Claude Code to get a second opinion on my MRI",
           "points": 566,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
@@ -5281,6 +5779,11 @@
           "title": "The text in Claude Code’s “Extended Thinking” output",
           "points": 326,
           "url": "https://patrickmccanna.net/the-text-in-claude-codes-extended-thinking-output-is-not-authentic/"
+        },
+        {
+          "title": "ZCode: Claude Code from the Makers of GLM",
+          "points": 278,
+          "url": "https://zcode.z.ai/cn"
         }
       ],
       "highlight_score": 50
@@ -5309,11 +5812,6 @@
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
-          "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
-          "points": 813,
-          "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
-        },
-        {
           "title": "I used Claude Code to get a second opinion on my MRI",
           "points": 566,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
@@ -5327,6 +5825,11 @@
           "title": "The text in Claude Code’s “Extended Thinking” output",
           "points": 326,
           "url": "https://patrickmccanna.net/the-text-in-claude-codes-extended-thinking-output-is-not-authentic/"
+        },
+        {
+          "title": "ZCode: Claude Code from the Makers of GLM",
+          "points": 278,
+          "url": "https://zcode.z.ai/cn"
         }
       ],
       "highlight_score": 30
@@ -5610,11 +6113,6 @@
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
-          "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
-          "points": 813,
-          "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
-        },
-        {
           "title": "I used Claude Code to get a second opinion on my MRI",
           "points": 566,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
@@ -5628,6 +6126,11 @@
           "title": "The text in Claude Code’s “Extended Thinking” output",
           "points": 326,
           "url": "https://patrickmccanna.net/the-text-in-claude-codes-extended-thinking-output-is-not-authentic/"
+        },
+        {
+          "title": "Tell HN: Installing Cursor on iOS irreversibly changes your privacy settings",
+          "points": 249,
+          "url": "https://news.ycombinator.com/item?id=48737226"
         }
       ],
       "highlight_score": 50
@@ -6049,16 +6552,6 @@
       ],
       "signals": [
         {
-          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1318,
-          "url": "https://news.ycombinator.com/item?id=48542100"
-        },
-        {
-          "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
-          "points": 813,
-          "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
-        },
-        {
           "title": "I used Claude Code to get a second opinion on my MRI",
           "points": 566,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
@@ -6072,6 +6565,16 @@
           "title": "The text in Claude Code’s “Extended Thinking” output",
           "points": 326,
           "url": "https://patrickmccanna.net/the-text-in-claude-codes-extended-thinking-output-is-not-authentic/"
+        },
+        {
+          "title": "Show HN: Smart model routing directly in Claude, Codex and Cursor",
+          "points": 216,
+          "url": "https://github.com/workweave/router"
+        },
+        {
+          "title": "Launch HN: Adam (YC W25) – Open-Source AI CAD",
+          "points": 215,
+          "url": "https://github.com/Adam-CAD/CADAM"
         }
       ],
       "highlight_score": 50
@@ -6095,16 +6598,6 @@
       ],
       "signals": [
         {
-          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1318,
-          "url": "https://news.ycombinator.com/item?id=48542100"
-        },
-        {
-          "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
-          "points": 813,
-          "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
-        },
-        {
           "title": "Show HN: OpenKnowledge – open source AI-first alternative to Obsidian/Notion",
           "points": 381,
           "url": "https://github.com/inkeep/open-knowledge"
@@ -6118,9 +6611,19 @@
           "title": "Show HN: Smart model routing directly in Claude, Codex and Cursor",
           "points": 216,
           "url": "https://github.com/workweave/router"
+        },
+        {
+          "title": "Launch HN: Adam (YC W25) – Open-Source AI CAD",
+          "points": 215,
+          "url": "https://github.com/Adam-CAD/CADAM"
+        },
+        {
+          "title": "Ask HN: Where is the programming profession going?",
+          "points": 166,
+          "url": "https://news.ycombinator.com/item?id=48668199"
         }
       ],
-      "highlight_score": 30
+      "highlight_score": 15
     },
     {
       "version": "2.1.183",
@@ -6355,16 +6858,6 @@
       ],
       "signals": [
         {
-          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1318,
-          "url": "https://news.ycombinator.com/item?id=48542100"
-        },
-        {
-          "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
-          "points": 813,
-          "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
-        },
-        {
           "title": "Show HN: OpenKnowledge – open source AI-first alternative to Obsidian/Notion",
           "points": 381,
           "url": "https://github.com/inkeep/open-knowledge"
@@ -6378,9 +6871,19 @@
           "title": "Show HN: Smart model routing directly in Claude, Codex and Cursor",
           "points": 216,
           "url": "https://github.com/workweave/router"
+        },
+        {
+          "title": "Launch HN: Adam (YC W25) – Open-Source AI CAD",
+          "points": 215,
+          "url": "https://github.com/Adam-CAD/CADAM"
+        },
+        {
+          "title": "Ask HN: Where is the programming profession going?",
+          "points": 166,
+          "url": "https://news.ycombinator.com/item?id=48668199"
         }
       ],
-      "highlight_score": 50
+      "highlight_score": 35
     },
     {
       "version": "2.1.181",
@@ -6887,19 +7390,14 @@
       ],
       "signals": [
         {
-          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1318,
-          "url": "https://news.ycombinator.com/item?id=48542100"
-        },
-        {
-          "title": "Anthropic says Alibaba illicitly extracted Claude AI model capabilities",
-          "points": 813,
-          "url": "https://www.reuters.com/world/china/anthropic-says-alibaba-illicitly-extracted-claude-ai-model-capabilities-2026-06-24/"
-        },
-        {
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
           "points": 434,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
+        },
+        {
+          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
+          "points": 427,
+          "url": "https://news.ycombinator.com/item?id=48473166"
         },
         {
           "title": "The text in Claude Code’s “Extended Thinking” output",
@@ -6910,9 +7408,14 @@
           "title": "Launch HN: Adam (YC W25) – Open-Source AI CAD",
           "points": 215,
           "url": "https://github.com/Adam-CAD/CADAM"
+        },
+        {
+          "title": "Show HN: Recall – Local project memory for Claude Code",
+          "points": 138,
+          "url": "https://github.com/raiyanyahya/recall"
         }
       ],
-      "highlight_score": 50
+      "highlight_score": 35
     },
     {
       "version": "2.1.179",
@@ -7028,14 +7531,14 @@
       ],
       "signals": [
         {
-          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1318,
-          "url": "https://news.ycombinator.com/item?id=48542100"
-        },
-        {
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
           "points": 434,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
+        },
+        {
+          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
+          "points": 427,
+          "url": "https://news.ycombinator.com/item?id=48473166"
         },
         {
           "title": "The text in Claude Code’s “Extended Thinking” output",
@@ -7053,7 +7556,7 @@
           "url": "https://github.com/raiyanyahya/recall"
         }
       ],
-      "highlight_score": 50
+      "highlight_score": 35
     },
     {
       "version": "2.1.178",
@@ -7377,14 +7880,14 @@
       ],
       "signals": [
         {
-          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1318,
-          "url": "https://news.ycombinator.com/item?id=48542100"
-        },
-        {
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
           "points": 434,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
+        },
+        {
+          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
+          "points": 427,
+          "url": "https://news.ycombinator.com/item?id=48473166"
         },
         {
           "title": "The text in Claude Code’s “Extended Thinking” output",
@@ -7402,7 +7905,7 @@
           "url": "https://github.com/raiyanyahya/recall"
         }
       ],
-      "highlight_score": 55
+      "highlight_score": 40
     },
     {
       "version": "2.1.176",
@@ -7695,11 +8198,6 @@
       ],
       "signals": [
         {
-          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1318,
-          "url": "https://news.ycombinator.com/item?id=48542100"
-        },
-        {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
           "points": 538,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
@@ -7713,6 +8211,11 @@
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
           "points": 434,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
+        },
+        {
+          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
+          "points": 427,
+          "url": "https://news.ycombinator.com/item?id=48473166"
         },
         {
           "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
@@ -7744,11 +8247,6 @@
       ],
       "signals": [
         {
-          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1318,
-          "url": "https://news.ycombinator.com/item?id=48542100"
-        },
-        {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
           "points": 538,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
@@ -7762,6 +8260,11 @@
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
           "points": 434,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
+        },
+        {
+          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
+          "points": 427,
+          "url": "https://news.ycombinator.com/item?id=48473166"
         },
         {
           "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
@@ -7941,11 +8444,6 @@
       ],
       "signals": [
         {
-          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1318,
-          "url": "https://news.ycombinator.com/item?id=48542100"
-        },
-        {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
           "points": 538,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
@@ -7959,6 +8457,11 @@
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
           "points": 434,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
+        },
+        {
+          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
+          "points": 427,
+          "url": "https://news.ycombinator.com/item?id=48473166"
         },
         {
           "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
@@ -8003,11 +8506,6 @@
       ],
       "signals": [
         {
-          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1318,
-          "url": "https://news.ycombinator.com/item?id=48542100"
-        },
-        {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
           "points": 538,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
@@ -8021,6 +8519,11 @@
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
           "points": 434,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
+        },
+        {
+          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
+          "points": 427,
+          "url": "https://news.ycombinator.com/item?id=48473166"
         },
         {
           "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
@@ -8428,11 +8931,6 @@
       ],
       "signals": [
         {
-          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1318,
-          "url": "https://news.ycombinator.com/item?id=48542100"
-        },
-        {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
           "points": 538,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
@@ -8446,6 +8944,11 @@
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
           "points": 434,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
+        },
+        {
+          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
+          "points": 427,
+          "url": "https://news.ycombinator.com/item?id=48473166"
         },
         {
           "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
@@ -8490,11 +8993,6 @@
       ],
       "signals": [
         {
-          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1318,
-          "url": "https://news.ycombinator.com/item?id=48542100"
-        },
-        {
           "title": "Please don't spam people looking for employment. It's just cruel",
           "points": 969,
           "url": "https://news.ycombinator.com/item?id=48370330"
@@ -8513,6 +9011,11 @@
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
           "points": 434,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
+        },
+        {
+          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
+          "points": 427,
+          "url": "https://news.ycombinator.com/item?id=48473166"
         }
       ],
       "highlight_score": 70
@@ -8923,11 +9426,6 @@
       ],
       "signals": [
         {
-          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1318,
-          "url": "https://news.ycombinator.com/item?id=48542100"
-        },
-        {
           "title": "Please don't spam people looking for employment. It's just cruel",
           "points": 969,
           "url": "https://news.ycombinator.com/item?id=48370330"
@@ -8946,6 +9444,11 @@
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
           "points": 434,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
+        },
+        {
+          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
+          "points": 427,
+          "url": "https://news.ycombinator.com/item?id=48473166"
         }
       ],
       "highlight_score": 50
@@ -8989,9 +9492,9 @@
           "url": "https://github.com/anthropics/claude-code/issues/29045"
         },
         {
-          "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
-          "points": 402,
-          "url": "https://github.com/devenjarvis/lathe"
+          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
+          "points": 427,
+          "url": "https://news.ycombinator.com/item?id=48473166"
         }
       ],
       "highlight_score": 30
@@ -9035,9 +9538,9 @@
           "url": "https://github.com/anthropics/claude-code/issues/29045"
         },
         {
-          "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
-          "points": 402,
-          "url": "https://github.com/devenjarvis/lathe"
+          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
+          "points": 427,
+          "url": "https://news.ycombinator.com/item?id=48473166"
         }
       ],
       "highlight_score": 30
@@ -9340,9 +9843,9 @@
           "url": "https://github.com/anthropics/claude-code/issues/29045"
         },
         {
-          "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
-          "points": 402,
-          "url": "https://github.com/devenjarvis/lathe"
+          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
+          "points": 427,
+          "url": "https://news.ycombinator.com/item?id=48473166"
         }
       ],
       "highlight_score": 50
@@ -9386,9 +9889,9 @@
           "url": "https://github.com/anthropics/claude-code/issues/29045"
         },
         {
-          "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
-          "points": 402,
-          "url": "https://github.com/devenjarvis/lathe"
+          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
+          "points": 427,
+          "url": "https://news.ycombinator.com/item?id=48473166"
         }
       ],
       "highlight_score": 30
@@ -9709,9 +10212,9 @@
           "url": "https://github.com/anthropics/claude-code/issues/29045"
         },
         {
-          "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
-          "points": 402,
-          "url": "https://github.com/devenjarvis/lathe"
+          "title": "AWS Bedrock to require sharing data with Anthropic for Mythos and future models",
+          "points": 427,
+          "url": "https://news.ycombinator.com/item?id=48473166"
         }
       ],
       "highlight_score": 50
@@ -42635,11 +43138,6 @@
       ],
       "signals": [
         {
-          "title": "A few random notes from Claude coding quite a bit last few weeks",
-          "points": 913,
-          "url": "https://twitter.com/karpathy/status/2015883857489522876"
-        },
-        {
           "title": "Claude Code's new hidden feature: Swarms",
           "points": 521,
           "url": "https://twitter.com/NicerInPerson/status/2014989679796347375"
@@ -42775,11 +43273,6 @@
       ],
       "signals": [
         {
-          "title": "A few random notes from Claude coding quite a bit last few weeks",
-          "points": 913,
-          "url": "https://twitter.com/karpathy/status/2015883857489522876"
-        },
-        {
           "title": "Claude Code's new hidden feature: Swarms",
           "points": 521,
           "url": "https://twitter.com/NicerInPerson/status/2014989679796347375"
@@ -42798,6 +43291,11 @@
           "title": "Show HN: An interactive map of US lighthouses and navigational aids",
           "points": 102,
           "url": "https://www.lighthouses.app/"
+        },
+        {
+          "title": "Why I don't have fun with Claude Code",
+          "points": 95,
+          "url": "https://brennan.io/2026/01/23/claude-code/"
         }
       ],
       "highlight_score": 50
@@ -42824,11 +43322,6 @@
       ],
       "signals": [
         {
-          "title": "A few random notes from Claude coding quite a bit last few weeks",
-          "points": 913,
-          "url": "https://twitter.com/karpathy/status/2015883857489522876"
-        },
-        {
           "title": "I was banned from Claude for scaffolding a Claude.md file?",
           "points": 749,
           "url": "https://hugodaniel.com/posts/claude-code-banned-me/"
@@ -42847,6 +43340,11 @@
           "title": "Auto-compact not triggering on Claude.ai despite being marked as fixed",
           "points": 189,
           "url": "https://github.com/anthropics/claude-code/issues/18866"
+        },
+        {
+          "title": "Show HN: An interactive map of US lighthouses and navigational aids",
+          "points": 102,
+          "url": "https://www.lighthouses.app/"
         }
       ],
       "highlight_score": 30
@@ -42997,11 +43495,6 @@
       ],
       "signals": [
         {
-          "title": "A few random notes from Claude coding quite a bit last few weeks",
-          "points": 913,
-          "url": "https://twitter.com/karpathy/status/2015883857489522876"
-        },
-        {
           "title": "I was banned from Claude for scaffolding a Claude.md file?",
           "points": 749,
           "url": "https://hugodaniel.com/posts/claude-code-banned-me/"
@@ -43020,6 +43513,11 @@
           "title": "Auto-compact not triggering on Claude.ai despite being marked as fixed",
           "points": 189,
           "url": "https://github.com/anthropics/claude-code/issues/18866"
+        },
+        {
+          "title": "Show HN: An interactive map of US lighthouses and navigational aids",
+          "points": 102,
+          "url": "https://www.lighthouses.app/"
         }
       ],
       "highlight_score": 50
@@ -43046,11 +43544,6 @@
       ],
       "signals": [
         {
-          "title": "A few random notes from Claude coding quite a bit last few weeks",
-          "points": 913,
-          "url": "https://twitter.com/karpathy/status/2015883857489522876"
-        },
-        {
           "title": "I was banned from Claude for scaffolding a Claude.md file?",
           "points": 749,
           "url": "https://hugodaniel.com/posts/claude-code-banned-me/"
@@ -43069,6 +43562,11 @@
           "title": "Auto-compact not triggering on Claude.ai despite being marked as fixed",
           "points": 189,
           "url": "https://github.com/anthropics/claude-code/issues/18866"
+        },
+        {
+          "title": "Show HN: An interactive map of US lighthouses and navigational aids",
+          "points": 102,
+          "url": "https://www.lighthouses.app/"
         }
       ],
       "highlight_score": 50
@@ -43211,11 +43709,6 @@
       ],
       "signals": [
         {
-          "title": "A few random notes from Claude coding quite a bit last few weeks",
-          "points": 913,
-          "url": "https://twitter.com/karpathy/status/2015883857489522876"
-        },
-        {
           "title": "I was banned from Claude for scaffolding a Claude.md file?",
           "points": 749,
           "url": "https://hugodaniel.com/posts/claude-code-banned-me/"
@@ -43234,6 +43727,11 @@
           "title": "Auto-compact not triggering on Claude.ai despite being marked as fixed",
           "points": 189,
           "url": "https://github.com/anthropics/claude-code/issues/18866"
+        },
+        {
+          "title": "Show HN: An interactive map of US lighthouses and navigational aids",
+          "points": 102,
+          "url": "https://www.lighthouses.app/"
         }
       ],
       "highlight_score": 50
@@ -43590,11 +44088,6 @@
       ],
       "signals": [
         {
-          "title": "A few random notes from Claude coding quite a bit last few weeks",
-          "points": 913,
-          "url": "https://twitter.com/karpathy/status/2015883857489522876"
-        },
-        {
           "title": "I was banned from Claude for scaffolding a Claude.md file?",
           "points": 749,
           "url": "https://hugodaniel.com/posts/claude-code-banned-me/"
@@ -43613,6 +44106,11 @@
           "title": "Porting 100k lines from TypeScript to Rust using Claude Code in a month",
           "points": 255,
           "url": "https://blog.vjeux.com/2026/analysis/porting-100k-lines-from-typescript-to-rust-using-claude-code-in-a-month.html"
+        },
+        {
+          "title": "Claude Chill: Fix Claude Code's flickering in terminal",
+          "points": 192,
+          "url": "https://github.com/davidbeesley/claude-chill"
         }
       ],
       "highlight_score": 50
@@ -43798,11 +44296,6 @@
       ],
       "signals": [
         {
-          "title": "A few random notes from Claude coding quite a bit last few weeks",
-          "points": 913,
-          "url": "https://twitter.com/karpathy/status/2015883857489522876"
-        },
-        {
           "title": "I was banned from Claude for scaffolding a Claude.md file?",
           "points": 749,
           "url": "https://hugodaniel.com/posts/claude-code-banned-me/"
@@ -43821,6 +44314,11 @@
           "title": "Show HN: I quit coding years ago. AI brought me back",
           "points": 314,
           "url": "https://calquio.com/finance/compound-interest"
+        },
+        {
+          "title": "Porting 100k lines from TypeScript to Rust using Claude Code in a month",
+          "points": 255,
+          "url": "https://blog.vjeux.com/2026/analysis/porting-100k-lines-from-typescript-to-rust-using-claude-code-in-a-month.html"
         }
       ],
       "highlight_score": 55
@@ -43847,11 +44345,6 @@
       ],
       "signals": [
         {
-          "title": "A few random notes from Claude coding quite a bit last few weeks",
-          "points": 913,
-          "url": "https://twitter.com/karpathy/status/2015883857489522876"
-        },
-        {
           "title": "I was banned from Claude for scaffolding a Claude.md file?",
           "points": 749,
           "url": "https://hugodaniel.com/posts/claude-code-banned-me/"
@@ -43870,6 +44363,11 @@
           "title": "Show HN: I quit coding years ago. AI brought me back",
           "points": 314,
           "url": "https://calquio.com/finance/compound-interest"
+        },
+        {
+          "title": "Porting 100k lines from TypeScript to Rust using Claude Code in a month",
+          "points": 255,
+          "url": "https://blog.vjeux.com/2026/analysis/porting-100k-lines-from-typescript-to-rust-using-claude-code-in-a-month.html"
         }
       ],
       "highlight_score": 30
@@ -43893,11 +44391,6 @@
       ],
       "signals": [
         {
-          "title": "A few random notes from Claude coding quite a bit last few weeks",
-          "points": 913,
-          "url": "https://twitter.com/karpathy/status/2015883857489522876"
-        },
-        {
           "title": "I was banned from Claude for scaffolding a Claude.md file?",
           "points": 749,
           "url": "https://hugodaniel.com/posts/claude-code-banned-me/"
@@ -43916,6 +44409,11 @@
           "title": "Show HN: I quit coding years ago. AI brought me back",
           "points": 314,
           "url": "https://calquio.com/finance/compound-interest"
+        },
+        {
+          "title": "Porting 100k lines from TypeScript to Rust using Claude Code in a month",
+          "points": 255,
+          "url": "https://blog.vjeux.com/2026/analysis/porting-100k-lines-from-typescript-to-rust-using-claude-code-in-a-month.html"
         }
       ],
       "highlight_score": 50
@@ -44020,11 +44518,6 @@
       ],
       "signals": [
         {
-          "title": "A few random notes from Claude coding quite a bit last few weeks",
-          "points": 913,
-          "url": "https://twitter.com/karpathy/status/2015883857489522876"
-        },
-        {
           "title": "I was banned from Claude for scaffolding a Claude.md file?",
           "points": 749,
           "url": "https://hugodaniel.com/posts/claude-code-banned-me/"
@@ -44043,6 +44536,11 @@
           "title": "Show HN: I quit coding years ago. AI brought me back",
           "points": 314,
           "url": "https://calquio.com/finance/compound-interest"
+        },
+        {
+          "title": "Porting 100k lines from TypeScript to Rust using Claude Code in a month",
+          "points": 255,
+          "url": "https://blog.vjeux.com/2026/analysis/porting-100k-lines-from-typescript-to-rust-using-claude-code-in-a-month.html"
         }
       ],
       "highlight_score": 50
@@ -44105,11 +44603,6 @@
       ],
       "signals": [
         {
-          "title": "A few random notes from Claude coding quite a bit last few weeks",
-          "points": 913,
-          "url": "https://twitter.com/karpathy/status/2015883857489522876"
-        },
-        {
           "title": "I was banned from Claude for scaffolding a Claude.md file?",
           "points": 749,
           "url": "https://hugodaniel.com/posts/claude-code-banned-me/"
@@ -44128,6 +44621,11 @@
           "title": "Show HN: I quit coding years ago. AI brought me back",
           "points": 314,
           "url": "https://calquio.com/finance/compound-interest"
+        },
+        {
+          "title": "Porting 100k lines from TypeScript to Rust using Claude Code in a month",
+          "points": 255,
+          "url": "https://blog.vjeux.com/2026/analysis/porting-100k-lines-from-typescript-to-rust-using-claude-code-in-a-month.html"
         }
       ],
       "highlight_score": 50
@@ -44332,11 +44830,6 @@
       ],
       "signals": [
         {
-          "title": "A few random notes from Claude coding quite a bit last few weeks",
-          "points": 913,
-          "url": "https://twitter.com/karpathy/status/2015883857489522876"
-        },
-        {
           "title": "I was banned from Claude for scaffolding a Claude.md file?",
           "points": 749,
           "url": "https://hugodaniel.com/posts/claude-code-banned-me/"
@@ -44355,6 +44848,11 @@
           "title": "Show HN: I quit coding years ago. AI brought me back",
           "points": 314,
           "url": "https://calquio.com/finance/compound-interest"
+        },
+        {
+          "title": "Show HN: Self-host Reddit – 2.38B posts, works offline, yours forever",
+          "points": 286,
+          "url": "https://github.com/19-84/redd-archiver"
         }
       ],
       "highlight_score": 50
@@ -64468,74 +64966,6 @@
       }
     },
     {
-      "version": "2.1.178",
-      "date": "2026-06-15",
-      "epoch_id": "epoch5",
-      "highlight_score": 55,
-      "highlight_title": "团队从显式声明到隐式存在",
-      "highlight_title_en": "Teams Become Implicit, Not Declared",
-      "highlight_summary": "Agent Teams 不再需要创建和销毁。每个会话自带一个隐式团队，直接通过 Agent 工具的 name 参数即可派生队友。多代理协作的门槛被彻底抹平，从\"先搭团队再干活\"变成\"直接开干\"。与此同时，自动模式下的子代理派生在启动前即接受分类器审查，安全闭环再无缺口。",
-      "highlight_summary_en": "Agent Teams no longer require explicit creation or teardown. Every session ships with an implicit team — spawn teammates directly via the Agent tool's name parameter. The barrier to multi-agent collaboration collapses from \"set up the team first\" to \"just start working.\" Meanwhile, auto-mode subagent spawns now pass classifier review before launch, closing the last security gap.",
-      "highlight_why": "当团队成为会话的默认属性而非需要管理的对象，多代理协作就从一种能力降级为一种本能。",
-      "highlight_why_en": "When teams become a default property of every session rather than an object to manage, multi-agent collaboration stops being a capability and becomes an instinct.",
-      "capability_ids": [
-        "automation_autonomy",
-        "delegation_collaboration",
-        "governance_security",
-        "memory_context",
-        "execution_workspace",
-        "integrations_ecosystem",
-        "multimodal_interfaces",
-        "reasoning_workflows"
-      ],
-      "evidence": {
-        "hn_signals": [
-          {
-            "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-            "points": 1318,
-            "url": "https://news.ycombinator.com/item?id=48542100"
-          },
-          {
-            "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
-            "points": 434,
-            "url": "https://github.com/anthropics/claude-code/issues/29045"
-          },
-          {
-            "title": "The text in Claude Code’s “Extended Thinking” output",
-            "points": 326,
-            "url": "https://patrickmccanna.net/the-text-in-claude-codes-extended-thinking-output-is-not-authentic/"
-          },
-          {
-            "title": "Launch HN: Adam (YC W25) – Open-Source AI CAD",
-            "points": 215,
-            "url": "https://github.com/Adam-CAD/CADAM"
-          },
-          {
-            "title": "Show HN: Recall – Local project memory for Claude Code",
-            "points": 138,
-            "url": "https://github.com/raiyanyahya/recall"
-          }
-        ],
-        "top_changes": [
-          {
-            "raw": "Fixed a crash (out-of-memory) when the CLI inherits a stale websocket/OAuth file-descriptor environment variable from a parent process",
-            "summary": "修复旧 WebSocket/OAuth 崩溃",
-            "importance": 5
-          },
-          {
-            "raw": "Agent teams: removed the `TeamCreate` and `TeamDelete` tools. With `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` set, every session now has one implicit team — spawn teammates directly with the Agent tool's `name` parameter, no setup step needed. The `team_name` parameter on the Agent tool is still accepted but ignored.",
-            "summary": "代理团队改为隐式单团队",
-            "importance": 4
-          },
-          {
-            "raw": "Improved auto mode: subagent spawns are now evaluated by the classifier before launch, closing a gap where a subagent could request a blocked action without review",
-            "summary": "自动模式先审查子代理",
-            "importance": 4
-          }
-        ]
-      }
-    },
-    {
       "version": "2.1.197",
       "date": "2026-06-30",
       "epoch_id": "epoch5",
@@ -64947,8 +65377,8 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 498,
-      "release_count": 180,
+      "change_count": 500,
+      "release_count": 181,
       "avg_importance": 3.09,
       "maturity": {
         "score": 92,
@@ -64959,14 +65389,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-07-14",
-        "version": "2.1.210"
+        "date": "2026-07-15",
+        "version": "2.1.211"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 339
+          "change_count": 341
         },
         {
           "epoch_id": "epoch4",
@@ -65042,9 +65472,9 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 1066,
-      "release_count": 230,
-      "avg_importance": 3.26,
+      "change_count": 1075,
+      "release_count": 231,
+      "avg_importance": 3.25,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -65054,14 +65484,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-07-14",
-        "version": "2.1.209"
+        "date": "2026-07-15",
+        "version": "2.1.211"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 788
+          "change_count": 797
         },
         {
           "epoch_id": "epoch1",
@@ -65137,8 +65567,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 671,
-      "release_count": 189,
+      "change_count": 675,
+      "release_count": 190,
       "avg_importance": 3.15,
       "maturity": {
         "score": 93,
@@ -65149,14 +65579,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-07-14",
-        "version": "2.1.210"
+        "date": "2026-07-15",
+        "version": "2.1.211"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 500
+          "change_count": 504
         },
         {
           "epoch_id": "epoch1",
@@ -65232,8 +65662,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 899,
-      "release_count": 227,
+      "change_count": 906,
+      "release_count": 228,
       "avg_importance": 3.26,
       "maturity": {
         "score": 93,
@@ -65244,14 +65674,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-07-14",
-        "version": "2.1.210"
+        "date": "2026-07-15",
+        "version": "2.1.211"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 653
+          "change_count": 660
         },
         {
           "epoch_id": "epoch4",
@@ -65276,6 +65706,14 @@
       ],
       "samples": [
         {
+          "date": "2026-07-15",
+          "version": "2.1.211",
+          "raw": "Fixed background agents killed by the user auto-respawning, and revived agents re-running stale prompts from old sessions",
+          "summary": "修复被用户终止的后台代理自动重启并重跑旧提示",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-07-13",
           "version": "2.1.208",
           "raw": "Catastrophic removals (e.g. `rm -rf ~`) in commands containing `$(…)`/backticks/`<(…)` now prompt in `--dangerously-skip-permissions` and auto mode, matching the plain form",
@@ -65296,14 +65734,6 @@
           "version": "2.1.203",
           "raw": "Fixed background sessions becoming permanently unresponsive to attach, replies, and stop when the daemon's session token went stale — the session now recovers automatically",
           "summary": "修复后台会话因令牌过期永久无响应",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-07-07",
-          "version": "2.1.203",
-          "raw": "Fixed background and agent-view sessions dropping a shell-exported `ANTHROPIC_BASE_URL`, which sent API keys to the default endpoint and failed with 401",
-          "summary": "修复后台会话丢失API端点配置导致401",
           "importance": 5,
           "category": "fix"
         }
@@ -65327,8 +65757,8 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 507,
-      "release_count": 145,
+      "change_count": 516,
+      "release_count": 146,
       "avg_importance": 3.23,
       "maturity": {
         "score": 93,
@@ -65339,14 +65769,14 @@
         "version": "0.2.50"
       },
       "latest_seen": {
-        "date": "2026-07-14",
-        "version": "2.1.209"
+        "date": "2026-07-15",
+        "version": "2.1.211"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 427
+          "change_count": 436
         },
         {
           "epoch_id": "epoch1",
@@ -65371,6 +65801,14 @@
       ],
       "samples": [
         {
+          "date": "2026-07-15",
+          "version": "2.1.211",
+          "raw": "Fixed background agents killed by the user auto-respawning, and revived agents re-running stale prompts from old sessions",
+          "summary": "修复被用户终止的后台代理自动重启并重跑旧提示",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-07-14",
           "version": "2.1.210",
           "raw": "Fixed `isolation: 'worktree'` subagents being able to run git-mutating commands against the main repo checkout instead of their own isolated worktree",
@@ -65393,14 +65831,6 @@
           "summary": "修复Windows worktree删除越界文件",
           "importance": 5,
           "category": "fix"
-        },
-        {
-          "date": "2026-06-05",
-          "version": "2.1.166",
-          "raw": "Hardened cross-session messaging: messages relayed via `SendMessage` from other Claude sessions no longer carry user authority — receivers refuse relayed permission requests, and auto mode blocks them",
-          "summary": "跨会话消息去除用户权限",
-          "importance": 5,
-          "category": "security"
         }
       ]
     },
@@ -65422,8 +65852,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 1285,
-      "release_count": 254,
+      "change_count": 1291,
+      "release_count": 255,
       "avg_importance": 3.1,
       "maturity": {
         "score": 92,
@@ -65434,14 +65864,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-07-14",
-        "version": "2.1.210"
+        "date": "2026-07-15",
+        "version": "2.1.211"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 930
+          "change_count": 936
         },
         {
           "epoch_id": "epoch1",
@@ -65517,8 +65947,8 @@
         "Emacs",
         "web"
       ],
-      "change_count": 939,
-      "release_count": 201,
+      "change_count": 954,
+      "release_count": 202,
       "avg_importance": 2.71,
       "maturity": {
         "score": 91,
@@ -65529,14 +65959,14 @@
         "version": "0.2.34"
       },
       "latest_seen": {
-        "date": "2026-07-14",
-        "version": "2.1.210"
+        "date": "2026-07-15",
+        "version": "2.1.211"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 749
+          "change_count": 764
         },
         {
           "epoch_id": "epoch4",
@@ -65612,8 +66042,8 @@
         "policy",
         "auditing"
       ],
-      "change_count": 894,
-      "release_count": 223,
+      "change_count": 903,
+      "release_count": 224,
       "avg_importance": 3.41,
       "maturity": {
         "score": 94,
@@ -65624,14 +66054,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-07-14",
-        "version": "2.1.210"
+        "date": "2026-07-15",
+        "version": "2.1.211"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 673
+          "change_count": 682
         },
         {
           "epoch_id": "epoch4",
@@ -65729,12 +66159,6 @@
         "date": "2026-04-30"
       },
       {
-        "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-        "points": 1318,
-        "url": "https://news.ycombinator.com/item?id=48542100",
-        "date": "2026-06-15"
-      },
-      {
         "title": "Cowork: Claude Code for the rest of your work",
         "points": 1298,
         "url": "https://claude.com/blog/cowork-research-preview",
@@ -65777,28 +66201,34 @@
         "date": "2026-04-23"
       },
       {
+        "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+        "points": 931,
+        "url": "https://github.com/JustVugg/colibri",
+        "date": "2026-07-09"
+      },
+      {
         "title": "Using Claude Code to modernize a 25-year-old kernel driver",
         "points": 929,
         "url": "https://dmitrybrant.com/2025/09/07/using-claude-code-to-modernize-a-25-year-old-kernel-driver",
         "date": "2025-09-07"
       },
       {
-        "title": "Show HN: Getting GLM 5.2 running on my slow computer",
-        "points": 928,
-        "url": "https://github.com/JustVugg/colibri",
-        "date": "2026-07-09"
-      },
-      {
-        "title": "A few random notes from Claude coding quite a bit last few weeks",
-        "points": 913,
-        "url": "https://twitter.com/karpathy/status/2015883857489522876",
-        "date": "2026-01-26"
-      },
-      {
         "title": "Claude Code is all you need",
         "points": 851,
         "url": "https://dwyer.co.za/static/claude-code-is-all-you-need.html",
         "date": "2025-08-11"
+      },
+      {
+        "title": "Claude Code 2.0",
+        "points": 842,
+        "url": "https://www.npmjs.com/package/@anthropic-ai/claude-code",
+        "date": "2025-09-29"
+      },
+      {
+        "title": "How to code Claude Code in 200 lines of code",
+        "points": 816,
+        "url": "https://www.mihaileric.com/The-Emperor-Has-No-Clothes/",
+        "date": "2026-01-08"
       }
     ],
     "blog_posts": [
