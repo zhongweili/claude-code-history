@@ -1,13 +1,13 @@
 {
   "meta": {
-    "generated_at": "2026-08-04T04:09:57.660Z",
+    "generated_at": "2026-08-05T03:58:14.676Z",
     "agent_model": "glm-5",
-    "total_versions": 354,
+    "total_versions": 355,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-08-03"
+      "end": "2026-08-04"
     },
-    "highlight_count": 59,
+    "highlight_count": 58,
     "capability_count": 8,
     "hn_signal_count": 18,
     "blog_post_count": 11
@@ -70,11 +70,315 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。adaptive thinking 把推理深度交给模型自己决定，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界——从 Opus 4.6 到 4.8，每一代都在加速这条路。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Adaptive thinking hands reasoning depth to the model itself, while worktree isolation and 1M context push the agent toward hours-long unattended runs — from Opus 4.6 through 4.8, each generation accelerates the path.",
-      "release_count": 138,
-      "highlight_count": 37
+      "release_count": 139,
+      "highlight_count": 36
     }
   ],
   "releases": [
+    {
+      "version": "2.1.222",
+      "date": "2026-08-04",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Fixed worktree-isolated sessions and their subagents being able to run destructive git commands against the main checkout; isolation now applies to file edits and Bash in every session type",
+          "category": "security",
+          "importance": 5,
+          "summary": "修复worktree隔离会话可对主仓库执行破坏性git命令",
+          "summary_en": "Fix worktree sessions running destructive git commands on main checkout",
+          "why_matters": "隔离失效可能导致子代理意外破坏主分支代码，属严重安全问题。",
+          "why_matters_en": "Isolation failure could let subagents accidentally destroy the main branch, a critical security risk.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed PreToolUse auto-allow hooks bypassing tool restrictions in background agent tasks (summaries, compaction, renames)",
+          "category": "security",
+          "importance": 4,
+          "summary": "修复后台代理任务中PreToolUse钩子绕过工具限制",
+          "summary_en": "Fix PreToolUse auto-allow hooks bypassing tool restrictions in background tasks",
+          "why_matters": "钩子绕过可能让后台任务执行本应被限制的危险操作。",
+          "why_matters_en": "Hook bypass could allow background tasks to perform operations that should be restricted.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed `/usage-credits` on Team and Enterprise showing \"you've already sent a usage credit request\" for members whose earlier request was dismissed, blocking them from sending a new one",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复Team/Enterprise已驳回额度请求无法重新提交",
+          "summary_en": "Fix dismissed usage credit requests blocking new submissions on Team/Enterprise",
+          "why_matters": "成员被错误阻止提交新的额度请求，影响团队正常使用。",
+          "why_matters_en": "Members were incorrectly blocked from submitting new credit requests, disrupting team usage.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed the startup connectivity check hanging and then failing behind an HTTPS proxy; it now uses the same proxy-aware transport as API requests and times out with a clear message",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复HTTPS代理环境下启动连接检查挂起失败",
+          "summary_en": "Fix startup connectivity check hanging behind HTTPS proxy",
+          "why_matters": "代理用户无法正常启动工具，修复后超时提示更清晰。",
+          "why_matters_en": "Proxy users couldn't start the tool properly; fix provides clearer timeout messaging.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed \"Connection closed mid-response\" errors being reported on responses that had actually completed",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复已完成响应误报连接中断错误",
+          "summary_en": "Fix false 'Connection closed mid-response' errors on completed responses",
+          "why_matters": "误报错误会误导用户，影响对工具可靠性的信任。",
+          "why_matters_en": "False errors mislead users and undermine trust in tool reliability.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed `/usage` overattributing usage to MCP servers: a server's share now reflects only the requests that actually consumed its tool results, instead of every turn after any call to it",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复/usage错误归因MCP服务器用量",
+          "summary_en": "Fix /usage overattributing usage to MCP servers",
+          "why_matters": "用量统计不准会导致用户误判MCP服务器成本，影响决策。",
+          "why_matters_en": "Inaccurate usage attribution leads to misjudged MCP server costs and poor decisions.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed sessions not linking to pull requests created after the branch was pushed, including through the GitHub REST API",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复会话未关联推送后创建的PR",
+          "summary_en": "Fix sessions not linking to PRs created after branch push",
+          "why_matters": "会话与PR未关联会丢失上下文追踪，影响协作流程。",
+          "why_matters_en": "Unlinked sessions and PRs lose context tracking, disrupting collaboration workflows.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed org-restricted `model: opus`-style subagent and teammate family aliases dropping to the parent model instead of stepping down to the newest org-allowed model in the family",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复org限制下子代理模型别名降级错误",
+          "summary_en": "Fix org-restricted model aliases dropping to parent instead of newest allowed model",
+          "why_matters": "模型降级逻辑错误会导致子代理使用不合适的模型，影响输出质量。",
+          "why_matters_en": "Incorrect model downgrade logic causes subagents to use inappropriate models, affecting quality.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed stream idle timeout firing on custom `ANTHROPIC_BASE_URL` gateways despite server keep-alive pings arriving on the wire",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复自定义网关keep-alive下流空闲超时误触发",
+          "summary_en": "Fix stream idle timeout firing on custom gateways despite keep-alive pings",
+          "why_matters": "自定义网关用户会遭遇不必要的超时中断，影响长任务执行。",
+          "why_matters_en": "Custom gateway users experience unnecessary timeout interruptions, affecting long tasks.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed claude.ai connectors being falsely marked as needing authorization when the session token is invalid — they now show a `/login` hint instead",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复claude.ai连接器token失效时误报需授权",
+          "summary_en": "Fix claude.ai connectors falsely marked as needing authorization on invalid token",
+          "why_matters": "错误提示让用户困惑，修复后显示登录提示更直观。",
+          "why_matters_en": "Misleading prompts confused users; fix now shows a clear login hint instead.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed tool errors not being displayed for tools no longer available locally, for example after an MCP server is removed",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复MCP服务器移除后工具错误不显示",
+          "summary_en": "Fix tool errors not displayed for tools from removed MCP servers",
+          "why_matters": "用户无法看到错误信息，难以排查已移除工具的问题。",
+          "why_matters_en": "Users can't see error messages, making it hard to troubleshoot removed tool issues.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed `SendMessage` rejecting a long summary — it now truncates instead, so sends no longer fail on a character limit",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复SendMessage因摘要过长被拒绝，改为截断",
+          "summary_en": "Fix SendMessage rejecting long summaries — now truncates instead",
+          "why_matters": "长摘要导致发送失败，修复后截断处理避免任务中断。",
+          "why_matters_en": "Long summaries caused send failures; truncation prevents task interruptions.",
+          "capability_ids": [
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed the spinner's effort label in a subagent's transcript view showing the session's effort level instead of the subagent's own `effort:` setting",
+          "category": "fix",
+          "importance": 1,
+          "summary": "修复子代理转录中effort标签显示错误",
+          "summary_en": "Fix spinner effort label showing session level instead of subagent's own",
+          "why_matters": "标签显示不准确会误导用户对子代理配置的理解。",
+          "why_matters_en": "Incorrect label display misleads users about subagent configuration.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed rare crashes when a file watcher hit a filesystem error or during file-watcher teardown",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复文件监视器遇到文件系统错误时偶发崩溃",
+          "summary_en": "Fix rare crashes when file watcher hits filesystem errors or during teardown",
+          "why_matters": "偶发崩溃影响工具稳定性，修复后文件监视更可靠。",
+          "why_matters_en": "Rare crashes affect tool stability; file watching is now more reliable.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed screen readers re-reading the whole input line on every backspace in `--ax-screen-reader` mode — end-of-line deletions now echo just the deleted characters",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复屏幕阅读器模式每次退格重读整行输入",
+          "summary_en": "Fix screen readers re-reading whole input line on every backspace",
+          "why_matters": "无障碍体验差影响视障用户使用，修复后退格只读出删除字符。",
+          "why_matters_en": "Poor accessibility affects visually impaired users; backspace now echoes only deleted characters.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed host model-selection keys not taking precedence over a stale on-disk `managed-settings.json` when `CLAUDE_CODE_PROVIDER_MANAGED_BY_HOST` is set",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复主机模型选择键优先级问题",
+          "summary_en": "Fix host model-selection keys precedence over stale settings",
+          "why_matters": "避免过期配置文件覆盖主机设定的模型选择，确保配置一致性。",
+          "why_matters_en": "Prevents stale on-disk config from overriding host-managed model selection, ensuring config consistency.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Improved auto mode safety: messages sent to other agent sessions via `SendMessage` are now evaluated by the permission classifier before dispatch",
+          "category": "improvement",
+          "importance": 4,
+          "summary": "自动模式下消息发送前经权限分类器检查",
+          "summary_en": "Auto mode messages now pass permission classifier before dispatch",
+          "why_matters": "防止未经授权的消息被发送到其他代理会话，提升多代理协作安全性。",
+          "why_matters_en": "Prevents unauthorized messages from being dispatched to other agent sessions, improving multi-agent safety.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Improved the refusal when Claude tries to invoke a skill with `disable-model-invocation`: Claude is now told to ask you to run the skill instead of replicating its workflow",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "禁用技能调用时改为提示用户手动运行",
+          "summary_en": "Disabled skills now prompt user to run instead of replicating workflow",
+          "why_matters": "避免Claude绕过禁用指令自行模拟技能流程，确保技能控制策略有效。",
+          "why_matters_en": "Prevents Claude from bypassing disabled-skill directives by replicating workflows, ensuring skill controls are respected.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Improved the `/diff` view, the Remote Control workspace diff, and file-edit diffs in Claude Code on the web sessions to use raw git blob content, ignoring workspace-configured diff drivers and textconv",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "diff视图改用原始git blob内容",
+          "summary_en": "Diff views now use raw git blob content ignoring diff drivers",
+          "why_matters": "消除自定义diff驱动和textconv的干扰，确保diff显示一致可靠。",
+          "why_matters_en": "Eliminates interference from custom diff drivers and textconv, ensuring consistent and reliable diff display.",
+          "capability_ids": [
+            "execution_workspace",
+            "integrations_ecosystem",
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Changed Remote Control auto-start so repo-local settings (`.claude/settings.json` or `.claude/settings.local.json`) can no longer turn it on (they can still turn it off); enable it at user scope via `/config`",
+          "category": "breaking",
+          "importance": 4,
+          "summary": "远程控制自动启动不再允许仓库级配置开启",
+          "summary_en": "Remote Control auto-start can no longer be enabled by repo-local settings",
+          "why_matters": "防止仓库级配置意外启用远程控制，降低安全风险，需用户级显式开启。",
+          "why_matters_en": "Prevents repo-level settings from unexpectedly enabling Remote Control, reducing security risk by requiring user-scope opt-in.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy",
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Removed ultraplan feature",
+          "category": "breaking",
+          "importance": 2,
+          "summary": "移除ultraplan功能",
+          "summary_en": "Removed ultraplan feature",
+          "why_matters": "清理不再维护的功能，简化产品功能集。",
+          "why_matters_en": "Cleans up an unmaintained feature, simplifying the product surface.",
+          "capability_ids": [
+            "reasoning_workflows"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Show HN: Distilling DeepSeek into GPT-OSS doesn't transfer censorship. Try it",
+          "points": 169,
+          "url": "https://www.ctgt.ai/research/distillation-censorship-transfer"
+        },
+        {
+          "title": "Show HN: What should the GUI for AI agents look like?",
+          "points": 136,
+          "url": "https://marbleos.com/demo"
+        },
+        {
+          "title": "Agent-Manager: A Tmux TUI for Running Claude Code, Codex and OpenCode",
+          "points": 98,
+          "url": "https://github.com/YoanWai/agent-manager"
+        },
+        {
+          "title": "Launch HN: Hoplite (YC S26) – Effortlessly deploy cloud coding agents",
+          "points": 78,
+          "url": "https://hoplite.sh"
+        },
+        {
+          "title": "Agent skills that bring team coding standards to Claude Code and Codex",
+          "points": 74,
+          "url": "https://github.com/tikalk/adlc-team-skills"
+        }
+      ],
+      "highlight_score": 38
+    },
     {
       "version": "2.1.221",
       "date": "2026-08-03",
@@ -579,13 +883,8 @@
       ],
       "signals": [
         {
-          "title": "Claude: Elevated errors across all models – Resolved",
-          "points": 268,
-          "url": "https://status.claude.com/incidents/q2kg8n613kr3"
-        },
-        {
           "title": "Show HN: Distilling DeepSeek into GPT-OSS doesn't transfer censorship. Try it",
-          "points": 167,
+          "points": 169,
           "url": "https://www.ctgt.ai/research/distillation-censorship-transfer"
         },
         {
@@ -594,17 +893,22 @@
           "url": "https://marbleos.com/demo"
         },
         {
+          "title": "Kimi K3 Now Available via Telnyx Inference API",
+          "points": 132,
+          "url": "https://telnyx.com/release-notes/kimi-k3-telnyx-inference"
+        },
+        {
           "title": "Agent-Manager: A Tmux TUI for Running Claude Code, Codex and OpenCode",
           "points": 98,
           "url": "https://github.com/YoanWai/agent-manager"
         },
         {
-          "title": "Launch HN: Tokenless (YC S26) – Automatic model switching to save money",
-          "points": 71,
-          "url": "https://usetokenless.com/"
+          "title": "Launch HN: Hoplite (YC S26) – Effortlessly deploy cloud coding agents",
+          "points": 78,
+          "url": "https://hoplite.sh"
         }
       ],
-      "highlight_score": 35
+      "highlight_score": 28
     },
     {
       "version": "2.1.220",
@@ -626,7 +930,7 @@
       "signals": [
         {
           "title": "Show HN: Bento - An entire PowerPoint in one HTML file (edit+view+data+collab)",
-          "points": 1031,
+          "points": 1033,
           "url": "https://bento.page/slides/"
         },
         {
@@ -635,19 +939,19 @@
           "url": "https://simonwillison.net/2026/Jul/19/claude-code-in-bun-in-rust/"
         },
         {
-          "title": "The new rules of context engineering for Claude 5 generation models",
-          "points": 463,
-          "url": "https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models"
-        },
-        {
-          "title": "Claude: Elevated errors across all models – Resolved",
-          "points": 268,
-          "url": "https://status.claude.com/incidents/q2kg8n613kr3"
-        },
-        {
           "title": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
           "points": 251,
           "url": "https://ykdojo.github.io/claude-controls-mac/"
+        },
+        {
+          "title": "Show HN: Palmier Pro – Open-source macOS video editor built for AI",
+          "points": 191,
+          "url": "https://github.com/palmier-io/palmier-pro"
+        },
+        {
+          "title": "Show HN: Distilling DeepSeek into GPT-OSS doesn't transfer censorship. Try it",
+          "points": 169,
+          "url": "https://www.ctgt.ai/research/distillation-censorship-transfer"
         }
       ],
       "highlight_score": 30
@@ -961,7 +1265,7 @@
       "signals": [
         {
           "title": "Show HN: Bento - An entire PowerPoint in one HTML file (edit+view+data+collab)",
-          "points": 1031,
+          "points": 1033,
           "url": "https://bento.page/slides/"
         },
         {
@@ -970,19 +1274,19 @@
           "url": "https://simonwillison.net/2026/Jul/19/claude-code-in-bun-in-rust/"
         },
         {
-          "title": "The new rules of context engineering for Claude 5 generation models",
-          "points": 463,
-          "url": "https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models"
-        },
-        {
-          "title": "Claude: Elevated errors across all models – Resolved",
-          "points": 268,
-          "url": "https://status.claude.com/incidents/q2kg8n613kr3"
-        },
-        {
           "title": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
           "points": 251,
           "url": "https://ykdojo.github.io/claude-controls-mac/"
+        },
+        {
+          "title": "Show HN: Palmier Pro – Open-source macOS video editor built for AI",
+          "points": 191,
+          "url": "https://github.com/palmier-io/palmier-pro"
+        },
+        {
+          "title": "Show HN: Distilling DeepSeek into GPT-OSS doesn't transfer censorship. Try it",
+          "points": 169,
+          "url": "https://www.ctgt.ai/research/distillation-censorship-transfer"
         }
       ],
       "highlight_score": 60
@@ -1458,7 +1762,7 @@
       "signals": [
         {
           "title": "Show HN: Bento - An entire PowerPoint in one HTML file (edit+view+data+collab)",
-          "points": 1031,
+          "points": 1033,
           "url": "https://bento.page/slides/"
         },
         {
@@ -1467,19 +1771,19 @@
           "url": "https://simonwillison.net/2026/Jul/19/claude-code-in-bun-in-rust/"
         },
         {
-          "title": "The new rules of context engineering for Claude 5 generation models",
-          "points": 463,
-          "url": "https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models"
-        },
-        {
-          "title": "Claude: Elevated errors across all models – Resolved",
-          "points": 268,
-          "url": "https://status.claude.com/incidents/q2kg8n613kr3"
-        },
-        {
           "title": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
           "points": 251,
           "url": "https://ykdojo.github.io/claude-controls-mac/"
+        },
+        {
+          "title": "Show HN: Palmier Pro – Open-source macOS video editor built for AI",
+          "points": 191,
+          "url": "https://github.com/palmier-io/palmier-pro"
+        },
+        {
+          "title": "Claude Code: Anatomy of a Misfeature",
+          "points": 142,
+          "url": "https://www.olafalders.com/2026/07/17/claude-code-anatomy-of-a-misfeature/"
         }
       ],
       "highlight_score": 60
@@ -1753,18 +2057,13 @@
       "signals": [
         {
           "title": "Show HN: Bento - An entire PowerPoint in one HTML file (edit+view+data+collab)",
-          "points": 1031,
+          "points": 1033,
           "url": "https://bento.page/slides/"
         },
         {
           "title": "Claude Code uses Bun written in Rust now",
           "points": 608,
           "url": "https://simonwillison.net/2026/Jul/19/claude-code-in-bun-in-rust/"
-        },
-        {
-          "title": "The new rules of context engineering for Claude 5 generation models",
-          "points": 463,
-          "url": "https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models"
         },
         {
           "title": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
@@ -1775,6 +2074,11 @@
           "title": "Show HN: Palmier Pro – Open-source macOS video editor built for AI",
           "points": 191,
           "url": "https://github.com/palmier-io/palmier-pro"
+        },
+        {
+          "title": "Claude Code: Anatomy of a Misfeature",
+          "points": 142,
+          "url": "https://www.olafalders.com/2026/07/17/claude-code-anatomy-of-a-misfeature/"
         }
       ],
       "highlight_score": 55
@@ -2305,18 +2609,13 @@
       "signals": [
         {
           "title": "Show HN: Bento - An entire PowerPoint in one HTML file (edit+view+data+collab)",
-          "points": 1031,
+          "points": 1033,
           "url": "https://bento.page/slides/"
         },
         {
           "title": "Claude Code uses Bun written in Rust now",
           "points": 608,
           "url": "https://simonwillison.net/2026/Jul/19/claude-code-in-bun-in-rust/"
-        },
-        {
-          "title": "The new rules of context engineering for Claude 5 generation models",
-          "points": 463,
-          "url": "https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models"
         },
         {
           "title": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
@@ -2327,6 +2626,11 @@
           "title": "Show HN: Palmier Pro – Open-source macOS video editor built for AI",
           "points": 191,
           "url": "https://github.com/palmier-io/palmier-pro"
+        },
+        {
+          "title": "Claude Code: Anatomy of a Misfeature",
+          "points": 142,
+          "url": "https://www.olafalders.com/2026/07/17/claude-code-anatomy-of-a-misfeature/"
         }
       ],
       "highlight_score": 50
@@ -2355,7 +2659,7 @@
       "signals": [
         {
           "title": "Show HN: Bento - An entire PowerPoint in one HTML file (edit+view+data+collab)",
-          "points": 1031,
+          "points": 1033,
           "url": "https://bento.page/slides/"
         },
         {
@@ -2369,14 +2673,14 @@
           "url": "https://simonwillison.net/2026/Jul/19/claude-code-in-bun-in-rust/"
         },
         {
-          "title": "The new rules of context engineering for Claude 5 generation models",
-          "points": 463,
-          "url": "https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models"
-        },
-        {
           "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
           "points": 280,
           "url": "https://github.com/juggler-ai/juggler"
+        },
+        {
+          "title": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
+          "points": 251,
+          "url": "https://ykdojo.github.io/claude-controls-mac/"
         }
       ],
       "highlight_score": 35
@@ -2976,7 +3280,7 @@
       "signals": [
         {
           "title": "Show HN: Bento - An entire PowerPoint in one HTML file (edit+view+data+collab)",
-          "points": 1031,
+          "points": 1033,
           "url": "https://bento.page/slides/"
         },
         {
@@ -2990,14 +3294,14 @@
           "url": "https://simonwillison.net/2026/Jul/19/claude-code-in-bun-in-rust/"
         },
         {
-          "title": "The new rules of context engineering for Claude 5 generation models",
-          "points": 463,
-          "url": "https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models"
-        },
-        {
           "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
           "points": 280,
           "url": "https://github.com/juggler-ai/juggler"
+        },
+        {
+          "title": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
+          "points": 251,
+          "url": "https://ykdojo.github.io/claude-controls-mac/"
         }
       ],
       "highlight_score": 60
@@ -3641,13 +3945,8 @@
       "signals": [
         {
           "title": "Show HN: Bento - An entire PowerPoint in one HTML file (edit+view+data+collab)",
-          "points": 1031,
+          "points": 1033,
           "url": "https://bento.page/slides/"
-        },
-        {
-          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
-          "points": 937,
-          "url": "https://github.com/JustVugg/colibri"
         },
         {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
@@ -3663,6 +3962,11 @@
           "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
           "points": 280,
           "url": "https://github.com/juggler-ai/juggler"
+        },
+        {
+          "title": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
+          "points": 251,
+          "url": "https://ykdojo.github.io/claude-controls-mac/"
         }
       ],
       "highlight_score": 55
@@ -4144,13 +4448,8 @@
       "signals": [
         {
           "title": "Show HN: Bento - An entire PowerPoint in one HTML file (edit+view+data+collab)",
-          "points": 1031,
+          "points": 1033,
           "url": "https://bento.page/slides/"
-        },
-        {
-          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
-          "points": 937,
-          "url": "https://github.com/JustVugg/colibri"
         },
         {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
@@ -4166,6 +4465,11 @@
           "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
           "points": 280,
           "url": "https://github.com/juggler-ai/juggler"
+        },
+        {
+          "title": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
+          "points": 251,
+          "url": "https://ykdojo.github.io/claude-controls-mac/"
         }
       ],
       "highlight_score": 50
@@ -4604,11 +4908,6 @@
       ],
       "signals": [
         {
-          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
-          "points": 937,
-          "url": "https://github.com/JustVugg/colibri"
-        },
-        {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
           "points": 706,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
@@ -4627,6 +4926,11 @@
           "title": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
           "points": 251,
           "url": "https://ykdojo.github.io/claude-controls-mac/"
+        },
+        {
+          "title": "Show HN: Yamanote.fun – A complete soundscape for Tokyo's Yamanote line",
+          "points": 238,
+          "url": "https://www.yamanote.fun/"
         }
       ],
       "highlight_score": 50
@@ -4653,11 +4957,6 @@
       ],
       "signals": [
         {
-          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
-          "points": 937,
-          "url": "https://github.com/JustVugg/colibri"
-        },
-        {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
           "points": 706,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
@@ -4676,6 +4975,11 @@
           "title": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
           "points": 251,
           "url": "https://ykdojo.github.io/claude-controls-mac/"
+        },
+        {
+          "title": "Show HN: Yamanote.fun – A complete soundscape for Tokyo's Yamanote line",
+          "points": 238,
+          "url": "https://www.yamanote.fun/"
         }
       ],
       "highlight_score": 30
@@ -5265,11 +5569,6 @@
       ],
       "signals": [
         {
-          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
-          "points": 937,
-          "url": "https://github.com/JustVugg/colibri"
-        },
-        {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
           "points": 706,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
@@ -5288,6 +5587,11 @@
           "title": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
           "points": 251,
           "url": "https://ykdojo.github.io/claude-controls-mac/"
+        },
+        {
+          "title": "Show HN: Yamanote.fun – A complete soundscape for Tokyo's Yamanote line",
+          "points": 238,
+          "url": "https://www.yamanote.fun/"
         }
       ],
       "highlight_score": 50
@@ -5608,11 +5912,6 @@
       ],
       "signals": [
         {
-          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
-          "points": 937,
-          "url": "https://github.com/JustVugg/colibri"
-        },
-        {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
           "points": 706,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
@@ -5631,6 +5930,11 @@
           "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
           "points": 280,
           "url": "https://github.com/juggler-ai/juggler"
+        },
+        {
+          "title": "Show HN: Yamanote.fun – A complete soundscape for Tokyo's Yamanote line",
+          "points": 238,
+          "url": "https://www.yamanote.fun/"
         }
       ],
       "highlight_score": 60
@@ -5980,11 +6284,6 @@
       ],
       "signals": [
         {
-          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
-          "points": 937,
-          "url": "https://github.com/JustVugg/colibri"
-        },
-        {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
           "points": 706,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
@@ -6003,6 +6302,11 @@
           "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
           "points": 280,
           "url": "https://github.com/juggler-ai/juggler"
+        },
+        {
+          "title": "Show HN: Yamanote.fun – A complete soundscape for Tokyo's Yamanote line",
+          "points": 238,
+          "url": "https://www.yamanote.fun/"
         }
       ],
       "highlight_score": 50
@@ -6309,11 +6613,6 @@
       ],
       "signals": [
         {
-          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
-          "points": 937,
-          "url": "https://github.com/JustVugg/colibri"
-        },
-        {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
           "points": 706,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
@@ -6332,6 +6631,11 @@
           "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
           "points": 280,
           "url": "https://github.com/juggler-ai/juggler"
+        },
+        {
+          "title": "ZCode: Claude Code from the Makers of GLM",
+          "points": 278,
+          "url": "https://zcode.z.ai/cn"
         }
       ],
       "highlight_score": 50
@@ -6359,11 +6663,6 @@
       ],
       "signals": [
         {
-          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
-          "points": 937,
-          "url": "https://github.com/JustVugg/colibri"
-        },
-        {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
           "points": 706,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
@@ -6382,6 +6681,11 @@
           "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
           "points": 280,
           "url": "https://github.com/juggler-ai/juggler"
+        },
+        {
+          "title": "ZCode: Claude Code from the Makers of GLM",
+          "points": 278,
+          "url": "https://zcode.z.ai/cn"
         }
       ],
       "highlight_score": 50
@@ -6874,11 +7178,6 @@
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
-          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
-          "points": 937,
-          "url": "https://github.com/JustVugg/colibri"
-        },
-        {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
           "points": 706,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
@@ -6892,6 +7191,11 @@
           "title": "Potential session/cache leakage between workspace instances or consumer accounts",
           "points": 314,
           "url": "https://github.com/anthropics/claude-code/issues/74066"
+        },
+        {
+          "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
+          "points": 280,
+          "url": "https://github.com/juggler-ai/juggler"
         }
       ],
       "highlight_score": 55
@@ -7141,11 +7445,6 @@
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
-          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
-          "points": 937,
-          "url": "https://github.com/JustVugg/colibri"
-        },
-        {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
           "points": 706,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
@@ -7159,6 +7458,11 @@
           "title": "Potential session/cache leakage between workspace instances or consumer accounts",
           "points": 314,
           "url": "https://github.com/anthropics/claude-code/issues/74066"
+        },
+        {
+          "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
+          "points": 280,
+          "url": "https://github.com/juggler-ai/juggler"
         }
       ],
       "highlight_score": 55
@@ -7189,11 +7493,6 @@
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
-          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
-          "points": 937,
-          "url": "https://github.com/JustVugg/colibri"
-        },
-        {
           "title": "I used Claude Code to get a second opinion on my MRI",
           "points": 566,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
@@ -7207,6 +7506,11 @@
           "title": "Potential session/cache leakage between workspace instances or consumer accounts",
           "points": 314,
           "url": "https://github.com/anthropics/claude-code/issues/74066"
+        },
+        {
+          "title": "ZCode: Claude Code from the Makers of GLM",
+          "points": 278,
+          "url": "https://zcode.z.ai/cn"
         }
       ],
       "highlight_score": 30
@@ -7444,11 +7748,6 @@
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
-          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
-          "points": 937,
-          "url": "https://github.com/JustVugg/colibri"
-        },
-        {
           "title": "I used Claude Code to get a second opinion on my MRI",
           "points": 566,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
@@ -7462,6 +7761,11 @@
           "title": "Potential session/cache leakage between workspace instances or consumer accounts",
           "points": 314,
           "url": "https://github.com/anthropics/claude-code/issues/74066"
+        },
+        {
+          "title": "ZCode: Claude Code from the Makers of GLM",
+          "points": 278,
+          "url": "https://zcode.z.ai/cn"
         }
       ],
       "highlight_score": 55
@@ -7786,11 +8090,6 @@
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
-          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
-          "points": 937,
-          "url": "https://github.com/JustVugg/colibri"
-        },
-        {
           "title": "I used Claude Code to get a second opinion on my MRI",
           "points": 566,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
@@ -7804,6 +8103,11 @@
           "title": "Alibaba to ban Claude Code in workplace over alleged backdoor risks, source says",
           "points": 336,
           "url": "https://www.reuters.com/world/china/alibaba-ban-claude-code-workplace-over-alleged-backdoor-risks-source-says-2026-07-03/"
+        },
+        {
+          "title": "Potential session/cache leakage between workspace instances or consumer accounts",
+          "points": 314,
+          "url": "https://github.com/anthropics/claude-code/issues/74066"
         }
       ],
       "highlight_score": 50
@@ -10144,11 +10448,6 @@
       ],
       "signals": [
         {
-          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1318,
-          "url": "https://news.ycombinator.com/item?id=48542100"
-        },
-        {
           "title": "I used Claude Code to get a second opinion on my MRI",
           "points": 566,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
@@ -10167,6 +10466,11 @@
           "title": "Show HN: Smart model routing directly in Claude, Codex and Cursor",
           "points": 216,
           "url": "https://github.com/workweave/router"
+        },
+        {
+          "title": "Launch HN: Adam (YC W25) – Open-Source AI CAD",
+          "points": 215,
+          "url": "https://github.com/Adam-CAD/CADAM"
         }
       ],
       "highlight_score": 50
@@ -10190,11 +10494,6 @@
       ],
       "signals": [
         {
-          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1318,
-          "url": "https://news.ycombinator.com/item?id=48542100"
-        },
-        {
           "title": "Show HN: OpenKnowledge – open source AI-first alternative to Obsidian/Notion",
           "points": 381,
           "url": "https://github.com/inkeep/open-knowledge"
@@ -10213,9 +10512,14 @@
           "title": "Launch HN: Adam (YC W25) – Open-Source AI CAD",
           "points": 215,
           "url": "https://github.com/Adam-CAD/CADAM"
+        },
+        {
+          "title": "Ask HN: Where is the programming profession going?",
+          "points": 166,
+          "url": "https://news.ycombinator.com/item?id=48668199"
         }
       ],
-      "highlight_score": 30
+      "highlight_score": 15
     },
     {
       "version": "2.1.183",
@@ -10450,11 +10754,6 @@
       ],
       "signals": [
         {
-          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1318,
-          "url": "https://news.ycombinator.com/item?id=48542100"
-        },
-        {
           "title": "Show HN: OpenKnowledge – open source AI-first alternative to Obsidian/Notion",
           "points": 381,
           "url": "https://github.com/inkeep/open-knowledge"
@@ -10473,9 +10772,14 @@
           "title": "Launch HN: Adam (YC W25) – Open-Source AI CAD",
           "points": 215,
           "url": "https://github.com/Adam-CAD/CADAM"
+        },
+        {
+          "title": "Ask HN: Where is the programming profession going?",
+          "points": 166,
+          "url": "https://news.ycombinator.com/item?id=48668199"
         }
       ],
-      "highlight_score": 50
+      "highlight_score": 35
     },
     {
       "version": "2.1.181",
@@ -10982,11 +11286,6 @@
       ],
       "signals": [
         {
-          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1318,
-          "url": "https://news.ycombinator.com/item?id=48542100"
-        },
-        {
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
           "points": 434,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
@@ -11005,9 +11304,14 @@
           "title": "Show HN: Recall – Local project memory for Claude Code",
           "points": 138,
           "url": "https://github.com/raiyanyahya/recall"
+        },
+        {
+          "title": "Ask HN: How do you get into a flow state when using AI to code?",
+          "points": 98,
+          "url": "https://news.ycombinator.com/item?id=48492118"
         }
       ],
-      "highlight_score": 50
+      "highlight_score": 35
     },
     {
       "version": "2.1.179",
@@ -11123,11 +11427,6 @@
       ],
       "signals": [
         {
-          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1318,
-          "url": "https://news.ycombinator.com/item?id=48542100"
-        },
-        {
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
           "points": 434,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
@@ -11146,9 +11445,14 @@
           "title": "Show HN: Recall – Local project memory for Claude Code",
           "points": 138,
           "url": "https://github.com/raiyanyahya/recall"
+        },
+        {
+          "title": "Ask HN: How do you get into a flow state when using AI to code?",
+          "points": 98,
+          "url": "https://news.ycombinator.com/item?id=48492118"
         }
       ],
-      "highlight_score": 50
+      "highlight_score": 35
     },
     {
       "version": "2.1.178",
@@ -11472,11 +11776,6 @@
       ],
       "signals": [
         {
-          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1318,
-          "url": "https://news.ycombinator.com/item?id=48542100"
-        },
-        {
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
           "points": 434,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
@@ -11495,9 +11794,14 @@
           "title": "Show HN: Recall – Local project memory for Claude Code",
           "points": 138,
           "url": "https://github.com/raiyanyahya/recall"
+        },
+        {
+          "title": "Launch HN: Intuned (YC S22) – Build and run reliable browser automations as code",
+          "points": 117,
+          "url": "https://intunedhq.com"
         }
       ],
-      "highlight_score": 55
+      "highlight_score": 40
     },
     {
       "version": "2.1.176",
@@ -11790,11 +12094,6 @@
       ],
       "signals": [
         {
-          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1318,
-          "url": "https://news.ycombinator.com/item?id=48542100"
-        },
-        {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
           "points": 538,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
@@ -11813,6 +12112,11 @@
           "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
           "points": 402,
           "url": "https://github.com/devenjarvis/lathe"
+        },
+        {
+          "title": "I design with Claude more than Figma now",
+          "points": 324,
+          "url": "https://blog.janestreet.com/i-design-with-claude-code-more-than-figma-now-index/"
         }
       ],
       "highlight_score": 50
@@ -11839,11 +12143,6 @@
       ],
       "signals": [
         {
-          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1318,
-          "url": "https://news.ycombinator.com/item?id=48542100"
-        },
-        {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
           "points": 538,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
@@ -11862,6 +12161,11 @@
           "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
           "points": 402,
           "url": "https://github.com/devenjarvis/lathe"
+        },
+        {
+          "title": "I design with Claude more than Figma now",
+          "points": 324,
+          "url": "https://blog.janestreet.com/i-design-with-claude-code-more-than-figma-now-index/"
         }
       ],
       "highlight_score": 50
@@ -12036,11 +12340,6 @@
       ],
       "signals": [
         {
-          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1318,
-          "url": "https://news.ycombinator.com/item?id=48542100"
-        },
-        {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
           "points": 538,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
@@ -12059,6 +12358,11 @@
           "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
           "points": 402,
           "url": "https://github.com/devenjarvis/lathe"
+        },
+        {
+          "title": "I design with Claude more than Figma now",
+          "points": 324,
+          "url": "https://blog.janestreet.com/i-design-with-claude-code-more-than-figma-now-index/"
         }
       ],
       "highlight_score": 50
@@ -12098,11 +12402,6 @@
       ],
       "signals": [
         {
-          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1318,
-          "url": "https://news.ycombinator.com/item?id=48542100"
-        },
-        {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
           "points": 538,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
@@ -12121,6 +12420,11 @@
           "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
           "points": 402,
           "url": "https://github.com/devenjarvis/lathe"
+        },
+        {
+          "title": "I design with Claude more than Figma now",
+          "points": 324,
+          "url": "https://blog.janestreet.com/i-design-with-claude-code-more-than-figma-now-index/"
         }
       ],
       "highlight_score": 30
@@ -12523,11 +12827,6 @@
       ],
       "signals": [
         {
-          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1318,
-          "url": "https://news.ycombinator.com/item?id=48542100"
-        },
-        {
           "title": "Anthropic, please ship an official Claude Desktop for Linux",
           "points": 538,
           "url": "https://github.com/anthropics/claude-code/issues/65697"
@@ -12546,6 +12845,11 @@
           "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
           "points": 402,
           "url": "https://github.com/devenjarvis/lathe"
+        },
+        {
+          "title": "I design with Claude more than Figma now",
+          "points": 324,
+          "url": "https://blog.janestreet.com/i-design-with-claude-code-more-than-figma-now-index/"
         }
       ],
       "highlight_score": 50
@@ -12585,11 +12889,6 @@
       ],
       "signals": [
         {
-          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1318,
-          "url": "https://news.ycombinator.com/item?id=48542100"
-        },
-        {
           "title": "Please don't spam people looking for employment. It's just cruel",
           "points": 969,
           "url": "https://news.ycombinator.com/item?id=48370330"
@@ -12608,6 +12907,11 @@
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
           "points": 434,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
+        },
+        {
+          "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
+          "points": 402,
+          "url": "https://github.com/devenjarvis/lathe"
         }
       ],
       "highlight_score": 70
@@ -13018,11 +13322,6 @@
       ],
       "signals": [
         {
-          "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-          "points": 1318,
-          "url": "https://news.ycombinator.com/item?id=48542100"
-        },
-        {
           "title": "Please don't spam people looking for employment. It's just cruel",
           "points": 969,
           "url": "https://news.ycombinator.com/item?id=48370330"
@@ -13041,6 +13340,11 @@
           "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
           "points": 434,
           "url": "https://github.com/anthropics/claude-code/issues/29045"
+        },
+        {
+          "title": "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
+          "points": 402,
+          "url": "https://github.com/devenjarvis/lathe"
         }
       ],
       "highlight_score": 50
@@ -68558,74 +68862,6 @@
       }
     },
     {
-      "version": "2.1.178",
-      "date": "2026-06-15",
-      "epoch_id": "epoch5",
-      "highlight_score": 55,
-      "highlight_title": "v2.1.178 重要更新",
-      "highlight_title_en": "v2.1.178 Major Update",
-      "highlight_summary": "修复旧 WebSocket/OAuth 崩溃",
-      "highlight_summary_en": "Fix crash from stale websocket/OAuth FD",
-      "highlight_why": "避免 CLI 因继承异常环境变量而直接崩溃，提升稳定性。",
-      "highlight_why_en": "This prevents crashes caused by inherited stale environment state and improves reliability.",
-      "capability_ids": [
-        "automation_autonomy",
-        "delegation_collaboration",
-        "governance_security",
-        "memory_context",
-        "execution_workspace",
-        "integrations_ecosystem",
-        "multimodal_interfaces",
-        "reasoning_workflows"
-      ],
-      "evidence": {
-        "hn_signals": [
-          {
-            "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-            "points": 1318,
-            "url": "https://news.ycombinator.com/item?id=48542100"
-          },
-          {
-            "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
-            "points": 434,
-            "url": "https://github.com/anthropics/claude-code/issues/29045"
-          },
-          {
-            "title": "The text in Claude Code’s “Extended Thinking” output",
-            "points": 326,
-            "url": "https://patrickmccanna.net/the-text-in-claude-codes-extended-thinking-output-is-not-authentic/"
-          },
-          {
-            "title": "Launch HN: Adam (YC W25) – Open-Source AI CAD",
-            "points": 215,
-            "url": "https://github.com/Adam-CAD/CADAM"
-          },
-          {
-            "title": "Show HN: Recall – Local project memory for Claude Code",
-            "points": 138,
-            "url": "https://github.com/raiyanyahya/recall"
-          }
-        ],
-        "top_changes": [
-          {
-            "raw": "Fixed a crash (out-of-memory) when the CLI inherits a stale websocket/OAuth file-descriptor environment variable from a parent process",
-            "summary": "修复旧 WebSocket/OAuth 崩溃",
-            "importance": 5
-          },
-          {
-            "raw": "Agent teams: removed the `TeamCreate` and `TeamDelete` tools. With `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` set, every session now has one implicit team — spawn teammates directly with the Agent tool's `name` parameter, no setup step needed. The `team_name` parameter on the Agent tool is still accepted but ignored.",
-            "summary": "代理团队改为隐式单团队",
-            "importance": 4
-          },
-          {
-            "raw": "Improved auto mode: subagent spawns are now evaluated by the classifier before launch, closing a gap where a subagent could request a blocked action without review",
-            "summary": "自动模式先审查子代理",
-            "importance": 4
-          }
-        ]
-      }
-    },
-    {
       "version": "2.1.197",
       "date": "2026-06-30",
       "epoch_id": "epoch5",
@@ -69377,8 +69613,8 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 535,
-      "release_count": 188,
+      "change_count": 537,
+      "release_count": 189,
       "avg_importance": 3.08,
       "maturity": {
         "score": 92,
@@ -69389,14 +69625,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-08-03",
-        "version": "2.1.221"
+        "date": "2026-08-04",
+        "version": "2.1.222"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 376
+          "change_count": 378
         },
         {
           "epoch_id": "epoch4",
@@ -69472,8 +69708,8 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 1151,
-      "release_count": 238,
+      "change_count": 1154,
+      "release_count": 239,
       "avg_importance": 3.26,
       "maturity": {
         "score": 93,
@@ -69484,14 +69720,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-08-03",
-        "version": "2.1.221"
+        "date": "2026-08-04",
+        "version": "2.1.222"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 873
+          "change_count": 876
         },
         {
           "epoch_id": "epoch1",
@@ -69516,6 +69752,14 @@
       ],
       "samples": [
         {
+          "date": "2026-08-04",
+          "version": "2.1.222",
+          "raw": "Fixed worktree-isolated sessions and their subagents being able to run destructive git commands against the main checkout; isolation now applies to file edits and Bash in every session type",
+          "summary": "修复worktree隔离会话可对主仓库执行破坏性git命令",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-08-03",
           "version": "2.1.221",
           "raw": "Added `mode: \"mask\"` for sandbox credential files on Linux and WSL — sandboxed commands read a sentinel copy (the whole file, or just the spans captured by an `extract` regex) while the sandbox proxy substitutes the real value on egress; on macOS file masking falls back to `deny`",
@@ -69536,14 +69780,6 @@
           "version": "2.1.218",
           "raw": "Fixed Windows paths with `\\u`-prefixed segments (like `C:\\Users\\unicorn`) being corrupted into CJK characters in tool inputs, which made those files inaccessible",
           "summary": "修复Windows含\\u路径被转成中日韩字符",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-07-21",
-          "version": "2.1.217",
-          "raw": "Fixed Windows auto-update failures that could leave `claude.exe` missing; failed updates now restore the preserved executable automatically",
-          "summary": "修复Windows自动更新失败导致可执行文件丢失",
           "importance": 5,
           "category": "fix"
         }
@@ -69662,8 +69898,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 950,
-      "release_count": 236,
+      "change_count": 954,
+      "release_count": 237,
       "avg_importance": 3.27,
       "maturity": {
         "score": 93,
@@ -69674,14 +69910,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-08-03",
-        "version": "2.1.221"
+        "date": "2026-08-04",
+        "version": "2.1.222"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 704
+          "change_count": 708
         },
         {
           "epoch_id": "epoch4",
@@ -69757,8 +69993,8 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 558,
-      "release_count": 153,
+      "change_count": 566,
+      "release_count": 154,
       "avg_importance": 3.22,
       "maturity": {
         "score": 93,
@@ -69769,14 +70005,14 @@
         "version": "0.2.50"
       },
       "latest_seen": {
-        "date": "2026-08-03",
-        "version": "2.1.221"
+        "date": "2026-08-04",
+        "version": "2.1.222"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 478
+          "change_count": 486
         },
         {
           "epoch_id": "epoch1",
@@ -69801,6 +70037,14 @@
       ],
       "samples": [
         {
+          "date": "2026-08-04",
+          "version": "2.1.222",
+          "raw": "Fixed worktree-isolated sessions and their subagents being able to run destructive git commands against the main checkout; isolation now applies to file edits and Bash in every session type",
+          "summary": "修复worktree隔离会话可对主仓库执行破坏性git命令",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-07-15",
           "version": "2.1.211",
           "raw": "Fixed background agents killed by the user auto-respawning, and revived agents re-running stale prompts from old sessions",
@@ -69823,14 +70067,6 @@
           "summary": "加固Agent工具防止间接提示注入攻击",
           "importance": 5,
           "category": "security"
-        },
-        {
-          "date": "2026-07-08",
-          "version": "2.1.205",
-          "raw": "Fixed Windows worktree removal deleting files outside the worktree when an NTFS junction or directory symlink existed inside it",
-          "summary": "修复Windows worktree删除越界文件",
-          "importance": 5,
-          "category": "fix"
         }
       ]
     },
@@ -69852,8 +70088,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 1360,
-      "release_count": 263,
+      "change_count": 1369,
+      "release_count": 264,
       "avg_importance": 3.1,
       "maturity": {
         "score": 92,
@@ -69864,14 +70100,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-08-03",
-        "version": "2.1.221"
+        "date": "2026-08-04",
+        "version": "2.1.222"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 1005
+          "change_count": 1014
         },
         {
           "epoch_id": "epoch1",
@@ -69947,8 +70183,8 @@
         "Emacs",
         "web"
       ],
-      "change_count": 1024,
-      "release_count": 209,
+      "change_count": 1028,
+      "release_count": 210,
       "avg_importance": 2.71,
       "maturity": {
         "score": 91,
@@ -69959,14 +70195,14 @@
         "version": "0.2.34"
       },
       "latest_seen": {
-        "date": "2026-08-03",
-        "version": "2.1.221"
+        "date": "2026-08-04",
+        "version": "2.1.222"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 834
+          "change_count": 838
         },
         {
           "epoch_id": "epoch4",
@@ -70042,9 +70278,9 @@
         "policy",
         "auditing"
       ],
-      "change_count": 988,
-      "release_count": 232,
-      "avg_importance": 3.4,
+      "change_count": 996,
+      "release_count": 233,
+      "avg_importance": 3.41,
       "maturity": {
         "score": 94,
         "level": "成熟"
@@ -70054,14 +70290,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-08-03",
-        "version": "2.1.221"
+        "date": "2026-08-04",
+        "version": "2.1.222"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 767
+          "change_count": 775
         },
         {
           "epoch_id": "epoch4",
@@ -70086,6 +70322,14 @@
       ],
       "samples": [
         {
+          "date": "2026-08-04",
+          "version": "2.1.222",
+          "raw": "Fixed worktree-isolated sessions and their subagents being able to run destructive git commands against the main checkout; isolation now applies to file edits and Bash in every session type",
+          "summary": "修复worktree隔离会话可对主仓库执行破坏性git命令",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-08-03",
           "version": "2.1.221",
           "raw": "Added `mode: \"mask\"` for sandbox credential files on Linux and WSL — sandboxed commands read a sentinel copy (the whole file, or just the spans captured by an `extract` regex) while the sandbox proxy substitutes the real value on egress; on macOS file masking falls back to `deny`",
@@ -70106,14 +70350,6 @@
           "version": "2.1.216",
           "raw": "Fixed workflow saves and scheduled-task writes following a symlink at `.claude`, which could redirect writes outside the project",
           "summary": "修复符号链接导致写入逃逸项目目录",
-          "importance": 5,
-          "category": "security"
-        },
-        {
-          "date": "2026-07-18",
-          "version": "2.1.214",
-          "raw": "Fixed a permission-check bypass affecting commands run in Windows PowerShell 5.1 sessions",
-          "summary": "修复Windows PowerShell会话权限绕过",
           "importance": 5,
           "category": "security"
         }
@@ -70159,12 +70395,6 @@
         "date": "2026-04-30"
       },
       {
-        "title": "Ask HN: Has anyone replaced Claude/GPT with a local model for daily coding?",
-        "points": 1318,
-        "url": "https://news.ycombinator.com/item?id=48542100",
-        "date": "2026-06-15"
-      },
-      {
         "title": "Cowork: Claude Code for the rest of your work",
         "points": 1298,
         "url": "https://claude.com/blog/cowork-research-preview",
@@ -70196,7 +70426,7 @@
       },
       {
         "title": "Show HN: Bento - An entire PowerPoint in one HTML file (edit+view+data+collab)",
-        "points": 1031,
+        "points": 1033,
         "url": "https://bento.page/slides/",
         "date": "2026-07-22"
       },
@@ -70213,12 +70443,6 @@
         "date": "2026-04-23"
       },
       {
-        "title": "Show HN: Getting GLM 5.2 running on my slow computer",
-        "points": 937,
-        "url": "https://github.com/JustVugg/colibri",
-        "date": "2026-07-09"
-      },
-      {
         "title": "Using Claude Code to modernize a 25-year-old kernel driver",
         "points": 929,
         "url": "https://dmitrybrant.com/2025/09/07/using-claude-code-to-modernize-a-25-year-old-kernel-driver",
@@ -70229,6 +70453,18 @@
         "points": 851,
         "url": "https://dwyer.co.za/static/claude-code-is-all-you-need.html",
         "date": "2025-08-11"
+      },
+      {
+        "title": "Claude Code 2.0",
+        "points": 842,
+        "url": "https://www.npmjs.com/package/@anthropic-ai/claude-code",
+        "date": "2025-09-29"
+      },
+      {
+        "title": "How to code Claude Code in 200 lines of code",
+        "points": 816,
+        "url": "https://www.mihaileric.com/The-Emperor-Has-No-Clothes/",
+        "date": "2026-01-08"
       }
     ],
     "blog_posts": [
