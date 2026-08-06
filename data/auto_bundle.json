@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-08-05T03:58:14.676Z",
+    "generated_at": "2026-08-06T04:08:42.196Z",
     "agent_model": "glm-5",
-    "total_versions": 355,
+    "total_versions": 356,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-08-04"
+      "end": "2026-08-05"
     },
     "highlight_count": 58,
     "capability_count": 8,
@@ -70,11 +70,303 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。adaptive thinking 把推理深度交给模型自己决定，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界——从 Opus 4.6 到 4.8，每一代都在加速这条路。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Adaptive thinking hands reasoning depth to the model itself, while worktree isolation and 1M context push the agent toward hours-long unattended runs — from Opus 4.6 through 4.8, each generation accelerates the path.",
-      "release_count": 139,
+      "release_count": 140,
       "highlight_count": 36
     }
   ],
   "releases": [
+    {
+      "version": "2.1.223",
+      "date": "2026-08-05",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added owner wildcard entries (`\"owner/*\"`) to the `strictKnownMarketplaces` and `blockedMarketplaces` managed settings for allowing or blocking all marketplace repos under a GitHub org",
+          "category": "feat",
+          "importance": 3,
+          "summary": "支持owner通配符管理marketplace仓库",
+          "summary_en": "Owner wildcard entries for marketplace repo allow/block rules",
+          "why_matters": "让管理员能按GitHub组织批量管控marketplace仓库，简化权限配置。",
+          "why_matters_en": "Lets admins allow or block all repos under a GitHub org in one rule, simplifying governance.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added a warning when workflow agents, forked skills, slash commands, or resumed background agents' requested subagent model is restricted and the parent model runs instead",
+          "category": "feat",
+          "importance": 3,
+          "summary": "子代理模型受限时提示父模型替代",
+          "summary_en": "Warn when subagent model is restricted and parent model runs instead",
+          "why_matters": "帮助用户察觉模型降级，避免因不知情而影响输出质量。",
+          "why_matters_en": "Helps users notice silent model downgrades that could affect output quality.",
+          "capability_ids": [
+            "governance_security",
+            "delegation_collaboration",
+            "memory_context",
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added a `/teleport` hint in cloud sessions showing how to continue locally with `claude --teleport <session id>`",
+          "category": "feat",
+          "importance": 2,
+          "summary": "云会话提示如何用teleport转本地",
+          "summary_en": "Cloud session shows /teleport hint to continue locally",
+          "why_matters": "降低用户从云端切换到本地的认知成本，提升跨环境体验。",
+          "why_matters_en": "Reduces friction when switching from cloud to local sessions, improving cross-environment UX.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed a Bash permission bypass where a crafted command could hide parts of itself from permission checks",
+          "category": "security",
+          "importance": 5,
+          "summary": "修复Bash命令绕过权限检查漏洞",
+          "summary_en": "Fix Bash permission bypass via crafted command hiding",
+          "why_matters": "恶意构造的命令可隐藏自身部分内容绕过权限校验，存在严重安全风险。",
+          "why_matters_en": "A crafted command could hide parts of itself from permission checks, posing a critical security risk.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed permission prompts so commands padded with tabs or invisible Unicode can no longer hide part of the command from the approval dialog",
+          "category": "security",
+          "importance": 5,
+          "summary": "修复制表符/不可见字符隐藏命令",
+          "summary_en": "Fix invisible chars hiding command parts in approval dialog",
+          "why_matters": "防止用户在审批对话框中被不可见字符欺骗而批准危险命令。",
+          "why_matters_en": "Prevents users from being tricked into approving dangerous commands hidden by invisible characters.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed workflow scripts being able to use dynamic `import()` to run code outside the workflow sandbox",
+          "category": "security",
+          "importance": 4,
+          "summary": "修复工作流脚本动态import逃逸沙箱",
+          "summary_en": "Fix workflow scripts escaping sandbox via dynamic import()",
+          "why_matters": "动态import可绕过沙箱执行外部代码，破坏隔离边界。",
+          "why_matters_en": "Dynamic import() could bypass the sandbox and run code outside the workflow boundary.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace",
+            "automation_autonomy",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed a permission gap where an agent definition's `bypassPermissions` mode ignored the org bypass-permissions disable policy",
+          "category": "security",
+          "importance": 4,
+          "summary": "修复代理定义绕过组织禁用策略",
+          "summary_en": "Fix agent bypassPermissions ignoring org disable policy",
+          "why_matters": "代理定义的bypassPermissions模式此前可无视组织级禁用策略，存在合规风险。",
+          "why_matters_en": "Agent bypassPermissions mode could ignore org-level disable policy, creating a compliance gap.",
+          "capability_ids": [
+            "governance_security",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed resuming a session after a mid-session `/cd` coming back empty",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复会话中/cd后恢复为空的问题",
+          "summary_en": "Fix session resume returning empty after mid-session /cd",
+          "why_matters": "用户在会话中切换目录后恢复会话会丢失上下文，影响连续工作流。",
+          "why_matters_en": "Resuming after a mid-session directory switch would lose context, disrupting workflows.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed gateway model discovery hiding Claude models registered under provider-prefixed IDs such as `vertex_ai/claude-*` or `bedrock/anthropic.claude-*`",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复网关模型发现隐藏Claude模型",
+          "summary_en": "Fix gateway model discovery hiding prefixed Claude model IDs",
+          "why_matters": "带provider前缀的Claude模型此前无法被发现，导致用户无法选用。",
+          "why_matters_en": "Claude models with provider-prefixed IDs were hidden, preventing users from selecting them.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `modelOverrides` keys that aren't Anthropic model IDs being treated as the session's canonical model ID; unknown keys are now ignored as documented",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复未知modelOverrides键被误用",
+          "summary_en": "Fix unknown modelOverrides keys treated as canonical model ID",
+          "why_matters": "未知键被当作会话主模型ID可能导致模型选择异常，现已按文档忽略。",
+          "why_matters_en": "Unknown keys were incorrectly treated as the canonical model ID, causing unexpected model selection.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed managed settings: server-delivered settings no longer disable the env block of a machine-local `managed-settings.json` or MDM profile; admin env now merges per key",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复服务器设置覆盖本地环境变量",
+          "summary_en": "Fix server settings overriding local managed env block",
+          "why_matters": "此前服务器下发设置会禁用本地环境变量配置，影响管理员对环境的管控。",
+          "why_matters_en": "Server-delivered settings previously disabled local managed env config, undermining admin control.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed sandboxed commands failing to start on Linux when `sandbox.filesystem.denyWrite` covers the working directory",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复Linux下沙箱命令启动失败",
+          "summary_en": "Fix sandboxed commands failing to start on Linux with denyWrite",
+          "why_matters": "当denyWrite覆盖工作目录时沙箱命令无法启动，阻碍Linux用户正常使用。",
+          "why_matters_en": "Sandboxed commands failed to start when denyWrite covered the working directory on Linux.",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed forked background agents getting stuck \"already resuming\" for the rest of the session when rebuilding the fork's parent prompt failed during resume",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复分叉后台代理卡在恢复中",
+          "summary_en": "Fix forked background agents stuck 'already resuming'",
+          "why_matters": "分叉代理在恢复失败后永久卡住，导致整个会话无法继续使用该代理。",
+          "why_matters_en": "Forked agents got permanently stuck after a resume failure, blocking the rest of the session.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "execution_workspace",
+            "memory_context",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed a resumed session failing every turn, or leaving the interactive app on an unresponsive error screen, when its history held a malformed diagnostics attachment",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复畸形诊断附件导致会话失败",
+          "summary_en": "Fix resumed session failing due to malformed diagnostics attachment",
+          "why_matters": "历史中含畸形诊断附件时恢复会话会每轮失败或卡在错误界面，严重影响可用性。",
+          "why_matters_en": "A malformed diagnostics attachment in history caused resumed sessions to fail every turn or freeze.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed a rare hang when parsing unusual `git push` output",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复解析异常git push输出时偶发卡死",
+          "summary_en": "Fix rare hang parsing unusual git push output",
+          "why_matters": "异常的git push输出可能导致工具卡死，虽罕见但影响操作流畅性。",
+          "why_matters_en": "Unusual git push output could cause a rare hang, affecting operation smoothness.",
+          "capability_ids": [
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Changed `CLAUDE_CODE_DISABLE_1M_CONTEXT` to hold every Claude model with a native 1M window to 200K via auto-compaction, not just a fixed list; a startup warning now appears when auto-compaction isn't holding the session to 200K",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "自动压缩扩展至所有1M窗口模型",
+          "summary_en": "Auto-compaction now applies to all 1M-window Claude models",
+          "why_matters": "防止长上下文模型超出200K限制，避免性能下降或意外截断。",
+          "why_matters_en": "Prevents long-context models from exceeding 200K limits, avoiding performance degradation or unexpected truncation.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Changed auto-compact to keep sessions on unrecognized model IDs within the assumed context window instead of letting them grow past it; set `CLAUDE_CODE_DISABLE_UNKNOWN_MODEL_WINDOW_ENFORCEMENT=1` to restore the previous behavior",
+          "category": "fix",
+          "importance": 3,
+          "summary": "未知模型ID也受上下文窗口约束",
+          "summary_en": "Unrecognized model IDs now respect assumed context window limits",
+          "why_matters": "修复了未识别模型会话无限增长导致上下文溢出的问题。",
+          "why_matters_en": "Fixes context overflow where sessions on unrecognized models could grow past their assumed window.",
+          "capability_ids": [
+            "memory_context",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Changed `/review` to be an alias of `/code-review`, which reviews the current diff or a PR (`/code-review <level> <pr#>`); use `/code-review ultra` for a deep cloud review",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "/review成为/code-review的别名",
+          "summary_en": "/review is now an alias for /code-review with level and PR support",
+          "why_matters": "统一代码审查命令入口，简化用户操作并支持深度云端审查。",
+          "why_matters_en": "Unifies code review command entry, simplifying usage and supporting deep cloud reviews.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Changed `/code-review` with no effort level to reuse the level you typed last; type a level like `/code-review high` to change it",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "代码审查默认复用上次审查等级",
+          "summary_en": "Code review reuses last effort level when none is specified",
+          "why_matters": "减少重复输入审查等级，提升日常使用效率。",
+          "why_matters_en": "Reduces repetitive input of review effort levels, improving daily workflow efficiency.",
+          "capability_ids": [
+            "reasoning_workflows"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Show HN: Distilling DeepSeek into GPT-OSS doesn't transfer censorship. Try it",
+          "points": 169,
+          "url": "https://www.ctgt.ai/research/distillation-censorship-transfer"
+        },
+        {
+          "title": "Show HN: What should the GUI for AI agents look like?",
+          "points": 137,
+          "url": "https://marbleos.com/demo"
+        },
+        {
+          "title": "GPT-5.6 vs. Claude Fable 5 for Physical AI, which performs best?",
+          "points": 101,
+          "url": "https://juliahub.com/blog/frontier-models-physical-ai-evaluation"
+        },
+        {
+          "title": "Agent-Manager: A Tmux TUI for Running Claude Code, Codex and OpenCode",
+          "points": 98,
+          "url": "https://github.com/YoanWai/agent-manager"
+        },
+        {
+          "title": "Launch HN: Hoplite (YC S26) – Effortlessly deploy cloud coding agents",
+          "points": 79,
+          "url": "https://hoplite.sh"
+        }
+      ],
+      "highlight_score": 28
+    },
     {
       "version": "2.1.222",
       "date": "2026-08-04",
@@ -358,8 +650,13 @@
         },
         {
           "title": "Show HN: What should the GUI for AI agents look like?",
-          "points": 136,
+          "points": 137,
           "url": "https://marbleos.com/demo"
+        },
+        {
+          "title": "GPT-5.6 vs. Claude Fable 5 for Physical AI, which performs best?",
+          "points": 101,
+          "url": "https://juliahub.com/blog/frontier-models-physical-ai-evaluation"
         },
         {
           "title": "Agent-Manager: A Tmux TUI for Running Claude Code, Codex and OpenCode",
@@ -368,13 +665,8 @@
         },
         {
           "title": "Launch HN: Hoplite (YC S26) – Effortlessly deploy cloud coding agents",
-          "points": 78,
+          "points": 79,
           "url": "https://hoplite.sh"
-        },
-        {
-          "title": "Agent skills that bring team coding standards to Claude Code and Codex",
-          "points": 74,
-          "url": "https://github.com/tikalk/adlc-team-skills"
         }
       ],
       "highlight_score": 38
@@ -889,7 +1181,7 @@
         },
         {
           "title": "Show HN: What should the GUI for AI agents look like?",
-          "points": 136,
+          "points": 137,
           "url": "https://marbleos.com/demo"
         },
         {
@@ -898,14 +1190,14 @@
           "url": "https://telnyx.com/release-notes/kimi-k3-telnyx-inference"
         },
         {
+          "title": "GPT-5.6 vs. Claude Fable 5 for Physical AI, which performs best?",
+          "points": 101,
+          "url": "https://juliahub.com/blog/frontier-models-physical-ai-evaluation"
+        },
+        {
           "title": "Agent-Manager: A Tmux TUI for Running Claude Code, Codex and OpenCode",
           "points": 98,
           "url": "https://github.com/YoanWai/agent-manager"
-        },
-        {
-          "title": "Launch HN: Hoplite (YC S26) – Effortlessly deploy cloud coding agents",
-          "points": 78,
-          "url": "https://hoplite.sh"
         }
       ],
       "highlight_score": 28
@@ -939,6 +1231,11 @@
           "url": "https://simonwillison.net/2026/Jul/19/claude-code-in-bun-in-rust/"
         },
         {
+          "title": "The new rules of context engineering for Claude 5 generation models",
+          "points": 463,
+          "url": "https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models"
+        },
+        {
           "title": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
           "points": 251,
           "url": "https://ykdojo.github.io/claude-controls-mac/"
@@ -947,11 +1244,6 @@
           "title": "Show HN: Palmier Pro – Open-source macOS video editor built for AI",
           "points": 191,
           "url": "https://github.com/palmier-io/palmier-pro"
-        },
-        {
-          "title": "Show HN: Distilling DeepSeek into GPT-OSS doesn't transfer censorship. Try it",
-          "points": 169,
-          "url": "https://www.ctgt.ai/research/distillation-censorship-transfer"
         }
       ],
       "highlight_score": 30
@@ -1274,6 +1566,11 @@
           "url": "https://simonwillison.net/2026/Jul/19/claude-code-in-bun-in-rust/"
         },
         {
+          "title": "The new rules of context engineering for Claude 5 generation models",
+          "points": 463,
+          "url": "https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models"
+        },
+        {
           "title": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
           "points": 251,
           "url": "https://ykdojo.github.io/claude-controls-mac/"
@@ -1282,11 +1579,6 @@
           "title": "Show HN: Palmier Pro – Open-source macOS video editor built for AI",
           "points": 191,
           "url": "https://github.com/palmier-io/palmier-pro"
-        },
-        {
-          "title": "Show HN: Distilling DeepSeek into GPT-OSS doesn't transfer censorship. Try it",
-          "points": 169,
-          "url": "https://www.ctgt.ai/research/distillation-censorship-transfer"
         }
       ],
       "highlight_score": 60
@@ -1771,6 +2063,11 @@
           "url": "https://simonwillison.net/2026/Jul/19/claude-code-in-bun-in-rust/"
         },
         {
+          "title": "The new rules of context engineering for Claude 5 generation models",
+          "points": 463,
+          "url": "https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models"
+        },
+        {
           "title": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
           "points": 251,
           "url": "https://ykdojo.github.io/claude-controls-mac/"
@@ -1779,11 +2076,6 @@
           "title": "Show HN: Palmier Pro – Open-source macOS video editor built for AI",
           "points": 191,
           "url": "https://github.com/palmier-io/palmier-pro"
-        },
-        {
-          "title": "Claude Code: Anatomy of a Misfeature",
-          "points": 142,
-          "url": "https://www.olafalders.com/2026/07/17/claude-code-anatomy-of-a-misfeature/"
         }
       ],
       "highlight_score": 60
@@ -2066,6 +2358,11 @@
           "url": "https://simonwillison.net/2026/Jul/19/claude-code-in-bun-in-rust/"
         },
         {
+          "title": "The new rules of context engineering for Claude 5 generation models",
+          "points": 463,
+          "url": "https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models"
+        },
+        {
           "title": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
           "points": 251,
           "url": "https://ykdojo.github.io/claude-controls-mac/"
@@ -2074,11 +2371,6 @@
           "title": "Show HN: Palmier Pro – Open-source macOS video editor built for AI",
           "points": 191,
           "url": "https://github.com/palmier-io/palmier-pro"
-        },
-        {
-          "title": "Claude Code: Anatomy of a Misfeature",
-          "points": 142,
-          "url": "https://www.olafalders.com/2026/07/17/claude-code-anatomy-of-a-misfeature/"
         }
       ],
       "highlight_score": 55
@@ -2618,6 +2910,11 @@
           "url": "https://simonwillison.net/2026/Jul/19/claude-code-in-bun-in-rust/"
         },
         {
+          "title": "The new rules of context engineering for Claude 5 generation models",
+          "points": 463,
+          "url": "https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models"
+        },
+        {
           "title": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
           "points": 251,
           "url": "https://ykdojo.github.io/claude-controls-mac/"
@@ -2626,11 +2923,6 @@
           "title": "Show HN: Palmier Pro – Open-source macOS video editor built for AI",
           "points": 191,
           "url": "https://github.com/palmier-io/palmier-pro"
-        },
-        {
-          "title": "Claude Code: Anatomy of a Misfeature",
-          "points": 142,
-          "url": "https://www.olafalders.com/2026/07/17/claude-code-anatomy-of-a-misfeature/"
         }
       ],
       "highlight_score": 50
@@ -2673,14 +2965,14 @@
           "url": "https://simonwillison.net/2026/Jul/19/claude-code-in-bun-in-rust/"
         },
         {
+          "title": "The new rules of context engineering for Claude 5 generation models",
+          "points": 463,
+          "url": "https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models"
+        },
+        {
           "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
           "points": 280,
           "url": "https://github.com/juggler-ai/juggler"
-        },
-        {
-          "title": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
-          "points": 251,
-          "url": "https://ykdojo.github.io/claude-controls-mac/"
         }
       ],
       "highlight_score": 35
@@ -3294,14 +3586,14 @@
           "url": "https://simonwillison.net/2026/Jul/19/claude-code-in-bun-in-rust/"
         },
         {
+          "title": "The new rules of context engineering for Claude 5 generation models",
+          "points": 463,
+          "url": "https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models"
+        },
+        {
           "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
           "points": 280,
           "url": "https://github.com/juggler-ai/juggler"
-        },
-        {
-          "title": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
-          "points": 251,
-          "url": "https://ykdojo.github.io/claude-controls-mac/"
         }
       ],
       "highlight_score": 60
@@ -3949,6 +4241,11 @@
           "url": "https://bento.page/slides/"
         },
         {
+          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+          "points": 937,
+          "url": "https://github.com/JustVugg/colibri"
+        },
+        {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
           "points": 706,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
@@ -3962,11 +4259,6 @@
           "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
           "points": 280,
           "url": "https://github.com/juggler-ai/juggler"
-        },
-        {
-          "title": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
-          "points": 251,
-          "url": "https://ykdojo.github.io/claude-controls-mac/"
         }
       ],
       "highlight_score": 55
@@ -4452,6 +4744,11 @@
           "url": "https://bento.page/slides/"
         },
         {
+          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+          "points": 937,
+          "url": "https://github.com/JustVugg/colibri"
+        },
+        {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
           "points": 706,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
@@ -4465,11 +4762,6 @@
           "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
           "points": 280,
           "url": "https://github.com/juggler-ai/juggler"
-        },
-        {
-          "title": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
-          "points": 251,
-          "url": "https://ykdojo.github.io/claude-controls-mac/"
         }
       ],
       "highlight_score": 50
@@ -4908,6 +5200,11 @@
       ],
       "signals": [
         {
+          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+          "points": 937,
+          "url": "https://github.com/JustVugg/colibri"
+        },
+        {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
           "points": 706,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
@@ -4926,11 +5223,6 @@
           "title": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
           "points": 251,
           "url": "https://ykdojo.github.io/claude-controls-mac/"
-        },
-        {
-          "title": "Show HN: Yamanote.fun – A complete soundscape for Tokyo's Yamanote line",
-          "points": 238,
-          "url": "https://www.yamanote.fun/"
         }
       ],
       "highlight_score": 50
@@ -4957,6 +5249,11 @@
       ],
       "signals": [
         {
+          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+          "points": 937,
+          "url": "https://github.com/JustVugg/colibri"
+        },
+        {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
           "points": 706,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
@@ -4975,11 +5272,6 @@
           "title": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
           "points": 251,
           "url": "https://ykdojo.github.io/claude-controls-mac/"
-        },
-        {
-          "title": "Show HN: Yamanote.fun – A complete soundscape for Tokyo's Yamanote line",
-          "points": 238,
-          "url": "https://www.yamanote.fun/"
         }
       ],
       "highlight_score": 30
@@ -5569,6 +5861,11 @@
       ],
       "signals": [
         {
+          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+          "points": 937,
+          "url": "https://github.com/JustVugg/colibri"
+        },
+        {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
           "points": 706,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
@@ -5587,11 +5884,6 @@
           "title": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
           "points": 251,
           "url": "https://ykdojo.github.io/claude-controls-mac/"
-        },
-        {
-          "title": "Show HN: Yamanote.fun – A complete soundscape for Tokyo's Yamanote line",
-          "points": 238,
-          "url": "https://www.yamanote.fun/"
         }
       ],
       "highlight_score": 50
@@ -5912,6 +6204,11 @@
       ],
       "signals": [
         {
+          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+          "points": 937,
+          "url": "https://github.com/JustVugg/colibri"
+        },
+        {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
           "points": 706,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
@@ -5930,11 +6227,6 @@
           "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
           "points": 280,
           "url": "https://github.com/juggler-ai/juggler"
-        },
-        {
-          "title": "Show HN: Yamanote.fun – A complete soundscape for Tokyo's Yamanote line",
-          "points": 238,
-          "url": "https://www.yamanote.fun/"
         }
       ],
       "highlight_score": 60
@@ -6284,6 +6576,11 @@
       ],
       "signals": [
         {
+          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+          "points": 937,
+          "url": "https://github.com/JustVugg/colibri"
+        },
+        {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
           "points": 706,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
@@ -6302,11 +6599,6 @@
           "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
           "points": 280,
           "url": "https://github.com/juggler-ai/juggler"
-        },
-        {
-          "title": "Show HN: Yamanote.fun – A complete soundscape for Tokyo's Yamanote line",
-          "points": 238,
-          "url": "https://www.yamanote.fun/"
         }
       ],
       "highlight_score": 50
@@ -6613,6 +6905,11 @@
       ],
       "signals": [
         {
+          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+          "points": 937,
+          "url": "https://github.com/JustVugg/colibri"
+        },
+        {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
           "points": 706,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
@@ -6631,11 +6928,6 @@
           "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
           "points": 280,
           "url": "https://github.com/juggler-ai/juggler"
-        },
-        {
-          "title": "ZCode: Claude Code from the Makers of GLM",
-          "points": 278,
-          "url": "https://zcode.z.ai/cn"
         }
       ],
       "highlight_score": 50
@@ -6663,6 +6955,11 @@
       ],
       "signals": [
         {
+          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+          "points": 937,
+          "url": "https://github.com/JustVugg/colibri"
+        },
+        {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
           "points": 706,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
@@ -6681,11 +6978,6 @@
           "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
           "points": 280,
           "url": "https://github.com/juggler-ai/juggler"
-        },
-        {
-          "title": "ZCode: Claude Code from the Makers of GLM",
-          "points": 278,
-          "url": "https://zcode.z.ai/cn"
         }
       ],
       "highlight_score": 50
@@ -7178,6 +7470,11 @@
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
+          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+          "points": 937,
+          "url": "https://github.com/JustVugg/colibri"
+        },
+        {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
           "points": 706,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
@@ -7191,11 +7488,6 @@
           "title": "Potential session/cache leakage between workspace instances or consumer accounts",
           "points": 314,
           "url": "https://github.com/anthropics/claude-code/issues/74066"
-        },
-        {
-          "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
-          "points": 280,
-          "url": "https://github.com/juggler-ai/juggler"
         }
       ],
       "highlight_score": 55
@@ -7445,6 +7737,11 @@
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
+          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+          "points": 937,
+          "url": "https://github.com/JustVugg/colibri"
+        },
+        {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
           "points": 706,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
@@ -7458,11 +7755,6 @@
           "title": "Potential session/cache leakage between workspace instances or consumer accounts",
           "points": 314,
           "url": "https://github.com/anthropics/claude-code/issues/74066"
-        },
-        {
-          "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
-          "points": 280,
-          "url": "https://github.com/juggler-ai/juggler"
         }
       ],
       "highlight_score": 55
@@ -7493,6 +7785,11 @@
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
+          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+          "points": 937,
+          "url": "https://github.com/JustVugg/colibri"
+        },
+        {
           "title": "I used Claude Code to get a second opinion on my MRI",
           "points": 566,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
@@ -7506,11 +7803,6 @@
           "title": "Potential session/cache leakage between workspace instances or consumer accounts",
           "points": 314,
           "url": "https://github.com/anthropics/claude-code/issues/74066"
-        },
-        {
-          "title": "ZCode: Claude Code from the Makers of GLM",
-          "points": 278,
-          "url": "https://zcode.z.ai/cn"
         }
       ],
       "highlight_score": 30
@@ -7748,6 +8040,11 @@
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
+          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+          "points": 937,
+          "url": "https://github.com/JustVugg/colibri"
+        },
+        {
           "title": "I used Claude Code to get a second opinion on my MRI",
           "points": 566,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
@@ -7761,11 +8058,6 @@
           "title": "Potential session/cache leakage between workspace instances or consumer accounts",
           "points": 314,
           "url": "https://github.com/anthropics/claude-code/issues/74066"
-        },
-        {
-          "title": "ZCode: Claude Code from the Makers of GLM",
-          "points": 278,
-          "url": "https://zcode.z.ai/cn"
         }
       ],
       "highlight_score": 55
@@ -8090,6 +8382,11 @@
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
+          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+          "points": 937,
+          "url": "https://github.com/JustVugg/colibri"
+        },
+        {
           "title": "I used Claude Code to get a second opinion on my MRI",
           "points": 566,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
@@ -8103,11 +8400,6 @@
           "title": "Alibaba to ban Claude Code in workplace over alleged backdoor risks, source says",
           "points": 336,
           "url": "https://www.reuters.com/world/china/alibaba-ban-claude-code-workplace-over-alleged-backdoor-risks-source-says-2026-07-03/"
-        },
-        {
-          "title": "Potential session/cache leakage between workspace instances or consumer accounts",
-          "points": 314,
-          "url": "https://github.com/anthropics/claude-code/issues/74066"
         }
       ],
       "highlight_score": 50
@@ -69613,8 +69905,8 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 537,
-      "release_count": 189,
+      "change_count": 539,
+      "release_count": 190,
       "avg_importance": 3.08,
       "maturity": {
         "score": 92,
@@ -69625,14 +69917,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-08-04",
-        "version": "2.1.222"
+        "date": "2026-08-05",
+        "version": "2.1.223"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 378
+          "change_count": 380
         },
         {
           "epoch_id": "epoch4",
@@ -69708,9 +70000,9 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 1154,
-      "release_count": 239,
-      "avg_importance": 3.26,
+      "change_count": 1165,
+      "release_count": 240,
+      "avg_importance": 3.27,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -69720,14 +70012,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-08-04",
-        "version": "2.1.222"
+        "date": "2026-08-05",
+        "version": "2.1.223"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 876
+          "change_count": 887
         },
         {
           "epoch_id": "epoch1",
@@ -69752,6 +70044,22 @@
       ],
       "samples": [
         {
+          "date": "2026-08-05",
+          "version": "2.1.223",
+          "raw": "Fixed a Bash permission bypass where a crafted command could hide parts of itself from permission checks",
+          "summary": "修复Bash命令绕过权限检查漏洞",
+          "importance": 5,
+          "category": "security"
+        },
+        {
+          "date": "2026-08-05",
+          "version": "2.1.223",
+          "raw": "Fixed permission prompts so commands padded with tabs or invisible Unicode can no longer hide part of the command from the approval dialog",
+          "summary": "修复制表符/不可见字符隐藏命令",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-08-04",
           "version": "2.1.222",
           "raw": "Fixed worktree-isolated sessions and their subagents being able to run destructive git commands against the main checkout; isolation now applies to file edits and Bash in every session type",
@@ -69766,22 +70074,6 @@
           "summary": "Linux/WSL沙箱凭据文件掩码模式",
           "importance": 5,
           "category": "feat"
-        },
-        {
-          "date": "2026-08-03",
-          "version": "2.1.221",
-          "raw": "Fixed a Bash tool permission-check bypass where zsh could execute hidden commands in `[[ ]]` regex conditionals; affected commands now prompt for permission",
-          "summary": "修复zsh隐藏命令权限检查绕过漏洞",
-          "importance": 5,
-          "category": "security"
-        },
-        {
-          "date": "2026-07-22",
-          "version": "2.1.218",
-          "raw": "Fixed Windows paths with `\\u`-prefixed segments (like `C:\\Users\\unicorn`) being corrupted into CJK characters in tool inputs, which made those files inaccessible",
-          "summary": "修复Windows含\\u路径被转成中日韩字符",
-          "importance": 5,
-          "category": "fix"
         }
       ]
     },
@@ -69803,8 +70095,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 709,
-      "release_count": 197,
+      "change_count": 715,
+      "release_count": 198,
       "avg_importance": 3.15,
       "maturity": {
         "score": 93,
@@ -69815,14 +70107,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-08-03",
-        "version": "2.1.221"
+        "date": "2026-08-05",
+        "version": "2.1.223"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 538
+          "change_count": 544
         },
         {
           "epoch_id": "epoch1",
@@ -69898,8 +70190,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 954,
-      "release_count": 237,
+      "change_count": 958,
+      "release_count": 238,
       "avg_importance": 3.27,
       "maturity": {
         "score": 93,
@@ -69910,14 +70202,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-08-04",
-        "version": "2.1.222"
+        "date": "2026-08-05",
+        "version": "2.1.223"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 708
+          "change_count": 712
         },
         {
           "epoch_id": "epoch4",
@@ -69993,8 +70285,8 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 566,
-      "release_count": 154,
+      "change_count": 569,
+      "release_count": 155,
       "avg_importance": 3.22,
       "maturity": {
         "score": 93,
@@ -70005,14 +70297,14 @@
         "version": "0.2.50"
       },
       "latest_seen": {
-        "date": "2026-08-04",
-        "version": "2.1.222"
+        "date": "2026-08-05",
+        "version": "2.1.223"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 486
+          "change_count": 489
         },
         {
           "epoch_id": "epoch1",
@@ -70088,8 +70380,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 1369,
-      "release_count": 264,
+      "change_count": 1374,
+      "release_count": 265,
       "avg_importance": 3.1,
       "maturity": {
         "score": 92,
@@ -70100,14 +70392,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-08-04",
-        "version": "2.1.222"
+        "date": "2026-08-05",
+        "version": "2.1.223"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 1014
+          "change_count": 1019
         },
         {
           "epoch_id": "epoch1",
@@ -70183,9 +70475,9 @@
         "Emacs",
         "web"
       ],
-      "change_count": 1028,
-      "release_count": 210,
-      "avg_importance": 2.71,
+      "change_count": 1035,
+      "release_count": 211,
+      "avg_importance": 2.72,
       "maturity": {
         "score": 91,
         "level": "成熟"
@@ -70195,14 +70487,14 @@
         "version": "0.2.34"
       },
       "latest_seen": {
-        "date": "2026-08-04",
-        "version": "2.1.222"
+        "date": "2026-08-05",
+        "version": "2.1.223"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 838
+          "change_count": 845
         },
         {
           "epoch_id": "epoch4",
@@ -70227,6 +70519,22 @@
       ],
       "samples": [
         {
+          "date": "2026-08-05",
+          "version": "2.1.223",
+          "raw": "Fixed a Bash permission bypass where a crafted command could hide parts of itself from permission checks",
+          "summary": "修复Bash命令绕过权限检查漏洞",
+          "importance": 5,
+          "category": "security"
+        },
+        {
+          "date": "2026-08-05",
+          "version": "2.1.223",
+          "raw": "Fixed permission prompts so commands padded with tabs or invisible Unicode can no longer hide part of the command from the approval dialog",
+          "summary": "修复制表符/不可见字符隐藏命令",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-07-20",
           "version": "2.1.216",
           "raw": "Fixed workflow saves and scheduled-task writes following a symlink at `.claude`, which could redirect writes outside the project",
@@ -70239,22 +70547,6 @@
           "version": "2.1.207",
           "raw": "Fixed the terminal freezing and keystrokes lagging while streaming responses containing very long lists, tables, paragraphs, or code blocks",
           "summary": "修复长内容流式输出时终端卡顿",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-07-10",
-          "version": "2.1.207",
-          "raw": "Plugin hooks/monitors/MCP headersHelper: `${user_config.*}` in shell-form commands is now rejected (shell-injection fix). Hooks: use exec form (`args` array) or `$CLAUDE_PLUGIN_OPTION_<KEY>`; monitors and headersHelper: read the value inside the script (config file or the server's `env` block).",
-          "summary": "修复插件shell命令的注入漏洞",
-          "importance": 5,
-          "category": "security"
-        },
-        {
-          "date": "2026-07-08",
-          "version": "2.1.205",
-          "raw": "Fixed Windows worktree removal deleting files outside the worktree when an NTFS junction or directory symlink existed inside it",
-          "summary": "修复Windows worktree删除越界文件",
           "importance": 5,
           "category": "fix"
         }
@@ -70278,8 +70570,8 @@
         "policy",
         "auditing"
       ],
-      "change_count": 996,
-      "release_count": 233,
+      "change_count": 1005,
+      "release_count": 234,
       "avg_importance": 3.41,
       "maturity": {
         "score": 94,
@@ -70290,14 +70582,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-08-04",
-        "version": "2.1.222"
+        "date": "2026-08-05",
+        "version": "2.1.223"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 775
+          "change_count": 784
         },
         {
           "epoch_id": "epoch4",
@@ -70322,6 +70614,22 @@
       ],
       "samples": [
         {
+          "date": "2026-08-05",
+          "version": "2.1.223",
+          "raw": "Fixed a Bash permission bypass where a crafted command could hide parts of itself from permission checks",
+          "summary": "修复Bash命令绕过权限检查漏洞",
+          "importance": 5,
+          "category": "security"
+        },
+        {
+          "date": "2026-08-05",
+          "version": "2.1.223",
+          "raw": "Fixed permission prompts so commands padded with tabs or invisible Unicode can no longer hide part of the command from the approval dialog",
+          "summary": "修复制表符/不可见字符隐藏命令",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-08-04",
           "version": "2.1.222",
           "raw": "Fixed worktree-isolated sessions and their subagents being able to run destructive git commands against the main checkout; isolation now applies to file edits and Bash in every session type",
@@ -70336,22 +70644,6 @@
           "summary": "Linux/WSL沙箱凭据文件掩码模式",
           "importance": 5,
           "category": "feat"
-        },
-        {
-          "date": "2026-08-03",
-          "version": "2.1.221",
-          "raw": "Fixed a Bash tool permission-check bypass where zsh could execute hidden commands in `[[ ]]` regex conditionals; affected commands now prompt for permission",
-          "summary": "修复zsh隐藏命令权限检查绕过漏洞",
-          "importance": 5,
-          "category": "security"
-        },
-        {
-          "date": "2026-07-20",
-          "version": "2.1.216",
-          "raw": "Fixed workflow saves and scheduled-task writes following a symlink at `.claude`, which could redirect writes outside the project",
-          "summary": "修复符号链接导致写入逃逸项目目录",
-          "importance": 5,
-          "category": "security"
         }
       ]
     }
@@ -70443,6 +70735,12 @@
         "date": "2026-04-23"
       },
       {
+        "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+        "points": 937,
+        "url": "https://github.com/JustVugg/colibri",
+        "date": "2026-07-09"
+      },
+      {
         "title": "Using Claude Code to modernize a 25-year-old kernel driver",
         "points": 929,
         "url": "https://dmitrybrant.com/2025/09/07/using-claude-code-to-modernize-a-25-year-old-kernel-driver",
@@ -70459,12 +70757,6 @@
         "points": 842,
         "url": "https://www.npmjs.com/package/@anthropic-ai/claude-code",
         "date": "2025-09-29"
-      },
-      {
-        "title": "How to code Claude Code in 200 lines of code",
-        "points": 816,
-        "url": "https://www.mihaileric.com/The-Emperor-Has-No-Clothes/",
-        "date": "2026-01-08"
       }
     ],
     "blog_posts": [
