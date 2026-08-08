@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-08-07T03:46:55.693Z",
+    "generated_at": "2026-08-08T02:53:57.295Z",
     "agent_model": "glm-5",
-    "total_versions": 356,
+    "total_versions": 359,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-08-05"
+      "end": "2026-08-08"
     },
     "highlight_count": 58,
     "capability_count": 8,
@@ -70,11 +70,714 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。adaptive thinking 把推理深度交给模型自己决定，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界——从 Opus 4.6 到 4.8，每一代都在加速这条路。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Adaptive thinking hands reasoning depth to the model itself, while worktree isolation and 1M context push the agent toward hours-long unattended runs — from Opus 4.6 through 4.8, each generation accelerates the path.",
-      "release_count": 140,
+      "release_count": 143,
       "highlight_count": 36
     }
   ],
   "releases": [
+    {
+      "version": "2.1.226",
+      "date": "2026-08-08",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Bug fixes and reliability improvements",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复缺陷并提升整体可靠性",
+          "summary_en": "Bug fixes and reliability improvements",
+          "why_matters": "提升工具整体稳定性与日常使用体验。",
+          "why_matters_en": "Improves overall tool stability and everyday user experience.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Launch HN: Hoplite (YC S26) – Effortlessly deploy cloud coding agents",
+          "points": 81,
+          "url": "https://hoplite.sh"
+        },
+        {
+          "title": "Agent skills that bring team coding standards to Claude Code and Codex",
+          "points": 75,
+          "url": "https://github.com/tikalk/adlc-team-skills"
+        },
+        {
+          "title": "Boris Cherny on Trying to Get Claude Code to Rewrite the Claude App",
+          "points": 69,
+          "url": "https://daringfireball.net/linked/2026/08/02/cherny-claude-swift"
+        },
+        {
+          "title": "Launch HN: HyperProbe (YC S26) – Agents that do read-only debugging in prod",
+          "points": 68,
+          "url": "https://www.hyperprobe.co"
+        }
+      ],
+      "highlight_score": 0
+    },
+    {
+      "version": "2.1.225",
+      "date": "2026-08-07",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added gateway spend-limit support to Claude Code's usage warning; the limit-reached message now names the cap, its reset time, and the operator's message (requires the gateway on 2.1.225)",
+          "category": "feat",
+          "importance": 3,
+          "summary": "网关消费限额提示显示上限与重置时间",
+          "summary_en": "Gateway spend-limit warnings now show cap and reset time",
+          "why_matters": "帮助用户更清楚地了解用量限制何时重置，避免意外中断。",
+          "why_matters_en": "Helps users understand when spend limits reset, avoiding unexpected interruptions.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Added a workspace trust prompt to `claude agents` for untrusted directories, matching the behavior of `claude`",
+          "category": "feat",
+          "importance": 3,
+          "summary": "agents命令为不受信目录添加信任提示",
+          "summary_en": "agents command adds workspace trust prompt for untrusted dirs",
+          "why_matters": "统一了agents与主命令的安全行为，防止在不可信目录中意外执行操作。",
+          "why_matters_en": "Aligns agents with main command security behavior, preventing unintended actions in untrusted dirs.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed a transient 401 replacing a long-lived `CLAUDE_CODE_OAUTH_TOKEN` with a stored login's short-lived token, breaking headless sessions until restart",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复长令牌被短令牌替换导致无头会话中断",
+          "summary_en": "Fix long-lived token replaced by short-lived token breaking headless sessions",
+          "why_matters": "无头自动化场景的稳定性关键依赖持久令牌，此修复避免了意外掉线。",
+          "why_matters_en": "Headless automation stability depends on persistent tokens; this fix prevents unexpected disconnections.",
+          "capability_ids": [
+            "automation_autonomy",
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed MCP OAuth servers on macOS intermittently failing with a burst of 401 errors, as if never authenticated, after a keychain read timed out",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复macOS上MCP OAuth钥匙串超时导致401",
+          "summary_en": "Fix MCP OAuth 401 errors on macOS from keychain read timeout",
+          "why_matters": "macOS用户使用MCP OAuth服务器时不再因钥匙串读取超时而频繁认证失败。",
+          "why_matters_en": "macOS users using MCP OAuth servers no longer face auth failures from keychain read timeouts.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed auto mode counting a safety-filter refusal of its own permission check toward the consecutive-block limit; the action is still denied, but the model is now told to move on rather than retry",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复自动模式将安全拒绝误计入连续阻止限制",
+          "summary_en": "Fix auto mode counting safety-filter refusal toward block limit",
+          "why_matters": "避免模型因自身权限检查被拒而反复重试，浪费轮次并可能触发限制。",
+          "why_matters_en": "Prevents the model from retrying its own permission denials, wasting turns and risking block limits.",
+          "capability_ids": [
+            "automation_autonomy",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed cross-session messages staying parked without a notice or expiry in headless sessions and during startup",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复无头会话跨会话消息无过期提示",
+          "summary_en": "Fix cross-session messages stuck without notice or expiry in headless mode",
+          "why_matters": "无头会话中滞留消息不再无限堆积，提升了消息传递的可靠性。",
+          "why_matters_en": "Stale messages in headless sessions no longer accumulate indefinitely, improving message reliability.",
+          "capability_ids": [
+            "automation_autonomy",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed conversation history breaking on Remote Control session resume after very large conversations were compacted",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复大对话压缩后远程控制会话恢复中断",
+          "summary_en": "Fix conversation history breaking on Remote Control resume after compaction",
+          "why_matters": "长对话压缩后远程控制恢复不再丢失历史，保障跨设备协作连续性。",
+          "why_matters_en": "Remote Control resume no longer loses history after large conversation compaction, ensuring continuity.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "memory_context",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed hovering over a session in another project in the agents list changing the directory the next agent starts in",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复agents列表悬停切换项目目录的问题",
+          "summary_en": "Fix hovering over session in agents list changing startup directory",
+          "why_matters": "防止用户因悬停操作意外改变下一个agent的启动目录，避免混淆。",
+          "why_matters_en": "Prevents accidental directory changes from hover actions, avoiding confusion when starting agents.",
+          "capability_ids": [
+            "execution_workspace",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed `claude self-hosted-runner` registering and then failing every session when `--base-dir` cannot be created or written; it now exits at startup with a clear error",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复base-dir不可写时runner注册后全部失败",
+          "summary_en": "Fix self-hosted-runner failing all sessions when base-dir unwritable",
+          "why_matters": "启动时即报错而非注册后反复失败，节省调试时间并避免资源浪费。",
+          "why_matters_en": "Fails fast at startup with a clear error instead of registering and failing every session.",
+          "capability_ids": [
+            "automation_autonomy",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed Claude Code on the web sessions being misreported as stuck, re-sending a growing event backlog on every reconnect",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复Web会话误报卡死导致事件重复发送",
+          "summary_en": "Fix web sessions misreported as stuck, re-sending growing event backlog",
+          "why_matters": "消除了重连时事件积压重复发送的问题，提升Web端会话稳定性。",
+          "why_matters_en": "Eliminates growing event backlog re-sent on reconnect, improving web session stability.",
+          "capability_ids": [
+            "automation_autonomy",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Improved Remote Control: photos attached from the Claude app are now shown to Claude directly instead of being read from disk with a separate tool call",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "远程控制中Claude应用照片直接展示给模型",
+          "summary_en": "Remote Control photos from Claude app shown directly to model",
+          "why_matters": "减少了额外的磁盘读取工具调用，使多模态交互更流畅高效。",
+          "why_matters_en": "Reduces extra disk-read tool calls, making multimodal interaction smoother and more efficient.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed Focus view folding away the latest to-do list, a pending question's context, and settled answers; thinking-only folds show \"Thought for Ns\" and re-collapse when their turn completes",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复VSCode Focus视图折叠最新待办与上下文",
+          "summary_en": "Fix VSCode Focus view folding away latest to-do list and context",
+          "why_matters": "用户在Focus视图中不再丢失最新待办和问答上下文，提升编辑器内体验。",
+          "why_matters_en": "Users no longer lose latest to-dos and Q&A context in Focus view, improving in-editor experience.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "memory_context",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "SendMessage can now start a conversation with your Remote Control sessions on other machines by name (`ListAgents` shows them as `name [ref]`), instead of only replying after they message you first",
+          "category": "feat",
+          "importance": 4,
+          "summary": "SendMessage可按名称主动发起远程控制会话对话",
+          "summary_en": "SendMessage can now initiate Remote Control conversations by name",
+          "why_matters": "不再需要等待对方先发消息，大幅提升跨机器协作的主动性和灵活性。",
+          "why_matters_en": "No longer waiting for the other side to message first, greatly improving cross-machine collaboration flexibility.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "automation_autonomy",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "SendMessage: a Remote Control recipient you already confirmed is never swapped for a same-named session on this machine when its own list couldn't be checked",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复已确认的远程控制接收者被同名会话替换",
+          "summary_en": "Fix confirmed Remote Control recipient swapped for same-named local session",
+          "why_matters": "防止消息发送到错误的同名本地会话，保障跨机器消息投递的准确性。",
+          "why_matters_en": "Prevents messages from going to a wrong same-named local session, ensuring accurate cross-machine delivery.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Show HN: What should the GUI for AI agents look like?",
+          "points": 138,
+          "url": "https://marbleos.com/demo"
+        },
+        {
+          "title": "Launch HN: Hoplite (YC S26) – Effortlessly deploy cloud coding agents",
+          "points": 81,
+          "url": "https://hoplite.sh"
+        },
+        {
+          "title": "Agent skills that bring team coding standards to Claude Code and Codex",
+          "points": 75,
+          "url": "https://github.com/tikalk/adlc-team-skills"
+        },
+        {
+          "title": "Boris Cherny on Trying to Get Claude Code to Rewrite the Claude App",
+          "points": 69,
+          "url": "https://daringfireball.net/linked/2026/08/02/cherny-claude-swift"
+        },
+        {
+          "title": "Launch HN: HyperProbe (YC S26) – Agents that do read-only debugging in prod",
+          "points": 68,
+          "url": "https://www.hyperprobe.co"
+        }
+      ],
+      "highlight_score": 28
+    },
+    {
+      "version": "2.1.224",
+      "date": "2026-08-07",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added self-hosted environments: `claude self-hosted-runner` turns your own machines or containers into a place Claude Code web, mobile, and desktop sessions can run, on Team and Enterprise plans",
+          "category": "feat",
+          "importance": 4,
+          "summary": "支持自托管运行环境",
+          "summary_en": "Self-hosted runner for Team/Enterprise plans",
+          "why_matters": "企业可在自有基础设施上运行Claude Code会话，满足数据安全与合规需求。",
+          "why_matters_en": "Enterprises can run Claude Code sessions on their own infrastructure for security and compliance.",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Added `archive` plugin source: install plugins from a zip over HTTPS without git or npm, with optional SHA-256 pinning",
+          "category": "feat",
+          "importance": 3,
+          "summary": "支持从zip包安装插件",
+          "summary_en": "Install plugins from zip over HTTPS with SHA-256 pinning",
+          "why_matters": "无需git或npm即可安全分发插件，降低部署门槛并支持校验完整性。",
+          "why_matters_en": "Enables secure plugin distribution without git/npm dependencies and supports integrity verification.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Added a cancel-and-confirm step when removing an unavailable paste changes a command's text",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "粘贴移除时增加取消确认步骤",
+          "summary_en": "Cancel-and-confirm when paste removal changes command text",
+          "why_matters": "避免用户因粘贴内容意外移除而误执行被修改的命令。",
+          "why_matters_en": "Prevents accidental execution of commands modified by unexpected paste removal.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Added `ANTHROPIC_BEDROCK_REGION_PREFIX` env var for Bedrock to prefer a specific cross-region inference profile over the `AWS_REGION`-derived one",
+          "category": "feat",
+          "importance": 3,
+          "summary": "支持Bedrock跨区域推理前缀配置",
+          "summary_en": "Bedrock cross-region inference profile prefix env var",
+          "why_matters": "允许用户指定优先使用的Bedrock跨区域推理配置，提升灵活性与可用性。",
+          "why_matters_en": "Lets users specify a preferred Bedrock cross-region inference profile for better availability.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added `crossSessionInbound` and `dialogExpiry` settings: cross-session messages sent to a session running with bypassed permissions are held for your approval, and messages to other sessions auto-deliver",
+          "category": "feat",
+          "importance": 4,
+          "summary": "跨会话消息审批与自动投递设置",
+          "summary_en": "Cross-session inbound approval and dialog expiry settings",
+          "why_matters": "对绕过权限的会话收到的消息进行审批，防止未经授权的操作自动执行。",
+          "why_matters_en": "Holds cross-session messages to bypassed-permission sessions for approval, preventing unauthorized actions.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Added sandbox credential-masking options: `extract` and `onExtractNoMatch` for structured env values, `decode: \"jwt\"` with `maskClaims` for JWT-aware masking, and `awsPairs`/`sigv4` for AWS SigV4 re-signing; these need `network.tlsTerminate` and are honored only from user, managed, or `--settings` settings",
+          "category": "feat",
+          "importance": 4,
+          "summary": "沙箱凭据掩码与AWS签名选项",
+          "summary_en": "Sandbox credential masking with JWT and AWS SigV4 support",
+          "why_matters": "结构化环境变量和JWT中的敏感信息可被安全掩码，同时支持AWS请求重新签名。",
+          "why_matters_en": "Structured env values and JWT claims can be securely masked while supporting AWS request re-signing.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Added cross-session `SendMessage`: Claude Code sessions can now message each other, on any of your machines, with `ListAgents` to discover them (macOS and Linux)",
+          "category": "feat",
+          "importance": 5,
+          "summary": "跨会话消息发送与代理发现",
+          "summary_en": "Cross-session SendMessage and ListAgents discovery",
+          "why_matters": "Claude Code会话可跨机器互相通信并发现代理，实现多代理协作工作流。",
+          "why_matters_en": "Sessions can message each other across machines and discover agents, enabling multi-agent collaboration.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed long (>200 char) project paths resolving to another project's session directory under a shared sanitized prefix; session list, rename, fork, delete and `/resume` no longer cross projects",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复长路径项目会话目录串号问题",
+          "summary_en": "Fix long project paths resolving to wrong session directories",
+          "why_matters": "长路径项目可能错误访问其他项目的会话数据，存在数据泄露与操作混乱风险。",
+          "why_matters_en": "Long paths could cross-resolve to other projects' sessions, risking data leakage and operational confusion.",
+          "capability_ids": [
+            "memory_context",
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `SendMessage` reporting \"Message sent\" when the write to a teammate's inbox had actually failed; failed deliveries are now reported as errors",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复SendMessage投递失败误报成功",
+          "summary_en": "Fix SendMessage falsely reporting success on failed delivery",
+          "why_matters": "消息投递失败时用户会误以为已送达，可能导致协作中断或信息丢失。",
+          "why_matters_en": "False success reports could cause collaboration breakdowns or silent message loss.",
+          "capability_ids": [
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed sandbox filesystem deny entries written with a trailing slash (e.g. `denyRead: \"~/.aws/\"`) being silently bypassable on Linux and macOS",
+          "category": "security",
+          "importance": 5,
+          "summary": "修复沙箱目录拒绝规则可被绕过",
+          "summary_en": "Fix sandbox filesystem deny entries bypassable with trailing slash",
+          "why_matters": "带斜杠的拒绝规则可被静默绕过，导致敏感目录（如~/.aws）被未授权访问。",
+          "why_matters_en": "Deny rules with trailing slashes were silently bypassable, exposing sensitive directories like ~/.aws.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed sandbox violation details never appearing in Bash tool results; Claude now sees which file or network access was denied and why",
+          "category": "fix",
+          "importance": 3,
+          "summary": "沙箱违规详情现在显示在Bash结果中",
+          "summary_en": "Sandbox violation details now visible in Bash tool results",
+          "why_matters": "Claude此前无法看到被拒绝的文件或网络访问原因，影响调试与自我修正能力。",
+          "why_matters_en": "Claude previously couldn't see which access was denied or why, hindering debugging and self-correction.",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed MCP tools that connect mid-turn being deferred for tool search without their names announced to the model",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复MCP工具中途连接时延迟注册问题",
+          "summary_en": "Fix mid-turn MCP tools deferred without name announcement",
+          "why_matters": "中途连接的MCP工具未向模型声明名称，导致工具搜索和调用不完整。",
+          "why_matters_en": "Mid-turn MCP tools weren't announced to the model, causing incomplete tool search and invocation.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed plugin install records being silently corrupted when the same plugin is installed in multiple projects",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复多项目重复安装插件记录损坏",
+          "summary_en": "Fix plugin install records corrupted across multiple projects",
+          "why_matters": "同一插件在多项目安装时记录被静默损坏，可能导致插件状态不一致或功能异常。",
+          "why_matters_en": "Duplicate installs across projects silently corrupted records, causing inconsistent plugin state.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed recalled or restored paste content occasionally attaching wrong data or silently losing text when the paste had aged out or placeholder numbers collided",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复粘贴内容召回时数据错误或丢失",
+          "summary_en": "Fix recalled paste content attaching wrong data or losing text",
+          "why_matters": "粘贴内容过期或占位符冲突时可能附加错误数据或丢失文本，影响命令准确性。",
+          "why_matters_en": "Aged-out pastes or placeholder collisions could attach wrong data or lose text, affecting command accuracy.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed copy-on-select on Wayland sometimes not reaching the clipboard; the two selection writes no longer race",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复Wayland选中复制竞态问题",
+          "summary_en": "Fix copy-on-select race condition on Wayland",
+          "why_matters": "Wayland下两次选区写入竞态导致复制偶尔失败，影响用户体验。",
+          "why_matters_en": "Racing selection writes on Wayland occasionally caused copy-on-select to fail silently.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed the feedback survey's transcript share silently failing on long sessions; a failed share now shows an error instead of a success message",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复长会话反馈调查分享失败误报成功",
+          "summary_en": "Fix survey transcript share falsely reporting success on long sessions",
+          "why_matters": "避免用户误以为分享成功而实际未发送反馈数据。",
+          "why_matters_en": "Prevents users from falsely believing their feedback was shared successfully.",
+          "capability_ids": [
+            "governance_security",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed Remote Control auto-start intermittently failing with \"Remote credentials fetch failed\" on a cold start with a stale login token",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复冷启动时远程控制自动启动失败",
+          "summary_en": "Fix Remote Control auto-start failing on cold start with stale token",
+          "why_matters": "消除登录令牌过期导致的远程控制连接间歇性失败问题。",
+          "why_matters_en": "Eliminates intermittent Remote Control failures caused by stale login tokens on cold start.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed Remote Control and SDK clients showing a blank \"(no content)\" message after `/clear` and other output-less commands",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复远程控制客户端显示空白无内容提示",
+          "summary_en": "Fix Remote Control clients showing blank '(no content)' after /clear",
+          "why_matters": "避免无输出命令后出现令人困惑的空白提示信息。",
+          "why_matters_en": "Removes confusing blank '(no content)' message after output-less commands.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed a Remote Control session recreated after its server session expired uploading prior local conversation history into the new session",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复会话重建后旧对话历史被上传",
+          "summary_en": "Fix recreated Remote Control session uploading prior conversation history",
+          "why_matters": "防止过期会话重建后意外泄露之前的本地对话历史。",
+          "why_matters_en": "Prevents accidental upload of prior local conversation history into a new session after server expiry.",
+          "capability_ids": [
+            "governance_security",
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Improved fullscreen mode to keep the full pre-compaction history in scrollback across repeated compactions, instead of only the most recent interval",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "全屏模式保留完整压缩前滚动历史",
+          "summary_en": "Fullscreen scrollback keeps full pre-compaction history across compactions",
+          "why_matters": "用户可在多次压缩后仍回溯查看完整会话历史。",
+          "why_matters_en": "Users can scroll back through full history even after repeated context compactions.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Improved Remote Control: attached web and mobile clients now see compaction progress and the post-compaction boundary instead of a silent pause; `/clear` resets now propagate to attached clients",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "远程控制客户端可见压缩进度与边界",
+          "summary_en": "Remote Control clients now see compaction progress and /clear resets",
+          "why_matters": "提升远程客户端的透明度，避免静默暂停造成的困惑。",
+          "why_matters_en": "Improves transparency for attached clients by showing compaction progress instead of silent pauses.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "memory_context",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Improved Remote Control: connection failures now show a persistent failure indicator with details and a reconnect shortcut, instead of only an 8-second toast",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "远程控制连接失败显示持久指示器",
+          "summary_en": "Remote Control connection failures show persistent indicator with reconnect",
+          "why_matters": "用户可清楚看到连接故障详情并快速重连，而非短暂提示后消失。",
+          "why_matters_en": "Users see persistent failure details and a reconnect shortcut instead of a fleeting toast.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Removed the 200-subagent-per-session spawn cap; long-running sessions no longer refuse new agents (concurrency and depth limits still apply)",
+          "category": "improvement",
+          "importance": 4,
+          "summary": "移除每会话200子代理生成上限",
+          "summary_en": "Remove 200-subagent-per-session spawn cap for long-running sessions",
+          "why_matters": "长时间运行的任务不再因子代理数量上限而拒绝创建新代理。",
+          "why_matters_en": "Long-running sessions can spawn new agents without hitting an arbitrary cap.",
+          "capability_ids": [
+            "automation_autonomy",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Changed managed settings: the approval prompt no longer re-appears after re-login or org switching when the organization's settings are unchanged",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "组织设置不变时不再重复弹出审批提示",
+          "summary_en": "Approval prompt no longer re-appears after re-login when org settings unchanged",
+          "why_matters": "减少重复登录或切换组织时的冗余审批弹窗，提升体验。",
+          "why_matters_en": "Reduces redundant approval prompts on re-login or org switching when settings are unchanged.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Changed the feedback-survey transcript share: with your consent it now also uploads the last request's model settings — the system prompt (which includes your `CLAUDE.md` instructions), tool definitions, and model parameters. Secrets are redacted as before, and these fields are dropped first if the share is too large",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "反馈分享新增上传模型设置与系统提示",
+          "summary_en": "Survey transcript share now uploads model settings and system prompt with consent",
+          "why_matters": "附带模型设置有助于更精准地诊断问题，同时保持敏感信息脱敏。",
+          "why_matters_en": "Including model settings helps diagnose issues more precisely while secrets remain redacted.",
+          "capability_ids": [
+            "governance_security",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Changed the Bash tool description to always note that command output is displayed to the model, not reliably to the user",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "Bash工具描述注明输出对模型可见",
+          "summary_en": "Bash tool description clarifies output is shown to model, not user",
+          "why_matters": "帮助模型更准确理解命令输出的可见性范围。",
+          "why_matters_en": "Helps the model correctly understand that command output is displayed to it, not the user.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Changed recalled paste placeholder numbers to renumber when accepted into the input",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "粘贴占位符编号在确认输入时重新编号",
+          "summary_en": "Recalled paste placeholder numbers renumber when accepted into input",
+          "why_matters": "避免占位符编号冲突，保持输入引用的一致性。",
+          "why_matters_en": "Prevents placeholder number conflicts and maintains consistent input references.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Changed Remote Control to archive the stale server session instead of leaving a dead one listed when a fresh session is minted after compaction or `/resume`",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "远程控制归档过期会话而非保留死会话",
+          "summary_en": "Remote Control archives stale server session instead of leaving dead one",
+          "why_matters": "避免会话列表中出现无效的死会话，保持列表整洁。",
+          "why_matters_en": "Keeps the session list clean by archiving dead sessions instead of leaving them listed.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "memory_context",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed the extension showing Remote Control as connected after the connection failed",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复VSCode扩展连接失败后仍显示已连接",
+          "summary_en": "Fix VSCode extension showing Remote Control connected after failure",
+          "why_matters": "避免扩展显示与实际连接状态不符的误导性信息。",
+          "why_matters_en": "Prevents the VS Code extension from misleadingly showing Remote Control as connected after failure.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed a session resume silently reconnecting Remote Control after the user turned it off (`--resume`, SDK hosts, and the VS Code extension)",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复会话恢复时静默重连已关闭的远程控制",
+          "summary_en": "Fix session resume silently reconnecting Remote Control after user disabled it",
+          "why_matters": "尊重用户关闭远程控制的意愿，防止会话恢复时未经授权重连。",
+          "why_matters_en": "Respects the user's choice to disable Remote Control, preventing unauthorized reconnection on resume.",
+          "capability_ids": [
+            "governance_security",
+            "delegation_collaboration",
+            "memory_context",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed sessions not honoring `remoteControlAtStartup` when explicitly enabled",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复VSCode会话未遵循远程控制启动设置",
+          "summary_en": "Fix VSCode sessions ignoring remoteControlAtStartup setting",
+          "why_matters": "用户显式启用远程控制启动时，会话应正确遵循该配置，否则影响远程协作流程。",
+          "why_matters_en": "Sessions should respect the remoteControlAtStartup setting when explicitly enabled, otherwise remote workflows break.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Show HN: What should the GUI for AI agents look like?",
+          "points": 138,
+          "url": "https://marbleos.com/demo"
+        },
+        {
+          "title": "Launch HN: Hoplite (YC S26) – Effortlessly deploy cloud coding agents",
+          "points": 81,
+          "url": "https://hoplite.sh"
+        },
+        {
+          "title": "Agent skills that bring team coding standards to Claude Code and Codex",
+          "points": 75,
+          "url": "https://github.com/tikalk/adlc-team-skills"
+        },
+        {
+          "title": "Boris Cherny on Trying to Get Claude Code to Rewrite the Claude App",
+          "points": 69,
+          "url": "https://daringfireball.net/linked/2026/08/02/cherny-claude-swift"
+        },
+        {
+          "title": "Launch HN: HyperProbe (YC S26) – Agents that do read-only debugging in prod",
+          "points": 68,
+          "url": "https://www.hyperprobe.co"
+        }
+      ],
+      "highlight_score": 28
+    },
     {
       "version": "2.1.223",
       "date": "2026-08-05",
@@ -346,7 +1049,7 @@
         },
         {
           "title": "Show HN: What should the GUI for AI agents look like?",
-          "points": 137,
+          "points": 138,
           "url": "https://marbleos.com/demo"
         },
         {
@@ -650,7 +1353,7 @@
         },
         {
           "title": "Show HN: What should the GUI for AI agents look like?",
-          "points": 137,
+          "points": 138,
           "url": "https://marbleos.com/demo"
         },
         {
@@ -1181,8 +1884,13 @@
         },
         {
           "title": "Show HN: What should the GUI for AI agents look like?",
-          "points": 137,
+          "points": 138,
           "url": "https://marbleos.com/demo"
+        },
+        {
+          "title": "Kimi K3 Now Available via Telnyx Inference API",
+          "points": 132,
+          "url": "https://telnyx.com/release-notes/kimi-k3-telnyx-inference"
         },
         {
           "title": "Agent-Manager: A Tmux TUI for Running Claude Code, Codex and OpenCode",
@@ -1193,11 +1901,6 @@
           "title": "Launch HN: Hoplite (YC S26) – Effortlessly deploy cloud coding agents",
           "points": 81,
           "url": "https://hoplite.sh"
-        },
-        {
-          "title": "Agent skills that bring team coding standards to Claude Code and Codex",
-          "points": 75,
-          "url": "https://github.com/tikalk/adlc-team-skills"
         }
       ],
       "highlight_score": 28
@@ -35105,9 +35808,9 @@
           "url": "https://cc.storyfox.cz"
         },
         {
-          "title": "Push events into a running session with channels",
-          "points": 400,
-          "url": "https://code.claude.com/docs/en/channels"
+          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
+          "points": 489,
+          "url": "https://github.com/itigges22/ATLAS"
         }
       ],
       "highlight_score": 50
@@ -35650,9 +36353,9 @@
           "url": "https://cc.storyfox.cz"
         },
         {
-          "title": "Push events into a running session with channels",
-          "points": 400,
-          "url": "https://code.claude.com/docs/en/channels"
+          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
+          "points": 489,
+          "url": "https://github.com/itigges22/ATLAS"
         }
       ],
       "highlight_score": 50
@@ -36637,14 +37340,14 @@
           "url": "https://cc.storyfox.cz"
         },
         {
+          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
+          "points": 489,
+          "url": "https://github.com/itigges22/ATLAS"
+        },
+        {
           "title": "Push events into a running session with channels",
           "points": 400,
           "url": "https://code.claude.com/docs/en/channels"
-        },
-        {
-          "title": "Claude Code users hitting usage limits 'way faster than expected'",
-          "points": 331,
-          "url": "https://www.theregister.com/2026/03/31/anthropic_claude_code_limits/"
         }
       ],
       "highlight_score": 60
@@ -37012,6 +37715,11 @@
           "url": "https://cc.storyfox.cz"
         },
         {
+          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
+          "points": 489,
+          "url": "https://github.com/itigges22/ATLAS"
+        },
+        {
           "title": "Push events into a running session with channels",
           "points": 400,
           "url": "https://code.claude.com/docs/en/channels"
@@ -37025,11 +37733,6 @@
           "title": "Cook: A simple CLI for orchestrating Claude Code",
           "points": 307,
           "url": "https://rjcorwin.github.io/cook/"
-        },
-        {
-          "title": "Schedule tasks on the web",
-          "points": 298,
-          "url": "https://code.claude.com/docs/en/web-scheduled-tasks"
         }
       ],
       "highlight_score": 50
@@ -37269,6 +37972,11 @@
           "url": "https://cc.storyfox.cz"
         },
         {
+          "title": "$500 GPU outperforms Claude Sonnet on coding benchmarks",
+          "points": 489,
+          "url": "https://github.com/itigges22/ATLAS"
+        },
+        {
           "title": "Push events into a running session with channels",
           "points": 400,
           "url": "https://code.claude.com/docs/en/channels"
@@ -37282,11 +37990,6 @@
           "title": "Cook: A simple CLI for orchestrating Claude Code",
           "points": 307,
           "url": "https://rjcorwin.github.io/cook/"
-        },
-        {
-          "title": "How I'm Productive with Claude Code",
-          "points": 281,
-          "url": "https://neilkakkar.com/productive-with-claude-code.html"
         }
       ],
       "highlight_score": 50
@@ -69905,9 +70608,9 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 539,
-      "release_count": 190,
-      "avg_importance": 3.08,
+      "change_count": 540,
+      "release_count": 191,
+      "avg_importance": 3.07,
       "maturity": {
         "score": 92,
         "level": "成熟"
@@ -69917,14 +70620,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-08-05",
-        "version": "2.1.223"
+        "date": "2026-08-07",
+        "version": "2.1.225"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 380
+          "change_count": 381
         },
         {
           "epoch_id": "epoch4",
@@ -70000,9 +70703,9 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 1165,
-      "release_count": 240,
-      "avg_importance": 3.27,
+      "change_count": 1174,
+      "release_count": 243,
+      "avg_importance": 3.26,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -70012,14 +70715,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-08-05",
-        "version": "2.1.223"
+        "date": "2026-08-08",
+        "version": "2.1.226"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 887
+          "change_count": 896
         },
         {
           "epoch_id": "epoch1",
@@ -70044,6 +70747,14 @@
       ],
       "samples": [
         {
+          "date": "2026-08-07",
+          "version": "2.1.224",
+          "raw": "Fixed sandbox filesystem deny entries written with a trailing slash (e.g. `denyRead: \"~/.aws/\"`) being silently bypassable on Linux and macOS",
+          "summary": "修复沙箱目录拒绝规则可被绕过",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-08-05",
           "version": "2.1.223",
           "raw": "Fixed a Bash permission bypass where a crafted command could hide parts of itself from permission checks",
@@ -70066,14 +70777,6 @@
           "summary": "修复worktree隔离会话可对主仓库执行破坏性git命令",
           "importance": 5,
           "category": "security"
-        },
-        {
-          "date": "2026-08-03",
-          "version": "2.1.221",
-          "raw": "Added `mode: \"mask\"` for sandbox credential files on Linux and WSL — sandboxed commands read a sentinel copy (the whole file, or just the spans captured by an `extract` regex) while the sandbox proxy substitutes the real value on egress; on macOS file masking falls back to `deny`",
-          "summary": "Linux/WSL沙箱凭据文件掩码模式",
-          "importance": 5,
-          "category": "feat"
         }
       ]
     },
@@ -70095,9 +70798,9 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 715,
-      "release_count": 198,
-      "avg_importance": 3.15,
+      "change_count": 725,
+      "release_count": 200,
+      "avg_importance": 3.14,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -70107,14 +70810,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-08-05",
-        "version": "2.1.223"
+        "date": "2026-08-07",
+        "version": "2.1.224"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 544
+          "change_count": 554
         },
         {
           "epoch_id": "epoch1",
@@ -70190,8 +70893,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 958,
-      "release_count": 238,
+      "change_count": 966,
+      "release_count": 240,
       "avg_importance": 3.27,
       "maturity": {
         "score": 93,
@@ -70202,14 +70905,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-08-05",
-        "version": "2.1.223"
+        "date": "2026-08-07",
+        "version": "2.1.224"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 712
+          "change_count": 720
         },
         {
           "epoch_id": "epoch4",
@@ -70234,6 +70937,14 @@
       ],
       "samples": [
         {
+          "date": "2026-08-07",
+          "version": "2.1.224",
+          "raw": "Added cross-session `SendMessage`: Claude Code sessions can now message each other, on any of your machines, with `ListAgents` to discover them (macOS and Linux)",
+          "summary": "跨会话消息发送与代理发现",
+          "importance": 5,
+          "category": "feat"
+        },
+        {
           "date": "2026-07-20",
           "version": "2.1.216",
           "raw": "Fixed workflow saves and scheduled-task writes following a symlink at `.claude`, which could redirect writes outside the project",
@@ -70254,14 +70965,6 @@
           "version": "2.1.208",
           "raw": "Catastrophic removals (e.g. `rm -rf ~`) in commands containing `$(…)`/backticks/`<(…)` now prompt in `--dangerously-skip-permissions` and auto mode, matching the plain form",
           "summary": "危险删除命令在跳过权限模式也需确认",
-          "importance": 5,
-          "category": "security"
-        },
-        {
-          "date": "2026-07-08",
-          "version": "2.1.205",
-          "raw": "Background task notifications now explicitly state that no human input has occurred, preventing fabricated in-transcript approvals from being acted on",
-          "summary": "后台任务通知明确标注无人工输入，防伪造审批",
           "importance": 5,
           "category": "security"
         }
@@ -70285,8 +70988,8 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 569,
-      "release_count": 155,
+      "change_count": 587,
+      "release_count": 157,
       "avg_importance": 3.22,
       "maturity": {
         "score": 93,
@@ -70297,14 +71000,14 @@
         "version": "0.2.50"
       },
       "latest_seen": {
-        "date": "2026-08-05",
-        "version": "2.1.223"
+        "date": "2026-08-07",
+        "version": "2.1.224"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 489
+          "change_count": 507
         },
         {
           "epoch_id": "epoch1",
@@ -70329,6 +71032,14 @@
       ],
       "samples": [
         {
+          "date": "2026-08-07",
+          "version": "2.1.224",
+          "raw": "Added cross-session `SendMessage`: Claude Code sessions can now message each other, on any of your machines, with `ListAgents` to discover them (macOS and Linux)",
+          "summary": "跨会话消息发送与代理发现",
+          "importance": 5,
+          "category": "feat"
+        },
+        {
           "date": "2026-08-04",
           "version": "2.1.222",
           "raw": "Fixed worktree-isolated sessions and their subagents being able to run destructive git commands against the main checkout; isolation now applies to file edits and Bash in every session type",
@@ -70349,14 +71060,6 @@
           "version": "2.1.210",
           "raw": "Fixed `isolation: 'worktree'` subagents being able to run git-mutating commands against the main repo checkout instead of their own isolated worktree",
           "summary": "修复worktree子代理可操作主仓库",
-          "importance": 5,
-          "category": "security"
-        },
-        {
-          "date": "2026-07-14",
-          "version": "2.1.210",
-          "raw": "Hardened the Agent tool against indirect prompt injection via content a subagent read",
-          "summary": "加固Agent工具防止间接提示注入攻击",
           "importance": 5,
           "category": "security"
         }
@@ -70380,8 +71083,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 1374,
-      "release_count": 265,
+      "change_count": 1385,
+      "release_count": 267,
       "avg_importance": 3.1,
       "maturity": {
         "score": 92,
@@ -70392,14 +71095,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-08-05",
-        "version": "2.1.223"
+        "date": "2026-08-07",
+        "version": "2.1.224"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 1019
+          "change_count": 1030
         },
         {
           "epoch_id": "epoch1",
@@ -70475,8 +71178,8 @@
         "Emacs",
         "web"
       ],
-      "change_count": 1035,
-      "release_count": 211,
+      "change_count": 1054,
+      "release_count": 213,
       "avg_importance": 2.72,
       "maturity": {
         "score": 91,
@@ -70487,14 +71190,14 @@
         "version": "0.2.34"
       },
       "latest_seen": {
-        "date": "2026-08-05",
-        "version": "2.1.223"
+        "date": "2026-08-07",
+        "version": "2.1.224"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 845
+          "change_count": 864
         },
         {
           "epoch_id": "epoch4",
@@ -70570,8 +71273,8 @@
         "policy",
         "auditing"
       ],
-      "change_count": 1005,
-      "release_count": 234,
+      "change_count": 1023,
+      "release_count": 236,
       "avg_importance": 3.41,
       "maturity": {
         "score": 94,
@@ -70582,14 +71285,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-08-05",
-        "version": "2.1.223"
+        "date": "2026-08-07",
+        "version": "2.1.224"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 784
+          "change_count": 802
         },
         {
           "epoch_id": "epoch4",
@@ -70614,6 +71317,14 @@
       ],
       "samples": [
         {
+          "date": "2026-08-07",
+          "version": "2.1.224",
+          "raw": "Fixed sandbox filesystem deny entries written with a trailing slash (e.g. `denyRead: \"~/.aws/\"`) being silently bypassable on Linux and macOS",
+          "summary": "修复沙箱目录拒绝规则可被绕过",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-08-05",
           "version": "2.1.223",
           "raw": "Fixed a Bash permission bypass where a crafted command could hide parts of itself from permission checks",
@@ -70636,14 +71347,6 @@
           "summary": "修复worktree隔离会话可对主仓库执行破坏性git命令",
           "importance": 5,
           "category": "security"
-        },
-        {
-          "date": "2026-08-03",
-          "version": "2.1.221",
-          "raw": "Added `mode: \"mask\"` for sandbox credential files on Linux and WSL — sandboxed commands read a sentinel copy (the whole file, or just the spans captured by an `extract` regex) while the sandbox proxy substitutes the real value on egress; on macOS file masking falls back to `deny`",
-          "summary": "Linux/WSL沙箱凭据文件掩码模式",
-          "importance": 5,
-          "category": "feat"
         }
       ]
     }
