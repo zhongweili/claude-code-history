@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-08-28T12:30:23.731Z",
+    "generated_at": "2026-08-29T07:40:35.129Z",
     "agent_model": "glm-5",
-    "total_versions": 379,
+    "total_versions": 380,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-08-27"
+      "end": "2026-08-28"
     },
     "highlight_count": 58,
     "capability_count": 8,
@@ -70,11 +70,958 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。adaptive thinking 把推理深度交给模型自己决定，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界——从 Opus 4.6 到 4.8，每一代都在加速这条路。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Adaptive thinking hands reasoning depth to the model itself, while worktree isolation and 1M context push the agent toward hours-long unattended runs — from Opus 4.6 through 4.8, each generation accelerates the path.",
-      "release_count": 163,
+      "release_count": 164,
       "highlight_count": 36
     }
   ],
   "releases": [
+    {
+      "version": "2.1.251",
+      "date": "2026-08-28",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added `PreModelSwitch` and `PostModelSwitch` hook events (block, confirm, or annotate a model switch); `SessionStart` resume hooks now receive session staleness and the estimated re-cache cost",
+          "category": "feat",
+          "importance": 3,
+          "summary": "新增模型切换钩子事件及会话恢复缓存成本信息",
+          "summary_en": "Add model switch hook events and session resume cache cost info",
+          "why_matters": "允许开发者在模型切换前后进行拦截、确认或注解，增强自动化流程控制。",
+          "why_matters_en": "Lets developers block, confirm, or annotate model switches, improving automation control.",
+          "capability_ids": [
+            "automation_autonomy",
+            "governance_security",
+            "memory_context",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added live streaming of a foreground subagent's tool calls and results to Remote Control clients (background subagents, the default, still show status only)",
+          "category": "feat",
+          "importance": 3,
+          "summary": "前台子代理工具调用实时流式推送到远程控制客户端",
+          "summary_en": "Live stream foreground subagent tool calls to Remote Control clients",
+          "why_matters": "提升对前台子代理执行过程的实时可观测性，便于远程监控与调试。",
+          "why_matters_en": "Improves real-time observability of foreground subagent execution for remote monitoring.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Added a Spend limit bar to `/usage` and a `rate_limits.spend_limit` status line field for developers behind a Claude apps gateway with spend limits",
+          "category": "feat",
+          "importance": 3,
+          "summary": "新增消费限额进度条及状态行字段",
+          "summary_en": "Add spend limit bar to /usage and rate_limits.spend_limit status field",
+          "why_matters": "帮助网关用户直观监控消费限额使用情况，避免意外超支。",
+          "why_matters_en": "Helps gateway users visually monitor spend limit usage and avoid unexpected overages.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Added a per-session prompt-cache line to `/cost` (hit ratio, misses, tokens re-cached, warm/cold) and a matching `prompt_cache` object for status line scripts",
+          "category": "feat",
+          "importance": 3,
+          "summary": "新增每会话提示缓存命中率及成本详情",
+          "summary_en": "Add per-session prompt-cache stats to /cost and status line scripts",
+          "why_matters": "让用户清楚了解缓存命中率和重新缓存成本，优化使用策略。",
+          "why_matters_en": "Gives users clear insight into cache hit ratio and re-cache costs to optimize usage.",
+          "capability_ids": [
+            "governance_security",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Added `attach`, `logs`, `stop`, `respawn`, and `rm` to `claude --help`; the `--resume` message for a running background session now names the exact `claude attach <id>` command",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "完善CLI帮助文档及会话恢复命令提示",
+          "summary_en": "Improve CLI help listing and resume command hints for background sessions",
+          "why_matters": "降低用户查找会话管理命令的认知负担，提升操作效率。",
+          "why_matters_en": "Reduces cognitive load for users finding session management commands, improving efficiency.",
+          "capability_ids": [
+            "execution_workspace",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed file tools (Read, Write, Edit) following a symlink swapped inside the working directory after the permission check, which could read or write outside the approved location",
+          "category": "security",
+          "importance": 5,
+          "summary": "修复符号链接替换绕过权限检查导致越权读写",
+          "summary_en": "Fix symlink swap after permission check allowing out-of-scope read/write",
+          "why_matters": "攻击者可利用符号链接替换绕过权限检查，读写授权范围外的文件，属于严重安全漏洞。",
+          "why_matters_en": "Symlink swap could bypass permission checks to read/write outside approved locations, a critical security flaw.",
+          "capability_ids": [
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed plugin commands declared in a marketplace entry being able to point outside the plugin directory; such paths are now rejected with a path-traversal error",
+          "category": "security",
+          "importance": 4,
+          "summary": "修复插件命令路径穿越漏洞，拒绝越界路径",
+          "summary_en": "Fix plugin command path traversal; reject paths outside plugin directory",
+          "why_matters": "防止恶意插件通过路径穿越访问插件目录外的资源，消除安全隐患。",
+          "why_matters_en": "Prevents malicious plugins from accessing resources outside their directory via path traversal.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed project settings being able to enable detailed beta tracing or raw API body logging, and a lower-scope beta tracing endpoint bypassing an OTLP collector pinned by managed settings or a host app",
+          "category": "security",
+          "importance": 4,
+          "summary": "修复项目设置绕过托管OTLP收集器的追踪端点",
+          "summary_en": "Fix project settings bypassing managed OTLP collector for beta tracing",
+          "why_matters": "低权限项目设置不应绕过托管配置的日志追踪端点，防止数据外泄风险。",
+          "why_matters_en": "Lower-scope project settings should not bypass managed tracing endpoints, preventing data leakage risks.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed the Workflow tool reading (and quoting in errors) a `scriptPath` outside what the session may read before the permission check ran",
+          "category": "security",
+          "importance": 4,
+          "summary": "修复Workflow工具在权限检查前读取越界脚本路径",
+          "summary_en": "Fix Workflow tool reading scriptPath outside session scope before permission check",
+          "why_matters": "权限检查前即可读取会话范围外的脚本路径，可能导致敏感信息泄露。",
+          "why_matters_en": "Reading script paths outside session scope before permission checks could leak sensitive information.",
+          "capability_ids": [
+            "governance_security",
+            "reasoning_workflows",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed Grep and Glob not applying `Read(...)` deny rules to files reached through a symlinked search path",
+          "category": "security",
+          "importance": 4,
+          "summary": "修复Grep/Glob通过符号链接绕过Read拒绝规则",
+          "summary_en": "Fix Grep/Glob not applying Read deny rules through symlinked search paths",
+          "why_matters": "符号链接搜索路径可绕过文件读取拒绝规则，导致受限文件被搜索到。",
+          "why_matters_en": "Symlinked search paths could bypass Read deny rules, exposing restricted files to search.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed conversations getting stuck on \"text content blocks must be non-empty\" errors after a turn where the model produced only thinking",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复纯思考回合后对话卡在空文本块错误",
+          "summary_en": "Fix conversations stuck on empty text block error after thinking-only turn",
+          "why_matters": "模型仅输出思考内容时对话完全卡死，严重影响用户工作流连续性。",
+          "why_matters_en": "Conversations fully stall when model outputs only thinking, severely disrupting user workflow.",
+          "capability_ids": [
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed the first launch on a fresh install starting in default mode instead of auto mode for accounts whose startup default is auto mode",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复全新安装首次启动未使用auto模式",
+          "summary_en": "Fix first launch on fresh install not using auto mode for auto-default accounts",
+          "why_matters": "默认模式不正确会影响首次使用体验，但影响范围有限。",
+          "why_matters_en": "Incorrect default mode affects first-use experience but has limited impact scope.",
+          "capability_ids": [
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed Opus 5 requests failing with \"effort … is not supported when thinking is disabled\" when effort was xhigh/max and thinking was turned off; effort is now sent as `high` in that case",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复Opus 5在关闭思考时高effort请求失败",
+          "summary_en": "Fix Opus 5 failing with high effort when thinking is disabled",
+          "why_matters": "关闭思考时高effort参数导致请求失败，影响需要高强度推理的用户。",
+          "why_matters_en": "High effort with thinking disabled caused request failures, affecting users needing intense reasoning.",
+          "capability_ids": [
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed replying to a message Claude Desktop delivered from another session: `SendMessage` to that session id now delivers through Claude Desktop instead of failing with \"not reachable\"",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复回复Claude Desktop跨会话消息失败问题",
+          "summary_en": "Fix SendMessage to Claude Desktop-delivered session now delivers correctly",
+          "why_matters": "跨会话消息回复失败阻碍多会话协作场景，修复后恢复正常通信。",
+          "why_matters_en": "Cross-session reply failures blocked multi-session collaboration; fix restores proper messaging.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed TUI lag with many parallel subagents: per-second progress ticks now replace their predecessor instead of piling up in the transcript",
+          "category": "perf",
+          "importance": 3,
+          "summary": "修复多并行子代理导致TUI卡顿，进度条原地替换",
+          "summary_en": "Fix TUI lag with many parallel subagents; progress ticks replace in place",
+          "why_matters": "大量并行子代理时进度信息堆积导致界面卡顿，影响多代理场景可用性。",
+          "why_matters_en": "Progress message accumulation caused UI lag with many subagents, hurting multi-agent usability.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed agent teams: a teammate's final answer not reaching the team lead — it now arrives in the idle notification instead of a content-free \"available\" notice",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复队友最终答案未传达给团队负责人",
+          "summary_en": "Fixed teammate final answer not reaching team lead",
+          "why_matters": "多代理协作中关键结果丢失会导致团队负责人决策失误。",
+          "why_matters_en": "Lost teammate results would cause the team lead to make decisions without critical information.",
+          "capability_ids": [
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed background subagents being unable to reply to a message from an unnamed sibling or parent agent (`from` was the agent type, which is not an address)",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复后台子代理无法回复未命名代理消息",
+          "summary_en": "Fixed background subagents unable to reply to unnamed sibling/parent agents",
+          "why_matters": "子代理间通信中断会导致后台任务链断裂，结果无法回传。",
+          "why_matters_en": "Broken inter-agent communication severs background task chains and prevents result propagation.",
+          "capability_ids": [
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed managed-settings `disableAutoMode` arriving mid-session not moving an already-running auto-mode session back to default mode",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复disableAutoMode会话中途到达未生效",
+          "summary_en": "Fixed disableAutoMode not applying mid-session to running auto-mode",
+          "why_matters": "安全策略无法实时生效会带来合规风险。",
+          "why_matters_en": "Inability to enforce policy changes mid-session creates compliance gaps.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed a \"switch to Opus 1M for 5x more context\" tip that appeared even when the current Opus model already has a 1M context window",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复已用1M上下文模型仍显示切换提示",
+          "summary_en": "Fixed misleading switch-to-Opus-1M tip when already on 1M context",
+          "why_matters": "误导性提示会降低用户对工具信息的信任度。",
+          "why_matters_en": "Misleading tips erode user trust in the tool's status information.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed Claude apps gateway sessions treating a stored Anthropic profile (e.g. a Console sign-in) as active: listing it in `/status` and retrying gateway 401s with it, though requests never use it",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复网关会话误将存储配置视为活跃",
+          "summary_en": "Fixed gateway sessions treating stored Anthropic profile as active",
+          "why_matters": "无效配置被列为活跃会导致用户困惑并产生无意义的重试。",
+          "why_matters_en": "Listing inactive profiles as active confuses users and triggers pointless retries.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed cloud sessions telling Claude the model had changed when the host was only setting the session's initial model",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复云会话误报模型已更改",
+          "summary_en": "Fixed cloud sessions falsely reporting model change on initial model set",
+          "why_matters": "虚假的模型变更通知会误导Claude做出不必要的上下文调整。",
+          "why_matters_en": "False model-change notifications mislead Claude into unnecessary context adjustments.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed Remote Control reporting a failure when an organization's policy disables it; it now shows a single quiet notice instead",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复组织策略禁用远程控制时误报失败",
+          "summary_en": "Fixed Remote Control showing failure when disabled by org policy",
+          "why_matters": "将策略禁用误报为故障会让用户误以为系统出错而非合规行为。",
+          "why_matters_en": "Reporting policy enforcement as a failure misleads users into thinking the system is broken.",
+          "capability_ids": [
+            "governance_security",
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `/mcp reconnect` on Remote Control showing a generic withheld-detail error instead of the real remedy when a server was disabled in another session",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复MCP重连显示通用错误而非真实原因",
+          "summary_en": "Fixed MCP reconnect showing generic error instead of real remedy",
+          "why_matters": "隐藏真实错误原因会阻碍用户快速定位并解决问题。",
+          "why_matters_en": "Withholding the real error reason prevents users from quickly diagnosing and fixing issues.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security",
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `--input-format stream-json`: client-injected assistant tool calls sent without a message id were merged into the first one and their results lost, including when resuming older sessions",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复stream-json工具调用因缺ID被合并丢失",
+          "summary_en": "Fixed stream-json tool calls without message id being merged and results lost",
+          "why_matters": "工具调用结果丢失会导致自动化流程产生错误输出且难以排查。",
+          "why_matters_en": "Lost tool call results cause silent corruption in automated workflows that are hard to debug.",
+          "capability_ids": [
+            "automation_autonomy",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed session transcripts being silently overwritten when a directory change relocated a session onto an existing same-ID transcript",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复目录变更导致会话记录被静默覆盖",
+          "summary_en": "Fixed session transcripts silently overwritten on directory change collision",
+          "why_matters": "会话记录被无提示覆盖会造成不可恢复的历史数据丢失。",
+          "why_matters_en": "Silent transcript overwrites cause irreversible loss of conversation history.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed background sessions and their subagents being unable to edit files inside a git worktree they created with `git worktree add`",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复后台会话无法编辑其创建的git worktree",
+          "summary_en": "Fixed background sessions unable to edit files in their own git worktrees",
+          "why_matters": "后台会话创建worktree后却无法编辑文件，直接阻断了并行开发工作流。",
+          "why_matters_en": "Creating a worktree but being unable to edit inside it blocks a core parallel development workflow.",
+          "capability_ids": [
+            "execution_workspace",
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed background sessions occasionally starting without any plugin skills (and staying that way) when another Claude Code process was refreshing the plugin marketplace at the same moment",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复后台会话因插件市场刷新竞态缺失技能",
+          "summary_en": "Fixed background sessions starting without plugin skills due to marketplace refresh race",
+          "why_matters": "后台会话永久缺失插件技能会导致任务执行能力不完整且无任何提示。",
+          "why_matters_en": "Permanently missing plugin skills in background sessions silently degrades task capabilities.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed selecting text in an opened background session inside tmux over SSH: it now copies to the tmux buffer like a foreground session instead of falling back to OSC 52",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复tmux SSH后台会话文本选择复制问题",
+          "summary_en": "Fixed text selection in background sessions inside tmux over SSH",
+          "why_matters": "远程SSH环境下无法正确复制文本会降低开发者的操作效率。",
+          "why_matters_en": "Broken text copy in remote SSH environments frustrates developers' daily workflow.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed SDK and cloud sessions hanging indefinitely when an SDK MCP server's handshake acknowledgment was lost; the wait now times out after 70 seconds and marks only that server failed",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复MCP握手丢失导致会话无限挂起",
+          "summary_en": "Fixed sessions hanging indefinitely when MCP handshake acknowledgment lost",
+          "why_matters": "会话无限挂起会永久占用资源并阻塞后续所有操作。",
+          "why_matters_en": "Indefinite session hangs permanently consume resources and block all subsequent operations.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed self-hosted runner leaving a stuck session's Bash tool processes running after the session was force-stopped",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复强制停止会话后Bash进程未清理",
+          "summary_en": "Fixed Bash processes left running after force-stopping a session",
+          "why_matters": "残留进程会持续消耗系统资源并可能导致文件锁定等副作用。",
+          "why_matters_en": "Orphaned processes consume system resources and may cause file locks and other side effects.",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed `/usage-credits` for Team and Enterprise members whose admin set the org's usage-credit limit to $0: it now offers to ask the admin instead of saying a cap was reached",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复额度为0时误报上限已达",
+          "summary_en": "Fix usage-credits showing cap reached when admin set limit to $0",
+          "why_matters": "避免团队/企业用户在管理员未设限额时看到误导性信息。",
+          "why_matters_en": "Prevents misleading cap-reached messages for Team/Enterprise users whose admin set $0 limit.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed `--worktree --tmux` with a merge-request number on a gitlab.com origin trying a doomed GitHub-style fetch first instead of fetching the GitLab ref directly",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复GitLab MR在worktree+tmux下错误拉取",
+          "summary_en": "Fix GitLab MR fetch in --worktree --tmux using doomed GitHub-style fetch",
+          "why_matters": "GitLab用户使用worktree和tmux时不再尝试无效的GitHub拉取方式。",
+          "why_matters_en": "GitLab users using worktree+tmux no longer attempt a doomed GitHub-style fetch before the correct GitLab ref.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "execution_workspace",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed Ctrl+G failing with \"Emacs quit unexpectedly\" in background sessions for editors that open `/dev/tty`, such as `emacs -nw` and `micro`",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复后台会话中Emacs等编辑器Ctrl+G崩溃",
+          "summary_en": "Fix Ctrl+G crashing emacs/micro in background sessions opening /dev/tty",
+          "why_matters": "后台会话中使用emacs或micro等编辑器的用户不再遇到意外退出。",
+          "why_matters_en": "Users running emacs -nw or micro in background sessions no longer hit unexpected quit on Ctrl+G.",
+          "capability_ids": [
+            "execution_workspace",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed an `additionalDirectories` entry containing a null byte crashing startup, or breaking `/add-dir` and later settings updates when it came from an SDK host, IDE, or hook; it is now skipped",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复含空字节目录条目导致启动崩溃",
+          "summary_en": "Fix null byte in additionalDirectories crashing startup or breaking /add-dir",
+          "why_matters": "防止来自SDK、IDE或钩子的异常路径输入导致程序崩溃或功能失效。",
+          "why_matters_en": "Prevents crashes and broken settings from malformed directory entries containing null bytes from SDK/IDE/hooks.",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed the MCP server menu's copy shortcut: it now says how the sign-in URL was copied instead of always claiming success",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复MCP菜单复制快捷键误报成功",
+          "summary_en": "Fix MCP server menu copy shortcut always claiming success",
+          "why_matters": "用户不再被复制操作的虚假成功提示误导。",
+          "why_matters_en": "Users are no longer misled by false success claims from the MCP server menu copy shortcut.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed italic text (such as the session recap line) rendering as highlighted blocks in GNU screen and in tmux sessions using a `screen` terminal type",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复screen/tmux下斜体渲染为高亮块",
+          "summary_en": "Fix italic text rendering as highlighted blocks in GNU screen and tmux screen-type",
+          "why_matters": "在GNU screen和tmux的screen终端类型下，斜体文本不再显示为异常高亮块。",
+          "why_matters_en": "Italic text such as session recaps no longer renders as highlighted blocks in GNU screen or tmux screen-type sessions.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed `claude mcp add --header` and `claude mcp add-json` help text naming the wrong transports",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复MCP add命令帮助文本传输方式错误",
+          "summary_en": "Fix claude mcp add --header and add-json help text naming wrong transports",
+          "why_matters": "用户查看帮助文档时不再被错误的传输方式名称混淆。",
+          "why_matters_en": "Users reading help text for mcp add commands are no longer confused by incorrect transport names.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed `claude ultrareview` and `/ultrareview` waiting the full 30 minutes when the cloud session fails to start; they now stop early and report the reason",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复ultrareview云会话失败时等待30分钟",
+          "summary_en": "Fix ultrareview waiting full 30 minutes when cloud session fails to start",
+          "why_matters": "云会话启动失败时不再让用户白白等待30分钟，而是立即报告原因。",
+          "why_matters_en": "Saves users from waiting up to 30 minutes when the cloud session fails; now stops early and reports the reason.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed Bash permission checks auto-approving commands that assign an arithmetic expression to an integer shell variable (e.g. `OPTIND=1/0`, `RANDOM=2+2`); these now prompt for approval",
+          "category": "security",
+          "importance": 4,
+          "summary": "修复算术赋值命令绕过权限检查",
+          "summary_en": "Fix Bash permission checks auto-approving arithmetic assignments to shell variables",
+          "why_matters": "潜在危险命令不再因整数变量算术赋值的形式而绕过审批流程。",
+          "why_matters_en": "Commands assigning arithmetic expressions to integer shell variables no longer bypass the approval prompt.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed backgrounded sessions (`←`, `/background`, `--bg`) losing a Vertex/Bedrock gateway (`ANTHROPIC_*_BASE_URL` + `CLAUDE_CODE_SKIP_*_AUTH`) exported in the shell, so every request failed",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复后台会话丢失Vertex/Bedrock网关配置",
+          "summary_en": "Fix backgrounded sessions losing Vertex/Bedrock gateway env vars causing all requests to fail",
+          "why_matters": "后台会话不再因丢失自定义网关环境变量而导致所有请求失败。",
+          "why_matters_en": "Backgrounded sessions no longer lose exported Vertex/Bedrock gateway env vars, which caused every request to fail.",
+          "capability_ids": [
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed `claude --bg --model fable` on Max plans stopping to ask for usage credits while the interactive session on the same account still had Fable allowance",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复后台fable模型会话误询额度",
+          "summary_en": "Fix --bg --model fable on Max plans incorrectly prompting for usage credits",
+          "why_matters": "Max计划用户在后台使用fable模型时不再被不必要的额度提示打断。",
+          "why_matters_en": "Max plan users running fable in background mode are no longer incorrectly stopped to ask for usage credits.",
+          "capability_ids": [
+            "automation_autonomy",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed the one-time \"make auto mode your default\" offer appearing in unattended sessions (e.g. agent-team teammate panes), where a stray keypress could accept it unread",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复无人值守会话出现自动模式提示",
+          "summary_en": "Fix 'make auto mode default' offer appearing in unattended sessions",
+          "why_matters": "无人值守的agent-team面板中不再出现可能被误按键接受的自动模式提示。",
+          "why_matters_en": "Prevents the auto-mode-default offer from appearing in unattended sessions where a stray keypress could accept it unread.",
+          "capability_ids": [
+            "automation_autonomy",
+            "governance_security",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed the managed-settings approval prompt re-appearing after signing in again to the same Claude apps gateway when the settings are unchanged",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复重新登录后管理设置审批重复弹出",
+          "summary_en": "Fix managed-settings approval prompt re-appearing after re-signing in to same gateway",
+          "why_matters": "设置未变更时重新登录同一网关不再重复弹出审批提示。",
+          "why_matters_en": "Re-signing in to the same Claude apps gateway no longer re-triggers the managed-settings approval when settings are unchanged.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed disabled `/bug` and `/share` reporting that `/feedback` was disabled; tips, `/help`, and refusal messages no longer suggest `/feedback` when an org policy or env var turns it off",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复禁用反馈功能后仍建议使用/feedback",
+          "summary_en": "Fix tips and messages suggesting /feedback when it is disabled by policy",
+          "why_matters": "组织策略或环境变量禁用反馈功能后，界面不再误导用户使用不可用的命令。",
+          "why_matters_en": "When org policy or env var disables feedback, tips and refusal messages no longer suggest the unavailable /feedback command.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed cloud session creation advising GitHub setup after a transient GitHub connection failure — the message now says to retry instead",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复GitHub瞬时失败后误建议重新设置",
+          "summary_en": "Fix cloud session creation advising GitHub setup after transient connection failure",
+          "why_matters": "GitHub临时连接失败时不再误导用户进行不必要的重新设置，而是建议重试。",
+          "why_matters_en": "Transient GitHub connection failures no longer trigger misleading setup advice; the message now says to retry instead.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Improved CPU usage during turns in interactive sessions by cutting redundant UI re-renders",
+          "category": "perf",
+          "importance": 3,
+          "summary": "减少冗余UI重绘降低CPU占用",
+          "summary_en": "Reduce redundant UI re-renders to lower CPU usage",
+          "why_matters": "提升交互会话的响应速度和资源效率",
+          "why_matters_en": "Improves responsiveness and resource efficiency during interactive sessions",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Improved install size: the native binary is about 5 MB smaller",
+          "category": "perf",
+          "importance": 2,
+          "summary": "安装包缩小约5MB",
+          "summary_en": "Native binary reduced by ~5 MB",
+          "why_matters": "降低安装和部署的存储开销",
+          "why_matters_en": "Reduces storage overhead for installation and deployment",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Improved cloud sessions: when the session's network proxy drops a connection during a Bash command, the tool result now names the host and reason instead of only \"connection reset\"",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "云会话网络断连时显示主机和原因",
+          "summary_en": "Cloud sessions show host and reason on proxy connection drops",
+          "why_matters": "更清晰的错误信息帮助用户快速定位网络问题",
+          "why_matters_en": "Clearer error messages help users quickly diagnose network issues",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Improved `/schedule` to explain that MCP servers configured in Claude Code can't be attached to cloud routines, instead of a bare \"No MCP connectors\" message",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "/schedule明确提示MCP无法附加到云例程",
+          "summary_en": "/schedule explains MCP servers can't attach to cloud routines",
+          "why_matters": "减少用户对MCP与云例程兼容性的困惑",
+          "why_matters_en": "Reduces user confusion about MCP compatibility with cloud routines",
+          "capability_ids": [
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Improved framing of messages from your own subagents: Claude is told the sender is a worker inside this session, not an unrelated Claude session",
+          "category": "improvement",
+          "importance": 4,
+          "summary": "子代理消息标注为会话内工作者",
+          "summary_en": "Subagent messages framed as in-session workers",
+          "why_matters": "正确的上下文框架让Claude更准确地理解子代理角色",
+          "why_matters_en": "Correct context framing lets Claude accurately understand subagent roles",
+          "capability_ids": [
+            "delegation_collaboration",
+            "reasoning_workflows",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Improved the prompt placeholder to read \"Message @name…\" while viewing a background subagent or fork transcript opened from the subagent panel or `/tasks`",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "查看子代理时提示框显示对应名称",
+          "summary_en": "Prompt placeholder shows subagent name when viewing transcripts",
+          "why_matters": "更清晰的UI提示帮助用户区分正在交互的子代理",
+          "why_matters_en": "Clearer UI cues help users distinguish which subagent they're interacting with",
+          "capability_ids": [
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Improved sanitization of MCP server names in error messages, menus, and command results",
+          "category": "security",
+          "importance": 3,
+          "summary": "加强MCP服务器名称的输入净化",
+          "summary_en": "Sanitize MCP server names in errors, menus, and results",
+          "why_matters": "防止恶意服务器名称导致的注入或显示问题",
+          "why_matters_en": "Prevents injection or display issues from malicious server names",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Improved Amazon Bedrock session start under `CLAUDE_CODE_PROVIDER_MANAGED_BY_HOST` (e.g. Claude Desktop): a session given a Bedrock model ID or ARN no longer waits for inference-profile discovery",
+          "category": "perf",
+          "importance": 3,
+          "summary": "Bedrock会话启动跳过推理配置发现",
+          "summary_en": "Bedrock sessions skip inference-profile discovery for faster start",
+          "why_matters": "减少Bedrock用户的会话启动等待时间",
+          "why_matters_en": "Reduces session startup wait time for Bedrock users",
+          "capability_ids": [
+            "execution_workspace",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Improved the managed settings approval dialog to list only the settings that changed since you last approved them",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "设置审批仅显示变更项",
+          "summary_en": "Settings approval dialog shows only changed items",
+          "why_matters": "减少审批疲劳，让用户聚焦于实际变更",
+          "why_matters_en": "Reduces approval fatigue by focusing users on actual changes",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Improved retry when the model's tool call is malformed: the broken output is now dropped from the retry context, including on Bedrock, Vertex, and Foundry",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复工具调用格式错误的重试逻辑",
+          "summary_en": "Malformed tool call output dropped from retry context",
+          "why_matters": "避免错误输出污染重试上下文导致连锁失败",
+          "why_matters_en": "Prevents broken output from polluting retry context and causing cascading failures",
+          "capability_ids": [
+            "reasoning_workflows",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Changed `/radio` to be available on Bedrock, Vertex AI, Foundry, and Claude Platform on AWS, and when telemetry is disabled",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "/radio支持更多平台和禁用遥测场景",
+          "summary_en": "/radio available on Bedrock, Vertex, Foundry, and without telemetry",
+          "why_matters": "让更多部署环境的用户能使用实时广播功能",
+          "why_matters_en": "Enables real-time broadcast feature for users across more deployment environments",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Changed Claude in Chrome so browser actions always go through Claude Code's permission checks, including in sessions with telemetry disabled, which previously used the Chrome extension's own prompts",
+          "category": "security",
+          "importance": 4,
+          "summary": "Chrome浏览器操作统一走权限检查",
+          "summary_en": "Chrome browser actions unified through Claude Code permission checks",
+          "why_matters": "统一权限模型避免绕过Claude Code安全策略",
+          "why_matters_en": "Unified permission model prevents bypassing Claude Code's security policies",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Changed `CLAUDE_CODE_SUBAGENT_MODEL` to set the default subagent model rather than override everything: an agent definition's `model:` and an explicit per-spawn model now take precedence over it",
+          "category": "breaking",
+          "importance": 4,
+          "summary": "子代理模型环境变量改为默认而非覆盖",
+          "summary_en": "Subagent model env var becomes default instead of override",
+          "why_matters": "修正优先级逻辑让显式配置正确生效",
+          "why_matters_en": "Fixes precedence logic so explicit configurations take effect correctly",
+          "capability_ids": [
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Changed the default commit trailer to `Co-Authored-By: Claude Code` when the active model isn't a recognized Claude model (e.g. third-party models behind a custom `ANTHROPIC_BASE_URL`)",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "非Claude模型默认使用Claude Code署名",
+          "summary_en": "Default commit trailer uses Claude Code for non-Claude models",
+          "why_matters": "统一第三方模型的提交署名标识",
+          "why_matters_en": "Standardizes commit attribution for third-party model usage",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Changed the default model for seat-based Enterprise subscriptions to Opus 5, matching other premium plans",
+          "category": "improvement",
+          "importance": 4,
+          "summary": "企业版默认模型升级为Opus 5",
+          "summary_en": "Enterprise seat-based default model upgraded to Opus 5",
+          "why_matters": "让企业用户默认获得更强的模型能力",
+          "why_matters_en": "Gives Enterprise users access to a more powerful default model",
+          "capability_ids": [
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Changed `/effort` to save your default effort level per model, so each model keeps its own setting when you switch",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "每个模型独立保存effort设置",
+          "summary_en": "Effort level saved per model, persists on switch",
+          "why_matters": "切换模型时不再丢失effort偏好设置，提升多模型工作流体验。",
+          "why_matters_en": "Switching models no longer loses your preferred effort level, improving multi-model workflows.",
+          "capability_ids": [
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Changed analytics to no longer turn off before sign-in solely because managed settings force gateway login (or cannot be read); they stay off once signed in to the gateway or via `DISABLE_TELEMETRY`",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复分析数据在登录前的开关行为",
+          "summary_en": "Analytics no longer disabled before sign-in due to managed settings",
+          "why_matters": "避免因托管设置读取问题导致分析数据异常关闭，行为更可预测。",
+          "why_matters_en": "Prevents analytics from being unexpectedly disabled due to managed settings read issues.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Changed the footer PR badge on Bedrock, Vertex, and Foundry, and when telemetry is off, to call the GitHub API directly (via `gh auth token`, `GH_TOKEN`, or `GITHUB_TOKEN`) instead of `gh pr view`",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "PR徽章直接调用GitHub API",
+          "summary_en": "PR badge calls GitHub API directly instead of gh pr view",
+          "why_matters": "在telemetry关闭或Bedrock/Vertex/Foundry平台上更可靠地获取PR状态。",
+          "why_matters_en": "More reliably fetches PR status when telemetry is off or on Bedrock/Vertex/Foundry platforms.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Changed how Bash command output files are created and read back when commands run in the sandbox, so a sandboxed command cannot redirect or replace them",
+          "category": "security",
+          "importance": 4,
+          "summary": "沙箱命令无法篡改输出文件",
+          "summary_en": "Sandboxed commands cannot redirect or replace output files",
+          "why_matters": "防止沙箱中的恶意命令篡改命令输出，增强沙箱隔离安全性。",
+          "why_matters_en": "Prevents malicious sandboxed commands from tampering with command output, strengthening sandbox isolation.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Changed plugin/LSP install suggestions and the auto-mode default offer to wait until you've sent or cleared what you're typing, so the Enter that sends your prompt can't answer them",
+          "category": "fix",
+          "importance": 3,
+          "summary": "安装提示等待用户输入完成",
+          "summary_en": "Install suggestions wait for user input before prompting",
+          "why_matters": "防止回车发送消息时误触安装提示，避免意外操作。",
+          "why_matters_en": "Prevents accidentally accepting install prompts when pressing Enter to send a message.",
+          "capability_ids": [
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Changed server-managed settings that terminate sandbox TLS, route sandbox traffic through your own proxy, inject credentials, or weaken sandbox isolation to require approval before they apply",
+          "category": "security",
+          "importance": 4,
+          "summary": "危险沙箱设置需审批后生效",
+          "summary_en": "Sandbox-weakening managed settings require approval",
+          "why_matters": "防止服务器托管设置绕过沙箱隔离、注入凭证或劫持流量。",
+          "why_matters_en": "Prevents server-managed settings from bypassing sandbox isolation, injecting credentials, or hijacking traffic.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Changed `ANTHROPIC_CUSTOM_HEADERS` from managed or project settings to require approval when it sets a credential, org/tenant, routing, or API-behavior header (e.g. `Authorization`, `Host`)",
+          "category": "security",
+          "importance": 4,
+          "summary": "自定义头设置凭证时需审批",
+          "summary_en": "Custom headers setting credentials require approval",
+          "why_matters": "防止通过自定义HTTP头注入凭证、路由或API行为修改，提升安全性。",
+          "why_matters_en": "Prevents injecting credentials, routing, or API behavior changes via custom HTTP headers.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Changed project-level `.claude/settings.json` `env` to no longer set `CLAUDE_CONFIG_DIR`, `CLAUDE_CODE_TMPDIR`, or `TMPDIR`/`TMP`/`TEMP`; set them in your shell, user, or managed settings instead",
+          "category": "breaking",
+          "importance": 3,
+          "summary": "项目设置不再设置特定环境变量",
+          "summary_en": "Project settings can no longer set certain env vars",
+          "why_matters": "防止项目级配置覆盖关键路径环境变量，需迁移至shell或用户设置。",
+          "why_matters_en": "Prevents project configs from overriding critical path env vars; migrate to shell or user settings.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Removed syntax highlighting for six rarely used languages (1c, gml, isbl, mathematica, maxima, sqf); the binary is 2.5 MB smaller",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "移除6种罕见语言高亮，减小2.5MB",
+          "summary_en": "Removed highlighting for 6 rare languages, 2.5MB smaller",
+          "why_matters": "减小二进制体积，加快下载和启动速度。",
+          "why_matters_en": "Reduces binary size for faster downloads and startup.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed the sign-in screen's \"Bedrock, Foundry, or Vertex\" button opening the docs at the top of the page instead of the third-party provider setup section",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复登录页第三方按钮跳转位置",
+          "summary_en": "Fixed sign-in button opening wrong docs section",
+          "why_matters": "确保用户直接跳转到第三方提供商设置说明，减少困惑。",
+          "why_matters_en": "Ensures users land on the correct third-party provider setup docs, reducing confusion.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Changed the Remote Control banner to a footer pill (shown while Remote Control is on or has failed) that opens the session on claude.ai/code; turn it on or off with `/remote-control`",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "Remote Control改为页脚胶囊按钮",
+          "summary_en": "Remote Control banner changed to footer pill",
+          "why_matters": "更简洁的UI展示远程控制状态，可快速跳转claude.ai会话页面。",
+          "why_matters_en": "Cleaner UI for remote control status with quick access to the claude.ai session page.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces",
+            "delegation_collaboration"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "A week of using Codex more than Claude",
+          "points": 246,
+          "url": "https://allaboutcoding.ghinda.com/a-week-of-using-codex-more-than-claude/"
+        },
+        {
+          "title": "Anthropic appears to be A/B testing reduced effort levels in Claude Code",
+          "points": 216,
+          "url": "https://twitter.com/argofowl/status/2091150597374537729"
+        },
+        {
+          "title": "Show HN: OzBrain, a shared brain for knowledge between agents and your team",
+          "points": 92,
+          "url": "https://ozbrain.com"
+        },
+        {
+          "title": "Show HN: Make your logo extra bright on HDR screens",
+          "points": 79,
+          "url": "https://www.soverybright.com/"
+        },
+        {
+          "title": "Show HN: Screen memory without screenshots, just text to Markdown",
+          "points": 62,
+          "url": "https://github.com/dragthelake/ambient-context"
+        }
+      ],
+      "highlight_score": 45
+    },
     {
       "version": "2.1.250",
       "date": "2026-08-27",
@@ -110,12 +1057,12 @@
         },
         {
           "title": "Show HN: Make your logo extra bright on HDR screens",
-          "points": 78,
+          "points": 79,
           "url": "https://www.soverybright.com/"
         },
         {
           "title": "Show HN: Screen memory without screenshots, just text to Markdown",
-          "points": 61,
+          "points": 62,
           "url": "https://github.com/dragthelake/ambient-context"
         }
       ],
@@ -776,12 +1723,12 @@
         },
         {
           "title": "Show HN: Make your logo extra bright on HDR screens",
-          "points": 78,
+          "points": 79,
           "url": "https://www.soverybright.com/"
         },
         {
           "title": "Show HN: Screen memory without screenshots, just text to Markdown",
-          "points": 61,
+          "points": 62,
           "url": "https://github.com/dragthelake/ambient-context"
         }
       ],
@@ -72953,11 +73900,6 @@
       ],
       "signals": [
         {
-          "title": "Show HN: Index – New Open Source browser agent",
-          "points": 98,
-          "url": "https://github.com/lmnr-ai/index"
-        },
-        {
           "title": "Show HN: Memex is a Claude Code alternative built on Rust+Tauri for vibe coding",
           "points": 86,
           "url": "https://memex.tech"
@@ -73129,11 +74071,6 @@
           "url": "https://simonwillison.net/2025/Apr/19/claude-code-best-practices/"
         },
         {
-          "title": "Show HN: Index – New Open Source browser agent",
-          "points": 98,
-          "url": "https://github.com/lmnr-ai/index"
-        },
-        {
           "title": "Show HN: HN Watercooler – listen to HN threads as an audio conversation",
           "points": 51,
           "url": "https://onetake-ai.github.io/hackernews-watercooler/"
@@ -73176,11 +74113,6 @@
           "title": "Ultrathink is a Claude Code magic word",
           "points": 113,
           "url": "https://simonwillison.net/2025/Apr/19/claude-code-best-practices/"
-        },
-        {
-          "title": "Show HN: Index – New Open Source browser agent",
-          "points": 98,
-          "url": "https://github.com/lmnr-ai/index"
         },
         {
           "title": "Show HN: HN Watercooler – listen to HN threads as an audio conversation",
@@ -78129,9 +79061,9 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 572,
-      "release_count": 203,
-      "avg_importance": 3.08,
+      "change_count": 580,
+      "release_count": 204,
+      "avg_importance": 3.09,
       "maturity": {
         "score": 92,
         "level": "成熟"
@@ -78141,14 +79073,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-08-27",
-        "version": "2.1.248"
+        "date": "2026-08-28",
+        "version": "2.1.251"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 413
+          "change_count": 421
         },
         {
           "epoch_id": "epoch4",
@@ -78224,8 +79156,8 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 1309,
-      "release_count": 258,
+      "change_count": 1332,
+      "release_count": 259,
       "avg_importance": 3.25,
       "maturity": {
         "score": 93,
@@ -78236,14 +79168,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-08-27",
-        "version": "2.1.248"
+        "date": "2026-08-28",
+        "version": "2.1.251"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 1031
+          "change_count": 1054
         },
         {
           "epoch_id": "epoch1",
@@ -78319,9 +79251,9 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 795,
-      "release_count": 214,
-      "avg_importance": 3.15,
+      "change_count": 800,
+      "release_count": 215,
+      "avg_importance": 3.14,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -78331,14 +79263,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-08-27",
-        "version": "2.1.248"
+        "date": "2026-08-28",
+        "version": "2.1.251"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 624
+          "change_count": 629
         },
         {
           "epoch_id": "epoch1",
@@ -78414,8 +79346,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 1024,
-      "release_count": 253,
+      "change_count": 1031,
+      "release_count": 254,
       "avg_importance": 3.27,
       "maturity": {
         "score": 93,
@@ -78426,14 +79358,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-08-27",
-        "version": "2.1.248"
+        "date": "2026-08-28",
+        "version": "2.1.251"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 778
+          "change_count": 785
         },
         {
           "epoch_id": "epoch4",
@@ -78509,8 +79441,8 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 690,
-      "release_count": 170,
+      "change_count": 704,
+      "release_count": 171,
       "avg_importance": 3.2,
       "maturity": {
         "score": 93,
@@ -78521,14 +79453,14 @@
         "version": "0.2.50"
       },
       "latest_seen": {
-        "date": "2026-08-27",
-        "version": "2.1.248"
+        "date": "2026-08-28",
+        "version": "2.1.251"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 610
+          "change_count": 624
         },
         {
           "epoch_id": "epoch1",
@@ -78604,9 +79536,9 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 1530,
-      "release_count": 282,
-      "avg_importance": 3.09,
+      "change_count": 1555,
+      "release_count": 283,
+      "avg_importance": 3.08,
       "maturity": {
         "score": 92,
         "level": "成熟"
@@ -78616,14 +79548,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-08-27",
-        "version": "2.1.248"
+        "date": "2026-08-28",
+        "version": "2.1.251"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 1175
+          "change_count": 1200
         },
         {
           "epoch_id": "epoch1",
@@ -78699,9 +79631,9 @@
         "Emacs",
         "web"
       ],
-      "change_count": 1250,
-      "release_count": 228,
-      "avg_importance": 2.73,
+      "change_count": 1269,
+      "release_count": 229,
+      "avg_importance": 2.74,
       "maturity": {
         "score": 91,
         "level": "成熟"
@@ -78711,14 +79643,14 @@
         "version": "0.2.34"
       },
       "latest_seen": {
-        "date": "2026-08-27",
-        "version": "2.1.248"
+        "date": "2026-08-28",
+        "version": "2.1.251"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 1060
+          "change_count": 1079
         },
         {
           "epoch_id": "epoch4",
@@ -78743,6 +79675,14 @@
       ],
       "samples": [
         {
+          "date": "2026-08-28",
+          "version": "2.1.251",
+          "raw": "Fixed file tools (Read, Write, Edit) following a symlink swapped inside the working directory after the permission check, which could read or write outside the approved location",
+          "summary": "修复符号链接替换绕过权限检查导致越权读写",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-08-27",
           "version": "2.1.248",
           "raw": "Added `--restricted` (or `CLAUDE_CODE_RESTRICTED=1`): removes the built-in tools that run commands or code and `WebFetch` (unless named in `--tools`), keeps file tools inside the working directory, refuses `bypassPermissions`, and ignores user, project and local settings files",
@@ -78763,14 +79703,6 @@
           "version": "2.1.223",
           "raw": "Fixed a Bash permission bypass where a crafted command could hide parts of itself from permission checks",
           "summary": "修复Bash命令绕过权限检查漏洞",
-          "importance": 5,
-          "category": "security"
-        },
-        {
-          "date": "2026-08-05",
-          "version": "2.1.223",
-          "raw": "Fixed permission prompts so commands padded with tabs or invisible Unicode can no longer hide part of the command from the approval dialog",
-          "summary": "修复制表符/不可见字符隐藏命令",
           "importance": 5,
           "category": "security"
         }
@@ -78794,8 +79726,8 @@
         "policy",
         "auditing"
       ],
-      "change_count": 1195,
-      "release_count": 250,
+      "change_count": 1224,
+      "release_count": 251,
       "avg_importance": 3.39,
       "maturity": {
         "score": 94,
@@ -78806,14 +79738,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-08-27",
-        "version": "2.1.248"
+        "date": "2026-08-28",
+        "version": "2.1.251"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 974
+          "change_count": 1003
         },
         {
           "epoch_id": "epoch4",
@@ -78838,6 +79770,14 @@
       ],
       "samples": [
         {
+          "date": "2026-08-28",
+          "version": "2.1.251",
+          "raw": "Fixed file tools (Read, Write, Edit) following a symlink swapped inside the working directory after the permission check, which could read or write outside the approved location",
+          "summary": "修复符号链接替换绕过权限检查导致越权读写",
+          "importance": 5,
+          "category": "security"
+        },
+        {
           "date": "2026-08-27",
           "version": "2.1.248",
           "raw": "Added `--restricted` (or `CLAUDE_CODE_RESTRICTED=1`): removes the built-in tools that run commands or code and `WebFetch` (unless named in `--tools`), keeps file tools inside the working directory, refuses `bypassPermissions`, and ignores user, project and local settings files",
@@ -78858,14 +79798,6 @@
           "version": "2.1.233",
           "raw": "Fixed Windows paths spelled with the NT `\\??\\` device prefix bypassing UNC path validation, closing an NTLM credential-leak vector",
           "summary": "修复Windows NT设备前缀绕过UNC路径验证",
-          "importance": 5,
-          "category": "security"
-        },
-        {
-          "date": "2026-08-13",
-          "version": "2.1.232",
-          "raw": "Fixed a PowerShell permission bypass where variable-writing parameters could silently overwrite `$PSDefaultParameterValues` and redirect later commands' file access",
-          "summary": "修复PowerShell变量写入权限绕过漏洞",
           "importance": 5,
           "category": "security"
         }
