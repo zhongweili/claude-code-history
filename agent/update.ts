@@ -31,7 +31,7 @@ const LLM_PROVIDER: { key: string; model: string; api: string; label: string } =
   if (process.env.OPENCODE_API_KEY) {
     return {
       key: process.env.OPENCODE_API_KEY,
-      model: "glm-5",
+      model: "deepseek-v4-flash",
       api: "https://opencode.ai/zen/go/v1/chat/completions",
       label: "opencode-go",
     };
