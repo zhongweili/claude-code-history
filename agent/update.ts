@@ -28,6 +28,23 @@ const OUTPUT = resolve(DATA, "auto_bundle.json");
 // of pay-as-you-go credits. Falls back to OpenRouter, then OpenAI direct.
 // Each provider exposes /v1/chat/completions and authenticates with a Bearer key.
 const LLM_PROVIDER: { key: string; model: string; api: string; label: string } = (() => {
+  // Explicit override wins — used for local backfills when OpenCode/OpenRouter
+  // are out of quota. Example:
+  //   LLM_API=https://api.deepseek.com/v1/chat/completions \
+  //   LLM_KEY=$DEEPSEEK_API_KEY LLM_MODEL=deepseek-flash bun agent/update.ts --incremental
+  if (process.env.LLM_API) {
+    const key =
+      process.env.LLM_KEY ||
+      process.env.DEEPSEEK_API_KEY ||
+      process.env.OPENAI_API_KEY ||
+      "";
+    return {
+      key,
+      model: process.env.LLM_MODEL ?? "deepseek-flash",
+      api: process.env.LLM_API,
+      label: process.env.LLM_LABEL ?? "custom",
+    };
+  }
   if (process.env.OPENCODE_API_KEY) {
     return {
       key: process.env.OPENCODE_API_KEY,
@@ -39,7 +56,7 @@ const LLM_PROVIDER: { key: string; model: string; api: string; label: string } =
   if (process.env.OPENROUTER_API_KEY) {
     return {
       key: process.env.OPENROUTER_API_KEY,
-      model: "openai/gpt-5.4-mini",
+      model: process.env.LLM_MODEL ?? "openai/gpt-5.4-mini",
       api: "https://openrouter.ai/api/v1/chat/completions",
       label: "openrouter",
     };
@@ -152,6 +169,9 @@ async function llm(systemPrompt: string, userPrompt: string): Promise<string> {
   const body = {
     model: LLM_MODEL,
     temperature: 0.3,
+    // OpenRouter bills against the requested max; the API default (64k) can
+    // 402 even when remaining credits cover a normal changelog batch.
+    max_tokens: 8192,
     messages: [
       { role: "system", content: systemPrompt },
       { role: "user", content: userPrompt },
@@ -184,7 +204,13 @@ async function llm(systemPrompt: string, userPrompt: string): Promise<string> {
       const data = (await resp.json()) as any;
       return data.choices[0].message.content ?? "";
     } catch (e: any) {
-      if (attempt < 2 && (e.code === "ECONNRESET" || e.message?.includes("socket"))) {
+      const retryable =
+        e.code === "ECONNRESET" ||
+        e.code === "ECONNREFUSED" ||
+        e.code === "ConnectionRefused" ||
+        e.message?.includes("socket") ||
+        e.message?.includes("Unable to connect");
+      if (attempt < 2 && retryable) {
         const wait = (attempt + 1) * 3000;
         log("llm", `Connection error, retrying in ${wait / 1000}s ...`);
         await sleep(wait);
@@ -891,8 +917,11 @@ async function main() {
   let versions = parseChangelog(changelogRaw);
   log("parse", `Parsed ${versions.length} versions from CHANGELOG`);
 
+  // npm publish date is canonical. Changelog bodies can contain unrelated
+  // dates (e.g. "MCP 2026-07-28 negotiation") that the parser would otherwise
+  // treat as the release date.
   for (const ver of versions) {
-    if (!ver.date && npmTimes[ver.version]) {
+    if (npmTimes[ver.version]) {
       ver.date = npmTimes[ver.version];
     }
   }
