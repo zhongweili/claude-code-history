@@ -84,13 +84,14 @@ The site builds from cached data in `data/auto_bundle.json` — **no API key nee
 To re-run the LLM enrichment pipeline:
 
 ```bash
-# Using OpenRouter (recommended):
-OPENROUTER_API_KEY=your-key bun agent/update.ts
+# Official DeepSeek API (recommended):
+DEEPSEEK_API_KEY=your-key bun agent/update.ts
 
 # Incremental (only new versions):
-OPENROUTER_API_KEY=your-key bun agent/update.ts --incremental
+DEEPSEEK_API_KEY=your-key bun agent/update.ts --incremental
 
-# Or using OpenAI directly:
+# Fallbacks:
+OPENROUTER_API_KEY=your-key bun agent/update.ts
 OPENAI_API_KEY=your-key bun agent/update.ts
 ```
 
@@ -131,7 +132,7 @@ Please open an issue first for larger changes so we can discuss the approach.
 | Framework | Astro 5 (static SSG) |
 | UI | React 19, Tailwind CSS 4 |
 | Data pipeline | TypeScript (bun) |
-| LLM enrichment | OpenAI / OpenRouter API |
+| LLM enrichment | DeepSeek / OpenRouter / OpenAI API |
 | Schema validation | Zod |
 | Hosting | Cloudflare Workers |
 | CI/CD | GitHub Actions (daily) |
