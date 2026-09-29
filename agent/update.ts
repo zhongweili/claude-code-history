@@ -7,12 +7,13 @@
  *   OPENAI_API_KEY=sk-... bun agent/update.ts --incremental  # only enrich new versions
  *   OPENAI_API_KEY=sk-... bun agent/update.ts --sample 10    # test with 10 latest versions
  *
- * Requires: bun, and DEEPSEEK_API_KEY (preferred) or OPENROUTER_API_KEY / OPENAI_API_KEY
+ * Requires: bun, and OPENCODE_API_KEY (preferred) or DEEPSEEK_API_KEY / OPENROUTER_API_KEY / OPENAI_API_KEY
  */
 
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { randomUUID } from "node:crypto";
 
 // ── paths ──────────────────────────────────────────────────────────────────
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -25,24 +26,33 @@ const OUTPUT = resolve(DATA, "auto_bundle.json");
 // ── config ─────────────────────────────────────────────────────────────────
 // LLM provider selection, in priority order:
 //   1. Explicit LLM_API override (local backfills / experiments)
-//   2. Official DeepSeek API (DEEPSEEK_API_KEY) — preferred production path
-//   3. OpenRouter, then OpenAI direct
+//   2. OpenCode Go (OPENCODE_API_KEY) — preferred production path (subscription)
+//   3. Official DeepSeek, then OpenRouter, then OpenAI direct
 // Each provider exposes chat/completions and authenticates with a Bearer key.
 const LLM_PROVIDER: { key: string; model: string; api: string; label: string } = (() => {
   // Explicit override wins. Example:
-  //   LLM_API=https://api.deepseek.com/chat/completions \
-  //   LLM_KEY=$DEEPSEEK_API_KEY LLM_MODEL=deepseek-flash bun agent/update.ts --incremental
+  //   LLM_API=https://opencode.ai/zen/go/v1/chat/completions \
+  //   LLM_KEY=$OPENCODE_API_KEY LLM_MODEL=deepseek-v4-flash bun agent/update.ts --incremental
   if (process.env.LLM_API) {
     const key =
       process.env.LLM_KEY ||
+      process.env.OPENCODE_API_KEY ||
       process.env.DEEPSEEK_API_KEY ||
       process.env.OPENAI_API_KEY ||
       "";
     return {
       key,
-      model: process.env.LLM_MODEL ?? "deepseek-flash",
+      model: process.env.LLM_MODEL ?? "deepseek-v4-flash",
       api: process.env.LLM_API,
       label: process.env.LLM_LABEL ?? "custom",
+    };
+  }
+  if (process.env.OPENCODE_API_KEY) {
+    return {
+      key: process.env.OPENCODE_API_KEY,
+      model: process.env.LLM_MODEL ?? "deepseek-v4-flash",
+      api: "https://opencode.ai/zen/go/v1/chat/completions",
+      label: "opencode-go",
     };
   }
   if (process.env.DEEPSEEK_API_KEY) {
@@ -70,6 +80,25 @@ const LLM_PROVIDER: { key: string; model: string; api: string; label: string } =
 })();
 const LLM_MODEL = LLM_PROVIDER.model;
 const LLM_API = LLM_PROVIDER.api;
+/** Stable for this process — OpenCode Go requires x-opencode-session (V2). */
+const OPENCODE_SESSION = process.env.OPENCODE_SESSION || randomUUID();
+const LLM_USER_AGENT =
+  process.env.LLM_USER_AGENT || "claude-code-history/1.0";
+
+function llmRequestHeaders(apiKey: string): Record<string, string> {
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${apiKey}`,
+    "User-Agent": LLM_USER_AGENT,
+    Accept: "application/json",
+  };
+  // Required by OpenCode Go for routing/caching; harmless if unused elsewhere.
+  if (LLM_PROVIDER.label === "opencode-go" || LLM_API.includes("opencode.ai")) {
+    headers["x-opencode-session"] = OPENCODE_SESSION;
+  }
+  return headers;
+}
+
 const SAMPLE = (() => {
   const idx = process.argv.indexOf("--sample");
   return idx !== -1 ? Number(process.argv[idx + 1]) : 0;
@@ -164,7 +193,7 @@ async function sleep(ms: number) { return new Promise((r) => setTimeout(r, ms));
 
 async function llm(systemPrompt: string, userPrompt: string): Promise<string> {
   const apiKey = LLM_PROVIDER.key;
-  if (!apiKey) throw new Error("Set DEEPSEEK_API_KEY, OPENROUTER_API_KEY, or OPENAI_API_KEY");
+  if (!apiKey) throw new Error("Set OPENCODE_API_KEY, DEEPSEEK_API_KEY, OPENROUTER_API_KEY, or OPENAI_API_KEY");
 
   const body = {
     model: LLM_MODEL,
@@ -182,10 +211,7 @@ async function llm(systemPrompt: string, userPrompt: string): Promise<string> {
     try {
       const resp = await fetch(LLM_API, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
-        },
+        headers: llmRequestHeaders(apiKey),
         body: JSON.stringify(body),
       });
 
@@ -903,6 +929,9 @@ async function generateHighlights(
 async function main() {
   const startTime = Date.now();
   log("config", `LLM provider: ${LLM_PROVIDER.label} (model: ${LLM_MODEL})`);
+  if (LLM_PROVIDER.label === "opencode-go" || LLM_API.includes("opencode.ai")) {
+    log("config", `OpenCode session: ${OPENCODE_SESSION}`);
+  }
   const caps = loadJson<CapSeed[]>(CAPS_SEED);
   const epochs = loadJson<EpochSeed[]>(EPOCHS_SEED);
 

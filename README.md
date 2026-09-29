@@ -84,13 +84,14 @@ The site builds from cached data in `data/auto_bundle.json` — **no API key nee
 To re-run the LLM enrichment pipeline:
 
 ```bash
-# Official DeepSeek API (recommended):
-DEEPSEEK_API_KEY=your-key bun agent/update.ts
+# OpenCode Go (recommended when subscribed):
+OPENCODE_API_KEY=your-key bun agent/update.ts
 
 # Incremental (only new versions):
-DEEPSEEK_API_KEY=your-key bun agent/update.ts --incremental
+OPENCODE_API_KEY=your-key bun agent/update.ts --incremental
 
 # Fallbacks:
+DEEPSEEK_API_KEY=your-key bun agent/update.ts
 OPENROUTER_API_KEY=your-key bun agent/update.ts
 OPENAI_API_KEY=your-key bun agent/update.ts
 ```
