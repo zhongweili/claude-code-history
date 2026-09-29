@@ -7,7 +7,7 @@
  *   OPENAI_API_KEY=sk-... bun agent/update.ts --incremental  # only enrich new versions
  *   OPENAI_API_KEY=sk-... bun agent/update.ts --sample 10    # test with 10 latest versions
  *
- * Requires: bun, and DEEPSEEK_API_KEY (preferred) or OPENROUTER_API_KEY / OPENAI_API_KEY
+ * Requires: bun, and OPENCODE_API_KEY (preferred) or DEEPSEEK_API_KEY / OPENROUTER_API_KEY / OPENAI_API_KEY
  */
 
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
@@ -25,24 +25,33 @@ const OUTPUT = resolve(DATA, "auto_bundle.json");
 // ── config ─────────────────────────────────────────────────────────────────
 // LLM provider selection, in priority order:
 //   1. Explicit LLM_API override (local backfills / experiments)
-//   2. Official DeepSeek API (DEEPSEEK_API_KEY) — preferred production path
-//   3. OpenRouter, then OpenAI direct
+//   2. OpenCode Go (OPENCODE_API_KEY) — preferred production path (subscription)
+//   3. Official DeepSeek, then OpenRouter, then OpenAI direct
 // Each provider exposes chat/completions and authenticates with a Bearer key.
 const LLM_PROVIDER: { key: string; model: string; api: string; label: string } = (() => {
   // Explicit override wins. Example:
-  //   LLM_API=https://api.deepseek.com/chat/completions \
-  //   LLM_KEY=$DEEPSEEK_API_KEY LLM_MODEL=deepseek-flash bun agent/update.ts --incremental
+  //   LLM_API=https://opencode.ai/zen/go/v1/chat/completions \
+  //   LLM_KEY=$OPENCODE_API_KEY LLM_MODEL=deepseek-v4-flash bun agent/update.ts --incremental
   if (process.env.LLM_API) {
     const key =
       process.env.LLM_KEY ||
+      process.env.OPENCODE_API_KEY ||
       process.env.DEEPSEEK_API_KEY ||
       process.env.OPENAI_API_KEY ||
       "";
     return {
       key,
-      model: process.env.LLM_MODEL ?? "deepseek-flash",
+      model: process.env.LLM_MODEL ?? "deepseek-v4-flash",
       api: process.env.LLM_API,
       label: process.env.LLM_LABEL ?? "custom",
+    };
+  }
+  if (process.env.OPENCODE_API_KEY) {
+    return {
+      key: process.env.OPENCODE_API_KEY,
+      model: process.env.LLM_MODEL ?? "deepseek-v4-flash",
+      api: "https://opencode.ai/zen/go/v1/chat/completions",
+      label: "opencode-go",
     };
   }
   if (process.env.DEEPSEEK_API_KEY) {
@@ -164,7 +173,7 @@ async function sleep(ms: number) { return new Promise((r) => setTimeout(r, ms));
 
 async function llm(systemPrompt: string, userPrompt: string): Promise<string> {
   const apiKey = LLM_PROVIDER.key;
-  if (!apiKey) throw new Error("Set DEEPSEEK_API_KEY, OPENROUTER_API_KEY, or OPENAI_API_KEY");
+  if (!apiKey) throw new Error("Set OPENCODE_API_KEY, DEEPSEEK_API_KEY, OPENROUTER_API_KEY, or OPENAI_API_KEY");
 
   const body = {
     model: LLM_MODEL,
