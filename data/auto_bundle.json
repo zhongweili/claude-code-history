@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-09-30T06:21:12.592Z",
+    "generated_at": "2026-10-01T06:49:08.582Z",
     "agent_model": "deepseek-v4-flash",
-    "total_versions": 407,
+    "total_versions": 408,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-09-29"
+      "end": "2026-09-30"
     },
     "highlight_count": 68,
     "capability_count": 8,
@@ -70,11 +70,1120 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。adaptive thinking 把推理深度交给模型自己决定，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界——从 Opus 4.6 到 4.8，每一代都在加速这条路。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Adaptive thinking hands reasoning depth to the model itself, while worktree isolation and 1M context push the agent toward hours-long unattended runs — from Opus 4.6 through 4.8, each generation accelerates the path.",
-      "release_count": 191,
+      "release_count": 192,
       "highlight_count": 46
     }
   ],
   "releases": [
+    {
+      "version": "2.1.286",
+      "date": "2026-09-30",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added a count such as \"2 of 5\" to the permission prompt when several permission requests stack up",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "权限提示显示堆叠计数如2/5",
+          "summary_en": "Show count like '2 of 5' when permission prompts stack up",
+          "why_matters": "帮助用户了解待处理的权限请求数量",
+          "why_matters_en": "Helps users understand how many permission requests are pending.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Added mouse support for the \"N more\" rows of lists in fullscreen mode: click one to jump to that end of the list, with hover and pressed states",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "全屏模式列表支持鼠标点击跳转",
+          "summary_en": "Add mouse support to 'N more' list rows in fullscreen mode",
+          "why_matters": "提升全屏模式下的鼠标操作体验",
+          "why_matters_en": "Improves mouse interaction in fullscreen mode.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed several Claude Code processes and IDE extensions each opening a login browser when gcpAuthRefresh or awsAuthRefresh credentials expire",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复凭据过期时多个登录浏览器同时打开",
+          "summary_en": "Fix multiple login browsers opening when credentials expire",
+          "why_matters": "避免凭据过期时登录浏览器泛滥",
+          "why_matters_en": "Prevents a flood of login browsers when credentials expire.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `claude --resume` and `--continue` sometimes losing every turn after a batch of parallel tool calls when the earlier session crashed or was killed",
+          "category": "fix",
+          "importance": 5,
+          "summary": "修复恢复会话时丢失多轮对话",
+          "summary_en": "Fix resume/continue losing turns after parallel tool calls",
+          "why_matters": "防止崩溃后恢复会话丢失重要对话内容",
+          "why_matters_en": "Prevents losing important conversation turns when resuming after a crash.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed API 400 errors after a tool or hook returned an object, number or boolean instead of text, including in resumed sessions",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复工具/钩子返回非文本导致400错误",
+          "summary_en": "Fix API 400 errors when a tool or hook returns non-text values",
+          "why_matters": "确保工具返回任意类型都能正常工作",
+          "why_matters_en": "Ensures tools/hooks can return any type without errors.",
+          "capability_ids": [
+            "execution_workspace",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed cloud sessions with very large histories never waking up because the container was stopped while the transcript was still loading",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复历史过大的云会话无法唤醒",
+          "summary_en": "Fix cloud sessions with very large histories never waking up",
+          "why_matters": "避免大型云会话因历史加载而卡死",
+          "why_matters_en": "Prevents large cloud sessions from getting stuck loading.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed the Claude apps gateway's spend meter pricing 1-hour prompt cache writes at the cheaper 5-minute rate, and counting only the first model call's input tokens on streamed turns that run a server-side tool such as web search",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复网关费用计量错误",
+          "summary_en": "Fix spend meter pricing for cache writes and streamed turns",
+          "why_matters": "确保费用计量准确",
+          "why_matters_en": "Ensures accurate cost metering.",
+          "capability_ids": [
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed macOS sessions still showing \"Not logged in\" or \"Login expired\" after `/login` succeeds in another Claude Code window when a leftover `~/.claude/.credentials.json` exists",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复macOS残留凭据导致登录状态误报",
+          "summary_en": "Fix macOS login state after /login with leftover credentials",
+          "why_matters": "消除残留凭据导致的登录状态误报",
+          "why_matters_en": "Eliminates false login status due to leftover credentials.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed every turn failing when the Anthropic API refuses the model your default or a model alias resolves to: Claude Code now retries once on the previous model of the same tier",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复默认模型被拒导致全部失败，自动重试上一模型",
+          "summary_en": "Fix model refusal failures; retry previous model once",
+          "why_matters": "提高模型不可用时的容错能力",
+          "why_matters_en": "Improves resilience when the default model is refused.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed Remote Control sessions (including `claude remote-control`) staying connected after your organization's policy turns Remote Control off; they now disconnect with a notice",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复策略关闭远程控制后会话仍连接",
+          "summary_en": "Fix Remote Control sessions staying after policy off",
+          "why_matters": "确保组织策略及时生效",
+          "why_matters_en": "Ensures organizational policies are enforced promptly.",
+          "capability_ids": [
+            "governance_security",
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed refusal and `--fallback-model` retries failing when the fallback model can't run fast; they now run at standard speed, with a one-time notice in interactive sessions",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复回退模型重试运行缓慢",
+          "summary_en": "Fix fallback retries running slowly; now standard speed",
+          "why_matters": "避免回退重试拖慢响应",
+          "why_matters_en": "Prevents fallback retries from slowing down responses.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed headless sessions repeating the \"MCP servers require authentication\" reminder after a successful re-authentication when the MCP discovery cache is enabled",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复MCP重新认证后仍重复提醒",
+          "summary_en": "Fix repeated MCP auth reminder after successful re-auth",
+          "why_matters": "避免认证成功后仍被重复打扰",
+          "why_matters_en": "Prevents repeated reminders after successful authentication.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed `claude auth status` reporting a Console sign-in's stored API key as `claude.ai`; it now reports `api_key`, and the VS Code extension treats that session as an API key session",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复auth status将API key误报为claude.ai",
+          "summary_en": "Fix auth status reporting API key as claude.ai; now api_key",
+          "why_matters": "确保认证状态显示准确",
+          "why_matters_en": "Ensures accurate authentication status display.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `/status` listing an Anthropic profile beside an API key as if both were in effect; the profile is now marked as not in use",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复/status误显示profile生效",
+          "summary_en": "Fix /status showing profile as active alongside API key",
+          "why_matters": "避免认证方式显示混淆",
+          "why_matters_en": "Avoids confusion about which auth method is active.",
+          "capability_ids": [
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed Claude not being told when a file attached to a message sent over Remote Control did not arrive, and a file sometimes getting only 10 seconds for its last download try",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复远程控制附件丢失和下载超时",
+          "summary_en": "Fix Remote Control attachment failure and short download try",
+          "why_matters": "确保远程控制附件可靠传输",
+          "why_matters_en": "Ensures reliable file attachment delivery over Remote Control.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed a Remote Control message that arrived while Claude Code was exiting being marked delivered and then never answered; it now stays queued for the session's next run",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复退出时远程消息被标记已送达却未处理",
+          "summary_en": "Fix remote message marked delivered during exit but never answered",
+          "why_matters": "避免消息丢失，确保下次运行继续处理。",
+          "why_matters_en": "Prevents message loss and ensures it is handled on the next run.",
+          "capability_ids": [
+            "automation_autonomy",
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed MCP error messages showing a credential's value when \"Bearer\" or \"Basic\" came before its key name",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复MCP错误消息泄露Bearer/Basic凭证值",
+          "summary_en": "Fix MCP error messages leaking credential values before key name",
+          "why_matters": "防止敏感凭证在错误信息中暴露。",
+          "why_matters_en": "Prevents sensitive credentials from being exposed in error messages.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed percent-encoded Bearer tokens being only partly masked in error messages",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复百分号编码Bearer令牌掩码不完整",
+          "summary_en": "Fix partial masking of percent-encoded Bearer tokens",
+          "why_matters": "确保令牌完全脱敏，避免泄露。",
+          "why_matters_en": "Ensures tokens are fully masked to avoid leakage.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed redacted logs and transcripts showing a secret whose key name has an invisible character inside, such as a zero-width space",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复含不可见字符的密钥名导致日志泄露",
+          "summary_en": "Fix secrets leaking when key name contains invisible characters",
+          "why_matters": "防止零宽空格等字符绕过脱敏。",
+          "why_matters_en": "Prevents characters like zero-width spaces from bypassing redaction.",
+          "capability_ids": [
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed logs and transcripts showing part of a URL password that contains punctuation such as `)`, quotes, `]`, `&` or a second `@`, or that runs past a `/` to a bracketed host such as `[::1]` in an ssh URL",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复URL密码含特殊字符时日志泄露",
+          "summary_en": "Fix URL passwords with punctuation leaking in logs",
+          "why_matters": "避免复杂密码在日志和转录中部分暴露。",
+          "why_matters_en": "Prevents complex passwords from being partially exposed in logs and transcripts.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed the session transcript in the zip that `/feedback` saves to disk containing invalid JSON lines after secret redaction",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复反馈zip中转录JSON因脱敏无效",
+          "summary_en": "Fix invalid JSON lines in feedback transcript after redaction",
+          "why_matters": "确保反馈数据可正常解析使用。",
+          "why_matters_en": "Ensures feedback data remains parseable after redaction.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed MCP connectors listing no tools for up to a day after their server dropped the older MCP handshake",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复MCP连接器长时间不显示工具",
+          "summary_en": "Fix MCP connectors listing no tools for up to a day",
+          "why_matters": "避免服务器握手变更后工具列表长时间缺失。",
+          "why_matters_en": "Prevents tools from disappearing for a long time after handshake changes.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed a repeat MCP sign-in request from Claude replacing the pending sign-in link, which could stop that link from working",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复重复登录请求覆盖待处理链接",
+          "summary_en": "Fix repeat MCP sign-in request replacing pending link",
+          "why_matters": "确保登录链接可用，避免流程中断。",
+          "why_matters_en": "Ensures the pending sign-in link remains functional.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed `/usage` not crediting an MCP server for a tool call made while that server was still connecting or had only just connected, such as right after a restart",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复/usage未统计连接中服务器的工具调用",
+          "summary_en": "Fix /usage not crediting MCP server for calls during connect",
+          "why_matters": "确保用量统计准确反映工具调用。",
+          "why_matters_en": "Ensures usage metrics accurately reflect tool calls.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed plugins enabled on claude.ai occasionally going missing from Claude Code for a session after a transient server error",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复claude.ai插件偶发丢失",
+          "summary_en": "Fix claude.ai plugins occasionally missing after server error",
+          "why_matters": "避免临时错误导致插件会话内不可用。",
+          "why_matters_en": "Prevents transient errors from making plugins unavailable in a session.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed a message typed into a running subagent showing twice in its transcript after the subagent read it",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复子代理转录中消息重复显示",
+          "summary_en": "Fix message appearing twice in subagent transcript",
+          "why_matters": "保证转录准确，避免混淆。",
+          "why_matters_en": "Keeps transcripts accurate and avoids confusion.",
+          "capability_ids": [
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed subagent hand-back messages showing a raw task id instead of the agent's name when the subagent had no registered name",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复子代理交回消息显示原始任务ID",
+          "summary_en": "Fix subagent hand-back showing raw task id instead of name",
+          "why_matters": "提升可读性和可理解性。",
+          "why_matters_en": "Improves readability and clarity of hand-back messages.",
+          "capability_ids": [
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed foreground subagents sometimes missing the task-tracking tools (TaskCreate/Get/Update/List, TodoWrite) in sessions that have them enabled",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复前台子代理缺少任务跟踪工具",
+          "summary_en": "Fix foreground subagents missing task-tracking tools",
+          "why_matters": "确保子代理能正常使用任务管理功能。",
+          "why_matters_en": "Ensures subagents have access to task management tools.",
+          "capability_ids": [
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed subagents spawned with worktree isolation loading the project CLAUDE.md and its imports a second time from the worktree copy on their first file read",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复工作树隔离子代理重复加载CLAUDE.md",
+          "summary_en": "Fix worktree subagents loading CLAUDE.md twice",
+          "why_matters": "避免重复加载上下文，提升效率。",
+          "why_matters_en": "Avoids redundant context loading and improves efficiency.",
+          "capability_ids": [
+            "memory_context",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed Workflow tool subagents being restarted from their original prompt when a connection stalled for a few minutes mid-response",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复Workflow子代理连接中断后重启",
+          "summary_en": "Fix Workflow subagents restarting from original prompt on stall",
+          "why_matters": "避免长时间中断导致工作流重置。",
+          "why_matters_en": "Prevents long stalls from resetting the workflow.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed `/compact`, `/clear`, and `/rewind` typed while viewing a background agent's or teammate's transcript silently acting on the main conversation: a dialog now names the target and asks first",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复在后台代理/队友转录中执行命令误作用于主对话",
+          "summary_en": "Fix background/teammate commands targeting main chat",
+          "why_matters": "防止误操作主对话导致数据丢失或上下文混乱。",
+          "why_matters_en": "Prevents accidental destructive commands on the main conversation.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "governance_security",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed background jobs showing done while waiting for your approval",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复后台任务在等待批准时显示为已完成",
+          "summary_en": "Fix background jobs showing done while awaiting approval",
+          "why_matters": "避免用户误以为任务已完成而忽略审批。",
+          "why_matters_en": "Avoids users thinking tasks are complete when approval is pending.",
+          "capability_ids": [
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed the commit attribution reminder being re-sent inside tool output when a model fallback lasts only one turn",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复模型回退时重复发送提交归属提醒",
+          "summary_en": "Fix duplicate commit attribution reminder on model fallback",
+          "why_matters": "减少冗余提醒干扰。",
+          "why_matters_en": "Reduces redundant reminders.",
+          "capability_ids": [
+            "automation_autonomy",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed a click on the space between words of a collapsed row (such as \"Thought for 4s\") highlighting the row without expanding it in fullscreen mode",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复全屏模式下点击折叠行空白处只高亮不展开",
+          "summary_en": "Fix collapsed row whitespace click not expanding",
+          "why_matters": "改善全屏模式下的交互一致性。",
+          "why_matters_en": "Improves interaction consistency in fullscreen mode.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed a row with no details, such as an action row with a long name, pushing every other row's details to the right in list screens",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复无详情行导致其他行详情右移",
+          "summary_en": "Fix rows without details pushing other rows' details right",
+          "why_matters": "修复列表布局错位。",
+          "why_matters_en": "Fixes list layout misalignment.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed files with very long names not reaching a cloud session when attached to it",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复长文件名附件无法到达云会话",
+          "summary_en": "Fix long-named files not reaching cloud sessions",
+          "why_matters": "确保长文件名附件正常同步。",
+          "why_matters_en": "Ensures long-named file attachments sync properly.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed plugin errors for a marketplace Claude Code refuses to load: they now say why and how to fix it instead of \"not found\"",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复插件市场加载失败时只显示\"未找到\"",
+          "summary_en": "Fix plugin marketplace errors to show reason and fix",
+          "why_matters": "提供可操作的错误信息。",
+          "why_matters_en": "Provides actionable error messages.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed `/plugin`'s Discover tab showing a marketplace name unquoted in its \"Checking … for new plugins\" line when its rows already show that name in quotes",
+          "category": "fix",
+          "importance": 1,
+          "summary": "修复插件发现页市场名引号不一致",
+          "summary_en": "Fix unquoted marketplace name in plugin Discover tab",
+          "why_matters": "保持界面显示一致。",
+          "why_matters_en": "Maintains consistent UI display.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Improved commit guidance: when your project or user skills include one named `verify`, Claude is now told to run it right before committing, except for docs-only and tests-only commits",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "改进提交指导：存在verify技能时提交前自动运行",
+          "summary_en": "Improved commit guidance: run verify skill before commits",
+          "why_matters": "提高提交质量，自动验证。",
+          "why_matters_en": "Improves commit quality with automatic verification.",
+          "capability_ids": [
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Improved send now (ctrl+enter) in a subagent's view: it now moves the subagent's running command to the background so your message is read right away",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "改进子代理视图中的立即发送：将运行命令移至后台",
+          "summary_en": "Improved send now in subagent view backgrounds command",
+          "why_matters": "让用户消息立即被处理。",
+          "why_matters_en": "Ensures user messages are read immediately.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Improved replies from background agents to your messages so they no longer open with a separate recap of what you said",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "改进后台代理回复，不再重复你的消息",
+          "summary_en": "Improved background agent replies to not recap your message",
+          "why_matters": "减少冗余，提升对话效率。",
+          "why_matters_en": "Reduces redundancy in conversations.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Improved claude.ai artifact link reads: WebFetch now asks the same questions as the Artifact tool's read (no artifact prompt while the session's network access is on, one per artifact while it is off), and an auto-mode yes no longer counts where only you can answer",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "改进claude.ai工件链接读取的权限提示",
+          "summary_en": "Improved artifact link reads with consistent prompts",
+          "why_matters": "统一权限询问逻辑，避免误判。",
+          "why_matters_en": "Aligns permission prompts and avoids miscounting auto-mode.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Improved fetch, skill, file read, sandbox network, Claude in Chrome, workflow script and notebook edit permission prompts to match the look of file edit prompts",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "统一多种权限提示的样式",
+          "summary_en": "Unified permission prompt styling across fetch, skills",
+          "why_matters": "提升权限提示的一致性和可读性。",
+          "why_matters_en": "Improves consistency and readability of permission prompts.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Improved Bash, PowerShell and Monitor permission prompts to show the command between dashed lines, matching file edit prompts",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "改进命令权限提示，用虚线分隔命令",
+          "summary_en": "Improved command permission prompts with dashed-line display",
+          "why_matters": "更清晰地区分命令内容。",
+          "why_matters_en": "Makes command content clearer in prompts.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Improved list scrollbars in fullscreen mode: in most lists the bar no longer shifts as the \"N more\" rows come and go, and it now has ↑/↓ arrows you can click or hold to scroll",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "改进全屏模式列表滚动条，增加上下箭头",
+          "summary_en": "Improved fullscreen list scrollbars with arrows",
+          "why_matters": "提升滚动操作体验。",
+          "why_matters_en": "Enhances scrolling experience.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Improved the external editor (Ctrl+G): editors that take a line number now open on the line your cursor is on in the prompt",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "外部编辑器打开时定位到光标所在行",
+          "summary_en": "External editor opens at cursor line",
+          "why_matters": "提升外部编辑效率，减少手动跳转。",
+          "why_matters_en": "Improves external editing efficiency by reducing manual jumps.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Improved slash command suggestion responsiveness while typing when many skills or plugin commands are installed; command descriptions now match by word prefix",
+          "category": "perf",
+          "importance": 3,
+          "summary": "斜杠命令建议响应更快，描述按词前缀匹配",
+          "summary_en": "Faster slash command suggestions with prefix matching",
+          "why_matters": "减少输入延迟，提高命令发现效率。",
+          "why_matters_en": "Reduces input latency and improves command discoverability.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Improved the output style picker: it now opens on your current style instead of Default, with each style's description on the line under its name; number keys no longer pick a style",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "输出样式选择器默认选中当前样式并显示描述",
+          "summary_en": "Style picker defaults to current style, shows descriptions",
+          "why_matters": "更直观地选择输出样式，避免误操作。",
+          "why_matters_en": "Makes style selection more intuitive and prevents mistakes.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Improved `/hooks`: the closing line of a hook's detail screen now says \"this hook\" instead of \"it\"",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "/hooks 详情页文案更清晰",
+          "summary_en": "/hooks detail text clarified",
+          "why_matters": "提升文案准确性，减少歧义。",
+          "why_matters_en": "Improves wording accuracy and reduces ambiguity.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Improved the model fallback notice and the autocompact-thrashing error to say when a fallback dropped the context window from 1M to 200K tokens",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "模型回退时提示上下文窗口从1M降至200K",
+          "summary_en": "Fallback notice shows context window drop from 1M to 200K",
+          "why_matters": "用户能了解上下文被缩减，避免困惑。",
+          "why_matters_en": "Helps users understand context reduction and avoid confusion.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Improved responsiveness of SDK and `-p` sessions when a host re-sends an MCP server enable for a server that is already connected",
+          "category": "perf",
+          "importance": 3,
+          "summary": "SDK 和 -p 会话重复启用 MCP 时响应更快",
+          "summary_en": "Faster SDK/-p sessions on duplicate MCP enable",
+          "why_matters": "避免重复连接造成的延迟。",
+          "why_matters_en": "Avoids delays caused by duplicate connections.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Improved the protocol page a Claude apps gateway serves at `/protocol`: it now says not to reject unknown input and matches what Claude Code sends today",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "/protocol 页面更新，匹配当前行为",
+          "summary_en": "Protocol page updated to match current behavior",
+          "why_matters": "开发者能获得准确的协议信息。",
+          "why_matters_en": "Developers get accurate protocol information.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Changed prompts sent while nothing is running or queued to show in the normal text color right away instead of gray",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "空闲时提示立即显示正常文本色",
+          "summary_en": "Idle prompts show normal color immediately",
+          "why_matters": "减少视觉混淆，明确状态。",
+          "why_matters_en": "Reduces visual confusion and clarifies status.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Changed how failed API requests are retried: one limit now covers a whole model call, so with the default retry settings a failing call sends at most 14 requests",
+          "category": "fix",
+          "importance": 4,
+          "summary": "API 重试改为整个调用共享限制，最多14次",
+          "summary_en": "Retry limit per model call, max 14 requests",
+          "why_matters": "避免无限重试，降低延迟和成本。",
+          "why_matters_en": "Prevents infinite retries, reducing latency and cost.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Changed `--bare` to connect only the MCP servers named on the command line, send the model no system reminders, and start no background tasks; under `--bare`, a shell command that reaches its timeout now stops instead of moving to the background",
+          "category": "breaking",
+          "importance": 4,
+          "summary": "--bare 模式仅连接指定 MCP，超时命令停止",
+          "summary_en": "--bare only connects named MCP, timeout stops",
+          "why_matters": "明确 --bare 的隔离语义，避免意外后台任务。",
+          "why_matters_en": "Clarifies --bare isolation semantics and avoids unexpected background tasks.",
+          "capability_ids": [
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Changed the send-now key (ctrl+enter) to move a skill's own shell command to the background instead of ending it",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "Ctrl+Enter 将技能 shell 命令移至后台",
+          "summary_en": "Ctrl+Enter backgrounds skill shell command",
+          "why_matters": "避免误杀技能命令，提供更灵活的控制。",
+          "why_matters_en": "Prevents killing skill commands and offers more control.",
+          "capability_ids": [
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Changed the WebFetch error for a rate-limited domain safety check to tell Claude not to retry it in a loop",
+          "category": "fix",
+          "importance": 3,
+          "summary": "WebFetch 限流错误提示避免循环重试",
+          "summary_en": "WebFetch rate-limit error avoids retry loop",
+          "why_matters": "减少无效重试，节省时间和资源。",
+          "why_matters_en": "Reduces ineffective retries, saving time and resources.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Changed plugin installs to refuse npm sources that are git repositories or folders, and to install plugin dependencies only from registry packages",
+          "category": "security",
+          "importance": 4,
+          "summary": "插件安装拒绝 git/文件夹源，仅用注册表包",
+          "summary_en": "Plugin installs reject git/folder sources",
+          "why_matters": "防止恶意或不安全的插件来源。",
+          "why_matters_en": "Prevents malicious or unsafe plugin sources.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Changed list screens (`/artifacts`, `/mcp`, `/skills`, `/hooks` and others) to always line up each row's details in one column after the names",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "列表屏幕详情列对齐",
+          "summary_en": "List screens align details in one column",
+          "why_matters": "提升可读性和视觉一致性。",
+          "why_matters_en": "Improves readability and visual consistency.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Changed the overflow rows of lists to read \"↑ N more\" / \"↓ N more\" instead of \"N more above\" / \"N more below\"",
+          "category": "improvement",
+          "importance": 1,
+          "summary": "列表溢出行文案改为 ↑/↓ N more",
+          "summary_en": "Overflow rows use ↑/↓ N more",
+          "why_matters": "更简洁直观的导航提示。",
+          "why_matters_en": "Provides more concise and intuitive navigation cues.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Changed `/hooks` to open on one list of your configured hooks grouped by event, so viewing a hook takes one Enter instead of three",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "/hooks改为按事件分组列表，一键查看",
+          "summary_en": "Hooks open as one event-grouped list; one Enter to view",
+          "why_matters": "减少查看hook的步骤，提升效率",
+          "why_matters_en": "Reduces steps to view a hook, improving efficiency.",
+          "capability_ids": [
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Changed the theme picker to a scrolling list that fits your terminal instead of pushing the preview off screen; number keys no longer pick a theme",
+          "category": "fix",
+          "importance": 2,
+          "summary": "主题选择器改为滚动列表，适配终端高度",
+          "summary_en": "Theme picker is now a scrolling list that fits terminal",
+          "why_matters": "避免预览被挤出屏幕，选择更直观",
+          "why_matters_en": "Prevents preview from being pushed off screen, making selection clearer.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Changed `/exit`'s Remove worktree to run after Claude Code stops the servers and shells it started there, which on Windows could keep the folder from being deleted",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复/exit删除工作树前先停止服务器和shell",
+          "summary_en": "Fix /exit removing worktree after stopping servers/shells",
+          "why_matters": "确保Windows下工作树能正常删除",
+          "why_matters_en": "Ensures worktree can be deleted on Windows.",
+          "capability_ids": [
+            "execution_workspace",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Changed the `claude-api` skill's Managed Agents examples to create environments with limited networking",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "claude-api技能示例改用受限网络环境",
+          "summary_en": "claude-api skill examples now use limited networking",
+          "why_matters": "示例更安全，降低网络暴露风险",
+          "why_matters_en": "Makes examples safer by reducing network exposure.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Removed the browser link from `/ultrareview` and `claude ultrareview` output",
+          "category": "other",
+          "importance": 1,
+          "summary": "移除/ultrareview输出中的浏览器链接",
+          "summary_en": "Remove browser link from /ultrareview output",
+          "why_matters": "简化输出，避免无关链接干扰",
+          "why_matters_en": "Simplifies output by removing an unneeded link.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Windows: Fixed `claude --bg` and the agents view refusing a folder that `claude` already trusts when its trust record was saved with different letter case",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复Windows信任记录大小写不一致导致拒绝访问",
+          "summary_en": "Fix Windows trust record case mismatch blocking access",
+          "why_matters": "避免已信任文件夹被误拒绝",
+          "why_matters_en": "Prevents trusted folders from being wrongly rejected.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "[VSCode] Added bookmarks: save Claude's responses and keep them in view in a Bookmarks side panel",
+          "category": "feat",
+          "importance": 3,
+          "summary": "新增书签功能，保存回复到侧边栏",
+          "summary_en": "Add bookmarks to save responses in a side panel",
+          "why_matters": "方便随时回看重要回复",
+          "why_matters_en": "Makes it easy to revisit important responses.",
+          "capability_ids": [
+            "memory_context",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Added the questions Claude asks and your answers to the conversation: after you answer a question card, a Questions row shows each question with your picks",
+          "category": "feat",
+          "importance": 3,
+          "summary": "新增问题记录，显示提问和你的选择",
+          "summary_en": "Add questions row showing Claude's questions and your picks",
+          "why_matters": "对话上下文更完整",
+          "why_matters_en": "Keeps full context of questions and answers.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "[VSCode] Added option previews to question cards in the chat panel: the highlighted choice's mockup or snippet shows beside or under the options",
+          "category": "feat",
+          "importance": 2,
+          "summary": "问题卡片增加选项预览效果",
+          "summary_en": "Add option previews to question cards",
+          "why_matters": "选择前即可预览效果",
+          "why_matters_en": "See a preview before making a choice.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Added rows under a message that open to the terminal output, browser tab, browser instructions and selected code sent with it",
+          "category": "feat",
+          "importance": 3,
+          "summary": "消息下方新增行，打开终端/浏览器等",
+          "summary_en": "Add rows under messages to open terminal, browser, code",
+          "why_matters": "快速查看消息相关的执行细节",
+          "why_matters_en": "Quickly access execution details tied to a message.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed a second copy of a conversation opening in a tab when it was already open in the side bar; the side bar now switches to it",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复对话重复打开标签页问题",
+          "summary_en": "Fix duplicate conversation tab when already open",
+          "why_matters": "避免多开，自动切换到已有对话",
+          "why_matters_en": "Prevents duplicate tabs and switches to the existing conversation.",
+          "capability_ids": [
+            "memory_context",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed settings dialogs reporting a failed save, without re-checking, when Claude Code printed more than 1 MB of output",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复设置对话框误报保存失败",
+          "summary_en": "Fix settings dialog false save failure on large output",
+          "why_matters": "避免误导用户",
+          "why_matters_en": "Avoids misleading save failure messages.",
+          "capability_ids": []
+        },
+        {
+          "raw": "[VSCode] Fixed an endless \"Teleporting session…\" spinner when the extension stops responding",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复扩展无响应时无限加载提示",
+          "summary_en": "Fix endless 'Teleporting session' spinner on hang",
+          "why_matters": "避免卡死假象",
+          "why_matters_en": "Prevents a stuck spinner when the extension hangs.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Improved the Manage plugins dialog: it says when a turned-off plugin is still on because of other settings, and explains a plugin folder clash",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "改进插件管理对话框，说明冲突和原因",
+          "summary_en": "Improve Manage plugins dialog with conflict explanations",
+          "why_matters": "让插件状态和冲突更清晰",
+          "why_matters_en": "Makes plugin state and conflicts clearer.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "[VSCode] Changed Stop and Escape to end only the current turn; background agents keep running and can be stopped one by one from the agent map",
+          "category": "breaking",
+          "importance": 4,
+          "summary": "Stop/Escape改为仅结束当前回合，后台代理继续",
+          "summary_en": "Stop/Escape end current turn only; background agents run",
+          "why_matters": "更精细控制后台代理",
+          "why_matters_en": "Gives finer control over background agents.",
+          "capability_ids": [
+            "automation_autonomy",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "[VSCode] Changed the \"✻ Claude Code\" status bar item to show in every window, so you can open Claude when no file is open",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "状态栏图标全窗口显示，无文件也可打开Claude",
+          "summary_en": "Status bar icon shows in all windows, open Claude without a file",
+          "why_matters": "用户无需打开文件即可快速启动Claude，提升可达性。",
+          "why_matters_en": "Users can quickly launch Claude without opening a file, improving accessibility.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "[Cloud sessions] Fixed an answered question card or approved tool call getting no reply when the session had gone idle after Claude sent a message",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复会话空闲后问题卡片无回复",
+          "summary_en": "Fix no reply to question card after session idle",
+          "why_matters": "避免用户等待回复时卡死，提升交互可靠性。",
+          "why_matters_en": "Prevents stalled interactions and improves reliability when sessions idle.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[Cloud sessions] Fixed clearing an organization environment's setup script in admin settings leaving new cloud sessions still running the old script",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复清除环境脚本后新会话仍用旧脚本",
+          "summary_en": "Fix new sessions still using old setup script after clearing",
+          "why_matters": "确保环境配置变更立即生效，避免执行错误脚本。",
+          "why_matters_en": "Ensures environment configuration changes take effect immediately, avoiding stale scripts.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[Cloud sessions] Fixed the Runner actions menu on the self-hosted environments admin page closing on its own a few seconds after it opened",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复Runner操作菜单自动关闭",
+          "summary_en": "Fix Runner actions menu closing on its own",
+          "why_matters": "管理操作不再被打断，提升管理页面可用性。",
+          "why_matters_en": "Admin actions are no longer interrupted, improving usability of the management page.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[Cloud sessions] Fixed routine runs whose cloud session never started showing as Succeeded in the Runs pane, the routine's page and the sidebar; they now show as Failed",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复未启动的例行任务误报成功",
+          "summary_en": "Fix routine runs with no session showing as Succeeded",
+          "why_matters": "避免用户被错误状态误导，确保任务状态真实可靠。",
+          "why_matters_en": "Prevents misleading success statuses and ensures accurate task reporting.",
+          "capability_ids": [
+            "automation_autonomy",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[Cloud sessions] Fixed clicking an audio or video file in a cloud session's Outputs card opening an empty file search instead of playing the file",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复输出卡片音视频文件无法播放",
+          "summary_en": "Fix audio/video files in Outputs card not playing",
+          "why_matters": "用户可直接预览媒体文件，提升云会话体验。",
+          "why_matters_en": "Users can preview media files directly, improving the cloud session experience.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[Cloud sessions] Changed a routine's page to read \"Due\" with the scheduled time, instead of a next run time in the past, when a scheduled run is late and hasn't started",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "例行任务延迟时显示Due时间",
+          "summary_en": "Show Due time instead of past next run when late",
+          "why_matters": "清晰传达任务已到期，避免时间显示误导。",
+          "why_matters_en": "Clearly communicates that a task is due, avoiding confusing past times.",
+          "capability_ids": [
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "[Claude Tag] Added an Add channel button to Claude Tag's spend limits page in admin settings, so a limit can be set on any channel, including a private one, from its channel ID or Slack link",
+          "category": "feat",
+          "importance": 3,
+          "summary": "新增为任意频道设置消费限额按钮",
+          "summary_en": "Add channel button to set spend limit on any channel",
+          "why_matters": "管理员可灵活管控所有频道支出，增强治理能力。",
+          "why_matters_en": "Admins can flexibly control spending across all channels, strengthening governance.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "[Claude Tag] Fixed memory recall finding nothing in organizations that cannot use the default Sonnet model",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复无法使用Sonnet时记忆召回为空",
+          "summary_en": "Fix memory recall empty for orgs without default Sonnet",
+          "why_matters": "确保所有组织都能正常使用记忆功能。",
+          "why_matters_en": "Ensures memory recall works for organizations without the default Sonnet model.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "[Claude Tag] Fixed a Slack channel losing its Claude settings when an Enterprise Grid admin moves it to another workspace and the first post afterward doesn't mention Claude",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复频道迁移后Claude设置丢失",
+          "summary_en": "Fix Slack channel losing Claude settings after move",
+          "why_matters": "避免企业网格迁移导致配置丢失，保持集成稳定。",
+          "why_matters_en": "Prevents configuration loss during Enterprise Grid moves, keeping integrations stable.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "[Claude Tag] Fixed Claude in a Slack thread occasionally starting over on a fresh machine, losing work it hadn't pushed, when your reply answered a question it had just asked",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复Slack线程中回答后工作丢失",
+          "summary_en": "Fix Slack thread losing unpushed work on fresh machine",
+          "why_matters": "防止上下文丢失导致重复劳动，保障工作连续性。",
+          "why_matters_en": "Prevents context loss and redundant work, ensuring continuity.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "[Claude Tag] Fixed public channel names on Claude Tag's spend limits page in admin settings showing as raw Slack IDs in larger organizations",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复频道名显示为原始Slack ID",
+          "summary_en": "Fix public channel names showing as raw Slack IDs",
+          "why_matters": "提升管理页面可读性，便于识别频道。",
+          "why_matters_en": "Improves readability of the admin page, making channels easier to identify.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "[Claude Tag] Improved the titles of sessions started from Slack as shown on claude.ai: they now read as the words you typed, without Slack user IDs or escape codes",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "改进Slack会话标题可读性",
+          "summary_en": "Improve session titles from Slack to show typed words",
+          "why_matters": "去除ID和转义码，让会话更易识别。",
+          "why_matters_en": "Removes IDs and escape codes, making sessions easier to recognize.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Claude Code reads AGENTS.md only when telemetry is on [fixed]",
+          "points": 485,
+          "url": "https://blog.szypowi.cz/p/claude-code-reads-agents.md-only-when-telemetry-is-on/"
+        },
+        {
+          "title": "Show HN: Whiteboard (YC W26) – An open-source IDE for thoughtful software design",
+          "points": 423,
+          "url": "https://github.com/devdotfast/whiteboard"
+        },
+        {
+          "title": "Show HN: PaperMono, e-ink fridge magnet shopping list with mobile web page",
+          "points": 149,
+          "url": "https://github.com/seamusc/papermono-shopping-list"
+        },
+        {
+          "title": "Show HN: A Claude Code skill to analyze your chess games",
+          "points": 75,
+          "url": "https://github.com/brumar/chess-postmortem-skills"
+        },
+        {
+          "title": "Jevmem – automatic project memory for Claude Code, built on Jev",
+          "points": 62,
+          "url": "https://github.com/Avinash-jetwani/jevmem"
+        }
+      ],
+      "highlight_score": 45
+    },
     {
       "version": "2.1.285",
       "date": "2026-09-29",
@@ -1784,23 +2893,23 @@
         },
         {
           "title": "Show HN: Whiteboard (YC W26) – An open-source IDE for thoughtful software design",
-          "points": 421,
+          "points": 423,
           "url": "https://github.com/devdotfast/whiteboard"
         },
         {
+          "title": "Claude Opus 5.5 Intelligence, Performance and Price Analysis (Max)",
+          "points": 333,
+          "url": "https://artificialanalysis.ai/models/claude-opus-5-5"
+        },
+        {
           "title": "Show HN: PaperMono, e-ink fridge magnet shopping list with mobile web page",
-          "points": 148,
+          "points": 149,
           "url": "https://github.com/seamusc/papermono-shopping-list"
         },
         {
           "title": "Show HN: A Claude Code skill to analyze your chess games",
           "points": 75,
           "url": "https://github.com/brumar/chess-postmortem-skills"
-        },
-        {
-          "title": "Show HN: Training a model to identify AI web content from structure alone",
-          "points": 74,
-          "url": "https://arxiv.org/abs/2609.15369"
         }
       ],
       "highlight_score": 50
@@ -3062,8 +4171,13 @@
         },
         {
           "title": "Show HN: Whiteboard (YC W26) – An open-source IDE for thoughtful software design",
-          "points": 421,
+          "points": 423,
           "url": "https://github.com/devdotfast/whiteboard"
+        },
+        {
+          "title": "Claude Opus 5.5 Intelligence, Performance and Price Analysis (Max)",
+          "points": 333,
+          "url": "https://artificialanalysis.ai/models/claude-opus-5-5"
         },
         {
           "title": "Show HN: Mini-AGI – Dynamic continual learning model trained on 8GB VRAM",
@@ -3072,13 +4186,8 @@
         },
         {
           "title": "Show HN: PaperMono, e-ink fridge magnet shopping list with mobile web page",
-          "points": 148,
+          "points": 149,
           "url": "https://github.com/seamusc/papermono-shopping-list"
-        },
-        {
-          "title": "Show HN: A Claude Code skill to analyze your chess games",
-          "points": 75,
-          "url": "https://github.com/brumar/chess-postmortem-skills"
         }
       ],
       "highlight_score": 40
@@ -4277,7 +5386,7 @@
       "signals": [
         {
           "title": "Claude Code now reads AGENTS.md if there is no Claude.md",
-          "points": 740,
+          "points": 741,
           "url": "https://code.claude.com/docs/en/changelog"
         },
         {
@@ -4287,18 +5396,18 @@
         },
         {
           "title": "Show HN: Whiteboard (YC W26) – An open-source IDE for thoughtful software design",
-          "points": 421,
+          "points": 423,
           "url": "https://github.com/devdotfast/whiteboard"
+        },
+        {
+          "title": "Claude Opus 5.5 Intelligence, Performance and Price Analysis (Max)",
+          "points": 333,
+          "url": "https://artificialanalysis.ai/models/claude-opus-5-5"
         },
         {
           "title": "Show HN: Mini-AGI – Dynamic continual learning model trained on 8GB VRAM",
           "points": 277,
           "url": "https://github.com/volotat/mini-AGI/"
-        },
-        {
-          "title": "Show HN: PaperMono, e-ink fridge magnet shopping list with mobile web page",
-          "points": 148,
-          "url": "https://github.com/seamusc/papermono-shopping-list"
         }
       ],
       "highlight_score": 55
@@ -5391,7 +6500,7 @@
       "signals": [
         {
           "title": "Claude Code now reads AGENTS.md if there is no Claude.md",
-          "points": 740,
+          "points": 741,
           "url": "https://code.claude.com/docs/en/changelog"
         },
         {
@@ -5401,18 +6510,18 @@
         },
         {
           "title": "Show HN: Whiteboard (YC W26) – An open-source IDE for thoughtful software design",
-          "points": 421,
+          "points": 423,
           "url": "https://github.com/devdotfast/whiteboard"
+        },
+        {
+          "title": "Claude Opus 5.5 Intelligence, Performance and Price Analysis (Max)",
+          "points": 333,
+          "url": "https://artificialanalysis.ai/models/claude-opus-5-5"
         },
         {
           "title": "Show HN: Mini-AGI – Dynamic continual learning model trained on 8GB VRAM",
           "points": 277,
           "url": "https://github.com/volotat/mini-AGI/"
-        },
-        {
-          "title": "Show HN: PaperMono, e-ink fridge magnet shopping list with mobile web page",
-          "points": 148,
-          "url": "https://github.com/seamusc/papermono-shopping-list"
         }
       ],
       "highlight_score": 60
@@ -6874,7 +7983,7 @@
       "signals": [
         {
           "title": "Claude Code now reads AGENTS.md if there is no Claude.md",
-          "points": 740,
+          "points": 741,
           "url": "https://code.claude.com/docs/en/changelog"
         },
         {
@@ -6884,18 +7993,18 @@
         },
         {
           "title": "Show HN: Whiteboard (YC W26) – An open-source IDE for thoughtful software design",
-          "points": 421,
+          "points": 423,
           "url": "https://github.com/devdotfast/whiteboard"
+        },
+        {
+          "title": "Claude Opus 5.5 Intelligence, Performance and Price Analysis (Max)",
+          "points": 333,
+          "url": "https://artificialanalysis.ai/models/claude-opus-5-5"
         },
         {
           "title": "Show HN: Mini-AGI – Dynamic continual learning model trained on 8GB VRAM",
           "points": 277,
           "url": "https://github.com/volotat/mini-AGI/"
-        },
-        {
-          "title": "Show HN: PaperMono, e-ink fridge magnet shopping list with mobile web page",
-          "points": 148,
-          "url": "https://github.com/seamusc/papermono-shopping-list"
         }
       ],
       "highlight_score": 50
@@ -6935,7 +8044,7 @@
       "signals": [
         {
           "title": "Claude Code now reads AGENTS.md if there is no Claude.md",
-          "points": 740,
+          "points": 741,
           "url": "https://code.claude.com/docs/en/changelog"
         },
         {
@@ -6945,18 +8054,18 @@
         },
         {
           "title": "Show HN: Whiteboard (YC W26) – An open-source IDE for thoughtful software design",
-          "points": 421,
+          "points": 423,
           "url": "https://github.com/devdotfast/whiteboard"
+        },
+        {
+          "title": "Claude Opus 5.5 Intelligence, Performance and Price Analysis (Max)",
+          "points": 333,
+          "url": "https://artificialanalysis.ai/models/claude-opus-5-5"
         },
         {
           "title": "Show HN: Mini-AGI – Dynamic continual learning model trained on 8GB VRAM",
           "points": 277,
           "url": "https://github.com/volotat/mini-AGI/"
-        },
-        {
-          "title": "Apple's Siri AI Can Be Swapped Out for Claude, ChatGPT, Code Shows",
-          "points": 228,
-          "url": "https://www.macrumors.com/2026/09/14/siri-can-be-swapped-out-for-chatgpt-claude/"
         }
       ],
       "highlight_score": 50
@@ -8056,7 +9165,7 @@
       "signals": [
         {
           "title": "Claude Code now reads AGENTS.md if there is no Claude.md",
-          "points": 740,
+          "points": 741,
           "url": "https://code.claude.com/docs/en/changelog"
         },
         {
@@ -8066,18 +9175,18 @@
         },
         {
           "title": "Show HN: Whiteboard (YC W26) – An open-source IDE for thoughtful software design",
-          "points": 421,
+          "points": 423,
           "url": "https://github.com/devdotfast/whiteboard"
+        },
+        {
+          "title": "Claude Opus 5.5 Intelligence, Performance and Price Analysis (Max)",
+          "points": 333,
+          "url": "https://artificialanalysis.ai/models/claude-opus-5-5"
         },
         {
           "title": "Show HN: Mini-AGI – Dynamic continual learning model trained on 8GB VRAM",
           "points": 277,
           "url": "https://github.com/volotat/mini-AGI/"
-        },
-        {
-          "title": "Apple's Siri AI Can Be Swapped Out for Claude, ChatGPT, Code Shows",
-          "points": 228,
-          "url": "https://www.macrumors.com/2026/09/14/siri-can-be-swapped-out-for-chatgpt-claude/"
         }
       ],
       "highlight_score": 55
@@ -8102,7 +9211,7 @@
       "signals": [
         {
           "title": "Claude Code now reads AGENTS.md if there is no Claude.md",
-          "points": 740,
+          "points": 741,
           "url": "https://code.claude.com/docs/en/changelog"
         },
         {
@@ -8112,18 +9221,18 @@
         },
         {
           "title": "Show HN: Whiteboard (YC W26) – An open-source IDE for thoughtful software design",
-          "points": 421,
+          "points": 423,
           "url": "https://github.com/devdotfast/whiteboard"
+        },
+        {
+          "title": "Claude Opus 5.5 Intelligence, Performance and Price Analysis (Max)",
+          "points": 333,
+          "url": "https://artificialanalysis.ai/models/claude-opus-5-5"
         },
         {
           "title": "Show HN: Mini-AGI – Dynamic continual learning model trained on 8GB VRAM",
           "points": 277,
           "url": "https://github.com/volotat/mini-AGI/"
-        },
-        {
-          "title": "Apple's Siri AI Can Be Swapped Out for Claude, ChatGPT, Code Shows",
-          "points": 228,
-          "url": "https://www.macrumors.com/2026/09/14/siri-can-be-swapped-out-for-chatgpt-claude/"
         }
       ],
       "highlight_score": 50
@@ -9341,7 +10450,7 @@
       "signals": [
         {
           "title": "Claude Code now reads AGENTS.md if there is no Claude.md",
-          "points": 740,
+          "points": 741,
           "url": "https://code.claude.com/docs/en/changelog"
         },
         {
@@ -9351,18 +10460,18 @@
         },
         {
           "title": "Show HN: Whiteboard (YC W26) – An open-source IDE for thoughtful software design",
-          "points": 421,
+          "points": 423,
           "url": "https://github.com/devdotfast/whiteboard"
+        },
+        {
+          "title": "Claude Opus 5.5 Intelligence, Performance and Price Analysis (Max)",
+          "points": 333,
+          "url": "https://artificialanalysis.ai/models/claude-opus-5-5"
         },
         {
           "title": "Show HN: Mini-AGI – Dynamic continual learning model trained on 8GB VRAM",
           "points": 277,
           "url": "https://github.com/volotat/mini-AGI/"
-        },
-        {
-          "title": "Apple's Siri AI Can Be Swapped Out for Claude, ChatGPT, Code Shows",
-          "points": 228,
-          "url": "https://www.macrumors.com/2026/09/14/siri-can-be-swapped-out-for-chatgpt-claude/"
         }
       ],
       "highlight_score": 50
@@ -10188,8 +11297,13 @@
       "signals": [
         {
           "title": "Claude Code now reads AGENTS.md if there is no Claude.md",
-          "points": 740,
+          "points": 741,
           "url": "https://code.claude.com/docs/en/changelog"
+        },
+        {
+          "title": "Claude Opus 5.5 Intelligence, Performance and Price Analysis (Max)",
+          "points": 333,
+          "url": "https://artificialanalysis.ai/models/claude-opus-5-5"
         },
         {
           "title": "Show HN: Mini-AGI – Dynamic continual learning model trained on 8GB VRAM",
@@ -10205,11 +11319,6 @@
           "title": "Reverse-Engineering Claude Web's MicroVM: Uncovering Anthropic's Hidden Antspace",
           "points": 110,
           "url": "https://aprilnea.me/en/blog/reverse-engineering-claude-code-antspace"
-        },
-        {
-          "title": "Houthis used Claude Code to develop missile guidance software: Anthropic",
-          "points": 105,
-          "url": "https://clashreport.com/world/articles/houthis-used-claude-code-to-develop-missile-guidance-software-anthropic-s52mnx4pwpo"
         }
       ],
       "highlight_score": 55
@@ -10234,7 +11343,7 @@
       "signals": [
         {
           "title": "Claude Code now reads AGENTS.md if there is no Claude.md",
-          "points": 740,
+          "points": 741,
           "url": "https://code.claude.com/docs/en/changelog"
         },
         {
@@ -11444,7 +12553,7 @@
       "signals": [
         {
           "title": "Claude Code now reads AGENTS.md if there is no Claude.md",
-          "points": 740,
+          "points": 741,
           "url": "https://code.claude.com/docs/en/changelog"
         },
         {
@@ -11493,7 +12602,7 @@
       "signals": [
         {
           "title": "Claude Code now reads AGENTS.md if there is no Claude.md",
-          "points": 740,
+          "points": 741,
           "url": "https://code.claude.com/docs/en/changelog"
         },
         {
@@ -12739,7 +13848,7 @@
       "signals": [
         {
           "title": "Claude Code now reads AGENTS.md if there is no Claude.md",
-          "points": 740,
+          "points": 741,
           "url": "https://code.claude.com/docs/en/changelog"
         },
         {
@@ -82427,6 +83536,11 @@
       ],
       "signals": [
         {
+          "title": "Claude Opus 4.5",
+          "points": 1113,
+          "url": "https://www.anthropic.com/news/claude-opus-4-5"
+        },
+        {
           "title": "Launch HN: Onyx (YC W24) – Open-source chat UI",
           "points": 254,
           "url": "https://news.ycombinator.com/item?id=46045987"
@@ -82445,14 +83559,9 @@
           "title": "Anthropic Acquires Bun",
           "points": 99,
           "url": "https://www.anthropic.com/news/anthropic-acquires-bun-as-claude-code-reaches-usd1b-milestone"
-        },
-        {
-          "title": "Show HN: Era – Open-source local sandbox for AI agents",
-          "points": 62,
-          "url": "https://github.com/BinSquare/ERA"
         }
       ],
-      "highlight_score": 15
+      "highlight_score": 30
     },
     {
       "version": "2.0.55",
@@ -82515,6 +83624,11 @@
       ],
       "signals": [
         {
+          "title": "Claude Opus 4.5",
+          "points": 1113,
+          "url": "https://www.anthropic.com/news/claude-opus-4-5"
+        },
+        {
           "title": "Launch HN: Onyx (YC W24) – Open-source chat UI",
           "points": 254,
           "url": "https://news.ycombinator.com/item?id=46045987"
@@ -82535,7 +83649,7 @@
           "url": "https://github.com/BinSquare/ERA"
         }
       ],
-      "highlight_score": 35
+      "highlight_score": 50
     },
     {
       "version": "2.0.54",
@@ -82572,6 +83686,11 @@
       ],
       "signals": [
         {
+          "title": "Claude Opus 4.5",
+          "points": 1113,
+          "url": "https://www.anthropic.com/news/claude-opus-4-5"
+        },
+        {
           "title": "Launch HN: Onyx (YC W24) – Open-source chat UI",
           "points": 254,
           "url": "https://news.ycombinator.com/item?id=46045987"
@@ -82592,7 +83711,7 @@
           "url": "https://github.com/BinSquare/ERA"
         }
       ],
-      "highlight_score": 35
+      "highlight_score": 50
     },
     {
       "version": "2.0.52",
@@ -82647,6 +83766,11 @@
       ],
       "signals": [
         {
+          "title": "Claude Opus 4.5",
+          "points": 1113,
+          "url": "https://www.anthropic.com/news/claude-opus-4-5"
+        },
+        {
           "title": "Launch HN: Onyx (YC W24) – Open-source chat UI",
           "points": 254,
           "url": "https://news.ycombinator.com/item?id=46045987"
@@ -82662,7 +83786,7 @@
           "url": "https://github.com/BinSquare/ERA"
         }
       ],
-      "highlight_score": 15
+      "highlight_score": 30
     },
     {
       "version": "2.0.51",
@@ -82786,6 +83910,11 @@
       ],
       "signals": [
         {
+          "title": "Claude Opus 4.5",
+          "points": 1113,
+          "url": "https://www.anthropic.com/news/claude-opus-4-5"
+        },
+        {
           "title": "Launch HN: Onyx (YC W24) – Open-source chat UI",
           "points": 254,
           "url": "https://news.ycombinator.com/item?id=46045987"
@@ -82801,7 +83930,7 @@
           "url": "https://github.com/BinSquare/ERA"
         }
       ],
-      "highlight_score": 55
+      "highlight_score": 70
     },
     {
       "version": "2.0.50",
@@ -82862,6 +83991,11 @@
       ],
       "signals": [
         {
+          "title": "Claude Opus 4.5",
+          "points": 1113,
+          "url": "https://www.anthropic.com/news/claude-opus-4-5"
+        },
+        {
           "title": "Launch HN: Onyx (YC W24) – Open-source chat UI",
           "points": 254,
           "url": "https://news.ycombinator.com/item?id=46045987"
@@ -82882,7 +84016,7 @@
           "url": "https://github.com/BinSquare/ERA"
         }
       ],
-      "highlight_score": 35
+      "highlight_score": 50
     },
     {
       "version": "2.0.49",
@@ -82930,6 +84064,11 @@
       ],
       "signals": [
         {
+          "title": "Claude Opus 4.5",
+          "points": 1113,
+          "url": "https://www.anthropic.com/news/claude-opus-4-5"
+        },
+        {
           "title": "Launch HN: Onyx (YC W24) – Open-source chat UI",
           "points": 254,
           "url": "https://news.ycombinator.com/item?id=46045987"
@@ -82950,7 +84089,7 @@
           "url": "https://github.com/BinSquare/ERA"
         }
       ],
-      "highlight_score": 35
+      "highlight_score": 50
     },
     {
       "version": "2.0.47",
@@ -83012,6 +84151,11 @@
       ],
       "signals": [
         {
+          "title": "Claude Opus 4.5",
+          "points": 1113,
+          "url": "https://www.anthropic.com/news/claude-opus-4-5"
+        },
+        {
           "title": "Launch HN: Onyx (YC W24) – Open-source chat UI",
           "points": 254,
           "url": "https://news.ycombinator.com/item?id=46045987"
@@ -83027,7 +84171,7 @@
           "url": "https://github.com/rowboatlabs/rowboat"
         }
       ],
-      "highlight_score": 35
+      "highlight_score": 50
     },
     {
       "version": "2.0.46",
@@ -83050,6 +84194,11 @@
       ],
       "signals": [
         {
+          "title": "Claude Opus 4.5",
+          "points": 1113,
+          "url": "https://www.anthropic.com/news/claude-opus-4-5"
+        },
+        {
           "title": "Launch HN: Onyx (YC W24) – Open-source chat UI",
           "points": 254,
           "url": "https://news.ycombinator.com/item?id=46045987"
@@ -83065,7 +84214,7 @@
           "url": "https://github.com/rowboatlabs/rowboat"
         }
       ],
-      "highlight_score": 15
+      "highlight_score": 30
     },
     {
       "version": "2.0.45",
@@ -83115,6 +84264,11 @@
       ],
       "signals": [
         {
+          "title": "Claude Opus 4.5",
+          "points": 1113,
+          "url": "https://www.anthropic.com/news/claude-opus-4-5"
+        },
+        {
           "title": "Launch HN: Onyx (YC W24) – Open-source chat UI",
           "points": 254,
           "url": "https://news.ycombinator.com/item?id=46045987"
@@ -83135,7 +84289,7 @@
           "url": "https://github.com/Use-Tusk/drift-node-sdk"
         }
       ],
-      "highlight_score": 35
+      "highlight_score": 50
     },
     {
       "version": "2.0.43",
@@ -83250,6 +84404,11 @@
       ],
       "signals": [
         {
+          "title": "Claude Opus 4.5",
+          "points": 1113,
+          "url": "https://www.anthropic.com/news/claude-opus-4-5"
+        },
+        {
           "title": "Show HN: Continuous Claude – run Claude Code in a loop",
           "points": 170,
           "url": "https://github.com/AnandChowdhary/continuous-claude"
@@ -83265,7 +84424,7 @@
           "url": "https://github.com/Use-Tusk/drift-node-sdk"
         }
       ],
-      "highlight_score": 28
+      "highlight_score": 50
     },
     {
       "version": "2.0.42",
@@ -96715,7 +97874,7 @@
       "signals": [
         {
           "title": "Claude Code now reads AGENTS.md if there is no Claude.md",
-          "points": 740,
+          "points": 741,
           "url": "https://code.claude.com/docs/en/changelog"
         },
         {
@@ -96725,18 +97884,18 @@
         },
         {
           "title": "Show HN: Whiteboard (YC W26) – An open-source IDE for thoughtful software design",
-          "points": 421,
+          "points": 423,
           "url": "https://github.com/devdotfast/whiteboard"
+        },
+        {
+          "title": "Claude Opus 5.5 Intelligence, Performance and Price Analysis (Max)",
+          "points": 333,
+          "url": "https://artificialanalysis.ai/models/claude-opus-5-5"
         },
         {
           "title": "Show HN: Mini-AGI – Dynamic continual learning model trained on 8GB VRAM",
           "points": 277,
           "url": "https://github.com/volotat/mini-AGI/"
-        },
-        {
-          "title": "Show HN: PaperMono, e-ink fridge magnet shopping list with mobile web page",
-          "points": 148,
-          "url": "https://github.com/seamusc/papermono-shopping-list"
         }
       ],
       "highlight_score": 55
@@ -98116,13 +99275,18 @@
       "signals": [
         {
           "title": "Claude Code now reads AGENTS.md if there is no Claude.md",
-          "points": 740,
+          "points": 741,
           "url": "https://code.claude.com/docs/en/changelog"
         },
         {
           "title": "Claude Code reads AGENTS.md only when telemetry is on [fixed]",
           "points": 485,
           "url": "https://blog.szypowi.cz/p/claude-code-reads-agents.md-only-when-telemetry-is-on/"
+        },
+        {
+          "title": "Claude Opus 5.5 Intelligence, Performance and Price Analysis (Max)",
+          "points": 333,
+          "url": "https://artificialanalysis.ai/models/claude-opus-5-5"
         },
         {
           "title": "Show HN: Mini-AGI – Dynamic continual learning model trained on 8GB VRAM",
@@ -98133,11 +99297,6 @@
           "title": "Apple's Siri AI Can Be Swapped Out for Claude, ChatGPT, Code Shows",
           "points": 228,
           "url": "https://www.macrumors.com/2026/09/14/siri-can-be-swapped-out-for-chatgpt-claude/"
-        },
-        {
-          "title": "Reverse-Engineering Claude Web's MicroVM: Uncovering Anthropic's Hidden Antspace",
-          "points": 110,
-          "url": "https://aprilnea.me/en/blog/reverse-engineering-claude-code-antspace"
         }
       ],
       "highlight_score": 50
@@ -102642,9 +103801,9 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 713,
-      "release_count": 223,
-      "avg_importance": 3.06,
+      "change_count": 716,
+      "release_count": 224,
+      "avg_importance": 3.07,
       "maturity": {
         "score": 92,
         "level": "成熟"
@@ -102654,14 +103813,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-09-29",
-        "version": "2.1.285"
+        "date": "2026-09-30",
+        "version": "2.1.286"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 554
+          "change_count": 557
         },
         {
           "epoch_id": "epoch4",
@@ -102737,8 +103896,8 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 1681,
-      "release_count": 281,
+      "change_count": 1691,
+      "release_count": 282,
       "avg_importance": 3.23,
       "maturity": {
         "score": 93,
@@ -102749,14 +103908,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-09-29",
-        "version": "2.1.285"
+        "date": "2026-09-30",
+        "version": "2.1.286"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 1403
+          "change_count": 1413
         },
         {
           "epoch_id": "epoch1",
@@ -102781,6 +103940,14 @@
       ],
       "samples": [
         {
+          "date": "2026-09-30",
+          "version": "2.1.286",
+          "raw": "Fixed `claude --resume` and `--continue` sometimes losing every turn after a batch of parallel tool calls when the earlier session crashed or was killed",
+          "summary": "修复恢复会话时丢失多轮对话",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-09-29",
           "version": "2.1.285",
           "raw": "Changed sandbox settings so project settings cannot widen or turn off an admin-required sandbox, replace the proxy behind a managed deny list, extend a strict allowlist, or reopen managed read-denies",
@@ -102803,14 +103970,6 @@
           "summary": "修复工具运行中断后恢复流程",
           "importance": 5,
           "category": "fix"
-        },
-        {
-          "date": "2026-09-03",
-          "version": "2.1.260",
-          "raw": "Fixed `Edit`/`Write`/`Read` permission rules whose path contains parentheses being dropped as invalid or ignored by the Bash sandbox, which left \"read-only\" folders writable",
-          "summary": "修复含括号路径规则被丢弃，只读目录变可写",
-          "importance": 5,
-          "category": "security"
         }
       ]
     },
@@ -102832,8 +103991,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 1048,
-      "release_count": 235,
+      "change_count": 1058,
+      "release_count": 236,
       "avg_importance": 3.15,
       "maturity": {
         "score": 93,
@@ -102844,14 +104003,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-09-29",
-        "version": "2.1.285"
+        "date": "2026-09-30",
+        "version": "2.1.286"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 877
+          "change_count": 887
         },
         {
           "epoch_id": "epoch1",
@@ -102876,6 +104035,14 @@
       ],
       "samples": [
         {
+          "date": "2026-09-30",
+          "version": "2.1.286",
+          "raw": "Fixed `claude --resume` and `--continue` sometimes losing every turn after a batch of parallel tool calls when the earlier session crashed or was killed",
+          "summary": "修复恢复会话时丢失多轮对话",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-09-22",
           "version": "2.1.280",
           "raw": "Added Claude Opus 5.5 (`claude-opus-5-5`), now the default Opus model — 1M context, $4/$20 per Mtok with $0.20/Mtok cache reads",
@@ -102898,14 +104065,6 @@
           "summary": "修复工具运行中断后恢复流程",
           "importance": 5,
           "category": "fix"
-        },
-        {
-          "date": "2026-09-03",
-          "version": "2.1.260",
-          "raw": "Fixed Bash permission checks auto-approving zsh commands that hide a command substitution in a REPORTTIME, REPORTMEMORY or DIRSTACKSIZE assignment; these now prompt for approval",
-          "summary": "修复zsh赋值中隐藏命令替换被自动放行",
-          "importance": 5,
-          "category": "security"
         }
       ]
     },
@@ -102927,8 +104086,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 1253,
-      "release_count": 274,
+      "change_count": 1268,
+      "release_count": 275,
       "avg_importance": 3.24,
       "maturity": {
         "score": 93,
@@ -102939,14 +104098,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-09-29",
-        "version": "2.1.285"
+        "date": "2026-09-30",
+        "version": "2.1.286"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 1007
+          "change_count": 1022
         },
         {
           "epoch_id": "epoch4",
@@ -103022,9 +104181,9 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 924,
-      "release_count": 191,
-      "avg_importance": 3.14,
+      "change_count": 937,
+      "release_count": 192,
+      "avg_importance": 3.13,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -103034,14 +104193,14 @@
         "version": "0.2.50"
       },
       "latest_seen": {
-        "date": "2026-09-29",
-        "version": "2.1.285"
+        "date": "2026-09-30",
+        "version": "2.1.286"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 844
+          "change_count": 857
         },
         {
           "epoch_id": "epoch1",
@@ -103117,9 +104276,9 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 2109,
-      "release_count": 304,
-      "avg_importance": 3.02,
+      "change_count": 2138,
+      "release_count": 305,
+      "avg_importance": 3.01,
       "maturity": {
         "score": 92,
         "level": "成熟"
@@ -103129,14 +104288,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-09-29",
-        "version": "2.1.285"
+        "date": "2026-09-30",
+        "version": "2.1.286"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 1754
+          "change_count": 1783
         },
         {
           "epoch_id": "epoch1",
@@ -103212,8 +104371,8 @@
         "Emacs",
         "web"
       ],
-      "change_count": 1855,
-      "release_count": 251,
+      "change_count": 1871,
+      "release_count": 252,
       "avg_importance": 2.73,
       "maturity": {
         "score": 91,
@@ -103224,14 +104383,14 @@
         "version": "0.2.34"
       },
       "latest_seen": {
-        "date": "2026-09-29",
-        "version": "2.1.285"
+        "date": "2026-09-30",
+        "version": "2.1.286"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 1665
+          "change_count": 1681
         },
         {
           "epoch_id": "epoch4",
@@ -103307,8 +104466,8 @@
         "policy",
         "auditing"
       ],
-      "change_count": 1733,
-      "release_count": 274,
+      "change_count": 1753,
+      "release_count": 275,
       "avg_importance": 3.32,
       "maturity": {
         "score": 93,
@@ -103319,14 +104478,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-09-29",
-        "version": "2.1.285"
+        "date": "2026-09-30",
+        "version": "2.1.286"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 1512
+          "change_count": 1532
         },
         {
           "epoch_id": "epoch4",
@@ -103448,6 +104607,12 @@
         "date": "2026-04-01"
       },
       {
+        "title": "Claude Opus 4.5",
+        "points": 1113,
+        "url": "https://www.anthropic.com/news/claude-opus-4-5",
+        "date": "2025-11-24"
+      },
+      {
         "title": "Tell HN: Anthropic no longer allowing Claude Code subscriptions to use OpenClaw",
         "points": 1099,
         "url": "https://news.ycombinator.com/item?id=47633396",
@@ -103488,12 +104653,6 @@
         "points": 851,
         "url": "https://dwyer.co.za/static/claude-code-is-all-you-need.html",
         "date": "2025-08-11"
-      },
-      {
-        "title": "Claude Code 2.0",
-        "points": 842,
-        "url": "https://www.npmjs.com/package/@anthropic-ai/claude-code",
-        "date": "2025-09-29"
       }
     ],
     "blog_posts": [
