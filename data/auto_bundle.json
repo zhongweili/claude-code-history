@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-03T06:00:30.723Z",
+    "generated_at": "2026-10-04T06:36:21.117Z",
     "agent_model": "deepseek-v4-flash",
-    "total_versions": 410,
+    "total_versions": 411,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-10-02"
+      "end": "2026-10-03"
     },
     "highlight_count": 64,
     "capability_count": 8,
@@ -70,11 +70,376 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。adaptive thinking 把推理深度交给模型自己决定，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界——从 Opus 4.6 到 4.8，每一代都在加速这条路。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Adaptive thinking hands reasoning depth to the model itself, while worktree isolation and 1M context push the agent toward hours-long unattended runs — from Opus 4.6 through 4.8, each generation accelerates the path.",
-      "release_count": 194,
+      "release_count": 195,
       "highlight_count": 42
     }
   ],
   "releases": [
+    {
+      "version": "2.1.289",
+      "date": "2026-10-03",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Fixed a deny or ask rule on a nested part of a compound shell command not holding over a user-installed mod's approval on managed machines",
+          "category": "fix",
+          "importance": 5,
+          "summary": "修复复合命令中嵌套部分的拒绝/询问规则被mod批准绕过",
+          "summary_en": "Fix nested command deny/ask rules bypassed by mod approval",
+          "why_matters": "确保托管机器上的安全策略不会被用户安装的mod覆盖。",
+          "why_matters_en": "Ensures security policies on managed machines are not overridden by user-installed mods.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed the terminal freezing on short code blocks with many unclosed `<script>` tags or deeply nested `${` substitutions",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复含大量未闭合script标签或深层${}替换时终端冻结",
+          "summary_en": "Fix terminal freeze on unclosed tags or deep substitutions",
+          "why_matters": "避免因特定代码块导致终端无响应，提升稳定性。",
+          "why_matters_en": "Prevents terminal unresponsiveness from specific code blocks, improving stability.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed `Read` deny rules not applying to files @-mentioned, changed, or selected in the IDE through a symlink",
+          "category": "fix",
+          "importance": 5,
+          "summary": "修复通过符号链接引用文件时Read拒绝规则未生效",
+          "summary_en": "Fix Read deny rules bypassed via symlink",
+          "why_matters": "堵住通过符号链接绕过文件读取权限的安全漏洞。",
+          "why_matters_en": "Closes a security hole that bypasses file read permissions via symlinks.",
+          "capability_ids": [
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Reverted a 2.1.288 change to `claude auth status` that may have made sign-outs more frequent",
+          "category": "fix",
+          "importance": 3,
+          "summary": "回滚VSCode中auth status变更以减少频繁登出",
+          "summary_en": "Revert VSCode auth status change to reduce sign-outs",
+          "why_matters": "避免用户因频繁登出而中断工作流。",
+          "why_matters_en": "Prevents workflow interruptions caused by frequent sign-outs.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Improved how quickly large files open in a plugin code pane by laying the highlighted view out once at its final width",
+          "category": "perf",
+          "importance": 3,
+          "summary": "优化大文件在插件代码窗格中的打开速度",
+          "summary_en": "Speed up opening large files in plugin code pane",
+          "why_matters": "减少大文件加载延迟，提升插件使用体验。",
+          "why_matters_en": "Reduces large file loading latency, improving plugin experience.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed `plugin list`, `plugin eval` and `plugin update` showing a stale copy of a plugin installed from a local folder marketplace, and hot reload for a symlinked `--plugin-dir`",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复插件列表/评估/更新显示本地文件夹市场旧副本",
+          "summary_en": "Fix stale plugin list/eval/update from local marketplace",
+          "why_matters": "确保插件管理命令反映最新安装状态。",
+          "why_matters_en": "Ensures plugin management commands reflect the latest installed state.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed installed mods not loading in the first session after an upgrade",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复升级后首次会话未加载已安装mod",
+          "summary_en": "Fix mods not loading in first session after upgrade",
+          "why_matters": "确保升级后用户自定义行为立即可用。",
+          "why_matters_en": "Ensures user-customized behaviors are available immediately after upgrade.",
+          "capability_ids": [
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed a plugin's rows above the prompt showing a stale row while the Background tasks dialog was open in fullscreen",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复后台任务对话框全屏时插件行显示陈旧",
+          "summary_en": "Fix stale plugin row when Background tasks dialog fullscreen",
+          "why_matters": "消除界面显示不一致，避免用户混淆。",
+          "why_matters_en": "Eliminates UI inconsistency to avoid user confusion.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed plugin panes drawing nothing when a link used a localhost address, an `@` in its path, an uppercase host or a `file:` path",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复插件窗格在特定链接格式下不绘制内容",
+          "summary_en": "Fix plugin panes not drawing for certain link formats",
+          "why_matters": "确保插件窗格能正常渲染各种合法链接。",
+          "why_matters_en": "Ensures plugin panes render correctly for all valid link formats.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed a user-installed plugin being able to rewrite the descriptions of an organization-managed MCP server's sign-in tools",
+          "category": "fix",
+          "importance": 5,
+          "summary": "修复用户插件可篡改组织MCP服务器登录工具描述",
+          "summary_en": "Fix user plugin rewriting org MCP server tool descriptions",
+          "why_matters": "防止权限提升，保护组织级MCP服务器的完整性。",
+          "why_matters_en": "Prevents privilege escalation and protects org-managed MCP server integrity.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed a freeze or forced quit at launch when a plugin drew a Box with a border style the terminal does not know",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复插件绘制未知边框样式导致启动冻结或退出",
+          "summary_en": "Fix launch freeze/quit from unknown plugin border style",
+          "why_matters": "避免因插件兼容性问题导致应用无法启动。",
+          "why_matters_en": "Prevents app launch failures due to plugin compatibility issues.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed supervised and background sessions ending when a plugin's on-screen handler threw asynchronously",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复插件异步抛出导致受监督/后台会话结束",
+          "summary_en": "Fix supervised/background sessions ending on async throw",
+          "why_matters": "提升会话稳定性，避免因插件错误中断任务。",
+          "why_matters_en": "Improves session stability, preventing task interruption from plugin errors.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed sessions ending with an interface error when a plugin region with no height kept growing",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复插件区域无高度持续增长导致会话接口错误",
+          "summary_en": "Fix session error from growing zero-height plugin region",
+          "why_matters": "避免插件布局异常导致会话意外终止。",
+          "why_matters_en": "Prevents session termination from abnormal plugin layout growth.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed Bash deny and ask rules missing a command behind an environment variable prefix with an expanded value (e.g. `TZ=\"$HOME\" rm -rf build`) when the sandbox auto-allows commands",
+          "category": "fix",
+          "importance": 5,
+          "summary": "修复环境变量前缀后命令绕过Bash拒绝/询问规则",
+          "summary_en": "Fix Bash deny/ask rules bypassed by env var prefix",
+          "why_matters": "堵住通过环境变量展开绕过命令安全规则的漏洞。",
+          "why_matters_en": "Closes a bypass of command security rules via environment variable expansion.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed a Bash deny or ask rule being skipped under sandbox auto-allow when a bare variable assignment came before the command",
+          "category": "fix",
+          "importance": 5,
+          "summary": "修复变量赋值前置导致Bash拒绝/询问规则被跳过",
+          "summary_en": "Fix Bash deny/ask rules skipped by variable assignment",
+          "why_matters": "确保命令前的变量赋值不会绕过安全规则。",
+          "why_matters_en": "Ensures variable assignments before commands do not bypass security rules.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed `claude plugin validate` skipping the plugin when the folder also holds a marketplace manifest",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复插件验证在含 marketplace 清单时跳过插件",
+          "summary_en": "Fix plugin validate skipping plugin when folder also has marketplace manifest",
+          "why_matters": "确保插件即使与 marketplace 清单共存也能被正确验证。",
+          "why_matters_en": "Ensures plugins are validated even when a marketplace manifest is present.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added `agent.spawn` for teammates, one agent id across plugin hook events, and idle and waiting states in `$.agent.list()`",
+          "category": "feat",
+          "importance": 4,
+          "summary": "新增 agent.spawn 队友及空闲/等待状态",
+          "summary_en": "Add agent.spawn for teammates, stable agent ID, and idle/waiting states",
+          "why_matters": "支持更强大的多智能体协作与状态管理。",
+          "why_matters_en": "Enables more powerful multi-agent collaboration and state tracking.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed sessions ending with \"unrecoverable interface error\" when a value a mod's `ui.render` hook wrote made a row throw while drawn; the engine now draws its own row instead",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复 ui.render 行抛错导致不可恢复界面错误",
+          "summary_en": "Fix unrecoverable interface error when mod ui.render row throws",
+          "why_matters": "避免单个渲染错误导致整个会话崩溃。",
+          "why_matters_en": "Prevents a single rendering error from crashing the entire session.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed text with a tab, a stray escape and a C1 control, or a short text with a tab and CRLF line endings, drawing over the rows below it",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复含制表符/控制字符文本绘制覆盖下方行",
+          "summary_en": "Fix text with tabs/control chars drawing over rows below",
+          "why_matters": "保证终端输出正确显示，不出现覆盖。",
+          "why_matters_en": "Ensures terminal output renders correctly without overlapping rows.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed right-aligned content in a mod's pane or band drawing under the close mark or `[-]`, which now also keep one column in from the terminal's edge",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复右对齐内容与关闭标记重叠并留边距",
+          "summary_en": "Fix right-aligned content drawing under close mark, keep edge margin",
+          "why_matters": "改善 mod 界面布局的准确性与可读性。",
+          "why_matters_en": "Improves layout accuracy and readability for mod UI.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed a mod's `Client` that fails while drawn taking down everything the mod drew around it; it now fails alone and raises `ui.fault`",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复 Client 绘制失败拖垮周边 UI，现独立报错",
+          "summary_en": "Fix mod Client failure taking down surrounding UI; now isolated with ui.fault",
+          "why_matters": "隔离组件故障，防止整个界面被拖垮。",
+          "why_matters_en": "Isolates component failures to prevent whole UI breakdown.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `claude plugin validate` failing an Anthropic marketplace's own plugin and listing a clean `plugin.json` in `--json`",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复插件验证误判官方 marketplace 插件",
+          "summary_en": "Fix plugin validate failing Anthropic marketplace plugin and clean JSON listing",
+          "why_matters": "确保官方插件也能通过验证并正确输出 JSON。",
+          "why_matters_en": "Ensures official plugins validate correctly and JSON output is clean.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed a mod's band that fails to draw briefly telling the cards under it to step aside",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复 band 绘制失败时短暂影响下方卡片",
+          "summary_en": "Fix failing band briefly telling cards below to step aside",
+          "why_matters": "避免局部绘制失败造成布局抖动。",
+          "why_matters_en": "Prevents transient layout disruption when a band fails.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed a failed plugin component showing `Error` or nothing as its reason when the failure carried no message",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复插件组件失败原因显示为 Error 或空白",
+          "summary_en": "Fix failed plugin component showing Error or blank reason",
+          "why_matters": "让用户看到更准确的失败原因。",
+          "why_matters_en": "Provides clearer failure reasons to users.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Improved the line a mod's author sees when its band or pane fails to draw: it names the mod and says nothing was drawn",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "改进 band/pane 绘制失败提示，标明 mod 名称",
+          "summary_en": "Improve failure message naming mod and noting nothing drawn",
+          "why_matters": "帮助 mod 作者快速定位绘制失败来源。",
+          "why_matters_en": "Helps mod authors quickly identify the source of draw failures.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed published artifact pages freezing or crashing the reader's browser tab on short code blocks with many unclosed `<script>` tags",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复代码块未闭合 script 标签导致页面崩溃",
+          "summary_en": "Fix artifact pages freezing/crashing on unclosed script tags",
+          "why_matters": "防止恶意或异常内容导致浏览器标签页崩溃。",
+          "why_matters_en": "Prevents browser tab crashes from malformed script tags.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed a mod's Client region staying failed for the whole session after the terminal threw while drawing it",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复 Client 区域绘制异常后整会话保持失败",
+          "summary_en": "Fix mod Client region staying failed after terminal throw",
+          "why_matters": "确保 UI 在瞬时错误后能恢复，而非持续失败。",
+          "why_matters_en": "Ensures UI can recover after transient errors instead of staying failed.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "Getting the most out of Opus 5.5 in Claude and Claude Code",
+          "points": 205,
+          "url": "https://claude.dev/blog/getting-the-most-out-of-opus-5-5/"
+        },
+        {
+          "title": "Show HN: PaperMono, e-ink fridge magnet shopping list with mobile web page",
+          "points": 152,
+          "url": "https://github.com/seamusc/papermono-shopping-list"
+        },
+        {
+          "title": "Show HN: Made an open-source Lego AI generator",
+          "points": 145,
+          "url": "https://github.com/anteloc/ldraw-nova"
+        },
+        {
+          "title": "Show HN: Open-source model routing for coding agents at Astra-level performance",
+          "points": 119,
+          "url": "https://news.ycombinator.com/item?id=49911500"
+        },
+        {
+          "title": "Show HN: Pi pod – Run your pi coding agent in sandboxes on your own server",
+          "points": 89,
+          "url": "https://pipod.dev/"
+        }
+      ],
+      "highlight_score": 35
+    },
     {
       "version": "2.1.288",
       "date": "2026-10-02",
@@ -1187,32 +1552,32 @@
       ],
       "signals": [
         {
+          "title": "Getting the most out of Opus 5.5 in Claude and Claude Code",
+          "points": 205,
+          "url": "https://claude.dev/blog/getting-the-most-out-of-opus-5-5/"
+        },
+        {
           "title": "Show HN: PaperMono, e-ink fridge magnet shopping list with mobile web page",
-          "points": 151,
+          "points": 152,
           "url": "https://github.com/seamusc/papermono-shopping-list"
         },
         {
-          "title": "Alan Kay: Shannon gave us a way of dealing with noisy channels [video]",
-          "points": 151,
-          "url": "https://www.youtube.com/watch?v=Cjntrqhn8pk"
-        },
-        {
-          "title": "Show HN: Open-source model routing for coding agents at Astra-level performance",
-          "points": 115,
-          "url": "https://news.ycombinator.com/item?id=49911500"
-        },
-        {
           "title": "Show HN: Made an open-source Lego AI generator",
-          "points": 92,
+          "points": 145,
           "url": "https://github.com/anteloc/ldraw-nova"
         },
         {
-          "title": "Show HN: A Claude Code skill to analyze your chess games",
-          "points": 75,
-          "url": "https://github.com/brumar/chess-postmortem-skills"
+          "title": "Show HN: Open-source model routing for coding agents at Astra-level performance",
+          "points": 119,
+          "url": "https://news.ycombinator.com/item?id=49911500"
+        },
+        {
+          "title": "Show HN: Pi pod – Run your pi coding agent in sandboxes on your own server",
+          "points": 89,
+          "url": "https://pipod.dev/"
         }
       ],
-      "highlight_score": 28
+      "highlight_score": 35
     },
     {
       "version": "2.1.286",
@@ -2302,23 +2667,23 @@
         },
         {
           "title": "Show HN: Whiteboard (YC W26) – An open-source IDE for thoughtful software design",
-          "points": 423,
+          "points": 424,
           "url": "https://github.com/devdotfast/whiteboard"
         },
         {
+          "title": "Getting the most out of Opus 5.5 in Claude and Claude Code",
+          "points": 205,
+          "url": "https://claude.dev/blog/getting-the-most-out-of-opus-5-5/"
+        },
+        {
           "title": "Show HN: PaperMono, e-ink fridge magnet shopping list with mobile web page",
-          "points": 151,
+          "points": 152,
           "url": "https://github.com/seamusc/papermono-shopping-list"
         },
         {
-          "title": "Alan Kay: Shannon gave us a way of dealing with noisy channels [video]",
-          "points": 151,
-          "url": "https://www.youtube.com/watch?v=Cjntrqhn8pk"
-        },
-        {
-          "title": "Show HN: Open-source model routing for coding agents at Astra-level performance",
-          "points": 115,
-          "url": "https://news.ycombinator.com/item?id=49911500"
+          "title": "Show HN: Made an open-source Lego AI generator",
+          "points": 145,
+          "url": "https://github.com/anteloc/ldraw-nova"
         }
       ],
       "highlight_score": 45
@@ -4032,23 +4397,23 @@
         },
         {
           "title": "Show HN: Whiteboard (YC W26) – An open-source IDE for thoughtful software design",
-          "points": 423,
+          "points": 424,
           "url": "https://github.com/devdotfast/whiteboard"
         },
         {
+          "title": "Getting the most out of Opus 5.5 in Claude and Claude Code",
+          "points": 205,
+          "url": "https://claude.dev/blog/getting-the-most-out-of-opus-5-5/"
+        },
+        {
           "title": "Show HN: PaperMono, e-ink fridge magnet shopping list with mobile web page",
-          "points": 151,
+          "points": 152,
           "url": "https://github.com/seamusc/papermono-shopping-list"
         },
         {
-          "title": "Alan Kay: Shannon gave us a way of dealing with noisy channels [video]",
-          "points": 151,
-          "url": "https://www.youtube.com/watch?v=Cjntrqhn8pk"
-        },
-        {
-          "title": "Elevated errors for multiple models – Resolved",
-          "points": 140,
-          "url": "https://status.claude.com/incidents/7g1qpkyz5gxh"
+          "title": "Show HN: Made an open-source Lego AI generator",
+          "points": 145,
+          "url": "https://github.com/anteloc/ldraw-nova"
         }
       ],
       "highlight_score": 50
@@ -5310,23 +5675,23 @@
         },
         {
           "title": "Show HN: Whiteboard (YC W26) – An open-source IDE for thoughtful software design",
-          "points": 423,
+          "points": 424,
           "url": "https://github.com/devdotfast/whiteboard"
         },
         {
-          "title": "Show HN: Mini-AGI – Dynamic continual learning model trained on 8GB VRAM",
-          "points": 277,
-          "url": "https://github.com/volotat/mini-AGI/"
+          "title": "Getting the most out of Opus 5.5 in Claude and Claude Code",
+          "points": 205,
+          "url": "https://claude.dev/blog/getting-the-most-out-of-opus-5-5/"
         },
         {
           "title": "Show HN: PaperMono, e-ink fridge magnet shopping list with mobile web page",
-          "points": 151,
+          "points": 152,
           "url": "https://github.com/seamusc/papermono-shopping-list"
         },
         {
-          "title": "Alan Kay: Shannon gave us a way of dealing with noisy channels [video]",
-          "points": 151,
-          "url": "https://www.youtube.com/watch?v=Cjntrqhn8pk"
+          "title": "Show HN: Made an open-source Lego AI generator",
+          "points": 145,
+          "url": "https://github.com/anteloc/ldraw-nova"
         }
       ],
       "highlight_score": 40
@@ -6535,18 +6900,18 @@
         },
         {
           "title": "Show HN: Whiteboard (YC W26) – An open-source IDE for thoughtful software design",
-          "points": 423,
+          "points": 424,
           "url": "https://github.com/devdotfast/whiteboard"
         },
         {
-          "title": "Show HN: Mini-AGI – Dynamic continual learning model trained on 8GB VRAM",
-          "points": 277,
-          "url": "https://github.com/volotat/mini-AGI/"
+          "title": "Show HN: PaperMono, e-ink fridge magnet shopping list with mobile web page",
+          "points": 152,
+          "url": "https://github.com/seamusc/papermono-shopping-list"
         },
         {
-          "title": "Show HN: PaperMono, e-ink fridge magnet shopping list with mobile web page",
-          "points": 151,
-          "url": "https://github.com/seamusc/papermono-shopping-list"
+          "title": "Show HN: Made an open-source Lego AI generator",
+          "points": 145,
+          "url": "https://github.com/anteloc/ldraw-nova"
         }
       ],
       "highlight_score": 55
@@ -7649,18 +8014,18 @@
         },
         {
           "title": "Show HN: Whiteboard (YC W26) – An open-source IDE for thoughtful software design",
-          "points": 423,
+          "points": 424,
           "url": "https://github.com/devdotfast/whiteboard"
         },
         {
-          "title": "Show HN: Mini-AGI – Dynamic continual learning model trained on 8GB VRAM",
-          "points": 277,
-          "url": "https://github.com/volotat/mini-AGI/"
+          "title": "Show HN: PaperMono, e-ink fridge magnet shopping list with mobile web page",
+          "points": 152,
+          "url": "https://github.com/seamusc/papermono-shopping-list"
         },
         {
-          "title": "Show HN: PaperMono, e-ink fridge magnet shopping list with mobile web page",
-          "points": 151,
-          "url": "https://github.com/seamusc/papermono-shopping-list"
+          "title": "Show HN: Open-source model routing for coding agents at Astra-level performance",
+          "points": 119,
+          "url": "https://news.ycombinator.com/item?id=49911500"
         }
       ],
       "highlight_score": 60
@@ -9132,18 +9497,18 @@
         },
         {
           "title": "Show HN: Whiteboard (YC W26) – An open-source IDE for thoughtful software design",
-          "points": 423,
+          "points": 424,
           "url": "https://github.com/devdotfast/whiteboard"
         },
         {
-          "title": "Show HN: Mini-AGI – Dynamic continual learning model trained on 8GB VRAM",
-          "points": 277,
-          "url": "https://github.com/volotat/mini-AGI/"
+          "title": "Show HN: PaperMono, e-ink fridge magnet shopping list with mobile web page",
+          "points": 152,
+          "url": "https://github.com/seamusc/papermono-shopping-list"
         },
         {
-          "title": "Show HN: PaperMono, e-ink fridge magnet shopping list with mobile web page",
-          "points": 151,
-          "url": "https://github.com/seamusc/papermono-shopping-list"
+          "title": "Show HN: Microsoft Office running with Wine on Linux with no virtualization",
+          "points": 97,
+          "url": "https://github.com/Tombert/office365_flake"
         }
       ],
       "highlight_score": 50
@@ -9193,18 +9558,18 @@
         },
         {
           "title": "Show HN: Whiteboard (YC W26) – An open-source IDE for thoughtful software design",
-          "points": 423,
+          "points": 424,
           "url": "https://github.com/devdotfast/whiteboard"
-        },
-        {
-          "title": "Show HN: Mini-AGI – Dynamic continual learning model trained on 8GB VRAM",
-          "points": 277,
-          "url": "https://github.com/volotat/mini-AGI/"
         },
         {
           "title": "Apple's Siri AI Can Be Swapped Out for Claude, ChatGPT, Code Shows",
           "points": 228,
           "url": "https://www.macrumors.com/2026/09/14/siri-can-be-swapped-out-for-chatgpt-claude/"
+        },
+        {
+          "title": "Houthis used Claude Code to develop missile guidance software: Anthropic",
+          "points": 105,
+          "url": "https://clashreport.com/world/articles/houthis-used-claude-code-to-develop-missile-guidance-software-anthropic-s52mnx4pwpo"
         }
       ],
       "highlight_score": 50
@@ -10314,18 +10679,18 @@
         },
         {
           "title": "Show HN: Whiteboard (YC W26) – An open-source IDE for thoughtful software design",
-          "points": 423,
+          "points": 424,
           "url": "https://github.com/devdotfast/whiteboard"
-        },
-        {
-          "title": "Show HN: Mini-AGI – Dynamic continual learning model trained on 8GB VRAM",
-          "points": 277,
-          "url": "https://github.com/volotat/mini-AGI/"
         },
         {
           "title": "Apple's Siri AI Can Be Swapped Out for Claude, ChatGPT, Code Shows",
           "points": 228,
           "url": "https://www.macrumors.com/2026/09/14/siri-can-be-swapped-out-for-chatgpt-claude/"
+        },
+        {
+          "title": "Reverse-Engineering Claude Web's MicroVM: Uncovering Anthropic's Hidden Antspace",
+          "points": 110,
+          "url": "https://aprilnea.me/en/blog/reverse-engineering-claude-code-antspace"
         }
       ],
       "highlight_score": 55
@@ -10360,18 +10725,18 @@
         },
         {
           "title": "Show HN: Whiteboard (YC W26) – An open-source IDE for thoughtful software design",
-          "points": 423,
+          "points": 424,
           "url": "https://github.com/devdotfast/whiteboard"
-        },
-        {
-          "title": "Show HN: Mini-AGI – Dynamic continual learning model trained on 8GB VRAM",
-          "points": 277,
-          "url": "https://github.com/volotat/mini-AGI/"
         },
         {
           "title": "Apple's Siri AI Can Be Swapped Out for Claude, ChatGPT, Code Shows",
           "points": 228,
           "url": "https://www.macrumors.com/2026/09/14/siri-can-be-swapped-out-for-chatgpt-claude/"
+        },
+        {
+          "title": "Reverse-Engineering Claude Web's MicroVM: Uncovering Anthropic's Hidden Antspace",
+          "points": 110,
+          "url": "https://aprilnea.me/en/blog/reverse-engineering-claude-code-antspace"
         }
       ],
       "highlight_score": 50
@@ -11599,18 +11964,18 @@
         },
         {
           "title": "Show HN: Whiteboard (YC W26) – An open-source IDE for thoughtful software design",
-          "points": 423,
+          "points": 424,
           "url": "https://github.com/devdotfast/whiteboard"
-        },
-        {
-          "title": "Show HN: Mini-AGI – Dynamic continual learning model trained on 8GB VRAM",
-          "points": 277,
-          "url": "https://github.com/volotat/mini-AGI/"
         },
         {
           "title": "Apple's Siri AI Can Be Swapped Out for Claude, ChatGPT, Code Shows",
           "points": 228,
           "url": "https://www.macrumors.com/2026/09/14/siri-can-be-swapped-out-for-chatgpt-claude/"
+        },
+        {
+          "title": "Reverse-Engineering Claude Web's MicroVM: Uncovering Anthropic's Hidden Antspace",
+          "points": 110,
+          "url": "https://aprilnea.me/en/blog/reverse-engineering-claude-code-antspace"
         }
       ],
       "highlight_score": 50
@@ -12440,24 +12805,24 @@
           "url": "https://code.claude.com/docs/en/changelog"
         },
         {
-          "title": "Show HN: Mini-AGI – Dynamic continual learning model trained on 8GB VRAM",
-          "points": 277,
-          "url": "https://github.com/volotat/mini-AGI/"
-        },
-        {
           "title": "Apple's Siri AI Can Be Swapped Out for Claude, ChatGPT, Code Shows",
           "points": 228,
           "url": "https://www.macrumors.com/2026/09/14/siri-can-be-swapped-out-for-chatgpt-claude/"
         },
         {
-          "title": "Elevated errors for multiple models – Resolved",
-          "points": 140,
-          "url": "https://status.claude.com/incidents/7g1qpkyz5gxh"
-        },
-        {
           "title": "Reverse-Engineering Claude Web's MicroVM: Uncovering Anthropic's Hidden Antspace",
           "points": 110,
           "url": "https://aprilnea.me/en/blog/reverse-engineering-claude-code-antspace"
+        },
+        {
+          "title": "Houthis used Claude Code to develop missile guidance software: Anthropic",
+          "points": 105,
+          "url": "https://clashreport.com/world/articles/houthis-used-claude-code-to-develop-missile-guidance-software-anthropic-s52mnx4pwpo"
+        },
+        {
+          "title": "Show HN: Microsoft Office running with Wine on Linux with no virtualization",
+          "points": 97,
+          "url": "https://github.com/Tombert/office365_flake"
         }
       ],
       "highlight_score": 55
@@ -12486,11 +12851,6 @@
           "url": "https://code.claude.com/docs/en/changelog"
         },
         {
-          "title": "Show HN: Mini-AGI – Dynamic continual learning model trained on 8GB VRAM",
-          "points": 277,
-          "url": "https://github.com/volotat/mini-AGI/"
-        },
-        {
           "title": "Apple's Siri AI Can Be Swapped Out for Claude, ChatGPT, Code Shows",
           "points": 228,
           "url": "https://www.macrumors.com/2026/09/14/siri-can-be-swapped-out-for-chatgpt-claude/"
@@ -12504,6 +12864,11 @@
           "title": "Houthis used Claude Code to develop missile guidance software: Anthropic",
           "points": 105,
           "url": "https://clashreport.com/world/articles/houthis-used-claude-code-to-develop-missile-guidance-software-anthropic-s52mnx4pwpo"
+        },
+        {
+          "title": "Show HN: Microsoft Office running with Wine on Linux with no virtualization",
+          "points": 97,
+          "url": "https://github.com/Tombert/office365_flake"
         }
       ],
       "highlight_score": 50
@@ -13696,11 +14061,6 @@
           "url": "https://code.claude.com/docs/en/changelog"
         },
         {
-          "title": "Show HN: Mini-AGI – Dynamic continual learning model trained on 8GB VRAM",
-          "points": 277,
-          "url": "https://github.com/volotat/mini-AGI/"
-        },
-        {
           "title": "Apple's Siri AI Can Be Swapped Out for Claude, ChatGPT, Code Shows",
           "points": 228,
           "url": "https://www.macrumors.com/2026/09/14/siri-can-be-swapped-out-for-chatgpt-claude/"
@@ -13714,6 +14074,11 @@
           "title": "Houthis used Claude Code to develop missile guidance software: Anthropic",
           "points": 105,
           "url": "https://clashreport.com/world/articles/houthis-used-claude-code-to-develop-missile-guidance-software-anthropic-s52mnx4pwpo"
+        },
+        {
+          "title": "Show HN: Microsoft Office running with Wine on Linux with no virtualization",
+          "points": 97,
+          "url": "https://github.com/Tombert/office365_flake"
         }
       ],
       "highlight_score": 65
@@ -98008,28 +98373,28 @@
       "signals": [
         {
           "title": "Show HN: Whiteboard (YC W26) – An open-source IDE for thoughtful software design",
-          "points": 423,
+          "points": 424,
           "url": "https://github.com/devdotfast/whiteboard"
         },
         {
+          "title": "Getting the most out of Opus 5.5 in Claude and Claude Code",
+          "points": 205,
+          "url": "https://claude.dev/blog/getting-the-most-out-of-opus-5-5/"
+        },
+        {
           "title": "Show HN: PaperMono, e-ink fridge magnet shopping list with mobile web page",
-          "points": 151,
+          "points": 152,
           "url": "https://github.com/seamusc/papermono-shopping-list"
         },
         {
-          "title": "Alan Kay: Shannon gave us a way of dealing with noisy channels [video]",
-          "points": 151,
-          "url": "https://www.youtube.com/watch?v=Cjntrqhn8pk"
+          "title": "Show HN: Made an open-source Lego AI generator",
+          "points": 145,
+          "url": "https://github.com/anteloc/ldraw-nova"
         },
         {
           "title": "Show HN: Open-source model routing for coding agents at Astra-level performance",
-          "points": 115,
+          "points": 119,
           "url": "https://news.ycombinator.com/item?id=49911500"
-        },
-        {
-          "title": "Show HN: Made an open-source Lego AI generator",
-          "points": 92,
-          "url": "https://github.com/anteloc/ldraw-nova"
         }
       ],
       "highlight_score": 35
@@ -100323,18 +100688,18 @@
         },
         {
           "title": "Show HN: Whiteboard (YC W26) – An open-source IDE for thoughtful software design",
-          "points": 423,
+          "points": 424,
           "url": "https://github.com/devdotfast/whiteboard"
         },
         {
-          "title": "Show HN: Mini-AGI – Dynamic continual learning model trained on 8GB VRAM",
-          "points": 277,
-          "url": "https://github.com/volotat/mini-AGI/"
+          "title": "Show HN: PaperMono, e-ink fridge magnet shopping list with mobile web page",
+          "points": 152,
+          "url": "https://github.com/seamusc/papermono-shopping-list"
         },
         {
-          "title": "Show HN: PaperMono, e-ink fridge magnet shopping list with mobile web page",
-          "points": 151,
-          "url": "https://github.com/seamusc/papermono-shopping-list"
+          "title": "Show HN: Open-source model routing for coding agents at Astra-level performance",
+          "points": 119,
+          "url": "https://news.ycombinator.com/item?id=49911500"
         }
       ],
       "highlight_score": 55
@@ -101723,19 +102088,19 @@
           "url": "https://blog.szypowi.cz/p/claude-code-reads-agents.md-only-when-telemetry-is-on/"
         },
         {
-          "title": "Show HN: Mini-AGI – Dynamic continual learning model trained on 8GB VRAM",
-          "points": 277,
-          "url": "https://github.com/volotat/mini-AGI/"
-        },
-        {
           "title": "Apple's Siri AI Can Be Swapped Out for Claude, ChatGPT, Code Shows",
           "points": 228,
           "url": "https://www.macrumors.com/2026/09/14/siri-can-be-swapped-out-for-chatgpt-claude/"
         },
         {
-          "title": "Elevated errors for multiple models – Resolved",
-          "points": 140,
-          "url": "https://status.claude.com/incidents/7g1qpkyz5gxh"
+          "title": "Reverse-Engineering Claude Web's MicroVM: Uncovering Anthropic's Hidden Antspace",
+          "points": 110,
+          "url": "https://aprilnea.me/en/blog/reverse-engineering-claude-code-antspace"
+        },
+        {
+          "title": "Houthis used Claude Code to develop missile guidance software: Anthropic",
+          "points": 105,
+          "url": "https://clashreport.com/world/articles/houthis-used-claude-code-to-develop-missile-guidance-software-anthropic-s52mnx4pwpo"
         }
       ],
       "highlight_score": 50
@@ -106062,8 +106427,8 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 1729,
-      "release_count": 284,
+      "change_count": 1731,
+      "release_count": 285,
       "avg_importance": 3.23,
       "maturity": {
         "score": 93,
@@ -106074,14 +106439,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-10-02",
-        "version": "2.1.288"
+        "date": "2026-10-03",
+        "version": "2.1.289"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 1451
+          "change_count": 1453
         },
         {
           "epoch_id": "epoch1",
@@ -106252,8 +106617,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 1293,
-      "release_count": 277,
+      "change_count": 1295,
+      "release_count": 278,
       "avg_importance": 3.24,
       "maturity": {
         "score": 93,
@@ -106264,14 +106629,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-10-02",
-        "version": "2.1.288"
+        "date": "2026-10-03",
+        "version": "2.1.289"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 1047
+          "change_count": 1049
         },
         {
           "epoch_id": "epoch4",
@@ -106347,8 +106712,8 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 964,
-      "release_count": 194,
+      "change_count": 965,
+      "release_count": 195,
       "avg_importance": 3.13,
       "maturity": {
         "score": 93,
@@ -106359,14 +106724,14 @@
         "version": "0.2.50"
       },
       "latest_seen": {
-        "date": "2026-10-02",
-        "version": "2.1.288"
+        "date": "2026-10-03",
+        "version": "2.1.289"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 884
+          "change_count": 885
         },
         {
           "epoch_id": "epoch1",
@@ -106442,8 +106807,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 2214,
-      "release_count": 307,
+      "change_count": 2228,
+      "release_count": 308,
       "avg_importance": 3.01,
       "maturity": {
         "score": 92,
@@ -106454,14 +106819,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-10-02",
-        "version": "2.1.288"
+        "date": "2026-10-03",
+        "version": "2.1.289"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 1859
+          "change_count": 1873
         },
         {
           "epoch_id": "epoch1",
@@ -106486,6 +106851,14 @@
       ],
       "samples": [
         {
+          "date": "2026-10-03",
+          "version": "2.1.289",
+          "raw": "Fixed a user-installed plugin being able to rewrite the descriptions of an organization-managed MCP server's sign-in tools",
+          "summary": "修复用户插件可篡改组织MCP服务器登录工具描述",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-09-17",
           "version": "2.1.275",
           "raw": "Changed plugins installed from an npm source to be fetched with `npm pack --ignore-scripts` and integrity-verified, so a package's install scripts no longer run",
@@ -106506,14 +106879,6 @@
           "version": "2.1.268",
           "raw": "Fixed plugin and marketplace errors showing a token or password from a git source URL",
           "summary": "修复插件错误泄露Git令牌或密码",
-          "importance": 5,
-          "category": "fix"
-        },
-        {
-          "date": "2026-09-02",
-          "version": "2.1.259",
-          "raw": "Fixed concurrent sessions silently reverting each other's `~/.claude.json` changes — workspace trust no longer resets and MCP/project state is no longer lost when running many sessions at once",
-          "summary": "修复并发会话互相覆盖配置",
           "importance": 5,
           "category": "fix"
         }
@@ -106537,8 +106902,8 @@
         "Emacs",
         "web"
       ],
-      "change_count": 1915,
-      "release_count": 254,
+      "change_count": 1922,
+      "release_count": 255,
       "avg_importance": 2.74,
       "maturity": {
         "score": 91,
@@ -106549,14 +106914,14 @@
         "version": "0.2.34"
       },
       "latest_seen": {
-        "date": "2026-10-02",
-        "version": "2.1.288"
+        "date": "2026-10-03",
+        "version": "2.1.289"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 1725
+          "change_count": 1732
         },
         {
           "epoch_id": "epoch4",
@@ -106581,6 +106946,14 @@
       ],
       "samples": [
         {
+          "date": "2026-10-03",
+          "version": "2.1.289",
+          "raw": "Fixed `Read` deny rules not applying to files @-mentioned, changed, or selected in the IDE through a symlink",
+          "summary": "修复通过符号链接引用文件时Read拒绝规则未生效",
+          "importance": 5,
+          "category": "fix"
+        },
+        {
           "date": "2026-10-02",
           "version": "2.1.288",
           "raw": "Fixed a dangerous `rm` (such as one on `/` or the home directory) inside a `bash -c` or `sh -c` script running without a prompt in bypassPermissions mode or under a shell allow rule (anthropics/claude-code#96300)",
@@ -106601,14 +106974,6 @@
           "version": "2.1.285",
           "raw": "Changed sandbox settings so project settings cannot widen or turn off an admin-required sandbox, replace the proxy behind a managed deny list, extend a strict allowlist, or reopen managed read-denies",
           "summary": "沙箱设置禁止项目配置放宽管理策略",
-          "importance": 5,
-          "category": "security"
-        },
-        {
-          "date": "2026-09-03",
-          "version": "2.1.260",
-          "raw": "Fixed Bash permission checks auto-approving zsh commands that hide a command substitution in a REPORTTIME, REPORTMEMORY or DIRSTACKSIZE assignment; these now prompt for approval",
-          "summary": "修复zsh赋值中隐藏命令替换被自动放行",
           "importance": 5,
           "category": "security"
         }
@@ -106632,8 +106997,8 @@
         "policy",
         "auditing"
       ],
-      "change_count": 1795,
-      "release_count": 277,
+      "change_count": 1801,
+      "release_count": 278,
       "avg_importance": 3.32,
       "maturity": {
         "score": 93,
@@ -106644,14 +107009,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-10-02",
-        "version": "2.1.288"
+        "date": "2026-10-03",
+        "version": "2.1.289"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 1574
+          "change_count": 1580
         },
         {
           "epoch_id": "epoch4",
@@ -106676,36 +107041,36 @@
       ],
       "samples": [
         {
-          "date": "2026-10-02",
-          "version": "2.1.288",
-          "raw": "Fixed a dangerous `rm` (such as one on `/` or the home directory) inside a `bash -c` or `sh -c` script running without a prompt in bypassPermissions mode or under a shell allow rule (anthropics/claude-code#96300)",
-          "summary": "修复绕过权限模式下危险rm命令执行",
+          "date": "2026-10-03",
+          "version": "2.1.289",
+          "raw": "Fixed a deny or ask rule on a nested part of a compound shell command not holding over a user-installed mod's approval on managed machines",
+          "summary": "修复复合命令中嵌套部分的拒绝/询问规则被mod批准绕过",
           "importance": 5,
           "category": "fix"
         },
         {
-          "date": "2026-09-29",
-          "version": "2.1.285",
-          "raw": "Added `allowedProviders` managed setting to limit which API providers a machine may use (Anthropic API, a custom endpoint, Bedrock, Mantle, Vertex AI, Foundry, Claude Platform on AWS, or a Cloud gateway)",
-          "summary": "新增allowedProviders限制API提供商",
+          "date": "2026-10-03",
+          "version": "2.1.289",
+          "raw": "Fixed `Read` deny rules not applying to files @-mentioned, changed, or selected in the IDE through a symlink",
+          "summary": "修复通过符号链接引用文件时Read拒绝规则未生效",
           "importance": 5,
-          "category": "security"
+          "category": "fix"
         },
         {
-          "date": "2026-09-29",
-          "version": "2.1.285",
-          "raw": "Changed sandbox settings so project settings cannot widen or turn off an admin-required sandbox, replace the proxy behind a managed deny list, extend a strict allowlist, or reopen managed read-denies",
-          "summary": "沙箱设置禁止项目配置放宽管理策略",
+          "date": "2026-10-03",
+          "version": "2.1.289",
+          "raw": "Fixed a user-installed plugin being able to rewrite the descriptions of an organization-managed MCP server's sign-in tools",
+          "summary": "修复用户插件可篡改组织MCP服务器登录工具描述",
           "importance": 5,
-          "category": "security"
+          "category": "fix"
         },
         {
-          "date": "2026-09-17",
-          "version": "2.1.275",
-          "raw": "Changed plugins installed from an npm source to be fetched with `npm pack --ignore-scripts` and integrity-verified, so a package's install scripts no longer run",
-          "summary": "npm插件安装禁用安装脚本并验证完整性",
+          "date": "2026-10-03",
+          "version": "2.1.289",
+          "raw": "Fixed Bash deny and ask rules missing a command behind an environment variable prefix with an expanded value (e.g. `TZ=\"$HOME\" rm -rf build`) when the sandbox auto-allows commands",
+          "summary": "修复环境变量前缀后命令绕过Bash拒绝/询问规则",
           "importance": 5,
-          "category": "security"
+          "category": "fix"
         }
       ]
     }
