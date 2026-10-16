@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-10-15T05:32:44.998Z",
+    "generated_at": "2026-10-16T05:24:14.296Z",
     "agent_model": "deepseek-v4-flash",
-    "total_versions": 420,
+    "total_versions": 421,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-10-14"
+      "end": "2026-10-15"
     },
     "highlight_count": 64,
     "capability_count": 8,
@@ -70,11 +70,686 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。adaptive thinking 把推理深度交给模型自己决定，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界——从 Opus 4.6 到 4.8，每一代都在加速这条路。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Adaptive thinking hands reasoning depth to the model itself, while worktree isolation and 1M context push the agent toward hours-long unattended runs — from Opus 4.6 through 4.8, each generation accelerates the path.",
-      "release_count": 204,
+      "release_count": 205,
       "highlight_count": 42
     }
   ],
   "releases": [
+    {
+      "version": "2.1.301",
+      "date": "2026-10-15",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added `CLAUDE_CODE_RETRY_WATCHDOG_MAX_USAGE_LIMIT_WAIT_MS` so unattended retry mode (`CLAUDE_CODE_RETRY_WATCHDOG`) ends a request at a usage limit that resets too far away instead of waiting",
+          "category": "feat",
+          "importance": 3,
+          "summary": "无值守重试新增用量上限等待上限",
+          "summary_en": "Unattended retry mode stops waiting at far-off usage limits",
+          "why_matters": "避免无人值守任务在长时间限流时无限期挂起。",
+          "why_matters_en": "Prevents unattended runs from hanging indefinitely on long usage-limit resets.",
+          "capability_ids": [
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Added OpenTelemetry tracing guidance to the `claude-api` skill, including setting up trace destinations with the `ant` CLI",
+          "category": "feat",
+          "importance": 2,
+          "summary": "claude-api skill 增加 OTel 追踪指引",
+          "summary_en": "Adds OpenTelemetry tracing guidance to claude-api skill",
+          "why_matters": "让用户更快接好链路追踪与可观测性配置。",
+          "why_matters_en": "Helps users wire up tracing and observability more quickly.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added the `%` motion to vim mode: jump to the matching bracket, alone or with d/c/y",
+          "category": "feat",
+          "importance": 3,
+          "summary": "Vim 模式新增 % 括号跳转",
+          "summary_en": "Vim mode adds % motion to jump to matching bracket",
+          "why_matters": "在编辑器内编辑代码时可用熟悉的 Vim 快捷键导航。",
+          "why_matters_en": "Lets Vim users navigate brackets with a familiar keystroke.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Added `rows` to a mod's `Input`: a text field of several lines in the terminal, where Enter submits and Shift+Enter or a backslash before Enter starts a new line",
+          "category": "feat",
+          "importance": 2,
+          "summary": "mod Input 支持多行文本输入框",
+          "summary_en": "Mod Input gains multi-line rows text field",
+          "why_matters": "扩展作者可以构建可换行的多行输入界面。",
+          "why_matters_en": "Lets extension authors build multi-line input interfaces.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Added `classifier_verdict` and `permission_mode` to OpenTelemetry `tool_decision` events, so auto mode classifier decisions can be told apart from permission rules",
+          "category": "feat",
+          "importance": 3,
+          "summary": "OTel 工具决策事件区分分类器与规则",
+          "summary_en": "OTel tool_decision events distinguish classifier vs rules",
+          "why_matters": "便于审计自动模式与权限规则各自造成的决策。",
+          "why_matters_en": "Makes it possible to audit auto-mode vs permission-rule decisions.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added `classifier_category` to OpenTelemetry `tool_decision` events, naming the built-in rule a classifier block matched, when `OTEL_LOG_TOOL_DETAILS=1`",
+          "category": "feat",
+          "importance": 2,
+          "summary": "OTel 事件标注分类器命中的内置规则",
+          "summary_en": "OTel events name built-in rule matched by classifier",
+          "why_matters": "有助于定位是那条内置规则拦截了工具调用。",
+          "why_matters_en": "Helps pinpoint which built-in rule blocked a tool call.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed quitting removing a worktree made by a `WorktreeCreate` hook without asking when it may hold unpushed commits",
+          "category": "fix",
+          "importance": 4,
+          "summary": "退出时不再静默删除含未推送提交的 worktree",
+          "summary_en": "Quit no longer drops worktree with unpushed commits",
+          "why_matters": "避免误删工作区导致未推送代码永久丢失。",
+          "why_matters_en": "Prevents accidental loss of uncommitted or unpushed work.",
+          "capability_ids": [
+            "execution_workspace",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed the `fable` (and `best`) model alias erroring on the Anthropic API when the newest Fable model is not available to your organization: Claude Code now retries once on the previous Fable model",
+          "category": "fix",
+          "importance": 3,
+          "summary": "Fable 模型别名不可用时自动回退重试",
+          "summary_en": "Fable model alias retries on previous model if unavailable",
+          "why_matters": "组织未开通最新模型时不再直接报错中断。",
+          "why_matters_en": "Avoids hard failures when the newest model is unavailable to your org.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed a misleading \"Please run /login\" error when a full disk keeps the login from being refreshed; the error now names the disk and says to delete files",
+          "category": "fix",
+          "importance": 3,
+          "summary": "登录刷新失败时提示磁盘已满而非请登录",
+          "summary_en": "Full-disk login failure now names disk, not just /login",
+          "why_matters": "错误的提示会让用户反复登录却无法解决问题。",
+          "why_matters_en": "The old message sent users into futile re-login loops.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed Grep and Glob reporting no matches when the search program failed unexpectedly before returning any results; they now return an error saying the search failed",
+          "category": "fix",
+          "importance": 3,
+          "summary": "Grep/Glob 搜索失败时返回错误而非无结果",
+          "summary_en": "Grep and Glob report search errors instead of no matches",
+          "why_matters": "避免把搜索崩溃误判为真的没有匹配项。",
+          "why_matters_en": "Stops a crashed search from being mistaken for a true no-match.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed workflow agents sometimes skipping their step, and the run still reporting success, after reading the harness note that their task text carries no user authority",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复工作流智能体跳过步骤仍报成功",
+          "summary_en": "Workflow agents no longer skip steps while reporting success",
+          "why_matters": "静默跳步会伪装成成功，破坏工作流结果可信度。",
+          "why_matters_en": "Silent step skipping faked success and undermined trust in runs.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed artifact updates being refused where a PreToolUse hook covers Edit or Write; Claude now edits the file and then republishes instead of changing it in the publish call",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复 PreToolUse 钩子阻断 Artifact 更新",
+          "summary_en": "Artifact updates work with PreToolUse hooks on Edit/Write",
+          "why_matters": "有钩子时也能正常更新产物，行为更一致。",
+          "why_matters_en": "Keeps artifact publishing working consistently when hooks are active.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed skills and commands with very many or very long argument names stalling for seconds when invoked; only the first 64 names, each up to 64 characters, are now filled in",
+          "category": "perf",
+          "importance": 3,
+          "summary": "修复大量参数名导致 skill 调用卡顿",
+          "summary_en": "Fix multi-second stall from many long argument names",
+          "why_matters": "参数很多的技能与命令现在能即时响应。",
+          "why_matters_en": "Skills and commands with many arguments now respond instantly.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed skills, commands and hooks using very large amounts of memory when their arguments fill many placeholders",
+          "category": "perf",
+          "importance": 3,
+          "summary": "修复参数占位符过多导致内存暴涨",
+          "summary_en": "Fix excessive memory use when args fill many placeholders",
+          "why_matters": "避免技能、命令与钩子占用巨量内存。",
+          "why_matters_en": "Prevents skills, commands and hooks from consuming huge memory.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "memory_context",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed stray characters such as `>0q` covering the folder trust prompt, and `>4m` before the shell prompt at exit, in terminals built on VTE older than 0.53 such as MATE Terminal on RHEL 8",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复旧版 VTE 终端提示符出现乱码字符",
+          "summary_en": "Fix stray escape characters on old VTE terminals",
+          "why_matters": "让 RHEL 8 等旧终端不再被乱码覆盖提示信息。",
+          "why_matters_en": "Stops garbled text from covering prompts on older terminals.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed stray `GOK` text appearing in the prompt at startup in some versions of iTerm2",
+          "category": "fix",
+          "importance": 1,
+          "summary": "修复iTerm2启动时提示符出现杂乱GOK字符",
+          "summary_en": "Fixed stray GOK text in the startup prompt on iTerm2",
+          "why_matters": "启动界面出现乱码影响第一印象，也容易让用户误以为安装出错。",
+          "why_matters_en": "Stray characters at startup look like a broken install and hurt first impressions.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed switching to a model whose name contains `application-inference-profile` running your `awsAuthRefresh` command and delaying model-switch hooks when the provider is not Bedrock",
+          "category": "fix",
+          "importance": 2,
+          "summary": "非Bedrock提供商时不再误触awsAuthRefresh",
+          "summary_en": "Fixed spurious awsAuthRefresh on non-Bedrock providers",
+          "why_matters": "切换到特定推理配置模型时不会再执行无关的AWS认证命令并拖延切换。",
+          "why_matters_en": "Switching models no longer runs unrelated AWS auth commands or delays model-switch hooks.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed sign-in refresh timeouts and unexpected sign-outs after a short command such as `claude auth status` or `claude plugin list` exited in the middle of a token refresh",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复令牌刷新中途退出导致的掉登录与超时",
+          "summary_en": "Fixed sign-in refresh timeouts and unexpected sign-outs",
+          "why_matters": "短命令恰好在刷新令牌时退出会让用户莫名其妙被登出，严重影响日常使用。",
+          "why_matters_en": "Short commands exiting mid-refresh could log users out unexpectedly, disrupting daily work.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed a tool call cut off by a message sent mid-turn during its permission check being reported to the model as rejected by the user",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复权限检查中被消息打断的工具调用被误报拒绝",
+          "summary_en": "Fixed interrupted tool calls being reported to the model as rejected",
+          "why_matters": "模型会误以为用户拒绝了操作，导致后续行为偏离用户真实意图。",
+          "why_matters_en": "The model would wrongly believe the user denied the action, skewing later behavior.",
+          "capability_ids": [
+            "execution_workspace",
+            "reasoning_workflows",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed a case where switching to a model with a smaller context window could spend usage credits on a summary by the previous model without asking first",
+          "category": "fix",
+          "importance": 4,
+          "summary": "切换小上下文模型前先询问，避免扣费摘要",
+          "summary_en": "Ask before spending credits on a summary when switching models",
+          "why_matters": "避免在用户未同意的情况下消耗用量额度生成旧模型摘要。",
+          "why_matters_en": "Prevents silently consuming usage credits for a summary made by the previous model.",
+          "capability_ids": [
+            "governance_security",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed conversations being compacted over and over, on a model you didn't pick, behind an LLM gateway whose responses name a different model than the one requested",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复网关下反复压缩并使用错误模型",
+          "summary_en": "Fixed repeated compaction on an unintended model behind gateways",
+          "why_matters": "网关返回的模型名不一致会导致对话被反复压缩，丢失上下文并浪费额度。",
+          "why_matters_en": "Mismatched gateway model names caused endless compaction, losing context and wasting credits.",
+          "capability_ids": [
+            "memory_context",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed vim mode sometimes staying in INSERT after Escape on a slow or busy machine",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复vim模式在繁忙机器上Esc后仍停留INSERT",
+          "summary_en": "Fixed vim mode staying in INSERT after Escape on slow machines",
+          "why_matters": "输入模式状态错乱会让用户键入的命令被当作文本内容。",
+          "why_matters_en": "Wrong input mode makes typed commands land as literal text instead of actions.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed Esc discarding a typed AskUserQuestion answer in vim mode: the free-text field now supports vim NORMAL mode, and Esc cancels only from NORMAL",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复vim模式下Esc丢弃已输入的问答答案",
+          "summary_en": "Fixed Esc discarding typed AskUserQuestion answers in vim mode",
+          "why_matters": "用户辛苦输入的答案不再被误清空，Esc仅在NORMAL模式取消。",
+          "why_matters_en": "Typed answers are no longer wiped; Esc cancels only from NORMAL mode.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed the Read tool reading binary files such as .xlsm, .parquet, .epub and .heic as text",
+          "category": "fix",
+          "importance": 3,
+          "summary": "Read工具不再把二进制文件当文本读取",
+          "summary_en": "Fixed the Read tool treating binary files as text",
+          "why_matters": "读取xlsm、parquet等二进制文件会返回乱码并浪费上下文与额度。",
+          "why_matters_en": "Reading binaries like .xlsm or .parquet returned garbage, wasting context and tokens.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed a Markdown table with only a header row drawing nothing when too wide for the terminal, including in plans on the plan approval card",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复超宽单行表头Markdown表格不渲染",
+          "summary_en": "Fixed wide header-only Markdown tables rendering as nothing",
+          "why_matters": "计划审批卡片等处的表格缺失会丢失关键信息展示。",
+          "why_matters_en": "Missing tables in plan approval cards hid information the user needed to review.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed the /claude-api skill saying CMEK external-key endpoints aren't available on Claude Platform on AWS",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修正Skill关于AWS上CMEK外部密钥端点的说明",
+          "summary_en": "Fixed skill docs claiming CMEK external-key endpoints are unavailable on AWS",
+          "why_matters": "错误的文档会误导用户在AWS上放弃可用的加密密钥配置。",
+          "why_matters_en": "Wrong docs could mislead users into skipping a supported encryption-key setup on AWS.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed skills no longer being listed to the model after using `/rewind`",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复/rewind后技能不再列出给模型",
+          "summary_en": "Fixed skills no longer being listed to the model after /rewind",
+          "why_matters": "回退后模型看不到技能会导致可用能力静默失效。",
+          "why_matters_en": "After rewinding, hidden skills silently stopped being available to the model.",
+          "capability_ids": [
+            "memory_context",
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed the compaction row in a resumed session offering ctrl+o for history that is not loaded; it now says where the earlier messages are saved, and also shows in fullscreen",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复恢复会话压缩行提示错误的历史查看方式",
+          "summary_en": "Fixed compaction row in resumed sessions pointing to unloaded history",
+          "why_matters": "用户不再被引导到不存在的历史，并能知道早前消息保存位置。",
+          "why_matters_en": "Users are no longer sent to nonexistent history and can find where earlier messages are saved.",
+          "capability_ids": [
+            "memory_context",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed the \"new task? /clear to save tokens\" hint coming back right after you interrupt a response",
+          "category": "fix",
+          "importance": 1,
+          "summary": "修复中断响应后重复弹出/clear提示",
+          "summary_en": "Fixed the \"new task? /clear\" hint reappearing right after interrupting",
+          "why_matters": "刚刚中断就被催促清空会话，造成打扰和不必要的上下文丢失。",
+          "why_matters_en": "Being nagged to clear right after an interrupt was noisy and risked losing context.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed the permission prompt for a plugin or skill hook's `ask` decision not showing which plugin or skill the hook comes from",
+          "category": "fix",
+          "importance": 3,
+          "summary": "权限提示现在标明hook来自哪个插件或技能",
+          "summary_en": "Permission prompts now show which plugin or skill a hook comes from",
+          "why_matters": "用户能判断请求来源后再授权，减少被未知插件诱导同意的风险。",
+          "why_matters_en": "Users can attribute the request before approving, reducing blind consent to unknown plugins.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed `/diff` not noticing a conflicted cherry-pick or revert in reftable repositories when one of its git checks timed out or failed",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复/diff漏判冲突的拣选或回滚",
+          "summary_en": "Fix /diff missing conflicted cherry-pick or revert",
+          "why_matters": "避免 reftable 仓库中 git 检查超时导致状态误判。",
+          "why_matters_en": "Prevents misreading git state in reftable repos when checks fail.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed workflow scripts asking for permission or being refused when read, edited or re-run after a Bash `cd` in the same session",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复 cd 后工作流脚本被误拒权限",
+          "summary_en": "Fix workflow script permission errors after cd",
+          "why_matters": "保证同一会话内脚本读取、编辑与重跑不再被误拒。",
+          "why_matters_en": "Ensures scripts can be read, edited and re-run within a session.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed dim text on the dark ANSI theme and 16-color terminals: faint inside filled boxes, not faint under selection and search highlights, and list descriptions dimmed like other secondary text",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复暗色 ANSI 与 16 色终端文字过暗",
+          "summary_en": "Fix dim text on dark ANSI and 16-color terminals",
+          "why_matters": "提升低色彩终端下文本与列表的可读性。",
+          "why_matters_en": "Improves text and list readability on low-color terminals.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed a mod's `$.model.fork` returning `nothing-to-fork` when called before the first response of a new Claude Code process had finished, as in `claude -p` runs and cloud sessions",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复首响应前模型分叉失效",
+          "summary_en": "Fix model fork failing before first response",
+          "why_matters": "让 headless 与云会话中的模块分叉正常工作。",
+          "why_matters_en": "Lets mods fork models correctly in headless and cloud runs.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fullscreen mode: Fixed `/compact` and auto-compact briefly freezing the UI while the visible transcript is rebuilt",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复全屏下 /compact 短暂卡顿",
+          "summary_en": "Fix fullscreen UI freeze during /compact",
+          "why_matters": "压缩上下文时界面保持流畅不冻结。",
+          "why_matters_en": "Keeps the UI responsive while compacting the context.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Self-hosted runner: Fixed sessions started from Slack being unable to find or attach a repository when managed settings restrict MCP servers; use `deniedMcpServers` to keep those tools off",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复限制 MCP 时 Slack 会话找不到仓库",
+          "summary_en": "Fix Slack runs missing repo when MCP restricted",
+          "why_matters": "确保受限 MCP 设置下仍能挂载仓库并使用工具。",
+          "why_matters_en": "Ensures repos still attach under restricted MCP settings.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Self-hosted runner: Fixed sessions being reported as having a deleted source branch, and not retried, when an unrelated setup or session failure quoted git's missing-ref wording",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复误报源分支已删导致不重试",
+          "summary_en": "Fix false deleted-branch reports blocking retries",
+          "why_matters": "避免因日志措辞误判而放弃会话重试。",
+          "why_matters_en": "Avoids skipping retries due to misleading git log wording.",
+          "capability_ids": [
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Self-hosted runner: Fixed the log promising a retry of a failed or declined session release for a session that is ending; repeated failures now show a count",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复日志误报会话释放重试",
+          "summary_en": "Fix misleading retry log for ending sessions",
+          "why_matters": "让重复失败的提示更准确且可读。",
+          "why_matters_en": "Makes repeated failure messages accurate and readable.",
+          "capability_ids": [
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Windows: Fixed stopped background PowerShell commands missing the closing `[killed]` line in their output file",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复 Windows 后台 PowerShell 输出缺尾行",
+          "summary_en": "Fix Windows bg PowerShell missing [killed] line",
+          "why_matters": "确保被终止命令的输出完整便于排查。",
+          "why_matters_en": "Ensures killed command output stays complete for debugging.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Improved switching to a model with a smaller context window: a conversation too long for the new model is now summarized by the previous model first",
+          "category": "improvement",
+          "importance": 4,
+          "summary": "切换小上下文模型时先由旧模型总结",
+          "summary_en": "Summarize long chat with old model before switching",
+          "why_matters": "避免切换模型时丢失长对话的上下文。",
+          "why_matters_en": "Prevents losing long conversation context when switching models.",
+          "capability_ids": [
+            "memory_context",
+            "reasoning_workflows",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Improved rendering performance while a long-running subagent works: its progress trail now updates incrementally instead of being reprocessed in full on every render",
+          "category": "perf",
+          "importance": 3,
+          "summary": "子代理运行时长进度轨迹增量渲染",
+          "summary_en": "Faster rendering while long subagents run",
+          "why_matters": "长时间子代理任务中界面渲染更流畅。",
+          "why_matters_en": "Keeps rendering smooth during long-running subagent tasks.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Improved artifacts: pages Claude writes now paint the band above a sticky header, so scrolled text no longer shows there in the mobile apps",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "改进制品：粘性页头滚动不再露字",
+          "summary_en": "Improve artifacts painting above sticky headers",
+          "why_matters": "移动端滚动页面时文字不再出现在页头上。",
+          "why_matters_en": "Stops text appearing above sticky headers on mobile.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Improved mods: in VS Code and the desktop and mobile apps, a tree drawn above the question dialog can now hold Markdown and up to 48 rows; the terminal keeps 12 plain rows",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "改进模块：对话框上树支持 Markdown",
+          "summary_en": "Mod trees above dialogs support Markdown, 48 rows",
+          "why_matters": "让模块在图形客户端中展示更丰富内容。",
+          "why_matters_en": "Lets mods show richer content in GUI clients.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Changed a mod hook's `.catch` handler to run only when the hook throws or times out; events raised beneath the hook's own calls now skip that hook without asking its `.catch`",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "修改模块 hook 的 .catch 触发条件",
+          "summary_en": "Mod hook .catch runs only on throw or timeout",
+          "why_matters": "避免 hook 内部事件误触发其 catch 处理。",
+          "why_matters_en": "Prevents nested events from wrongly triggering the hook's catch.",
+          "capability_ids": [
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Changed a mod's `$.env.set` to resolve with `{}` once the variable is set or unset, or with `{ deny }` saying why when the write is not made",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "修改模块 $.env.set 的返回结果",
+          "summary_en": "Mod $.env.set now resolves with {} or { deny }",
+          "why_matters": "让模块能判断环境变量写入是否成功。",
+          "why_matters_en": "Lets mods detect whether env writes succeeded.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "[VSCode] Added LaTeX math rendering in Claude's responses, including `$$` and multi-line `\\[ … \\]` blocks and inline `$…$` and `\\(…\\)` math",
+          "category": "feat",
+          "importance": 3,
+          "summary": "VSCode 支持 LaTeX 数学公式渲染",
+          "summary_en": "LaTeX math rendering in VSCode chat",
+          "why_matters": "让技术讨论中的公式以可读的排版显示，而非原始 LaTeX 源码。",
+          "why_matters_en": "Formulas now display as proper typeset math instead of raw LaTeX source.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Added a \"Get more usage\" link to the usage-limit banner for Pro and Max plans in the VS Code and JetBrains panels",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "用量上限横幅新增升级链接",
+          "summary_en": "Usage-limit banner adds a get-more-usage link",
+          "why_matters": "Pro/Max 用户在触达限额时可一键找到扩容途径，减少中断。",
+          "why_matters_en": "Pro/Max users hitting limits can find upgrade options in one click, reducing interruptions.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed a conversation that crashes or freezes the panel being reopened on every reload",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复重载时会话崩溃或卡死",
+          "summary_en": "Fixes conversation crash/freeze on panel reload",
+          "why_matters": "此前每次重载都可能让面板崩溃，直接影响可用性。",
+          "why_matters_en": "Previously the panel could crash on every reload, directly blocking normal usage.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed the chat panel slowing down during long thinking: it no longer re-parses the whole thinking text on every update",
+          "category": "perf",
+          "importance": 4,
+          "summary": "长思考时聊天面板不再重复解析",
+          "summary_en": "Chat panel no longer re-parses thinking text each update",
+          "why_matters": "长时间推理时界面保持流畅，避免卡顿拖慢交互。",
+          "why_matters_en": "Keeps the UI responsive during long reasoning instead of lagging.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed diagnostics showing \"[object Object]\" instead of the rule code (e.g. MD013) for some language servers",
+          "category": "fix",
+          "importance": 2,
+          "summary": "诊断信息不再显示 [object Object]",
+          "summary_en": "Diagnostics no longer show [object Object]",
+          "why_matters": "正确显示规则代码如 MD013，便于定位和修复 lint 问题。",
+          "why_matters_en": "Shows actual rule codes like MD013 so users can act on lint issues.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed the native dictation audio module being loaded, to check microphone permission, where dictation is not offered (non-claude.ai sign-ins, remote windows)",
+          "category": "fix",
+          "importance": 2,
+          "summary": "不再加载不可用场景的语音模块",
+          "summary_en": "Skips loading dictation audio module when unavailable",
+          "why_matters": "避免在不支持听写的环境（非 claude.ai 登录、远程窗口）请求麦克风权限。",
+          "why_matters_en": "Avoids unnecessary microphone permission checks in unsupported environments.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "governance_security"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "I think I found a planet nobody knew existed. I used Claude Code to find it",
+          "points": 301,
+          "url": "https://www.reddit.com/r/ClaudeAI/s/mbe5IY2LF9"
+        },
+        {
+          "title": "How to engineer an AI harness for game development",
+          "points": 172,
+          "url": "https://kylekukshtel.com/ai-harness-engineering-game-development-claude-code"
+        },
+        {
+          "title": "Launch HN: Agent37 (YC F26) – Low-cost agent sandboxes for running agents",
+          "points": 160,
+          "url": "https://news.ycombinator.com/item?id=50059096"
+        },
+        {
+          "title": "Show HN: Atticus – Hold-to-talk voice assistant for macOS that runs on Claude -p",
+          "points": 115,
+          "url": "https://github.com/SaarthurR/atticus-mac"
+        },
+        {
+          "title": "Show HN: Indigene – Native plants for where you stand",
+          "points": 109,
+          "url": "https://indigene.app/"
+        }
+      ],
+      "highlight_score": 35
+    },
     {
       "version": "2.1.300",
       "date": "2026-10-14",
@@ -1210,7 +1885,7 @@
         },
         {
           "title": "How to engineer an AI harness for game development",
-          "points": 168,
+          "points": 172,
           "url": "https://kylekukshtel.com/ai-harness-engineering-game-development-claude-code"
         },
         {
@@ -1224,9 +1899,9 @@
           "url": "https://github.com/SaarthurR/atticus-mac"
         },
         {
-          "title": "Show HN: Spotatui, a Spotify TUI/GUI without web API rate limits",
-          "points": 87,
-          "url": "https://github.com/LargeModGames/spotatui"
+          "title": "Show HN: Indigene – Native plants for where you stand",
+          "points": 109,
+          "url": "https://indigene.app/"
         }
       ],
       "highlight_score": 40
@@ -2233,14 +2908,14 @@
           "url": "https://claude.dev/blog/getting-the-most-out-of-opus-5-5/"
         },
         {
+          "title": "How to engineer an AI harness for game development",
+          "points": 172,
+          "url": "https://kylekukshtel.com/ai-harness-engineering-game-development-claude-code"
+        },
+        {
           "title": "Show HN: Made an open-source Lego AI generator",
           "points": 170,
           "url": "https://github.com/anteloc/ldraw-nova"
-        },
-        {
-          "title": "How to engineer an AI harness for game development",
-          "points": 168,
-          "url": "https://kylekukshtel.com/ai-harness-engineering-game-development-claude-code"
         }
       ],
       "highlight_score": 35
@@ -2298,14 +2973,14 @@
           "url": "https://claude.dev/blog/getting-the-most-out-of-opus-5-5/"
         },
         {
+          "title": "How to engineer an AI harness for game development",
+          "points": 172,
+          "url": "https://kylekukshtel.com/ai-harness-engineering-game-development-claude-code"
+        },
+        {
           "title": "Show HN: Made an open-source Lego AI generator",
           "points": 170,
           "url": "https://github.com/anteloc/ldraw-nova"
-        },
-        {
-          "title": "How to engineer an AI harness for game development",
-          "points": 168,
-          "url": "https://kylekukshtel.com/ai-harness-engineering-game-development-claude-code"
         }
       ],
       "highlight_score": 35
@@ -3051,14 +3726,14 @@
           "url": "https://claude.dev/blog/getting-the-most-out-of-opus-5-5/"
         },
         {
+          "title": "How to engineer an AI harness for game development",
+          "points": 172,
+          "url": "https://kylekukshtel.com/ai-harness-engineering-game-development-claude-code"
+        },
+        {
           "title": "Show HN: Made an open-source Lego AI generator",
           "points": 170,
           "url": "https://github.com/anteloc/ldraw-nova"
-        },
-        {
-          "title": "How to engineer an AI harness for game development",
-          "points": 168,
-          "url": "https://kylekukshtel.com/ai-harness-engineering-game-development-claude-code"
         }
       ],
       "highlight_score": 35
@@ -3112,14 +3787,14 @@
           "url": "https://claude.dev/blog/getting-the-most-out-of-opus-5-5/"
         },
         {
+          "title": "How to engineer an AI harness for game development",
+          "points": 172,
+          "url": "https://kylekukshtel.com/ai-harness-engineering-game-development-claude-code"
+        },
+        {
           "title": "Show HN: Made an open-source Lego AI generator",
           "points": 170,
           "url": "https://github.com/anteloc/ldraw-nova"
-        },
-        {
-          "title": "How to engineer an AI harness for game development",
-          "points": 168,
-          "url": "https://kylekukshtel.com/ai-harness-engineering-game-development-claude-code"
         }
       ],
       "highlight_score": 35
@@ -40700,6 +41375,11 @@
           "url": "https://bento.page/slides/"
         },
         {
+          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+          "points": 937,
+          "url": "https://github.com/JustVugg/colibri"
+        },
+        {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
           "points": 706,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
@@ -40713,11 +41393,6 @@
           "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
           "points": 280,
           "url": "https://github.com/juggler-ai/juggler"
-        },
-        {
-          "title": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
-          "points": 251,
-          "url": "https://ykdojo.github.io/claude-controls-mac/"
         }
       ],
       "highlight_score": 55
@@ -41203,6 +41878,11 @@
           "url": "https://bento.page/slides/"
         },
         {
+          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+          "points": 937,
+          "url": "https://github.com/JustVugg/colibri"
+        },
+        {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
           "points": 706,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
@@ -41216,11 +41896,6 @@
           "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
           "points": 280,
           "url": "https://github.com/juggler-ai/juggler"
-        },
-        {
-          "title": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
-          "points": 251,
-          "url": "https://ykdojo.github.io/claude-controls-mac/"
         }
       ],
       "highlight_score": 50
@@ -41659,6 +42334,11 @@
       ],
       "signals": [
         {
+          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+          "points": 937,
+          "url": "https://github.com/JustVugg/colibri"
+        },
+        {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
           "points": 706,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
@@ -41677,11 +42357,6 @@
           "title": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
           "points": 251,
           "url": "https://ykdojo.github.io/claude-controls-mac/"
-        },
-        {
-          "title": "Show HN: Yamanote.fun – A complete soundscape for Tokyo's Yamanote line",
-          "points": 238,
-          "url": "https://www.yamanote.fun/"
         }
       ],
       "highlight_score": 50
@@ -41708,6 +42383,11 @@
       ],
       "signals": [
         {
+          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+          "points": 937,
+          "url": "https://github.com/JustVugg/colibri"
+        },
+        {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
           "points": 706,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
@@ -41726,11 +42406,6 @@
           "title": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
           "points": 251,
           "url": "https://ykdojo.github.io/claude-controls-mac/"
-        },
-        {
-          "title": "Show HN: Yamanote.fun – A complete soundscape for Tokyo's Yamanote line",
-          "points": 238,
-          "url": "https://www.yamanote.fun/"
         }
       ],
       "highlight_score": 30
@@ -42320,6 +42995,11 @@
       ],
       "signals": [
         {
+          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+          "points": 937,
+          "url": "https://github.com/JustVugg/colibri"
+        },
+        {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
           "points": 706,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
@@ -42338,11 +43018,6 @@
           "title": "Setting up your spare Mac for Claude Code to control, a step-by-step guide",
           "points": 251,
           "url": "https://ykdojo.github.io/claude-controls-mac/"
-        },
-        {
-          "title": "Show HN: Yamanote.fun – A complete soundscape for Tokyo's Yamanote line",
-          "points": 238,
-          "url": "https://www.yamanote.fun/"
         }
       ],
       "highlight_score": 50
@@ -42663,6 +43338,11 @@
       ],
       "signals": [
         {
+          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+          "points": 937,
+          "url": "https://github.com/JustVugg/colibri"
+        },
+        {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
           "points": 706,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
@@ -42681,11 +43361,6 @@
           "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
           "points": 280,
           "url": "https://github.com/juggler-ai/juggler"
-        },
-        {
-          "title": "Show HN: Yamanote.fun – A complete soundscape for Tokyo's Yamanote line",
-          "points": 238,
-          "url": "https://www.yamanote.fun/"
         }
       ],
       "highlight_score": 60
@@ -43035,6 +43710,11 @@
       ],
       "signals": [
         {
+          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+          "points": 937,
+          "url": "https://github.com/JustVugg/colibri"
+        },
+        {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
           "points": 706,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
@@ -43053,11 +43733,6 @@
           "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
           "points": 280,
           "url": "https://github.com/juggler-ai/juggler"
-        },
-        {
-          "title": "Show HN: Yamanote.fun – A complete soundscape for Tokyo's Yamanote line",
-          "points": 238,
-          "url": "https://www.yamanote.fun/"
         }
       ],
       "highlight_score": 50
@@ -43364,6 +44039,11 @@
       ],
       "signals": [
         {
+          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+          "points": 937,
+          "url": "https://github.com/JustVugg/colibri"
+        },
+        {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
           "points": 706,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
@@ -43382,11 +44062,6 @@
           "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
           "points": 280,
           "url": "https://github.com/juggler-ai/juggler"
-        },
-        {
-          "title": "ZCode: Claude Code from the Makers of GLM",
-          "points": 278,
-          "url": "https://zcode.z.ai/cn"
         }
       ],
       "highlight_score": 50
@@ -43414,6 +44089,11 @@
       ],
       "signals": [
         {
+          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+          "points": 937,
+          "url": "https://github.com/JustVugg/colibri"
+        },
+        {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
           "points": 706,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
@@ -43432,11 +44112,6 @@
           "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
           "points": 280,
           "url": "https://github.com/juggler-ai/juggler"
-        },
-        {
-          "title": "ZCode: Claude Code from the Makers of GLM",
-          "points": 278,
-          "url": "https://zcode.z.ai/cn"
         }
       ],
       "highlight_score": 50
@@ -43929,6 +44604,11 @@
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
+          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+          "points": 937,
+          "url": "https://github.com/JustVugg/colibri"
+        },
+        {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
           "points": 706,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
@@ -43942,11 +44622,6 @@
           "title": "Potential session/cache leakage between workspace instances or consumer accounts",
           "points": 314,
           "url": "https://github.com/anthropics/claude-code/issues/74066"
-        },
-        {
-          "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
-          "points": 280,
-          "url": "https://github.com/juggler-ai/juggler"
         }
       ],
       "highlight_score": 55
@@ -44196,6 +44871,11 @@
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
+          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+          "points": 937,
+          "url": "https://github.com/JustVugg/colibri"
+        },
+        {
           "title": "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
           "points": 706,
           "url": "https://systima.ai/blog/claude-code-vs-opencode-token-overhead"
@@ -44209,11 +44889,6 @@
           "title": "Potential session/cache leakage between workspace instances or consumer accounts",
           "points": 314,
           "url": "https://github.com/anthropics/claude-code/issues/74066"
-        },
-        {
-          "title": "Show HN: Juggler – an open-source GUI coding agent, by the creator of JUCE",
-          "points": 280,
-          "url": "https://github.com/juggler-ai/juggler"
         }
       ],
       "highlight_score": 55
@@ -44244,6 +44919,11 @@
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
+          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+          "points": 937,
+          "url": "https://github.com/JustVugg/colibri"
+        },
+        {
           "title": "I used Claude Code to get a second opinion on my MRI",
           "points": 566,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
@@ -44257,11 +44937,6 @@
           "title": "Potential session/cache leakage between workspace instances or consumer accounts",
           "points": 314,
           "url": "https://github.com/anthropics/claude-code/issues/74066"
-        },
-        {
-          "title": "ZCode: Claude Code from the Makers of GLM",
-          "points": 278,
-          "url": "https://zcode.z.ai/cn"
         }
       ],
       "highlight_score": 30
@@ -44499,6 +45174,11 @@
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
+          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+          "points": 937,
+          "url": "https://github.com/JustVugg/colibri"
+        },
+        {
           "title": "I used Claude Code to get a second opinion on my MRI",
           "points": 566,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
@@ -44512,11 +45192,6 @@
           "title": "Potential session/cache leakage between workspace instances or consumer accounts",
           "points": 314,
           "url": "https://github.com/anthropics/claude-code/issues/74066"
-        },
-        {
-          "title": "ZCode: Claude Code from the Makers of GLM",
-          "points": 278,
-          "url": "https://zcode.z.ai/cn"
         }
       ],
       "highlight_score": 55
@@ -44841,6 +45516,11 @@
           "url": "https://thereallo.dev/blog/claude-code-prompt-steganography"
         },
         {
+          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+          "points": 937,
+          "url": "https://github.com/JustVugg/colibri"
+        },
+        {
           "title": "I used Claude Code to get a second opinion on my MRI",
           "points": 566,
           "url": "https://antoine.fi/mri-analysis-using-claude-code-opus"
@@ -44854,11 +45534,6 @@
           "title": "Alibaba to ban Claude Code in workplace over alleged backdoor risks, source says",
           "points": 336,
           "url": "https://www.reuters.com/world/china/alibaba-ban-claude-code-workplace-over-alleged-backdoor-risks-source-says-2026-07-03/"
-        },
-        {
-          "title": "Potential session/cache leakage between workspace instances or consumer accounts",
-          "points": 314,
-          "url": "https://github.com/anthropics/claude-code/issues/74066"
         }
       ],
       "highlight_score": 50
@@ -106350,7 +107025,7 @@
         },
         {
           "title": "How to engineer an AI harness for game development",
-          "points": 168,
+          "points": 172,
           "url": "https://kylekukshtel.com/ai-harness-engineering-game-development-claude-code"
         },
         {
@@ -106364,9 +107039,9 @@
           "url": "https://github.com/SaarthurR/atticus-mac"
         },
         {
-          "title": "Show HN: Spotatui, a Spotify TUI/GUI without web API rate limits",
-          "points": 87,
-          "url": "https://github.com/LargeModGames/spotatui"
+          "title": "Show HN: Indigene – Native plants for where you stand",
+          "points": 109,
+          "url": "https://indigene.app/"
         }
       ],
       "highlight_score": 40
@@ -108179,14 +108854,14 @@
           "url": "https://claude.dev/blog/getting-the-most-out-of-opus-5-5/"
         },
         {
+          "title": "How to engineer an AI harness for game development",
+          "points": 172,
+          "url": "https://kylekukshtel.com/ai-harness-engineering-game-development-claude-code"
+        },
+        {
           "title": "Show HN: Made an open-source Lego AI generator",
           "points": 170,
           "url": "https://github.com/anteloc/ldraw-nova"
-        },
-        {
-          "title": "How to engineer an AI harness for game development",
-          "points": 168,
-          "url": "https://kylekukshtel.com/ai-harness-engineering-game-development-claude-code"
         }
       ],
       "highlight_score": 35
@@ -109344,14 +110019,14 @@
           "url": "https://claude.dev/blog/getting-the-most-out-of-opus-5-5/"
         },
         {
+          "title": "How to engineer an AI harness for game development",
+          "points": 172,
+          "url": "https://kylekukshtel.com/ai-harness-engineering-game-development-claude-code"
+        },
+        {
           "title": "Show HN: Made an open-source Lego AI generator",
           "points": 170,
           "url": "https://github.com/anteloc/ldraw-nova"
-        },
-        {
-          "title": "How to engineer an AI harness for game development",
-          "points": 168,
-          "url": "https://kylekukshtel.com/ai-harness-engineering-game-development-claude-code"
         }
       ],
       "highlight_score": 40
@@ -117289,8 +117964,8 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 782,
-      "release_count": 234,
+      "change_count": 787,
+      "release_count": 235,
       "avg_importance": 3.05,
       "maturity": {
         "score": 92,
@@ -117301,14 +117976,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-10-14",
-        "version": "2.1.299"
+        "date": "2026-10-15",
+        "version": "2.1.301"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 623
+          "change_count": 628
         },
         {
           "epoch_id": "epoch4",
@@ -117384,8 +118059,8 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 1929,
-      "release_count": 293,
+      "change_count": 1940,
+      "release_count": 294,
       "avg_importance": 3.19,
       "maturity": {
         "score": 93,
@@ -117396,14 +118071,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-10-14",
-        "version": "2.1.299"
+        "date": "2026-10-15",
+        "version": "2.1.301"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 1651
+          "change_count": 1662
         },
         {
           "epoch_id": "epoch1",
@@ -117479,8 +118154,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 1188,
-      "release_count": 246,
+      "change_count": 1195,
+      "release_count": 247,
       "avg_importance": 3.14,
       "maturity": {
         "score": 93,
@@ -117491,14 +118166,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-10-14",
-        "version": "2.1.299"
+        "date": "2026-10-15",
+        "version": "2.1.301"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 1017
+          "change_count": 1024
         },
         {
           "epoch_id": "epoch1",
@@ -117574,8 +118249,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 1449,
-      "release_count": 286,
+      "change_count": 1458,
+      "release_count": 287,
       "avg_importance": 3.21,
       "maturity": {
         "score": 93,
@@ -117586,14 +118261,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-10-14",
-        "version": "2.1.299"
+        "date": "2026-10-15",
+        "version": "2.1.301"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 1203
+          "change_count": 1212
         },
         {
           "epoch_id": "epoch4",
@@ -117669,8 +118344,8 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 1071,
-      "release_count": 203,
+      "change_count": 1075,
+      "release_count": 204,
       "avg_importance": 3.09,
       "maturity": {
         "score": 92,
@@ -117681,14 +118356,14 @@
         "version": "0.2.50"
       },
       "latest_seen": {
-        "date": "2026-10-14",
-        "version": "2.1.299"
+        "date": "2026-10-15",
+        "version": "2.1.301"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 991
+          "change_count": 995
         },
         {
           "epoch_id": "epoch1",
@@ -117764,9 +118439,9 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 2575,
-      "release_count": 316,
-      "avg_importance": 2.97,
+      "change_count": 2589,
+      "release_count": 317,
+      "avg_importance": 2.96,
       "maturity": {
         "score": 92,
         "level": "成熟"
@@ -117776,14 +118451,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-10-14",
-        "version": "2.1.299"
+        "date": "2026-10-15",
+        "version": "2.1.301"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 2220
+          "change_count": 2234
         },
         {
           "epoch_id": "epoch1",
@@ -117859,9 +118534,9 @@
         "Emacs",
         "web"
       ],
-      "change_count": 2102,
-      "release_count": 262,
-      "avg_importance": 2.73,
+      "change_count": 2119,
+      "release_count": 263,
+      "avg_importance": 2.72,
       "maturity": {
         "score": 91,
         "level": "成熟"
@@ -117871,14 +118546,14 @@
         "version": "0.2.34"
       },
       "latest_seen": {
-        "date": "2026-10-14",
-        "version": "2.1.299"
+        "date": "2026-10-15",
+        "version": "2.1.301"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 1912
+          "change_count": 1929
         },
         {
           "epoch_id": "epoch4",
@@ -117954,9 +118629,9 @@
         "policy",
         "auditing"
       ],
-      "change_count": 2053,
-      "release_count": 287,
-      "avg_importance": 3.3,
+      "change_count": 2065,
+      "release_count": 288,
+      "avg_importance": 3.29,
       "maturity": {
         "score": 93,
         "level": "成熟"
@@ -117966,14 +118641,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-10-14",
-        "version": "2.1.299"
+        "date": "2026-10-15",
+        "version": "2.1.301"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 1832
+          "change_count": 1844
         },
         {
           "epoch_id": "epoch4",
@@ -118119,6 +118794,12 @@
         "date": "2026-04-23"
       },
       {
+        "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+        "points": 937,
+        "url": "https://github.com/JustVugg/colibri",
+        "date": "2026-07-09"
+      },
+      {
         "title": "Using Claude Code to modernize a 25-year-old kernel driver",
         "points": 929,
         "url": "https://dmitrybrant.com/2025/09/07/using-claude-code-to-modernize-a-25-year-old-kernel-driver",
@@ -118135,12 +118816,6 @@
         "points": 842,
         "url": "https://www.npmjs.com/package/@anthropic-ai/claude-code",
         "date": "2025-09-29"
-      },
-      {
-        "title": "How to code Claude Code in 200 lines of code",
-        "points": 816,
-        "url": "https://www.mihaileric.com/The-Emperor-Has-No-Clothes/",
-        "date": "2026-01-08"
       }
     ],
     "blog_posts": [
