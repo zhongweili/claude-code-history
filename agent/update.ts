@@ -7,7 +7,8 @@
  *   OPENAI_API_KEY=sk-... bun agent/update.ts --incremental  # only enrich new versions
  *   OPENAI_API_KEY=sk-... bun agent/update.ts --sample 10    # test with 10 latest versions
  *
- * Requires: bun, and OPENCODE_API_KEY (preferred) or DEEPSEEK_API_KEY / OPENROUTER_API_KEY / OPENAI_API_KEY
+ * Requires: bun, and DEEPSEEK_API_KEY (preferred, model deepseek-flash)
+ * or OPENCODE_API_KEY / OPENROUTER_API_KEY / OPENAI_API_KEY
  */
 
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
@@ -26,35 +27,27 @@ const OUTPUT = resolve(DATA, "auto_bundle.json");
 // ── config ─────────────────────────────────────────────────────────────────
 // LLM provider selection, in priority order:
 //   1. Explicit LLM_API override (local backfills / experiments)
-//   2. OpenCode Go (OPENCODE_API_KEY) — preferred production path (subscription)
-//   3. Official DeepSeek, then OpenRouter, then OpenAI direct
+//   2. Official DeepSeek (DEEPSEEK_API_KEY, model deepseek-flash) — preferred production path
+//   3. OpenRouter, then OpenCode Go, then OpenAI direct
 // Each provider exposes chat/completions and authenticates with a Bearer key.
 type LlmProvider = { key: string; model: string; api: string; label: string };
 
 const LLM_PROVIDER: LlmProvider = (() => {
   // Explicit override wins. Example:
-  //   LLM_API=https://opencode.ai/zen/go/v1/chat/completions \
-  //   LLM_KEY=$OPENCODE_API_KEY LLM_MODEL=deepseek-v4.1-flash bun agent/update.ts --incremental
+  //   LLM_API=https://api.deepseek.com/chat/completions \
+  //   LLM_KEY=$DEEPSEEK_API_KEY LLM_MODEL=deepseek-flash bun agent/update.ts --incremental
   if (process.env.LLM_API) {
     const key =
       process.env.LLM_KEY ||
-      process.env.OPENCODE_API_KEY ||
       process.env.DEEPSEEK_API_KEY ||
+      process.env.OPENCODE_API_KEY ||
       process.env.OPENAI_API_KEY ||
       "";
     return {
       key,
-      model: process.env.LLM_MODEL ?? "deepseek-v4.1-flash",
+      model: process.env.LLM_MODEL ?? "deepseek-flash",
       api: process.env.LLM_API,
       label: process.env.LLM_LABEL ?? "custom",
-    };
-  }
-  if (process.env.OPENCODE_API_KEY) {
-    return {
-      key: process.env.OPENCODE_API_KEY,
-      model: process.env.LLM_MODEL ?? "deepseek-v4.1-flash",
-      api: "https://opencode.ai/zen/go/v1/chat/completions",
-      label: "opencode-go",
     };
   }
   if (process.env.DEEPSEEK_API_KEY) {
@@ -71,6 +64,14 @@ const LLM_PROVIDER: LlmProvider = (() => {
       model: process.env.LLM_MODEL ?? "openai/gpt-5.4-mini",
       api: "https://openrouter.ai/api/v1/chat/completions",
       label: "openrouter",
+    };
+  }
+  if (process.env.OPENCODE_API_KEY) {
+    return {
+      key: process.env.OPENCODE_API_KEY,
+      model: process.env.LLM_MODEL ?? "deepseek-v4.1-flash",
+      api: "https://opencode.ai/zen/go/v1/chat/completions",
+      label: "opencode-go",
     };
   }
   return {
@@ -99,28 +100,36 @@ function llmRequestHeaders(provider: LlmProvider): Record<string, string> {
   return headers;
 }
 
-/** Next provider when the preferred one rejects the key. OpenCode Go keys expire and are not renewed by signing in again. */
+/** Next provider when the current one rejects the key. Order is one-way, so a rejection cannot cycle. */
 function fallbackProvider(current: LlmProvider): LlmProvider | null {
-  if (current.label === "opencode-go" && process.env.DEEPSEEK_API_KEY) {
-    return {
-      key: process.env.DEEPSEEK_API_KEY,
+  const chain: LlmProvider[] = [
+    {
+      key: process.env.DEEPSEEK_API_KEY ?? "",
       model: "deepseek-flash",
       api: "https://api.deepseek.com/chat/completions",
       label: "deepseek",
-    };
-  }
-  if (
-    (current.label === "opencode-go" || current.label === "deepseek") &&
-    process.env.OPENROUTER_API_KEY
-  ) {
-    return {
-      key: process.env.OPENROUTER_API_KEY,
-      model: process.env.LLM_MODEL ?? "openai/gpt-5.4-mini",
+    },
+    {
+      key: process.env.OPENROUTER_API_KEY ?? "",
+      model: "openai/gpt-5.4-mini",
       api: "https://openrouter.ai/api/v1/chat/completions",
       label: "openrouter",
-    };
-  }
-  return null;
+    },
+    {
+      key: process.env.OPENCODE_API_KEY ?? "",
+      model: "deepseek-v4.1-flash",
+      api: "https://opencode.ai/zen/go/v1/chat/completions",
+      label: "opencode-go",
+    },
+    {
+      key: process.env.OPENAI_API_KEY ?? "",
+      model: "gpt-5.4-mini",
+      api: "https://api.openai.com/v1/chat/completions",
+      label: "openai",
+    },
+  ];
+  const index = chain.findIndex((provider) => provider.label === current.label);
+  return chain.slice(index + 1).find((provider) => provider.key) ?? null;
 }
 
 const SAMPLE = (() => {
