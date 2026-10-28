@@ -29,7 +29,9 @@ const OUTPUT = resolve(DATA, "auto_bundle.json");
 //   2. OpenCode Go (OPENCODE_API_KEY) — preferred production path (subscription)
 //   3. Official DeepSeek, then OpenRouter, then OpenAI direct
 // Each provider exposes chat/completions and authenticates with a Bearer key.
-const LLM_PROVIDER: { key: string; model: string; api: string; label: string } = (() => {
+type LlmProvider = { key: string; model: string; api: string; label: string };
+
+const LLM_PROVIDER: LlmProvider = (() => {
   // Explicit override wins. Example:
   //   LLM_API=https://opencode.ai/zen/go/v1/chat/completions \
   //   LLM_KEY=$OPENCODE_API_KEY LLM_MODEL=deepseek-v4.1-flash bun agent/update.ts --incremental
@@ -78,25 +80,47 @@ const LLM_PROVIDER: { key: string; model: string; api: string; label: string } =
     label: "openai",
   };
 })();
-const LLM_MODEL = LLM_PROVIDER.model;
-const LLM_API = LLM_PROVIDER.api;
 /** Stable for this process — OpenCode Go requires x-opencode-session (V2). */
 const OPENCODE_SESSION = process.env.OPENCODE_SESSION || randomUUID();
 const LLM_USER_AGENT =
   process.env.LLM_USER_AGENT || "claude-code-history/1.0";
 
-function llmRequestHeaders(apiKey: string): Record<string, string> {
+function llmRequestHeaders(provider: LlmProvider): Record<string, string> {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${apiKey}`,
+    Authorization: `Bearer ${provider.key}`,
     "User-Agent": LLM_USER_AGENT,
     Accept: "application/json",
   };
   // Required by OpenCode Go for routing/caching; harmless if unused elsewhere.
-  if (LLM_PROVIDER.label === "opencode-go" || LLM_API.includes("opencode.ai")) {
+  if (provider.label === "opencode-go" || provider.api.includes("opencode.ai")) {
     headers["x-opencode-session"] = OPENCODE_SESSION;
   }
   return headers;
+}
+
+/** Next provider when the preferred one rejects the key. OpenCode Go keys expire and are not renewed by signing in again. */
+function fallbackProvider(current: LlmProvider): LlmProvider | null {
+  if (current.label === "opencode-go" && process.env.DEEPSEEK_API_KEY) {
+    return {
+      key: process.env.DEEPSEEK_API_KEY,
+      model: "deepseek-flash",
+      api: "https://api.deepseek.com/chat/completions",
+      label: "deepseek",
+    };
+  }
+  if (
+    (current.label === "opencode-go" || current.label === "deepseek") &&
+    process.env.OPENROUTER_API_KEY
+  ) {
+    return {
+      key: process.env.OPENROUTER_API_KEY,
+      model: process.env.LLM_MODEL ?? "openai/gpt-5.4-mini",
+      api: "https://openrouter.ai/api/v1/chat/completions",
+      label: "openrouter",
+    };
+  }
+  return null;
 }
 
 const SAMPLE = (() => {
@@ -192,11 +216,10 @@ async function fetchJson<T>(url: string, headers?: Record<string, string>): Prom
 async function sleep(ms: number) { return new Promise((r) => setTimeout(r, ms)); }
 
 async function llm(systemPrompt: string, userPrompt: string): Promise<string> {
-  const apiKey = LLM_PROVIDER.key;
-  if (!apiKey) throw new Error("Set OPENCODE_API_KEY, DEEPSEEK_API_KEY, OPENROUTER_API_KEY, or OPENAI_API_KEY");
+  if (!LLM_PROVIDER.key) throw new Error("Set OPENCODE_API_KEY, DEEPSEEK_API_KEY, OPENROUTER_API_KEY, or OPENAI_API_KEY");
 
   const body = {
-    model: LLM_MODEL,
+    model: LLM_PROVIDER.model,
     temperature: 0.3,
     // OpenRouter bills against the requested max; the API default (64k) can
     // 402 even when remaining credits cover a normal changelog batch.
@@ -209,11 +232,23 @@ async function llm(systemPrompt: string, userPrompt: string): Promise<string> {
 
   for (let attempt = 0; attempt < 3; attempt++) {
     try {
-      const resp = await fetch(LLM_API, {
+      const resp = await fetch(LLM_PROVIDER.api, {
         method: "POST",
-        headers: llmRequestHeaders(apiKey),
+        headers: llmRequestHeaders(LLM_PROVIDER),
         body: JSON.stringify(body),
       });
+
+      if (resp.status === 401 || resp.status === 403) {
+        const text = await resp.text();
+        const next = fallbackProvider(LLM_PROVIDER);
+        if (next) {
+          log("llm", `${LLM_PROVIDER.label} ${resp.status}, switching to ${next.label} (${next.model})`);
+          Object.assign(LLM_PROVIDER, next);
+          body.model = LLM_PROVIDER.model;
+          continue;
+        }
+        throw new Error(`OpenAI API ${resp.status}: ${text.slice(0, 300)}`);
+      }
 
       if (resp.status === 429 || resp.status >= 500) {
         const wait = (attempt + 1) * 5000;
@@ -830,7 +865,7 @@ function assembleBundle(
   return {
     meta: {
       generated_at: new Date().toISOString(),
-      agent_model: LLM_MODEL,
+      agent_model: LLM_PROVIDER.model,
       total_versions: releases.length,
       date_range: {
         start: releaseDates[0] ?? "2025-02-24",
@@ -928,8 +963,8 @@ async function generateHighlights(
 // ── Main ───────────────────────────────────────────────────────────────────
 async function main() {
   const startTime = Date.now();
-  log("config", `LLM provider: ${LLM_PROVIDER.label} (model: ${LLM_MODEL})`);
-  if (LLM_PROVIDER.label === "opencode-go" || LLM_API.includes("opencode.ai")) {
+  log("config", `LLM provider: ${LLM_PROVIDER.label} (model: ${LLM_PROVIDER.model})`);
+  if (LLM_PROVIDER.label === "opencode-go" || LLM_PROVIDER.api.includes("opencode.ai")) {
     log("config", `OpenCode session: ${OPENCODE_SESSION}`);
   }
   const caps = loadJson<CapSeed[]>(CAPS_SEED);
@@ -987,6 +1022,7 @@ async function main() {
         mkdirSync(DATA, { recursive: true });
         writeFileSync(OUTPUT, JSON.stringify(bundle, null, 2), "utf8");
         const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+        log("config", `Finished on ${LLM_PROVIDER.label} (${LLM_PROVIDER.model})`);
         log("done", `No new versions. Refreshed signals. ${elapsed}s`);
         return;
       }
@@ -1017,6 +1053,7 @@ async function main() {
       writeFileSync(OUTPUT, JSON.stringify(bundle, null, 2), "utf8");
 
       const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+      log("config", `Finished on ${LLM_PROVIDER.label} (${LLM_PROVIDER.model})`);
       log("done", `Incremental: ${newVersions.length} new, ${releases.length} total, ${highlights.length} highlights. ${elapsed}s`);
       return;
     }
@@ -1040,6 +1077,7 @@ async function main() {
   writeFileSync(OUTPUT, JSON.stringify(bundle, null, 2), "utf8");
 
   const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+  log("config", `Finished on ${LLM_PROVIDER.label} (${LLM_PROVIDER.model})`);
   log("done", `Wrote ${OUTPUT}`);
   log("done", `${releases.length} releases, ${highlights.length} highlights, ${bundle.capabilities.length} capabilities`);
   log("done", `Elapsed: ${elapsed}s`);
