@@ -32,7 +32,7 @@ const OUTPUT = resolve(DATA, "auto_bundle.json");
 const LLM_PROVIDER: { key: string; model: string; api: string; label: string } = (() => {
   // Explicit override wins. Example:
   //   LLM_API=https://opencode.ai/zen/go/v1/chat/completions \
-  //   LLM_KEY=$OPENCODE_API_KEY LLM_MODEL=deepseek-v4-flash bun agent/update.ts --incremental
+  //   LLM_KEY=$OPENCODE_API_KEY LLM_MODEL=deepseek-v4.1-flash bun agent/update.ts --incremental
   if (process.env.LLM_API) {
     const key =
       process.env.LLM_KEY ||
@@ -42,7 +42,7 @@ const LLM_PROVIDER: { key: string; model: string; api: string; label: string } =
       "";
     return {
       key,
-      model: process.env.LLM_MODEL ?? "deepseek-v4-flash",
+      model: process.env.LLM_MODEL ?? "deepseek-v4.1-flash",
       api: process.env.LLM_API,
       label: process.env.LLM_LABEL ?? "custom",
     };
@@ -50,7 +50,7 @@ const LLM_PROVIDER: { key: string; model: string; api: string; label: string } =
   if (process.env.OPENCODE_API_KEY) {
     return {
       key: process.env.OPENCODE_API_KEY,
-      model: process.env.LLM_MODEL ?? "deepseek-v4-flash",
+      model: process.env.LLM_MODEL ?? "deepseek-v4.1-flash",
       api: "https://opencode.ai/zen/go/v1/chat/completions",
       label: "opencode-go",
     };
