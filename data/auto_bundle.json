@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-11-23T08:32:24.137Z",
+    "generated_at": "2026-11-24T10:41:12.962Z",
     "agent_model": "deepseek-flash",
-    "total_versions": 446,
+    "total_versions": 447,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-11-20"
+      "end": "2026-11-23"
     },
     "highlight_count": 72,
     "capability_count": 8,
@@ -70,11 +70,1765 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。adaptive thinking 把推理深度交给模型自己决定，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界——从 Opus 4.6 到 4.8，每一代都在加速这条路。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Adaptive thinking hands reasoning depth to the model itself, while worktree isolation and 1M context push the agent toward hours-long unattended runs — from Opus 4.6 through 4.8, each generation accelerates the path.",
-      "release_count": 230,
+      "release_count": 231,
       "highlight_count": 50
     }
   ],
   "releases": [
+    {
+      "version": "2.1.331",
+      "date": "2026-11-23",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added Code Mode support in terminal sessions on Amazon Bedrock, Google Cloud's Agent Platform, Microsoft Foundry and Claude Platform on AWS",
+          "category": "feat",
+          "importance": 3,
+          "summary": "终端会话支持Code Mode多云平台",
+          "summary_en": "Code Mode in terminal sessions across cloud platforms",
+          "why_matters": "让用户在更多云平台上使用终端会话的代码执行模式，扩展了可用范围。",
+          "why_matters_en": "Lets users run code-mode terminal sessions on more cloud providers, widening availability.",
+          "capability_ids": [
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added `oidc.groups_jsonpath` to the Claude apps gateway, to read groups from the matching entries of a list of objects with a small subset of JSONPath (RFC 9535)",
+          "category": "feat",
+          "importance": 2,
+          "summary": "网关支持JSONPath读取用户组",
+          "summary_en": "Gateway reads groups via JSONPath for OIDC",
+          "why_matters": "便于从OIDC声明中灵活提取用户组信息用于权限映射。",
+          "why_matters_en": "Makes it easier to extract group claims from OIDC tokens for permission mapping.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added an API connectivity section to `claude doctor` that reports whether the API can be reached, with the HTTP status or the error, or says why it wasn't tested",
+          "category": "feat",
+          "importance": 3,
+          "summary": "claude doctor新增API连通性检查",
+          "summary_en": "claude doctor reports API connectivity status",
+          "why_matters": "帮助用户快速定位网络或配置问题，减少排障时间。",
+          "why_matters_en": "Helps users quickly diagnose network or config issues, reducing troubleshooting time.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Added a notice when tap-mode voice dictation stops by itself, after 15 seconds without recognized speech or at its 2-minute limit",
+          "category": "feat",
+          "importance": 2,
+          "summary": "语音听写停止时给出提示",
+          "summary_en": "Notice when tap-mode voice dictation stops",
+          "why_matters": "让用户明白听写为何结束，避免误以为卡住。",
+          "why_matters_en": "Clarifies why dictation ended so users don't think it hung.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Added `CLAUDE_CODE_DISABLE_RESPONSE_COMPRESSION` to ask for uncompressed model responses behind a proxy that cuts compressed ones off; not advised yet for self-hosted runners or Remote Control",
+          "category": "feat",
+          "importance": 3,
+          "summary": "可关闭响应压缩以适配代理",
+          "summary_en": "Option to disable response compression behind proxies",
+          "why_matters": "解决代理截断压缩响应导致的连接失败问题。",
+          "why_matters_en": "Fixes failures caused by proxies cutting off compressed responses.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem",
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Added `CLAUDE_GATEWAY_IDP_CONNECT_BY_HOSTNAME=1` for Claude apps gateways: with `oidc.use_proxy: true`, sign-in requests hand the proxy an `https` IdP's hostname even with `NO_PROXY` set",
+          "category": "feat",
+          "importance": 2,
+          "summary": "网关按主机名连接IdP的新选项",
+          "summary_en": "Gateway option to connect IdP by hostname",
+          "why_matters": "让使用代理的网关在NO_PROXY下仍能正确路由登录请求。",
+          "why_matters_en": "Ensures proxied gateways still route sign-in requests correctly despite NO_PROXY.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added `gen_ai.usage.*`, `gen_ai.response.model` and `gen_ai.operation.name` to `claude_code.llm_request` trace spans; `gen_ai.usage.input_tokens` includes prompt cache tokens",
+          "category": "feat",
+          "importance": 2,
+          "summary": "追踪span新增GenAI用量属性",
+          "summary_en": "Trace spans add GenAI usage attributes",
+          "why_matters": "提升可观测性，便于统计令牌用量和模型信息。",
+          "why_matters_en": "Improves observability for token usage and model tracking.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added `optionalDependencies` to plugin manifests: plugins that install with the plugin listing them and can be disabled or uninstalled on their own",
+          "category": "feat",
+          "importance": 2,
+          "summary": "插件清单支持可选依赖",
+          "summary_en": "Plugin manifests support optional dependencies",
+          "why_matters": "让插件依赖可独立禁用或卸载，管理更灵活。",
+          "why_matters_en": "Let optional plugin dependencies be disabled or removed independently.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed MCP tool calls hanging for up to 30 minutes on some malformed replies from a local or WebSocket server",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复MCP工具调用长时间挂起",
+          "summary_en": "Fix MCP tool calls hanging up to 30 minutes",
+          "why_matters": "避免畸形响应导致工具调用卡死，显著提升稳定性。",
+          "why_matters_en": "Prevents malformed replies from freezing tool calls, greatly improving reliability.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "automation_autonomy",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed PushNotification telling a headless run, such as a scheduled one, that the terminal was active in its first minute, instead of saying whether a mobile push was requested",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复无头运行推送通知误报",
+          "summary_en": "Fix push notification status in headless runs",
+          "why_matters": "让无头任务的推送状态提示准确，避免误导。",
+          "why_matters_en": "Makes push notification status accurate in headless runs instead of misleading.",
+          "capability_ids": [
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed `/install-github-app` skipping the repository step after setup warnings when no repository was found, and Esc not going back from its workflow list and sign-in steps",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复GitHub应用安装流程导航",
+          "summary_en": "Fix /install-github-app step skipping and Esc nav",
+          "why_matters": "改善安装向导的导航与仓库选择，减少卡壳。",
+          "why_matters_en": "Improves install wizard navigation and repository selection.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed one-line tool results cut with no ellipsis in narrow windows, Markdown stars in the Auto mode tab of /permissions, and a hook's reason to stop a forked skill showing twice",
+          "category": "fix",
+          "importance": 1,
+          "summary": "修复窄窗口输出与显示细节",
+          "summary_en": "Fix narrow-window truncation and display glitches",
+          "why_matters": "提升小终端下的可读性和界面细节一致性。",
+          "why_matters_en": "Improves readability and UI consistency in small terminals.",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed `/diff` hiding its key hints and not selecting files in windows of 24 to 26 rows, and leaving out files added with `git add -N` in a repository with no commits",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复/diff在特定窗口与仓库的行为",
+          "summary_en": "Fix /diff hints, selection and untracked files",
+          "why_matters": "让/diff在特殊尺寸和无提交仓库中正确工作。",
+          "why_matters_en": "Makes /diff work correctly in odd window sizes and empty repos.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed the first-run theme list showing too few themes in short windows, and /usage and other tall screens coming out garbled there",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复短窗口主题列表与界面错乱",
+          "summary_en": "Fix theme list and garbled screens in short windows",
+          "why_matters": "避免矮终端下界面渲染异常影响使用。",
+          "why_matters_en": "Prevents rendering glitches from disrupting use in short terminals.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed `/bug` in fullscreen hiding its Yes and No answers behind a long report, and Yes staying out of view in very short windows",
+          "category": "fix",
+          "importance": 1,
+          "summary": "修复/bug全屏下选项被遮挡",
+          "summary_en": "Fix /bug answers hidden behind report in fullscreen",
+          "why_matters": "确保用户在反馈流程中能看到并选择答案。",
+          "why_matters_en": "Ensures users can see and select answers in the bug report flow.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed /compact and auto-compact sometimes losing part of the conversation summary when the summary quoted certain XML tags",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复压缩摘要丢失部分对话内容",
+          "summary_en": "Fix compaction losing parts of conversation summary",
+          "why_matters": "避免长对话压缩后丢失关键上下文。",
+          "why_matters_en": "Prevents losing key context after compacting long conversations.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed Claude not being told when permission rules on the Agent tool dropped its queued message to a subagent that had already ended",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复子代理权限消息丢失通知",
+          "summary_en": "Fix missing notice when subagent permission message dropped",
+          "why_matters": "让主代理及时知晓子代理未收到消息。",
+          "why_matters_en": "Lets the main agent know when a subagent never received its message.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed a Remote Control message sometimes showing above the reply that was finishing when it was sent",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复远程控制消息显示顺序错乱",
+          "summary_en": "Fix Remote Control message ordering glitch",
+          "why_matters": "确保回复与消息按正确时间顺序显示。",
+          "why_matters_en": "Ensures replies and messages display in the correct chronological order.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed Stop hooks that read the transcript missing the last reply in Claude Desktop; SubagentStop hooks now wait for it too",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复停止钩子漏掉最后一条回复",
+          "summary_en": "Fix Stop hooks missing the last reply",
+          "why_matters": "确保钩子读取完整转录并等待最终回复。",
+          "why_matters_en": "Ensures hooks read the full transcript and wait for the final reply.",
+          "capability_ids": [
+            "automation_autonomy",
+            "delegation_collaboration",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed turns and subagents failing in cloud sessions, or timing out on long replies elsewhere, when a reply went silent while Claude was still thinking; Claude Code now tries the request once more",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复云会话静默回复失败并增加重试",
+          "summary_en": "Fix silent-reply cloud failures and retry once",
+          "why_matters": "提升长回复与子代理会话的可靠性。",
+          "why_matters_en": "Improves reliability for long replies and subagent cloud sessions.",
+          "capability_ids": [
+            "execution_workspace",
+            "delegation_collaboration",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed Esc and Stop waiting about a minute or more when the contents of a cloud or network file that Claude is reading stall",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复读取停滞文件时停止响应过慢",
+          "summary_en": "Fix slow Esc/Stop when read file stalls",
+          "why_matters": "避免网络或云文件卡住时长时间无法中断。",
+          "why_matters_en": "Prevents long delays when a network or cloud file read stalls.",
+          "capability_ids": [
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed Code Mode sessions resumed with `--resume` or `--continue` in another permission mode losing thinking and the prompt cache; one begun in a mode that asks keeps that mode's limits on scripts",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复恢复会话丢失思考与提示缓存",
+          "summary_en": "Fix resume losing thinking and prompt cache",
+          "why_matters": "保持跨权限模式恢复时的上下文和缓存连续性。",
+          "why_matters_en": "Preserves context and cache continuity when resuming across permission modes.",
+          "capability_ids": [
+            "memory_context",
+            "governance_security",
+            "execution_workspace",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed Code Mode sending a request about every second when a `!` or slash command was typed while a script was running",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复代码模式脚本运行时频繁请求",
+          "summary_en": "Fix repeated requests during Code Mode scripts",
+          "why_matters": "减少无效请求并避免脚本执行受干扰。",
+          "why_matters_en": "Reduces wasted requests and avoids disrupting script execution.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed an interrupted or failed plugin update leaving a partial plugin folder that later loaded with skills or other components missing (anthropics/claude-code#102186)",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复插件更新失败留下残缺目录",
+          "summary_en": "Fix partial plugin folder after failed update",
+          "why_matters": "防止插件技能等组件因更新中断而缺失。",
+          "why_matters_en": "Prevents plugin skills and other components from going missing after interrupted updates.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Windows: Fixed file writes on FAT32 and exFAT drives asking for permission every time in some plugin sessions",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复Windows外置盘写入反复询问权限",
+          "summary_en": "Fix repeated permission prompts on FAT32/exFAT writes",
+          "why_matters": "减少插件会话在Windows外置盘上的重复授权。",
+          "why_matters_en": "Reduces repeated authorization on Windows external drives in plugin sessions.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed Claude failing to read a notebook that has a null output or an error output with no traceback",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复读取含空或错误输出的笔记本失败",
+          "summary_en": "Fix reading notebooks with null or error outputs",
+          "why_matters": "让Claude能正常解析不完整的笔记本输出。",
+          "why_matters_en": "Lets Claude parse incomplete notebook outputs correctly.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed a rewind deleting files after a restore had failed",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复恢复失败后回滚仍删除文件",
+          "summary_en": "Fix rewind deleting files after failed restore",
+          "why_matters": "避免恢复失败造成额外文件丢失。",
+          "why_matters_en": "Prevents additional file loss when a restore fails.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed auto mode sometimes refusing Claude's call to stop a /loop, which left the next wake-up to fire",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复自动模式误拒停止循环调用",
+          "summary_en": "Fix auto mode refusing to stop a /loop",
+          "why_matters": "防止循环停止失败后继续触发下一次唤醒。",
+          "why_matters_en": "Prevents a failed loop stop from triggering the next wake-up.",
+          "capability_ids": [
+            "automation_autonomy",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed a Workflow agent's background shells and MCP servers sometimes being left running after it handed back its report",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复工作流代理退出后遗留后台进程",
+          "summary_en": "Fix workflow agent leaving shells and MCP servers running",
+          "why_matters": "防止子代理结束后残留进程和MCP服务。",
+          "why_matters_en": "Prevents leftover processes and MCP servers after a subagent finishes.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "automation_autonomy",
+            "integrations_ecosystem",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Windows: Fixed `/desktop` downloading the older Claude Desktop installer, and asking for an update when an older install's folder was left behind",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复桌面端下载旧安装包并误提示更新",
+          "summary_en": "Fix desktop downloading old installer and update prompt",
+          "why_matters": "确保Windows用户获得正确的桌面端安装与更新。",
+          "why_matters_en": "Ensures Windows users get the correct desktop installer and update prompts.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `claude plugin install`, `marketplace add` and similar commands hanging with no output when managed settings needed an approval that could not be asked for",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复插件安装因审批不可用而卡死",
+          "summary_en": "Fix plugin install hang when approval is unavailable",
+          "why_matters": "避免管理策略审批无法弹出时命令无响应，提升可预期性。",
+          "why_matters_en": "Prevents commands from hanging silently when managed approval cannot be requested.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed a permission rule on a subagent's model, such as `Agent(model:*)`, blocking Claude's follow-up message to a subagent started on this version with no model named",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复子代理模型权限规则误阻断消息",
+          "summary_en": "Fix subagent model permission rule blocking follow-ups",
+          "why_matters": "确保模型限定权限不会阻断无模型名子代理的后续通信。",
+          "why_matters_en": "Ensures model-scoped permissions do not block follow-up messages to subagents without a named model.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed PermissionRequest hooks not saving `Skill(name:*)` allow rules outside local settings",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复权限钩子无法保存技能允许规则",
+          "summary_en": "Fix permission hooks failing to save Skill allow rules",
+          "why_matters": "确保非本地设置下的技能允许规则能被正确持久化。",
+          "why_matters_en": "Ensures Skill allow rules outside local settings are saved correctly.",
+          "capability_ids": [
+            "governance_security",
+            "automation_autonomy",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed \"Ask your admin\" asking to raise your own limit when your team's pooled group budget blocked you, and saying \"Request sent\" when an admin had approved your request in the last few minutes",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复团队预算提示与审批状态不准确",
+          "summary_en": "Fix inaccurate team budget prompts and approval status",
+          "why_matters": "避免误导用户重复申请或误以为审批未完成。",
+          "why_matters_en": "Avoids misleading users into re-requesting or thinking an approved request is still pending.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed Code Mode losing the middle of a long script output; Claude now gets a path to the uncut text (anthropics/claude-code#111373)",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复代码模式长脚本输出中段丢失",
+          "summary_en": "Fix Code Mode losing middle of long script output",
+          "why_matters": "防止长输出被截断导致关键信息丢失，并保留完整文本路径。",
+          "why_matters_en": "Prevents critical information loss from truncated long output and preserves a path to the full text.",
+          "capability_ids": [
+            "execution_workspace",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed hold-to-talk dictation stopping early and losing words when Claude Code was busy",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复忙时按住说话听写中断丢词",
+          "summary_en": "Fix hold-to-talk dictation stopping early when busy",
+          "why_matters": "确保高负载下语音输入仍完整可靠。",
+          "why_matters_en": "Keeps voice input complete and reliable under high load.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed Code Mode with `--bare` not telling Claude what its scripts can call",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复裸模式未告知脚本可用接口",
+          "summary_en": "Fix bare Code Mode not listing callable script APIs",
+          "why_matters": "让 Claude 在裸模式下也能正确调用脚本能力。",
+          "why_matters_en": "Lets Claude correctly use script capabilities in bare mode.",
+          "capability_ids": [
+            "execution_workspace",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed a crash when a custom API endpoint returned a tool call with no tool name; the call now fails with an error and the session continues",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复无名称工具调用导致崩溃",
+          "summary_en": "Fix crash on tool calls with no tool name",
+          "why_matters": "将异常工具调用转为可恢复错误，避免中断会话。",
+          "why_matters_en": "Turns malformed tool calls into recoverable errors instead of ending the session.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Windows: Fixed a possible crash when the machine is almost out of memory",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复Windows低内存时可能崩溃",
+          "summary_en": "Fix possible Windows crash near out of memory",
+          "why_matters": "提升低内存 Windows 环境的稳定性。",
+          "why_matters_en": "Improves stability on Windows machines with very low memory.",
+          "capability_ids": [
+            "execution_workspace",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed the CLI freezing on some replies, and quoted text sometimes going missing or showing twice",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复CLI卡死及引用文本异常",
+          "summary_en": "Fix CLI freezes and missing or duplicated quotes",
+          "why_matters": "保障长回复渲染稳定，避免引用内容丢失或重复。",
+          "why_matters_en": "Keeps long replies stable and prevents quoted text from disappearing or duplicating.",
+          "capability_ids": [
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Windows: Fixed Claude Code refusing to start when managed settings in the registry contain non-ASCII characters such as Japanese (anthropics/claude-code#93280)",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复Windows非ASCII管理设置致启动失败",
+          "summary_en": "Fix Windows startup failure with non-ASCII managed settings",
+          "why_matters": "避免注册表管理策略含日文等字符时整个工具无法启动。",
+          "why_matters_en": "Prevents total startup failure when registry managed settings contain characters like Japanese.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Windows: Fixed Remote Control clients showing no steps for a new subagent",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复远程控制不显示新子代理步骤",
+          "summary_en": "Fix Remote Control showing no steps for new subagents",
+          "why_matters": "确保远程观察子代理执行过程时信息完整。",
+          "why_matters_en": "Ensures remote observers see complete execution steps for new subagents.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed @-mentions written as `@file#10-12` attaching the whole file instead of those lines",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复@文件行范围引用附加整文件",
+          "summary_en": "Fix @file line-range mentions attaching whole file",
+          "why_matters": "让行范围引用精确附加指定行，减少无关上下文。",
+          "why_matters_en": "Makes line-range mentions attach only selected lines, reducing irrelevant context.",
+          "capability_ids": [
+            "memory_context",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed Claude misreading a pasted artifact invitation link; it now asks you to accept the invitation and paste the artifact's own link",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复粘贴工件邀请链接被误读",
+          "summary_en": "Fix misread pasted artifact invitation links",
+          "why_matters": "引导用户完成邀请并粘贴正确链接，减少失败。",
+          "why_matters_en": "Guides users to accept invitations and paste the correct artifact link, reducing failures.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed sandboxed Bash commands sometimes failing to start on a full temp disk, for sandboxes whose file rules keep commands out of the temp directory",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复沙箱Bash在临时盘满时启动失败",
+          "summary_en": "Fix sandboxed Bash failing on full temp disk",
+          "why_matters": "避免文件规则排除临时目录时沙箱命令无法启动。",
+          "why_matters_en": "Prevents sandboxed commands from failing to start when file rules exclude the temp directory.",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Improved typing speed in screen reader mode, most of all in long sessions",
+          "category": "perf",
+          "importance": 3,
+          "summary": "屏幕阅读器模式输入更快",
+          "summary_en": "Faster typing in screen reader mode",
+          "why_matters": "无障碍用户长时间会话时输入延迟明显降低，操作更顺畅。",
+          "why_matters_en": "Screen-reader users get noticeably lower input latency, especially in long sessions.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Improved start-up time: a session started soon after another no longer waits for the model list, and one outside a git repository without `.claude/settings.local.json` no longer waits on git",
+          "category": "perf",
+          "importance": 3,
+          "summary": "启动更快：跳过模型列表与 git 等待",
+          "summary_en": "Faster startup: no model-list or git waits",
+          "why_matters": "连续开会话或非 git 目录启动时不再卡在无关初始化上。",
+          "why_matters_en": "Back-to-back sessions and non-git directories no longer stall on unrelated init work.",
+          "capability_ids": [
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Windows: Improved the speed of the first Bash command in a session on machines with no custom shell start-up files",
+          "category": "perf",
+          "importance": 2,
+          "summary": "Windows 首个 Bash 命令更快",
+          "summary_en": "Windows: faster first Bash command",
+          "why_matters": "无自定义 shell 启动文件的 Windows 机器首次执行命令等待更短。",
+          "why_matters_en": "Windows machines without custom shell startup files see shorter waits on the first command.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Improved the plugin auto-update notice to name plugins it newly installs as dependencies, separately from updated plugins",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "插件更新提示区分新增依赖",
+          "summary_en": "Plugin update notice names new dependency plugins",
+          "why_matters": "用户能看清哪些插件是本次新装依赖，哪些只是版本更新。",
+          "why_matters_en": "Users can tell which plugins were newly installed as dependencies versus merely updated.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Improved Code Mode tool search to show more of an MCP tool's description, with its limits, formats and defaults",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "工具搜索显示更完整 MCP 说明",
+          "summary_en": "Tool search shows fuller MCP tool docs",
+          "why_matters": "包含限制、格式与默认值，Claude 更易正确调用 MCP 工具。",
+          "why_matters_en": "Including limits, formats and defaults helps Claude call MCP tools correctly.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Improved the Console sign-in link shown by /login and `claude auth login --console`: it is now much shorter",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "Console 登录链接大幅缩短",
+          "summary_en": "Much shorter Console sign-in link",
+          "why_matters": "登录链接更短，方便在终端中复制与手动输入。",
+          "why_matters_en": "A shorter link is easier to copy and type manually in the terminal.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Improved Claude's list of your artifacts: it now marks web pages, so Claude is less likely to try opening one with the Claude Docs connector",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "工件列表标记网页类型",
+          "summary_en": "Artifacts list marks web pages",
+          "why_matters": "Claude 不再误用文档连接器打开网页类型工件。",
+          "why_matters_en": "Claude is less likely to open a web-page artifact with the Claude Docs connector.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Improved the folder trust prompts in short terminals: fullscreen `/cd` and `/add-dir` show their choices in fewer rows, and the prompt at launch keeps the folder path in view when it has many warnings",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "短终端下信任提示更易读",
+          "summary_en": "Folder trust prompts fit short terminals",
+          "why_matters": "行数受限时选项与路径仍保持可见，避免误选目录。",
+          "why_matters_en": "Choices and the folder path stay visible in limited rows, avoiding wrong-folder choices.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Changed the questions for stopping auto-connect in `/ide` and for `/clear`, `/compact` or `/rewind` in a subagent's view to list Yes first; they still start on No, so Down then Enter now answers No",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "确认提示改为 Yes 在前、默认 No",
+          "summary_en": "Yes listed first, default still No",
+          "why_matters": "更符合阅读习惯，同时保留默认否定以防误操作。",
+          "why_matters_en": "Matches reading order while keeping the safe default on No.",
+          "capability_ids": [
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Changed what a `PermissionDenied` hook's `retry: true` tells Claude: make the refused call again only if you asked for that call",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "权限拒绝重试仅重发你请求的调用",
+          "summary_en": "PermissionDenied retry repeats only the requested call",
+          "why_matters": "避免钩子返回 retry 时 Claude 重复执行未被请求的操作。",
+          "why_matters_en": "Prevents Claude from re-running operations you did not ask for when a hook returns retry.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Changed in a future release, on or after November 30, 2026: plugin marketplaces in managed `extraKnownMarketplaces` will auto-update by default. To opt one out, set `\"autoUpdate\": false` on its entry",
+          "category": "breaking",
+          "importance": 3,
+          "summary": "插件市场将于 2026-11-30 起默认自动更新",
+          "summary_en": "Marketplaces auto-update by default from 2026-11-30",
+          "why_matters": "托管环境行为将改变，需提前在条目上设置 autoUpdate 关闭。",
+          "why_matters_en": "Managed behavior changes; set autoUpdate false per entry to opt out ahead of time.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Windows: Changed start-up with managed settings in the registry: check them before upgrading, as an `HKLM` policy outranks `managed-settings.json` and a broken value can stop the start",
+          "category": "breaking",
+          "importance": 3,
+          "summary": "Windows 注册表托管设置优先，升级前请检查",
+          "summary_en": "Windows registry policies override managed-settings.json",
+          "why_matters": "HKLM 策略覆盖文件配置，错误值会导致启动失败需事先核对。",
+          "why_matters_en": "HKLM policy beats managed-settings.json and a bad value can break startup, so verify first.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "[VSCode] Added a warning and a link to the revoke page when you log out and the request to revoke your claude.ai login isn't confirmed",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "登出时撤销未确认会提示并提供链接",
+          "summary_en": "Warn and link when logout revoke is unconfirmed",
+          "why_matters": "用户能及时发现会话令牌未撤销并手动处理。",
+          "why_matters_en": "Users notice unconfirmed login revocation and can act on it manually.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "[VSCode] Added a notice before sending a very large selection or attached text file, and advice under \"Prompt is too long\" that names the large part and what to do next",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "发送大段文本前提示，超长时报出大块内容",
+          "summary_en": "Warn before large sends; name the oversized part",
+          "why_matters": "帮助用户控制上下文体积，并明确超长提示的成因与对策。",
+          "why_matters_en": "Helps users control context size and understand what caused a too-long prompt.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "[VSCode] Added \"Add Cell to Chat\" to the notebook cell menu, which attaches a cell with its outputs or error",
+          "category": "feat",
+          "importance": 3,
+          "summary": "笔记本单元格连输出一起加入聊天",
+          "summary_en": "Add notebook cell with outputs to chat",
+          "why_matters": "整块单元格内容与执行结果可直接作为上下文，省去手工粘贴。",
+          "why_matters_en": "Cell content plus outputs become context directly, no manual copy-paste.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "[VSCode] Added \"Fix with Claude Code\" as a quick fix for errors and warnings and to failed tests in the test peek and the Test Results view, which puts the problem into the chat box",
+          "category": "feat",
+          "importance": 4,
+          "summary": "VS Code 中一键修复报错与失败测试",
+          "summary_en": "One-click fix for errors and failed tests in VS Code",
+          "why_matters": "把错误和失败测试直接送入对话，省去手动复制问题上下文的步骤，显著加快排错循环。",
+          "why_matters_en": "Sends problems straight into chat so you skip manual context copying and debug faster.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "[VSCode] Added \"Add to Chat\" to the right-click menu of changed files in the Source Control view",
+          "category": "feat",
+          "importance": 3,
+          "summary": "源代码管理改动文件可右键加入对话",
+          "summary_en": "Right-click changed files in Source Control to add to chat",
+          "why_matters": "无需切换视图即可把改动文件作为上下文交给 Claude，评审与修改更顺手。",
+          "why_matters_en": "Hand changed files to Claude as context without leaving the SCM view, easing review.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "[VSCode] Added \"Resolve Merge Conflicts\" to the editor title of a file with merge conflicts and to the Merge Changes group in Source Control",
+          "category": "feat",
+          "importance": 4,
+          "summary": "编辑器内一键解决合并冲突",
+          "summary_en": "Resolve merge conflicts in one click from the editor",
+          "why_matters": "把繁琐的冲突合并交给 Claude 处理，降低解决冲突的门槛和出错风险。",
+          "why_matters_en": "Delegating conflict resolution to Claude lowers effort and risk when merging.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed raw tags for selected code under a reworded prompt, the mode button flashing Manual, the slash menu hiding its highlighted row, a broken sign-in image, and a blinking Accept/Reject bar",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复选中代码标签、模式按钮闪烁等界面问题",
+          "summary_en": "Fixed code tags, mode button flashing and other UI glitches",
+          "why_matters": "这些显示异常虽小但干扰日常操作，修复后界面反馈更可靠。",
+          "why_matters_en": "Small UI glitches disrupted daily use; fixing them makes feedback reliable.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed a forked conversation overwriting the original conversation's plan file; a fork or rewind that can't copy the plan now shows a warning",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复分叉对话覆盖原对话计划文件",
+          "summary_en": "Fixed forked chats overwriting the original plan file",
+          "why_matters": "此前分叉会破坏原对话的计划内容，属数据丢失风险，现已改为失败时告警。",
+          "why_matters_en": "Forks could destroy the original plan data; now it warns instead of silently overwriting.",
+          "capability_ids": [
+            "memory_context",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed voice dictation saying no speech was recognized when its connection closed or never opened; it now says the connection was lost or couldn't connect",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修正语音听写连接失败的错误提示",
+          "summary_en": "Corrected voice dictation connection error messages",
+          "why_matters": "准确的提示让用户知道是网络连接问题而非没有讲话，便于自行排查。",
+          "why_matters_en": "Accurate messaging tells users it is a connection problem, not their silence.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed an unsent side question being lost when its panel closes",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复关闭面板丢失未发送的侧问内容",
+          "summary_en": "Fixed unsent side questions being lost on panel close",
+          "why_matters": "避免用户已输入的提问意外消失，减少重复输入与挫败感。",
+          "why_matters_en": "Prevents typed questions from vanishing, cutting frustration and retyping.",
+          "capability_ids": [
+            "memory_context",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed Escape stopping Claude after renaming a session, and typing going nowhere after closing the session history with Escape",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复重命名会话后 Esc 误停及输入无响应",
+          "summary_en": "Fixed Esc interrupting Claude after rename and dead input after Esc",
+          "why_matters": "误触 Esc 会中断 Claude 或让输入失效，修复后会话操作更可预期。",
+          "why_matters_en": "Esc no longer kills Claude or bricks input, making session controls predictable.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed Rename, Mark as Unread and Add to Group saying \"still connecting\" on a tab that resumed a session from its history",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复恢复历史会话后标签页操作提示连接中",
+          "summary_en": "Fixed tab actions stuck on 'still connecting' after resuming",
+          "why_matters": "恢复会话后重命名、标记未读等操作不再被误判为未连接而无法使用。",
+          "why_matters_en": "Rename, unread and grouping now work after resuming a session from history.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed wide tables and long paths cut off, long errors hiding their close button, errors out of view in the Add MCP server form and Chrome dialog, and plugin pictures ignoring the editor theme",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复表格路径截断、按钮被遮挡等布局问题",
+          "summary_en": "Fixed truncated tables, hidden close buttons and theme issues",
+          "why_matters": "内容被截断或按钮不可见会阻断操作，修复后信息可完整读取与关闭。",
+          "why_matters_en": "Clipped content and unreachable buttons blocked actions; now readable and closable.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed later prompts and the message box covering the Rewind code dialog, and focus jumping from \"Never mind\" to \"Rewind\" when it finishes checking files",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复回滚对话框被遮挡与焦点跳转",
+          "summary_en": "Fixed Rewind dialog being covered and focus jumping",
+          "why_matters": "对话框被盖住或焦点乱跳易导致误操作，修复后回滚流程更安全。",
+          "why_matters_en": "Covered dialogs and focus jumps risk misclicks; now the rewind flow is safer.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed the command menu keeping an earlier match highlighted while you type more in its filter, so Enter could run the wrong row",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复命令菜单残留高亮导致回车执行错行",
+          "summary_en": "Fixed command menu stale highlight running the wrong row",
+          "why_matters": "回车可能执行非预期命令，修复后选择行为与视觉高亮一致。",
+          "why_matters_en": "Enter could run an unintended command; selection now matches the highlight.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed the @ menu showing \"No files found\" before its first search results arrived, or when it couldn't search all files of a very large workspace, which it now says",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复 @ 菜单过早显示未找到文件",
+          "summary_en": "Fixed @ menu showing 'No files found' before results arrive",
+          "why_matters": "误导性的空结果会让人以为文件不可引用，现在能区分加载中与搜索受限。",
+          "why_matters_en": "Misleading empty results made files look unreferenceable; loading and limits now distinct.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed Escape stopping Claude at a Remove or Delete confirmation in MCP, Hooks and Memory dialogs, on a side question panel's button or link, and on the Bookmarks button with its panel open",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复确认弹窗中 Esc 误中断 Claude",
+          "summary_en": "Fixed Esc interrupting Claude at confirmation dialogs",
+          "why_matters": "在删除等确认环节误按 Esc 会中断整个会话，修复后取消操作更符合预期。",
+          "why_matters_en": "Esc at delete confirmations no longer aborts the session, matching user expectations.",
+          "capability_ids": [
+            "governance_security",
+            "memory_context",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed empty boxes showing instead of the + and − signs in diffs (anthropics/claude-code#73069)",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复差异视图加减号显示为空框",
+          "summary_en": "Fixed diff view showing empty boxes instead of +/- signs",
+          "why_matters": "缺失的加减号让代码变更难以快速辨识，修复后差异一览更清晰。",
+          "why_matters_en": "Missing +/- markers made diffs hard to scan; changes are now clearly readable.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed the chat no longer following Claude's reply after the panel was resized, or hidden and shown again",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复面板缩放或隐藏后聊天不跟随回复",
+          "summary_en": "Fix chat not following replies after resize or hide",
+          "why_matters": "避免调整面板后丢失对话上下文位置。",
+          "why_matters_en": "Prevents losing your place in the conversation after resizing.",
+          "capability_ids": [
+            "execution_workspace",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed a chat left in bypass permissions mode reopening in Auto mode instead of your initial permission mode when settings disable bypass",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复禁用绕过权限时会话重开为自动模式",
+          "summary_en": "Fix chat reopening in Auto mode when bypass is disabled",
+          "why_matters": "确保权限设置符合预期，避免误用自动授权。",
+          "why_matters_en": "Ensures permission settings are respected and avoids unintended auto approval.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed the chat panel freezing on some CSS code blocks and diffs",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复部分CSS代码块和差异视图卡死",
+          "summary_en": "Fix freezes on some CSS code blocks and diffs",
+          "why_matters": "减少查看代码或差异时的界面无响应。",
+          "why_matters_en": "Reduces UI freezes when reviewing code or diffs.",
+          "capability_ids": [
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed the context usage indicator disappearing after an API error, \"Prompt is too long\", or a slash command",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复上下文用量指示器在错误后消失",
+          "summary_en": "Fix context usage indicator disappearing after errors",
+          "why_matters": "让你持续看到上下文余量，便于控制长对话。",
+          "why_matters_en": "Keeps context headroom visible for managing long conversations.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed a message queued behind a queued /clear being lost",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复/clear后排队的消息被丢失",
+          "summary_en": "Fix queued message lost behind queued /clear",
+          "why_matters": "防止用户排队消息在清空命令后意外消失。",
+          "why_matters_en": "Prevents queued user messages from disappearing after a clear command.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed Manage Plugins losing its search box or showing no message when a search has no match, and not saying that the list of available plugins failed to load",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复插件管理搜索框消失及加载提示缺失",
+          "summary_en": "Fix Manage Plugins search box and load-error message",
+          "why_matters": "让插件搜索和无结果、加载失败状态更清楚。",
+          "why_matters_en": "Makes plugin search and no-result or load-failure states clearer.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed proposed changes to notebooks and files with a custom editor opening in a tab with no Accept or Reject that stayed open after the answer",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复自定义编辑器变更页缺少接受/拒绝按钮",
+          "summary_en": "Fix custom-editor changes tab missing Accept/Reject",
+          "why_matters": "确保提议修改可被明确接受或拒绝并及时关闭。",
+          "why_matters_en": "Ensures proposed edits can be explicitly accepted or rejected and closed.",
+          "capability_ids": [
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed the spend limit message telling Team and Enterprise members to run `/usage-credits`, which can't send a request to their admin from the panel",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复团队版额度提示引导不可用命令",
+          "summary_en": "Fix spend-limit message suggesting unusable /usage-credits",
+          "why_matters": "避免团队和企业成员收到无法操作的额度提示。",
+          "why_matters_en": "Avoids unusable credit guidance for Team and Enterprise members.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed a written message being wiped by Tab on a command in the \"/\" button's menu or by a click on an onboarding suggestion",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复Tab或点击建议清空已输入消息",
+          "summary_en": "Fix Tab or onboarding click wiping typed message",
+          "why_matters": "防止补全命令或点击建议时丢失已写内容。",
+          "why_matters_en": "Prevents losing typed content when completing commands or clicking suggestions.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed Claude continuing to edit files after you rewind code while it is working",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复回退代码后Claude仍继续编辑文件",
+          "summary_en": "Fix Claude still editing files after code rewind",
+          "why_matters": "防止回退后产生意外文件改动。",
+          "why_matters_en": "Prevents unexpected file changes after rewinding code.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed typed text being lost after /tasks, /copy, /export, a skipped /feedback, or /plan while already in plan mode",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复使用斜杠命令后已输入文本丢失",
+          "summary_en": "Fix typed text lost after slash commands in plan mode",
+          "why_matters": "保护用户在计划模式下未发送的输入。",
+          "why_matters_en": "Protects unsent user input while using plan mode commands.",
+          "capability_ids": [
+            "execution_workspace",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed the question card dropping a typed \"Other\" answer on Ctrl/Cmd+Enter, and sending the word \"Other\" when nothing was typed",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复问题卡丢失Other输入或误发Other",
+          "summary_en": "Fix question card losing Other answer or sending it empty",
+          "why_matters": "确保自定义回答被正确提交且不发送占位词。",
+          "why_matters_en": "Ensures custom answers are submitted correctly without placeholder text.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed the panel showing \"Something went wrong\" for a conversation in which a gateway sent a tool call with no name",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复网关无名称工具调用导致报错",
+          "summary_en": "Fix gateway tool call with no name causing error",
+          "why_matters": "提高网关异常工具调用时的会话稳定性。",
+          "why_matters_en": "Improves conversation stability with malformed gateway tool calls.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed unsaved changes being missed, and Claude's edit being overwritten by the next save, in a folder opened through a symlink",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复符号链接目录下漏检未保存更改",
+          "summary_en": "Fix missed unsaved changes in symlinked folders",
+          "why_matters": "避免Claude编辑被后续保存覆盖。",
+          "why_matters_en": "Prevents Claude edits from being overwritten by later saves.",
+          "capability_ids": [
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed @-mentions attaching nothing, or another file of the same name, after Claude changed folders with `cd`",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复cd后@提及附错文件或为空",
+          "summary_en": "Fix @-mentions attaching wrong or no file after cd",
+          "why_matters": "确保切换目录后引用的文件准确。",
+          "why_matters_en": "Ensures referenced files are correct after changing folders.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed the arrow keys replacing typed text with an old prompt while selecting, and dropping edits to a recalled prompt",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复方向键历史导航覆盖输入并丢失编辑",
+          "summary_en": "Fixed arrow-key history nav clobbering typed text and losing edits",
+          "why_matters": "输入历史浏览时不再误删正在编辑的提示词，避免重复输入。",
+          "why_matters_en": "Browsing prompt history no longer destroys your in-progress edits, saving retyping.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed an @-mention added while a permission prompt was open being lost",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复权限弹窗期间添加的@引用丢失",
+          "summary_en": "Fixed @-mentions added during a permission prompt being lost",
+          "why_matters": "等待授权时补充的上下文引用不会静默消失，减少返工。",
+          "why_matters_en": "Context you attach while waiting for approval no longer silently disappears.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed shortcuts such as Ctrl+1, Alt+1 or Ctrl+Space answering an open dialog, which could restore files in the rewind confirmation or switch the git branch",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复快捷键误响应弹窗导致意外还原或切分支",
+          "summary_en": "Fixed shortcuts answering dialogs, reverting files or switching branches",
+          "why_matters": "快捷键不再误触确认框，避免破坏性的意外文件还原或分支切换。",
+          "why_matters_en": "Stray shortcuts can no longer confirm destructive rewind or branch switch dialogs.",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed prompts that start with a file path or code comment being sent without the selected code and having no fork or rewind menu",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复以路径或注释开头的提示丢失所选代码",
+          "summary_en": "Fixed prompts starting with a path/comment dropping selected code",
+          "why_matters": "常见输入习惯不再导致上下文丢失，也恢复了分支与回滚菜单。",
+          "why_matters_en": "A common prompting habit no longer drops context or hides fork/rewind menus.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed file links in the chat ignoring your editor associations for files in the workspace, except notebooks (anthropics/claude-code#81482)",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复聊天内文件链接忽略编辑器关联设置",
+          "summary_en": "Fixed chat file links ignoring workspace editor associations",
+          "why_matters": "点击文件链接会按你的编辑器偏好打开，而非默认程序。",
+          "why_matters_en": "File links now open in your preferred editor instead of the default one.",
+          "capability_ids": [
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed selected lines staying attached to your next message after their file's tab was closed",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复关闭标签后选中行仍附着到新消息",
+          "summary_en": "Fixed selected lines staying attached after their tab was closed",
+          "why_matters": "避免把已关闭文件的过期代码片段误发给模型。",
+          "why_matters_en": "Prevents stale code from closed files being sent to the model.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed new sessions starting in Edit automatically after pressing Shift+Tab through it to reach Plan mode",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复切换模式后新会话误以 Edit 模式启动",
+          "summary_en": "Fixed new sessions starting in Edit after switching to Plan",
+          "why_matters": "模式状态正确保留，避免本应只读规划时意外改动文件。",
+          "why_matters_en": "Mode state persists correctly, avoiding unintended edits when planning.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed an edited command on the permission prompt running without the line breaks that were typed or pasted into it",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复权限弹窗中编辑的命令丢失换行后执行",
+          "summary_en": "Fixed edited permission commands running without typed line breaks",
+          "why_matters": "你批准的命令与实际执行的完全一致，避免多行脚本行为异常。",
+          "why_matters_en": "Approved commands run exactly as written, preventing multi-line script errors.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed a newly opened Claude tab not focusing its message box, or taking the keyboard late from the terminal or command palette and sending the typed text as a prompt",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复新标签未聚焦输入框导致文字误发",
+          "summary_en": "Fixed new Claude tab not focusing its message box",
+          "why_matters": "打字不再被终端或命令面板抢走并当作提示词误发送。",
+          "why_matters_en": "Typed text no longer leaks to the terminal or command palette as a prompt.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed Alt+K line ranges such as `@app.ts#5-10` sending the whole file, or its first 2,000 lines, instead of the selected lines",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复 Alt+K 行范围引用发送整个文件",
+          "summary_en": "Fixed Alt+K line ranges sending the whole file instead",
+          "why_matters": "精确行范围引用生效，节省上下文并提高回答准确性。",
+          "why_matters_en": "Precise line-range references work, saving context and improving accuracy.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed diff tabs opening out of order when several subagents wait for approval, and a later edit to the same file cancelling an earlier one",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复多子代理审批时差异标签乱序与覆盖",
+          "summary_en": "Fixed diff tabs ordering and later edits cancelling earlier ones",
+          "why_matters": "并行子代理的改动审阅顺序清晰，不会丢掉更早的编辑。",
+          "why_matters_en": "Parallel subagent changes review in order without losing earlier edits.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed Enter rewriting a message or running a menu action when a `/word` such as the path `/api` stands beside other text, and running a typed slash command without its arguments",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复含 /路径 文本时回车误重写或执行菜单",
+          "summary_en": "Fixed Enter rewriting messages or running menus when /words appear",
+          "why_matters": "普通文本里的斜杠路径不再触发误操作，输入更可靠。",
+          "why_matters_en": "Slash-like paths in prose no longer trigger unintended submit or menu actions.",
+          "capability_ids": [
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed Electron apps and extension tests failing to start from Claude, a hook or an MCP server; a wrapper, hook or server that runs VS Code as Node must now set `ELECTRON_RUN_AS_NODE=1`",
+          "category": "breaking",
+          "importance": 4,
+          "summary": "以 Node 运行 VS Code 的包装/钩子需设环境变量",
+          "summary_en": "Wrappers running VS Code as Node must set ELECTRON_RUN_AS_NODE=1",
+          "why_matters": "修复了 Electron 应用与扩展测试启动失败，但需手动补充环境变量。",
+          "why_matters_en": "Fixes Electron/extension test startup but requires setting the env var yourself.",
+          "capability_ids": [
+            "execution_workspace",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed Claude not being told when you reject part of a proposed edit or change it in the diff view before accepting",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复部分拒绝或修改建议编辑时模型不知情",
+          "summary_en": "Fixed Claude not being told when you reject or adjust a proposed edit",
+          "why_matters": "模型能感知你的局部拒绝与改动，后续建议更贴合实际代码。",
+          "why_matters_en": "Claude learns about partial rejects and edits, so follow-ups match your code.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed Escape on a permission prompt sending a half-typed instruction to Claude instead of cancelling",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复在权限弹窗按 Esc 误发送半截指令",
+          "summary_en": "Fixed Escape on permission prompts sending half-typed text",
+          "why_matters": "取消操作真正取消，不会把未完成的输入当作指令执行。",
+          "why_matters_en": "Cancelling truly cancels instead of submitting unfinished instructions.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed Ctrl+J and Ctrl+O in the chat also opening VS Code's terminal or Open File dialog on Windows and Linux",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复聊天快捷键误触发VS Code终端/打开文件",
+          "summary_en": "Fixed chat shortcuts triggering VS Code terminal/file dialog",
+          "why_matters": "避免快捷键冲突导致意外打开终端或文件对话框。",
+          "why_matters_en": "Prevents shortcut conflicts from unexpectedly opening the terminal or file dialog.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed the @ menu inserting the wrong file on a quick Tab or Enter, and Enter not sending a prompt that ends in an @word with no matching file",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复@文件菜单快速确认插错文件及发送失败",
+          "summary_en": "Fixed @ menu wrong file on quick Tab/Enter and send failure",
+          "why_matters": "确保文件提及和提示发送可靠，不插入错误上下文。",
+          "why_matters_en": "Ensures file mentions and prompt sending are reliable without inserting wrong context.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed new Claude tabs staying blank and the side bar failing to load after closing a tab while Claude was still starting",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复启动中关闭标签致新标签空白/侧栏加载失败",
+          "summary_en": "Fixed blank tabs/sidebar load failure on startup close",
+          "why_matters": "避免启动阶段操作导致编辑器界面不可用。",
+          "why_matters_en": "Prevents startup-time actions from making the editor UI unusable.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed a quick double click in the panel pressing a button or row that appeared after the first click, or starting a second compaction from the context usage circle",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复快速双击误触新出现按钮或重复压缩",
+          "summary_en": "Fixed double-click misfiring new buttons/compaction",
+          "why_matters": "防止误操作触发非预期按钮或重复压缩。",
+          "why_matters_en": "Prevents accidental clicks from triggering unintended buttons or duplicate compaction.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed switching models failing with \"Settings file is not valid JSON\" when settings.json is empty or starts with a byte order mark",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复空或BOM settings.json导致切换模型报错",
+          "summary_en": "Fixed model switch JSON error with empty/BOM settings.json",
+          "why_matters": "确保模型切换不受配置文件格式细节影响。",
+          "why_matters_en": "Ensures model switching is not blocked by config file formatting details.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed memory growing with each fork or rewind of a long conversation until the window was reloaded",
+          "category": "perf",
+          "importance": 3,
+          "summary": "修复长对话分叉/回退后内存持续增长",
+          "summary_en": "Fixed memory growth after fork/rewind of long conversations",
+          "why_matters": "避免长时间使用后内存膨胀，减少重载窗口。",
+          "why_matters_en": "Avoids memory bloat during long use and reduces window reloads.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed plan comments not showing on the plan approval card in Focus view",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复Focus视图计划批准卡不显示计划评论",
+          "summary_en": "Fixed plan comments missing on approval card in Focus view",
+          "why_matters": "确保计划评审意见在批准时可见。",
+          "why_matters_en": "Ensures plan review comments are visible during approval.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed file links without a line number moving the cursor of an open file to line 1",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复无行号文件链接将光标移到首行",
+          "summary_en": "Fixed file links with no line number moving cursor to line 1",
+          "why_matters": "避免点击文件链接时光标意外跳转。",
+          "why_matters_en": "Prevents the cursor from jumping unexpectedly when clicking file links.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed a missing notification when a conversation running behind another one in the same panel needs a permission or an answer",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复后台对话需权限或回答时缺少通知",
+          "summary_en": "Fixed missing alerts for background chats needing input",
+          "why_matters": "确保需要人工介入的后台任务及时可见。",
+          "why_matters_en": "Ensures background tasks needing human input are surfaced promptly.",
+          "capability_ids": [
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed Manage Plugins not loading when Claude Code is slow to start or fails to start, so a plugin that blocks startup can be turned off",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复启动慢/失败时插件管理无法加载",
+          "summary_en": "Fixed plugin manager load failure on slow/failed startup",
+          "why_matters": "让用户可禁用阻塞启动的插件并恢复使用。",
+          "why_matters_en": "Lets users disable startup-blocking plugins and recover usage.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed proposed diffs showing and saving garbled non-ASCII text when `files.encoding` is not UTF-8",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复非UTF-8编码文件差异显示/保存乱码",
+          "summary_en": "Fixed garbled diffs/saves for files not encoded as UTF-8",
+          "why_matters": "防止非UTF-8文件在审阅或保存时内容损坏。",
+          "why_matters_en": "Prevents content corruption in non-UTF-8 files during review or save.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed approved edits and writes saving right-to-left marks as literal `\\u200F` escapes on lines with Hebrew, Arabic or Persian text",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复RTL文本行中方向标记被转义保存",
+          "summary_en": "Fixed RTL marks saved as escapes on Hebrew/Arabic/Persian",
+          "why_matters": "避免从右到左语言文字在保存时被破坏。",
+          "why_matters_en": "Avoids corrupting right-to-left text when saving.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed a model pick being ignored for the next message when Claude's process had ended or was still starting",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复进程结束/启动中模型选择对下条消息失效",
+          "summary_en": "Fixed model pick ignored when process ended or starting",
+          "why_matters": "确保用户选择的模型可靠应用于下一条消息。",
+          "why_matters_en": "Ensures the user's selected model is reliably applied to the next message.",
+          "capability_ids": [
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed Rewind showing \"No active session\" after Claude's process had ended",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复进程结束后回退显示无活动会话",
+          "summary_en": "Fixed Rewind showing no active session after process ended",
+          "why_matters": "保证进程结束后仍可正常使用回退功能。",
+          "why_matters_en": "Ensures Rewind remains usable after the process has ended.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed typing @ leaving a helper process running per tab when no browser is connected, except when Claude in Chrome's service can't be reached",
+          "category": "perf",
+          "importance": 2,
+          "summary": "修复无浏览器连接时@输入残留辅助进程",
+          "summary_en": "Fixed @ input leaking helper process without browser",
+          "why_matters": "避免无浏览器连接时每标签残留后台进程。",
+          "why_matters_en": "Avoids leftover background processes per tab when no browser is connected.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed the session list opening every transcript at once, which stalled the editor's extensions and could leave sessions out in projects with many sessions",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复会话列表批量打开导致卡顿",
+          "summary_en": "Fix session list opening all transcripts causing stalls",
+          "why_matters": "避免多会话项目打开列表时卡住扩展并丢失会话。",
+          "why_matters_en": "Prevents extension stalls and missing sessions in projects with many chats.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Improved the time to the first reply in a new folder when the Python extension is installed and the folder has no Python",
+          "category": "perf",
+          "importance": 2,
+          "summary": "优化无Python文件夹首条回复速度",
+          "summary_en": "Speed up first reply in folders without Python",
+          "why_matters": "安装 Python 扩展但项目无 Python 时，用户无需等待无关检查。",
+          "why_matters_en": "Users without Python in a folder avoid waiting on irrelevant checks.",
+          "capability_ids": [
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "[VSCode] Improved the sign-in screen to say when it opened because a request was refused",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "登录页说明因请求被拒而打开",
+          "summary_en": "Sign-in explains it opened after request refusal",
+          "why_matters": "让用户明白登录页出现的原因，减少困惑。",
+          "why_matters_en": "Helps users understand why the sign-in screen appeared.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "[VSCode] Improved the speed of opening, restoring and switching back to long conversations, most of all with many file edits or where git is slow",
+          "category": "perf",
+          "importance": 4,
+          "summary": "加速长对话打开恢复与切换",
+          "summary_en": "Speed up opening, restoring and switching long chats",
+          "why_matters": "长对话和大量文件修改下切换更顺畅，减少等待。",
+          "why_matters_en": "Makes switching long chats with many edits faster and less wait.",
+          "capability_ids": [
+            "execution_workspace",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "[VSCode] Improved responsiveness in long chats: smooth typing and large file writes while a reply streams, faster permission prompts, and far less freezing on send with accessibility support on",
+          "category": "perf",
+          "importance": 4,
+          "summary": "提升长对话流式输入与权限响应",
+          "summary_en": "Improve long-chat typing and permission responsiveness",
+          "why_matters": "长时间对话中流式输出更顺滑，权限确认更及时。",
+          "why_matters_en": "Keeps long streaming chats smooth and permission prompts fast.",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "[VSCode] Improved startup and memory use: the panel and new chat tabs open faster, a first message in a new tab is answered sooner, and on Pro and Max plans the folder trust dialog comes up sooner",
+          "category": "perf",
+          "importance": 4,
+          "summary": "提升启动速度并降低内存占用",
+          "summary_en": "Improve startup speed and reduce memory use",
+          "why_matters": "更快进入工作区并降低内存压力，改善日常启动体验。",
+          "why_matters_en": "Faster workspace entry and lower memory pressure improve daily startup.",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "[VSCode] Improved speed in remote windows (SSH, WSL, containers): the panel starts, replies appear and sessions reopen faster",
+          "category": "perf",
+          "importance": 4,
+          "summary": "加速远程窗口面板与回复加载",
+          "summary_en": "Speed up panel and replies in remote windows",
+          "why_matters": "远程开发场景下启动和恢复会话更省时。",
+          "why_matters_en": "Saves time starting and restoring sessions in remote development.",
+          "capability_ids": [
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "[VSCode] Improved the time to a response for the first message after a chat has been idle for a few minutes on a machine that is low on memory",
+          "category": "perf",
+          "importance": 3,
+          "summary": "缩短低内存空闲聊天首条响应",
+          "summary_en": "Cut first reply time after idle on low-memory machines",
+          "why_matters": "低内存机器上空闲后继续对话不再久等。",
+          "why_matters_en": "Avoids long waits when resuming an idle chat on low-memory machines.",
+          "capability_ids": [
+            "execution_workspace",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "[VSCode] Improved how fast chats start, open from history and come back after a restart on slow or antivirus-scanned disks",
+          "category": "perf",
+          "importance": 3,
+          "summary": "加速慢盘上的聊天启动与历史恢复",
+          "summary_en": "Speed chat start and history restore on slow disks",
+          "why_matters": "慢盘或杀毒扫描环境下启动和历史恢复更可用。",
+          "why_matters_en": "Makes startup and history restore usable on slow or scanned disks.",
+          "capability_ids": [
+            "execution_workspace",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "[VSCode] Improved how fast diffs appear in reopened conversations, and removed diff menu entries that did not work",
+          "category": "perf",
+          "importance": 3,
+          "summary": "加快重开对话差异显示并清理菜单",
+          "summary_en": "Speed diffs in reopened chats; remove dead menu items",
+          "why_matters": "重开对话时更快看到差异，并去掉无效入口。",
+          "why_matters_en": "Shows diffs faster in reopened chats and removes dead actions.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Improved the @ file menu to list the files of open editor tabs first, the most recently used on top",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "@文件菜单优先显示打开标签页文件",
+          "summary_en": "@ file menu prioritizes open editor tab files",
+          "why_matters": "更快选择当前打开文件，减少查找上下文的时间。",
+          "why_matters_en": "Speeds selecting currently open files as context.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Changed saving a proposed diff to accept it only after you click or type in its proposed (right) side; a notification says when a save is refused or a close with Save applies nothing",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "保存建议差异需先在右侧确认",
+          "summary_en": "Proposed diff saves require right-side confirmation",
+          "why_matters": "避免误点保存直接应用建议差异，降低意外修改风险。",
+          "why_matters_en": "Prevents accidental application of proposed diffs on save.",
+          "capability_ids": [
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Changed diffs from a terminal session to open without moving keyboard focus, and beside a file with unsaved changes; to answer, click Accept or use the terminal",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "终端差异不抢焦点并保留未保存文件",
+          "summary_en": "Terminal diffs keep focus and unsaved changes",
+          "why_matters": "查看终端差异时不打断输入，并保护未保存修改。",
+          "why_matters_en": "Terminal diffs don't interrupt typing and protect unsaved edits.",
+          "capability_ids": [
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Changed permission cards to show only Yes and No when `allowManagedPermissionRulesOnly` is set and the card would offer an allow rule; key 2 on those cards now answers No",
+          "category": "security",
+          "importance": 3,
+          "summary": "受管权限下权限卡仅显示是或否",
+          "summary_en": "Managed permission cards show only Yes or No",
+          "why_matters": "受管权限策略下减少误授权选项，强化权限控制。",
+          "why_matters_en": "Reduces accidental allow choices under managed permission policies.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "[VSCode] Changed a Claude tab to ignore Enter and show a notice when its Find box has lost the keyboard",
+          "category": "fix",
+          "importance": 2,
+          "summary": "查找框失焦时忽略回车并提示",
+          "summary_en": "Find box ignores Enter when unfocused, with notice",
+          "why_matters": "避免查找框失焦后回车误触发聊天操作。",
+          "why_matters_en": "Prevents Enter from triggering chat actions when Find lost focus.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "How the Claude Code team thinks about verification",
+          "points": 299,
+          "url": "https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/"
+        },
+        {
+          "title": "Show HN: Mastra Factory, the open-source software factory we use to build Mastra",
+          "points": 159,
+          "url": "https://news.ycombinator.com/item?id=50548660"
+        },
+        {
+          "title": "Launch HN: Onlook (YC W25) – An open-source developer tool for designers",
+          "points": 125,
+          "url": "https://github.com/onlook-dev/onlook/"
+        },
+        {
+          "title": "Show HN: Fakemetrics.com – \"build in public\" like a superstar",
+          "points": 51,
+          "url": "https://fakemetrics.com/"
+        }
+      ],
+      "highlight_score": 50
+    },
     {
       "version": "2.1.330",
       "date": "2026-11-20",
@@ -1914,7 +3668,7 @@
         },
         {
           "title": "How the Claude Code team thinks about verification",
-          "points": 298,
+          "points": 299,
           "url": "https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/"
         },
         {
@@ -1924,7 +3678,7 @@
         },
         {
           "title": "Show HN: Mastra Factory, the open-source software factory we use to build Mastra",
-          "points": 158,
+          "points": 159,
           "url": "https://news.ycombinator.com/item?id=50548660"
         },
         {
@@ -3617,7 +5371,7 @@
         },
         {
           "title": "How the Claude Code team thinks about verification",
-          "points": 298,
+          "points": 299,
           "url": "https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/"
         },
         {
@@ -3627,7 +5381,7 @@
         },
         {
           "title": "Show HN: Mastra Factory, the open-source software factory we use to build Mastra",
-          "points": 158,
+          "points": 159,
           "url": "https://news.ycombinator.com/item?id=50548660"
         }
       ],
@@ -5496,7 +7250,7 @@
         },
         {
           "title": "How the Claude Code team thinks about verification",
-          "points": 298,
+          "points": 299,
           "url": "https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/"
         },
         {
@@ -5506,7 +7260,7 @@
         },
         {
           "title": "Show HN: Mastra Factory, the open-source software factory we use to build Mastra",
-          "points": 158,
+          "points": 159,
           "url": "https://news.ycombinator.com/item?id=50548660"
         }
       ],
@@ -7757,7 +9511,7 @@
         },
         {
           "title": "How the Claude Code team thinks about verification",
-          "points": 298,
+          "points": 299,
           "url": "https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/"
         },
         {
@@ -12417,7 +14171,7 @@
         },
         {
           "title": "How the Claude Code team thinks about verification",
-          "points": 298,
+          "points": 299,
           "url": "https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/"
         },
         {
@@ -121566,6 +123320,11 @@
       ],
       "signals": [
         {
+          "title": "Claude Opus 4.5",
+          "points": 1113,
+          "url": "https://www.anthropic.com/news/claude-opus-4-5"
+        },
+        {
           "title": "Launch HN: Onyx (YC W24) – Open-source chat UI",
           "points": 254,
           "url": "https://news.ycombinator.com/item?id=46045987"
@@ -121584,14 +123343,9 @@
           "title": "Anthropic Acquires Bun",
           "points": 99,
           "url": "https://www.anthropic.com/news/anthropic-acquires-bun-as-claude-code-reaches-usd1b-milestone"
-        },
-        {
-          "title": "Show HN: Era – Open-source local sandbox for AI agents",
-          "points": 62,
-          "url": "https://github.com/BinSquare/ERA"
         }
       ],
-      "highlight_score": 15
+      "highlight_score": 30
     },
     {
       "version": "2.0.55",
@@ -121654,6 +123408,11 @@
       ],
       "signals": [
         {
+          "title": "Claude Opus 4.5",
+          "points": 1113,
+          "url": "https://www.anthropic.com/news/claude-opus-4-5"
+        },
+        {
           "title": "Launch HN: Onyx (YC W24) – Open-source chat UI",
           "points": 254,
           "url": "https://news.ycombinator.com/item?id=46045987"
@@ -121674,7 +123433,7 @@
           "url": "https://github.com/BinSquare/ERA"
         }
       ],
-      "highlight_score": 35
+      "highlight_score": 50
     },
     {
       "version": "2.0.54",
@@ -121711,6 +123470,11 @@
       ],
       "signals": [
         {
+          "title": "Claude Opus 4.5",
+          "points": 1113,
+          "url": "https://www.anthropic.com/news/claude-opus-4-5"
+        },
+        {
           "title": "Launch HN: Onyx (YC W24) – Open-source chat UI",
           "points": 254,
           "url": "https://news.ycombinator.com/item?id=46045987"
@@ -121731,7 +123495,7 @@
           "url": "https://github.com/BinSquare/ERA"
         }
       ],
-      "highlight_score": 35
+      "highlight_score": 50
     },
     {
       "version": "2.0.52",
@@ -121786,6 +123550,11 @@
       ],
       "signals": [
         {
+          "title": "Claude Opus 4.5",
+          "points": 1113,
+          "url": "https://www.anthropic.com/news/claude-opus-4-5"
+        },
+        {
           "title": "Launch HN: Onyx (YC W24) – Open-source chat UI",
           "points": 254,
           "url": "https://news.ycombinator.com/item?id=46045987"
@@ -121801,7 +123570,7 @@
           "url": "https://github.com/BinSquare/ERA"
         }
       ],
-      "highlight_score": 15
+      "highlight_score": 30
     },
     {
       "version": "2.0.51",
@@ -121925,6 +123694,11 @@
       ],
       "signals": [
         {
+          "title": "Claude Opus 4.5",
+          "points": 1113,
+          "url": "https://www.anthropic.com/news/claude-opus-4-5"
+        },
+        {
           "title": "Launch HN: Onyx (YC W24) – Open-source chat UI",
           "points": 254,
           "url": "https://news.ycombinator.com/item?id=46045987"
@@ -121940,7 +123714,7 @@
           "url": "https://github.com/BinSquare/ERA"
         }
       ],
-      "highlight_score": 55
+      "highlight_score": 70
     },
     {
       "version": "2.0.50",
@@ -122001,6 +123775,11 @@
       ],
       "signals": [
         {
+          "title": "Claude Opus 4.5",
+          "points": 1113,
+          "url": "https://www.anthropic.com/news/claude-opus-4-5"
+        },
+        {
           "title": "Launch HN: Onyx (YC W24) – Open-source chat UI",
           "points": 254,
           "url": "https://news.ycombinator.com/item?id=46045987"
@@ -122021,7 +123800,7 @@
           "url": "https://github.com/BinSquare/ERA"
         }
       ],
-      "highlight_score": 35
+      "highlight_score": 50
     },
     {
       "version": "2.0.49",
@@ -122069,6 +123848,11 @@
       ],
       "signals": [
         {
+          "title": "Claude Opus 4.5",
+          "points": 1113,
+          "url": "https://www.anthropic.com/news/claude-opus-4-5"
+        },
+        {
           "title": "Launch HN: Onyx (YC W24) – Open-source chat UI",
           "points": 254,
           "url": "https://news.ycombinator.com/item?id=46045987"
@@ -122089,7 +123873,7 @@
           "url": "https://github.com/BinSquare/ERA"
         }
       ],
-      "highlight_score": 35
+      "highlight_score": 50
     },
     {
       "version": "2.0.47",
@@ -122151,6 +123935,11 @@
       ],
       "signals": [
         {
+          "title": "Claude Opus 4.5",
+          "points": 1113,
+          "url": "https://www.anthropic.com/news/claude-opus-4-5"
+        },
+        {
           "title": "Launch HN: Onyx (YC W24) – Open-source chat UI",
           "points": 254,
           "url": "https://news.ycombinator.com/item?id=46045987"
@@ -122166,7 +123955,7 @@
           "url": "https://github.com/rowboatlabs/rowboat"
         }
       ],
-      "highlight_score": 35
+      "highlight_score": 50
     },
     {
       "version": "2.0.46",
@@ -122189,6 +123978,11 @@
       ],
       "signals": [
         {
+          "title": "Claude Opus 4.5",
+          "points": 1113,
+          "url": "https://www.anthropic.com/news/claude-opus-4-5"
+        },
+        {
           "title": "Launch HN: Onyx (YC W24) – Open-source chat UI",
           "points": 254,
           "url": "https://news.ycombinator.com/item?id=46045987"
@@ -122204,7 +123998,7 @@
           "url": "https://github.com/rowboatlabs/rowboat"
         }
       ],
-      "highlight_score": 15
+      "highlight_score": 30
     },
     {
       "version": "2.0.45",
@@ -122254,6 +124048,11 @@
       ],
       "signals": [
         {
+          "title": "Claude Opus 4.5",
+          "points": 1113,
+          "url": "https://www.anthropic.com/news/claude-opus-4-5"
+        },
+        {
           "title": "Launch HN: Onyx (YC W24) – Open-source chat UI",
           "points": 254,
           "url": "https://news.ycombinator.com/item?id=46045987"
@@ -122274,7 +124073,7 @@
           "url": "https://github.com/Use-Tusk/drift-node-sdk"
         }
       ],
-      "highlight_score": 35
+      "highlight_score": 50
     },
     {
       "version": "2.0.43",
@@ -122389,6 +124188,11 @@
       ],
       "signals": [
         {
+          "title": "Claude Opus 4.5",
+          "points": 1113,
+          "url": "https://www.anthropic.com/news/claude-opus-4-5"
+        },
+        {
           "title": "Show HN: Continuous Claude – run Claude Code in a loop",
           "points": 170,
           "url": "https://github.com/AnandChowdhary/continuous-claude"
@@ -122404,7 +124208,7 @@
           "url": "https://github.com/Use-Tusk/drift-node-sdk"
         }
       ],
-      "highlight_score": 28
+      "highlight_score": 50
     },
     {
       "version": "2.0.42",
@@ -150638,9 +152442,9 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 966,
-      "release_count": 256,
-      "avg_importance": 2.99,
+      "change_count": 981,
+      "release_count": 257,
+      "avg_importance": 3,
       "maturity": {
         "score": 92,
         "level": "成熟"
@@ -150650,14 +152454,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-11-20",
-        "version": "2.1.330"
+        "date": "2026-11-23",
+        "version": "2.1.331"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 807
+          "change_count": 822
         },
         {
           "epoch_id": "epoch4",
@@ -150733,8 +152537,8 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 2657,
-      "release_count": 317,
+      "change_count": 2725,
+      "release_count": 318,
       "avg_importance": 3.1,
       "maturity": {
         "score": 92,
@@ -150745,14 +152549,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-11-20",
-        "version": "2.1.330"
+        "date": "2026-11-23",
+        "version": "2.1.331"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 2379
+          "change_count": 2447
         },
         {
           "epoch_id": "epoch1",
@@ -150828,8 +152632,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 1542,
-      "release_count": 269,
+      "change_count": 1565,
+      "release_count": 270,
       "avg_importance": 3.1,
       "maturity": {
         "score": 92,
@@ -150840,14 +152644,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-11-20",
-        "version": "2.1.330"
+        "date": "2026-11-23",
+        "version": "2.1.331"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 1371
+          "change_count": 1394
         },
         {
           "epoch_id": "epoch1",
@@ -150923,8 +152727,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 1813,
-      "release_count": 308,
+      "change_count": 1821,
+      "release_count": 309,
       "avg_importance": 3.15,
       "maturity": {
         "score": 93,
@@ -150935,14 +152739,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-11-20",
-        "version": "2.1.330"
+        "date": "2026-11-23",
+        "version": "2.1.331"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 1567
+          "change_count": 1575
         },
         {
           "epoch_id": "epoch4",
@@ -151018,8 +152822,8 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 1386,
-      "release_count": 225,
+      "change_count": 1397,
+      "release_count": 226,
       "avg_importance": 3.03,
       "maturity": {
         "score": 92,
@@ -151030,14 +152834,14 @@
         "version": "0.2.50"
       },
       "latest_seen": {
-        "date": "2026-11-20",
-        "version": "2.1.330"
+        "date": "2026-11-23",
+        "version": "2.1.331"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 1306
+          "change_count": 1317
         },
         {
           "epoch_id": "epoch1",
@@ -151113,8 +152917,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 3397,
-      "release_count": 340,
+      "change_count": 3448,
+      "release_count": 341,
       "avg_importance": 2.91,
       "maturity": {
         "score": 92,
@@ -151125,14 +152929,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-11-20",
-        "version": "2.1.330"
+        "date": "2026-11-23",
+        "version": "2.1.331"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 3042
+          "change_count": 3093
         },
         {
           "epoch_id": "epoch1",
@@ -151208,8 +153012,8 @@
         "Emacs",
         "web"
       ],
-      "change_count": 2791,
-      "release_count": 285,
+      "change_count": 2821,
+      "release_count": 286,
       "avg_importance": 2.68,
       "maturity": {
         "score": 91,
@@ -151220,14 +153024,14 @@
         "version": "0.2.34"
       },
       "latest_seen": {
-        "date": "2026-11-20",
-        "version": "2.1.330"
+        "date": "2026-11-23",
+        "version": "2.1.331"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 2601
+          "change_count": 2631
         },
         {
           "epoch_id": "epoch4",
@@ -151303,8 +153107,8 @@
         "policy",
         "auditing"
       ],
-      "change_count": 2914,
-      "release_count": 310,
+      "change_count": 2946,
+      "release_count": 311,
       "avg_importance": 3.18,
       "maturity": {
         "score": 93,
@@ -151315,14 +153119,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-11-20",
-        "version": "2.1.330"
+        "date": "2026-11-23",
+        "version": "2.1.331"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 2693
+          "change_count": 2725
         },
         {
           "epoch_id": "epoch4",
@@ -151444,6 +153248,12 @@
         "date": "2026-04-01"
       },
       {
+        "title": "Claude Opus 4.5",
+        "points": 1113,
+        "url": "https://www.anthropic.com/news/claude-opus-4-5",
+        "date": "2025-11-24"
+      },
+      {
         "title": "Tell HN: Anthropic no longer allowing Claude Code subscriptions to use OpenClaw",
         "points": 1099,
         "url": "https://news.ycombinator.com/item?id=47633396",
@@ -151484,12 +153294,6 @@
         "points": 929,
         "url": "https://dmitrybrant.com/2025/09/07/using-claude-code-to-modernize-a-25-year-old-kernel-driver",
         "date": "2025-09-07"
-      },
-      {
-        "title": "Goldman Sachs is pulling Claude Code from its bankers and traders",
-        "points": 905,
-        "url": "https://www.thestateofai.com/news/goldman-sachs-claude-code-traders-bankers",
-        "date": "2026-11-08"
       }
     ],
     "blog_posts": [
