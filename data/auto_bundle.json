@@ -1,13 +1,13 @@
 {
   "meta": {
-    "generated_at": "2026-11-24T10:41:12.962Z",
+    "generated_at": "2026-11-25T09:32:54.165Z",
     "agent_model": "deepseek-flash",
-    "total_versions": 447,
+    "total_versions": 448,
     "date_range": {
       "start": "2025-03-04",
-      "end": "2026-11-23"
+      "end": "2026-11-24"
     },
-    "highlight_count": 72,
+    "highlight_count": 73,
     "capability_count": 8,
     "hn_signal_count": 18,
     "blog_post_count": 11
@@ -70,11 +70,1952 @@
       "color": "#dc2626",
       "summary": "源代码经由 npm map file 一夜之间泄漏，社区把它拆解成了一门学问。adaptive thinking 把推理深度交给模型自己决定，worktree 隔离和 1M 上下文把代理推到了可长时运行的边界——从 Opus 4.6 到 4.8，每一代都在加速这条路。",
       "summary_en": "The source code leaks overnight via an npm map file, and the community turns the teardown into sport. Adaptive thinking hands reasoning depth to the model itself, while worktree isolation and 1M context push the agent toward hours-long unattended runs — from Opus 4.6 through 4.8, each generation accelerates the path.",
-      "release_count": 231,
-      "highlight_count": 50
+      "release_count": 232,
+      "highlight_count": 51
     }
   ],
   "releases": [
+    {
+      "version": "2.1.332",
+      "date": "2026-11-24",
+      "epoch_id": "epoch5",
+      "source": "changelog",
+      "changes": [
+        {
+          "raw": "Added skills from MCP servers (beta). They show as `server:skill` in the `/` menu; other skills keep their names",
+          "category": "feat",
+          "importance": 3,
+          "summary": "MCP服务器技能可在斜杠菜单使用",
+          "summary_en": "MCP server skills appear in slash menu",
+          "why_matters": "让MCP提供的技能可直接调用，扩展工作流",
+          "why_matters_en": "Expands workflows with MCP-provided skills.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added a `PreSkillShellCommand` hook event that can refuse a skill or command's inline shell commands as it loads; on 2.1.331 and older, a settings file naming it opens a dialog at start",
+          "category": "feat",
+          "importance": 4,
+          "summary": "新增技能内联命令拦截钩子",
+          "summary_en": "New hook blocks skill inline shell commands",
+          "why_matters": "加载时阻止危险内联命令，提升安全可控性",
+          "why_matters_en": "Blocks risky inline commands at load time for safer control.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Added \"Always deliver\" to the prompt for held messages from other sessions",
+          "category": "feat",
+          "importance": 3,
+          "summary": "跨会话消息支持始终投递",
+          "summary_en": "Add 'Always deliver' for held cross-session messages",
+          "why_matters": "让其他会话消息自动送达，减少人工确认",
+          "why_matters_en": "Lets held messages from other sessions deliver automatically.",
+          "capability_ids": [
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Added a footer line that stays while a flagged message has your session on a different model, until you pick one with `/model`",
+          "category": "feat",
+          "importance": 2,
+          "summary": "提示会话模型与标记消息不一致",
+          "summary_en": "Footer warns when session model differs from flag",
+          "why_matters": "帮助用户发现模型不一致，避免误解输出",
+          "why_matters_en": "Helps users notice model mismatch and avoid confusion.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Added an OpenTelemetry `assistant_response` event for text Claude sends through SendUserMessage or Cowork's message tool, when response logging is on",
+          "category": "feat",
+          "importance": 3,
+          "summary": "新增助手响应OpenTelemetry事件",
+          "summary_en": "Add assistant_response OpenTelemetry event",
+          "why_matters": "增强跨会话消息可观测性，便于审计调试",
+          "why_matters_en": "Improves observability and audit of cross-session messages.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Added a warning in VS Code and Desktop's Code tab when part of a session couldn't be saved, saying how to save it with `/compact`",
+          "category": "feat",
+          "importance": 3,
+          "summary": "保存失败时提示用/compact恢复",
+          "summary_en": "Warn on save failure and suggest /compact",
+          "why_matters": "防止会话内容静默丢失，指导用户保存",
+          "why_matters_en": "Prevents silent session loss and guides users to save.",
+          "capability_ids": [
+            "memory_context",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Added a notice in VS Code and Desktop's Code tab when a resumed session's earlier messages weren't loaded, as the terminal already shows",
+          "category": "feat",
+          "importance": 3,
+          "summary": "恢复会话缺失早期消息时提示",
+          "summary_en": "Notify when resumed session misses earlier messages",
+          "why_matters": "避免误以为完整恢复，提升上下文透明度",
+          "why_matters_en": "Avoids false assumptions about full context restoration.",
+          "capability_ids": [
+            "memory_context",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Added your Cyber Verification Program access tier to the startup header, beside the model name when your tier applies to that model and you're signed in with a claude.ai account",
+          "category": "feat",
+          "importance": 2,
+          "summary": "启动页显示网络验证计划等级",
+          "summary_en": "Show Cyber Verification Program tier in header",
+          "why_matters": "让用户了解账号权限等级与适用模型",
+          "why_matters_en": "Shows account access tier and where it applies.",
+          "capability_ids": [
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `claude auth login` reporting `Login successful.` when a claude.ai login could not be saved: it now exits 1 and says what to check, such as a leftover lock file or a full disk",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复登录保存失败仍报成功",
+          "summary_en": "Fix false login success when saving fails",
+          "why_matters": "避免误判登录状态，并提供排查提示",
+          "why_matters_en": "Prevents false login state and gives troubleshooting hints.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed Read, @-mentions and compaction hanging on a named pipe that nothing writes to, such as a `.env` mounted by a locked secrets manager; the read now fails after 20 seconds",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复读取无写入命名管道卡死",
+          "summary_en": "Fix hangs reading stalled named pipes",
+          "why_matters": "20秒超时防止读取卡死，提升稳定性",
+          "why_matters_en": "20s timeout prevents hangs and improves stability.",
+          "capability_ids": [
+            "execution_workspace",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed turns ending in \"Prompt is too long\" after repeated auto-compaction failures when one more compaction at the context limit could have kept them going",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复上下文极限时过早结束回合",
+          "summary_en": "Fix turns ending early at context limit",
+          "why_matters": "避免长会话因压缩失败中断，保持连续性",
+          "why_matters_en": "Keeps long sessions going when compaction fails.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed compaction failing when a summary kept running past the output limit: after three cut-off replies, the last try now asks for a shorter summary",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复摘要超长导致压缩失败",
+          "summary_en": "Fix compaction failing on oversized summaries",
+          "why_matters": "请求更短摘要提高压缩成功率，保持长会话",
+          "why_matters_en": "Requests shorter summaries to improve compaction success.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed a freeze when a permission rule or hook condition with several wildcards was checked against a long command",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复多通配符权限匹配卡死",
+          "summary_en": "Fix freeze matching wildcard permission rules",
+          "why_matters": "避免复杂权限规则导致冻结，提升响应稳定性",
+          "why_matters_en": "Prevents freezes from complex permission rule matching.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed freezes and runaway memory use in most cases while a hook prints output without end",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复钩子无限输出导致卡死",
+          "summary_en": "Fix hook infinite output causing freezes",
+          "why_matters": "限制无界输出，防止内存暴涨和界面冻结",
+          "why_matters_en": "Limits unbounded output to prevent memory and UI freezes.",
+          "capability_ids": [
+            "automation_autonomy",
+            "execution_workspace",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed a freeze and context overflow when a hook blocks or fails during a turn, or after `/compact`, with a very large log; text over about 50,000 characters is now shortened",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复大日志导致卡死与上下文溢出",
+          "summary_en": "Fix large hook logs causing freeze and overflow",
+          "why_matters": "截断超长文本，避免钩子失败拖垮会话",
+          "why_matters_en": "Truncates long text so hook failures don't break sessions.",
+          "capability_ids": [
+            "memory_context",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed the terminal freezing, and ignoring Ctrl+C, while a local MCP server floods its standard output",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复MCP输出洪泛导致终端冻结、Ctrl+C失效",
+          "summary_en": "Fix terminal freeze on MCP stdout flood; Ctrl+C now works",
+          "why_matters": "本地MCP服务器刷屏输出时终端会彻底卡死且无法中断，用户只能强杀进程。",
+          "why_matters_en": "A flooding local MCP server could lock up the terminal with no way to interrupt, forcing users to kill the process.",
+          "capability_ids": [
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed a freeze when a prompt or piped input holds an `@` followed by a very long unbroken string, such as minified CSS with an embedded font",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复@加超长连续字符串输入导致的卡死",
+          "summary_en": "Fix freeze on @ plus very long unbroken input string",
+          "why_matters": "粘贴压缩CSS或内嵌字体等长串时界面会冻结，常见输入场景被阻断。",
+          "why_matters_en": "Pasting minified CSS or embedded fonts froze the UI, blocking a common input scenario.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed a long freeze when opening a rewind point after a large tracked file was rewritten",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复大文件重写后打开回滚点的长时间卡顿",
+          "summary_en": "Fix freeze opening rewind point after large file rewrite",
+          "why_matters": "回滚是纠错的关键手段，卡顿数秒会打断用户的恢复流程。",
+          "why_matters_en": "Rewind is key to recovering from mistakes, and multi-second stalls disrupt that recovery flow.",
+          "capability_ids": [
+            "execution_workspace",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed SSE MCP servers hanging or refusing every tool call after their event stream was cut and came back on a new endpoint or not at all, until reconnected by hand",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复SSE MCP事件流中断后工具调用全部挂起",
+          "summary_en": "Fix SSE MCP servers hanging after event stream reconnect",
+          "why_matters": "事件流切换端点后MCP连接会静默失效，用户必须手工重连才能继续工作。",
+          "why_matters_en": "After the event stream moved endpoints the connection silently died, requiring manual reconnection to keep working.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed Remote Control showing a session in the desktop app, VS Code or the Agent SDK as running while it waited there on a dialog or an MCP server's question",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复等待对话框时远程会话仍显示运行中",
+          "summary_en": "Fix remote sessions shown as running while awaiting a dialog",
+          "why_matters": "状态失真会让桌面端、IDE和SDK客户端误以为任务在推进，实际已阻塞等待输入。",
+          "why_matters_en": "Misreported status made desktop, IDE and SDK clients believe work was progressing when it was blocked on input.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed a usage limit being reported as reached to Remote Control, IDE and SDK clients after it had already reset",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复限额已重置却仍报告已达上限",
+          "summary_en": "Fix usage limit still reported as reached after it reset",
+          "why_matters": "错误的限额提示会让远程与SDK客户端无谓地停止工作。",
+          "why_matters_en": "A stale limit signal made remote and SDK clients stop working when they did not need to.",
+          "capability_ids": [
+            "governance_security",
+            "delegation_collaboration",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed CLAUDE.md and rules files being sent to the model a second time, in most cases, after a session moves into a worktree under `.claude/worktrees` with EnterWorktree or is resumed there",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复worktree会话中CLAUDE.md被重复发送",
+          "summary_en": "Fix CLAUDE.md and rules sent twice after worktree move",
+          "why_matters": "重复注入项目规则浪费上下文并可能让模型产生相互矛盾的指令理解。",
+          "why_matters_en": "Duplicated rule injection wastes context and can give the model conflicting instructions.",
+          "capability_ids": [
+            "memory_context",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed tool calls that never ran being counted as done in a claude.ai chat's summary line after you declined a permission prompt in a session that had restarted",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复被拒权限的工具调用仍计为已完成",
+          "summary_en": "Fix declined tool calls counted as done in chat summary",
+          "why_matters": "摘要虚报执行结果会让用户误以为改动已生效。",
+          "why_matters_en": "An inaccurate summary made users believe changes were applied when they never ran.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Linux: Fixed the Bash edit diff showing an unchanged symlink as edited after Claude had read the file through it",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复Linux下符号链接被误显示为已修改",
+          "summary_en": "Fix symlink falsely shown as edited in Bash diff on Linux",
+          "why_matters": "误导性的diff会让用户以为文件被改动而去做无谓的核查。",
+          "why_matters_en": "A misleading diff made users think files changed and go verify work that never happened.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed resuming a session and `/stats` freezing for seconds when a transcript holds many damaged lines",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复损坏记录导致恢复会话和/stats卡顿",
+          "summary_en": "Fix slow resume and /stats with damaged transcript lines",
+          "why_matters": "长会话记录难免损坏，此前的解析会阻塞数秒影响继续工作。",
+          "why_matters_en": "Long transcripts inevitably get corrupted lines, which previously stalled the CLI for seconds.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed a family name such as `sonnet` in `--fallback-model` being dropped when `availableModels` allows only an older version of it",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复--fallback-model家族名被丢弃的问题",
+          "summary_en": "Fix family name in --fallback-model being dropped",
+          "why_matters": "回退模型配置失效会让请求在首选模型不可用时直接失败。",
+          "why_matters_en": "A broken fallback config makes requests fail outright when the primary model is unavailable.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed keys lagging for seconds while `/stats` reads large session transcripts, also after the dialog is closed, and with debug logging on while a language server floods its stderr",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复/stats读取大记录时按键延迟数秒",
+          "summary_en": "Fix input lag while /stats reads large transcripts",
+          "why_matters": "输入延迟在对话框关闭后仍持续，严重破坏交互流畅度。",
+          "why_matters_en": "Input lag persisted even after the dialog closed, badly hurting interactivity.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed a session failing when the cloud refused its default model and an `availableModels` list that isn't enforced named neither it nor an older model of that family",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复云端拒绝默认模型且无可用列表时会话失败",
+          "summary_en": "Fix session failure when cloud rejects default model",
+          "why_matters": "配置不完整时整个会话无法启动，而非优雅降级。",
+          "why_matters_en": "Incomplete configuration could prevent a session from starting at all instead of degrading gracefully.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed an enforced list of older models failing on Google Cloud's Agent Platform and Foundry when the first is refused: it now steps down to the next in that family, if listed newest first",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复强制旧模型列表在云端被拒时不再降级",
+          "summary_en": "Fix enforced model list not stepping down when refused",
+          "why_matters": "企业强制模型列表在Gemini/Foundry上遇阻会导致会话完全不可用。",
+          "why_matters_en": "An enforced model list blocked by the cloud left enterprise sessions unusable.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed `opus` failing on Bedrock, Google Cloud's Agent Platform and Foundry behind a gateway that refuses a model in its own words: it now steps down to an older model that answers",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复opus在Bedrock等网关被拒时无法降级",
+          "summary_en": "Fix opus not stepping down to older model behind gateway",
+          "why_matters": "网关自定义拒绝信息会导致首选模型不可用时无任何回退可用。",
+          "why_matters_en": "Gateway-specific rejection messages left no usable fallback when the preferred model was refused.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed the start-up model upgrade offer on Bedrock and Google Cloud's Agent Platform naming a model that your `availableModels` list leaves out",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复云平台模型升级提示忽略可用模型列表",
+          "summary_en": "Fix cloud model upgrade offer ignoring availableModels",
+          "why_matters": "避免向用户推荐其不可用的模型，减少启动困惑。",
+          "why_matters_en": "Prevents offering a model the user cannot access, reducing startup confusion.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed Bedrock sub-agents failing when your account lists no profile for their model in the parent's region: they now use the model's own profile, which can be outside that region",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复Bedrock子代理缺少同区域配置文件失败",
+          "summary_en": "Fix Bedrock sub-agents failing without parent-region profile",
+          "why_matters": "让子代理可在模型自身区域使用配置，避免跨区域失败。",
+          "why_matters_en": "Lets sub-agents use model profiles outside the parent region, avoiding failures.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed Foundry sessions leaving a model family when an admin's list blocks the version `sonnet`, `opus` or `haiku` points to: they now use its newest allowed version under a built-in or mapped name",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复Foundry受限模型版本无法回退",
+          "summary_en": "Fix Foundry sessions failing when admin blocks model version",
+          "why_matters": "管理员限制版本时仍可选择最新允许版本，保持会话可用。",
+          "why_matters_en": "Keeps sessions usable by selecting the newest allowed version when admins restrict versions.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed the `sonnet` alias on Bedrock Mantle resolving to Haiku 4.5: it now means Sonnet 5, not Sonnet 5.5, and an account without Sonnet 5 gets an error, so enable it first",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复Bedrock Mantle的sonnet别名解析错误",
+          "summary_en": "Fix Bedrock Mantle sonnet alias resolving to wrong model",
+          "why_matters": "确保sonnet指向正确版本，避免静默降级。",
+          "why_matters_en": "Ensures the sonnet alias points to the correct model and avoids silent downgrades.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed Ctrl+C at the prompt starting a new turn, and a double Ctrl+C not exiting, when a background agent it stopped had an unread subagent report",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复后台代理报告导致Ctrl+C无法退出",
+          "summary_en": "Fix Ctrl+C failing to exit after background agent report",
+          "why_matters": "让用户能可靠中断或退出交互会话，避免卡在提示符。",
+          "why_matters_en": "Lets users reliably interrupt or exit interactive sessions instead of getting stuck.",
+          "capability_ids": [
+            "automation_autonomy",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed `/install-github-app` ticking a workflow again after going back with Esc",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复安装GitHub应用返回后重复勾选工作流",
+          "summary_en": "Fix GitHub app install re-checking workflow after Esc",
+          "why_matters": "避免安装流程回退后产生错误配置。",
+          "why_matters_en": "Prevents incorrect configuration when users go back in the install flow.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed dictated text past 10,000 characters being lost",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复超长听写文本丢失",
+          "summary_en": "Fix dictated text over 10,000 characters being lost",
+          "why_matters": "保护长语音输入内容，避免用户重复录入。",
+          "why_matters_en": "Preserves long dictation input so users do not need to repeat themselves.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed raw \"JSON Parse error\" and \"The operation was aborted.\" API errors when the non-streaming retry got a broken response or was interrupted",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复重试时暴露原始API解析或中断错误",
+          "summary_en": "Fix raw API parse/abort errors surfacing on retry",
+          "why_matters": "让重试失败时显示可理解信息，而不是原始错误。",
+          "why_matters_en": "Shows understandable messages instead of raw errors when retries fail.",
+          "capability_ids": [
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed Esc not stopping computer use between actions on macOS when Claude Code's window or an app you allowed is in front; an Esc meant for that app's popup now stops computer use instead",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复macOS电脑使用中Esc无法停止",
+          "summary_en": "Fix Esc not stopping computer use on macOS between actions",
+          "why_matters": "让用户能及时中止自动化操作，避免误操作。",
+          "why_matters_en": "Lets users promptly stop automated actions to prevent unintended operations.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed a rare hang when a helper command, such as an API key helper, ran past its time limit",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复辅助命令超时导致罕见卡死",
+          "summary_en": "Fix rare hang when helper command exceeds time limit",
+          "why_matters": "避免API密钥助手等外部命令超时后阻塞整个会话。",
+          "why_matters_en": "Prevents timed-out helper commands from blocking the entire session.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed selecting text in fullscreen pushing the footer's right-hand label onto a second row, which moved the text under the mouse and could copy the wrong line",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复全屏选择文本时页脚换行导致选错",
+          "summary_en": "Fix wrong-line selection when fullscreen footer wraps",
+          "why_matters": "保持选择区域稳定，避免复制到错误文本。",
+          "why_matters_en": "Keeps the selection area stable so users do not copy the wrong text.",
+          "capability_ids": [
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed a PreToolUse hook's reason for asking not showing on terminal Read, Grep, Glob, Edit and Write prompts (anthropics/claude-code#102892, anthropics/claude-code#105343)",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复PreToolUse询问原因未显示在终端提示",
+          "summary_en": "Fix PreToolUse ask reason missing on terminal tool prompts",
+          "why_matters": "让用户看到钩子请求确认的原因，便于安全决策。",
+          "why_matters_en": "Shows why a hook requests confirmation, helping users make safer decisions.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed `temp_*` folders piling up in `~/.claude/plugins/cache` when a downloaded plugin couldn't be copied into place",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复插件缓存残留temp_*临时文件夹",
+          "summary_en": "Fix temp_* folders left in plugin cache",
+          "why_matters": "避免插件缓存目录堆积无用临时文件。",
+          "why_matters_en": "Prevents useless temporary files from accumulating in the plugin cache.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed `--effort` being ignored when starting an interactive session with `--environment` while `CLAUDE_CODE_EFFORT_LEVEL` is set to the same level",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复--effort在--environment会话中被忽略",
+          "summary_en": "Fix --effort ignored with --environment when env matches",
+          "why_matters": "确保用户显式设置的推理强度在交互会话中生效。",
+          "why_matters_en": "Ensures the user's explicit effort setting takes effect in interactive sessions.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed headless and cloud sessions reporting a foreground fork's Agent call as finished the moment the fork started",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复无头/云会话过早报告代理调用完成",
+          "summary_en": "Fix early Agent-call completion in headless/cloud forks",
+          "why_matters": "避免自动化流程在代理真正完成前继续执行。",
+          "why_matters_en": "Prevents automation from continuing before the agent call is truly complete.",
+          "capability_ids": [
+            "automation_autonomy",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Fixed local MCP servers seeing a new session ID after a Remote Control session's process restarts",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复MCP会话ID重置问题",
+          "summary_en": "Fix local MCP servers seeing new session ID",
+          "why_matters": "远程控制进程重启后本地MCP服务会误判为新会话，导致上下文丢失。",
+          "why_matters_en": "Local MCP servers saw a fresh session after a Remote Control restart, losing continuity.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "memory_context",
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed idle compaction being skipped for subscribers still well under their weekly limit",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复低用量用户跳过空闲压缩",
+          "summary_en": "Fix idle compaction skipped for low-usage subscribers",
+          "why_matters": "远低于周限额的用户本应触发空闲压缩，此前被错误跳过。",
+          "why_matters_en": "Users far under their weekly limit were incorrectly skipped, wasting idle capacity.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed an @-mentioned text file with an extension being silently dropped when even its first 2,000 lines exceed the read limit; Claude is now told its size and how to read it",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复超大@文件被静默丢弃",
+          "summary_en": "Fix large @-mentioned files silently dropped",
+          "why_matters": "大文件此前被直接忽略，现在会告知大小并提示读取方式。",
+          "why_matters_en": "Large referenced files were silently ignored; now Claude is told size and how to read them.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed the plugin \"not cached\" error pointing to `/plugin` instead of `/reload-plugins`, the command that reloads plugins",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修正插件错误提示命令",
+          "summary_en": "Fix plugin error pointing to wrong command",
+          "why_matters": "错误提示引导到/plugin而非/reload-plugins，浪费用户排查时间。",
+          "why_matters_en": "The error pointed to /plugin instead of /reload-plugins, misleading users.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed self-hosted runner sessions failing their first clone under Anthropic-managed git when the machine's git config has an `includeIf \"gitdir:\"` or (git 2.44 to 2.46) `\"onbranch:\"` section",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复自托管runner首次克隆失败",
+          "summary_en": "Fix self-hosted runner first clone failure",
+          "why_matters": "机器git配置含includeIf或onbranch段时首次克隆会失败。",
+          "why_matters_en": "Git config with includeIf/onbranch sections broke the runner's first clone.",
+          "capability_ids": [
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed replies that start with phrases like \"You've used\" or \"You've hit your\" showing as a red usage limit error",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复用量提示误显示为错误",
+          "summary_en": "Fix normal replies shown as red usage errors",
+          "why_matters": "普通回复以\"You've used\"开头会被误判为限额错误，影响阅读。",
+          "why_matters_en": "Replies starting with usage-like phrases were wrongly flagged as errors.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed a resumed conversation sometimes missing its last messages after a crash or kill on Bedrock, Google Cloud's Agent Platform, Foundry and other third-party providers",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复恢复会话丢失末尾消息",
+          "summary_en": "Fix resumed conversation missing last messages",
+          "why_matters": "崩溃或被杀后恢复会话会丢失最后几条消息，造成上下文缺失。",
+          "why_matters_en": "After a crash, resumed sessions lost trailing messages, breaking context.",
+          "capability_ids": [
+            "memory_context",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed NotebookEdit saving an invalid notebook when an edit changes a cell's type; turning a cell with attachments into code is now refused",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复NotebookEdit写入无效笔记本",
+          "summary_en": "Fix NotebookEdit saving invalid notebooks",
+          "why_matters": "改变单元格类型会生成非法笔记本，带附件的单元格转代码现被拒绝。",
+          "why_matters_en": "Cell type changes could corrupt notebooks; unsafe conversions are now refused.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed a long README in a design system moved from standalone Claude Design losing its list of files to load when Claude starts a deck or design",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复设计系统README文件列表丢失",
+          "summary_en": "Fix design README losing file list",
+          "why_matters": "迁移后长README会丢失待加载文件清单，影响设计稿生成。",
+          "why_matters_en": "Long READMEs lost their file list, degrading design/deck generation.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Fixed MCP tool calls failing with \"malformed task handle\" when the server's task ID is longer than 128 characters; IDs of up to 1,024 characters now work",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复长任务ID导致MCP调用失败",
+          "summary_en": "Fix MCP calls failing on long task IDs",
+          "why_matters": "任务ID超过128字符即报错，现支持最长1024字符。",
+          "why_matters_en": "Task handles over 128 chars failed; now up to 1,024 chars work.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Self-hosted runner: Fixed `--configure-git` sometimes reporting a hung `git --version` as a git that isn't on PATH",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复git检测误报未安装",
+          "summary_en": "Fix --configure-git false \"not on PATH\" error",
+          "why_matters": "git --version挂起会被误判为git未安装，现能正确识别。",
+          "why_matters_en": "A hung git --version was misreported as git missing from PATH.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed task ids being reused and deleted tasks coming back when several tasks were deleted or updated at once, and TaskGet listing completed tasks as blockers",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复任务ID复用与误删问题",
+          "summary_en": "Fix task ID reuse and deleted tasks reappearing",
+          "why_matters": "并发删除或更新会导致任务复活、阻塞列表错误。",
+          "why_matters_en": "Concurrent task deletes/updates caused revived tasks and wrong blockers.",
+          "capability_ids": [
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed stale and repeated rows in the fullscreen Ctrl+R history picker when prompts share a timestamp",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复历史选择器重复行",
+          "summary_en": "Fix stale duplicated rows in Ctrl+R history",
+          "why_matters": "时间戳相同的提示会重复显示，影响历史检索体验。",
+          "why_matters_en": "Prompts sharing a timestamp showed duplicated stale rows.",
+          "capability_ids": []
+        },
+        {
+          "raw": "Fixed Code Mode silently skipping a tool call whose input has a list of over 4,096 items, and freezing on a very large typed array in a tool's input, which is now refused",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复Code Mode大输入静默跳过",
+          "summary_en": "Fix Code Mode skipping large tool inputs",
+          "why_matters": "超4096项列表的工具调用被静默跳过，超大数组现会明确拒绝。",
+          "why_matters_en": "Tool calls with huge lists were silently skipped or froze; now handled.",
+          "capability_ids": [
+            "execution_workspace",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed Code Mode leaving a message unanswered when it was typed during a command and Esc was pressed before Claude replied; the message now starts a new turn, which a second Esc stops",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复命令中输入的消息被丢弃",
+          "summary_en": "Fix message typed during command left unanswered",
+          "why_matters": "命令执行中输入的提示按Esc后会丢失，现会作为新一轮开始。",
+          "why_matters_en": "Messages typed during a command were dropped; they now start a new turn.",
+          "capability_ids": [
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed Code Mode not telling Claude when a slow command moved to the background and left its script with empty output, or of the time limit on background commands in `claude -p` and the Agent SDK",
+          "category": "fix",
+          "importance": 4,
+          "summary": "后台命令状态与时限未告知 Claude",
+          "summary_en": "Background command status/time limit not reported",
+          "why_matters": "Claude 可能误判命令已完成并丢失输出，影响调试。",
+          "why_matters_en": "Claude may misjudge completion and lose output, hurting debugging.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed Code Mode sometimes waiting for minutes on a command that had already been stopped",
+          "category": "fix",
+          "importance": 4,
+          "summary": "已停止命令仍被 Code Mode 长时间等待",
+          "summary_en": "Code Mode waits minutes on already stopped command",
+          "why_matters": "卡住的工作流会浪费用户时间并延迟后续操作。",
+          "why_matters_en": "Stalled workflows waste user time and delay subsequent actions.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed a typed slash command's inline shell commands not running in Code Mode after a background script's output arrived",
+          "category": "fix",
+          "importance": 3,
+          "summary": "斜杠命令内联 shell 未在后台后执行",
+          "summary_en": "Inline shell in slash command skipped after background output",
+          "why_matters": "命令中的自动化步骤可能被静默跳过，导致结果不完整。",
+          "why_matters_en": "Automation steps inside commands may be silently skipped, producing incomplete results.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Fixed Code Mode sessions in the Agent SDK and `claude -p` sometimes losing Claude's last reply on resume after being stopped while a script was running",
+          "category": "fix",
+          "importance": 4,
+          "summary": "恢复会话时可能丢失 Claude 最后回复",
+          "summary_en": "Resume may lose Claude's last reply after stop",
+          "why_matters": "用户重启或恢复会话时可能丢失关键上下文。",
+          "why_matters_en": "Users can lose critical context when restarting or resuming sessions.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Remote Control: Fixed sessions hosted by the desktop app or VS Code showing as idle while /compact runs",
+          "category": "fix",
+          "importance": 2,
+          "summary": "远程会话运行 /compact 时显示空闲",
+          "summary_en": "Remote session shows idle while /compact runs",
+          "why_matters": "状态显示不准确会让用户误判会话是否仍在处理。",
+          "why_matters_en": "Inaccurate status can make users think the session is no longer processing.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "delegation_collaboration",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed a session sometimes losing its \"needs input\" status after a background task's report in Claude Desktop",
+          "category": "fix",
+          "importance": 3,
+          "summary": "后台任务报告后会话丢失待输入状态",
+          "summary_en": "Session loses needs-input status after background report",
+          "why_matters": "用户可能错过需要输入的提示，导致工作流停滞。",
+          "why_matters_en": "Users may miss prompts requiring input, stalling the workflow.",
+          "capability_ids": [
+            "automation_autonomy",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed Grep: -o missing an empty match at the end of a file with no last newline, -o with multiline adding an empty line or misnumbering lines in non-UTF-8 files, and -A and -B ignored beside a zero -C",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复 Grep 空匹配、多行及上下文选项",
+          "summary_en": "Fix Grep empty match, multiline, and context flags",
+          "why_matters": "搜索输出不准确会影响代码定位和后续修改。",
+          "why_matters_en": "Inaccurate search output affects code location and follow-up edits.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed unbinding a chord in `keybindings.json` still leaving its first key waiting for a second when it was spelled `meta` and bound as `alt`, or the reverse",
+          "category": "fix",
+          "importance": 2,
+          "summary": "解除 meta/alt 键绑定仍会等待第二键",
+          "summary_en": "Unbound meta/alt chord still waits for second key",
+          "why_matters": "键盘快捷键失效会打断用户操作习惯。",
+          "why_matters_en": "Broken keyboard shortcuts disrupt users' established workflows.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed moving an empty session to the background sometimes failing with \"Couldn't load transcript from file\"",
+          "category": "fix",
+          "importance": 2,
+          "summary": "移动空会话到后台偶发转录加载失败",
+          "summary_en": "Moving empty session to background may fail transcript load",
+          "why_matters": "空会话后台操作失败会造成不必要的困惑和重试。",
+          "why_matters_en": "Backgrounding empty sessions can cause confusion and unnecessary retries.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed OpenTelemetry reporting a failed `mcp_server_connection` event at each start for a built-in server that isn't turned on for the account",
+          "category": "fix",
+          "importance": 2,
+          "summary": "未启用内置服务器的 MCP 遥测误报失败",
+          "summary_en": "Telemetry falsely reports disabled built-in MCP connection",
+          "why_matters": "误导性的遥测会干扰运维监控和故障排查。",
+          "why_matters_en": "Misleading telemetry interferes with monitoring and troubleshooting.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed Esc not stopping a Bash command while it waited for its file diff in large or slow git repositories, which held the next message",
+          "category": "fix",
+          "importance": 4,
+          "summary": "Esc 无法停止等待 git diff 的 Bash 命令",
+          "summary_en": "Esc cannot stop Bash waiting on git diff in large repos",
+          "why_matters": "无法中断会阻塞下一条消息，影响交互效率。",
+          "why_matters_en": "Inability to interrupt blocks the next message and slows interaction.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Fixed pasted links and relative paths ending in an image file name appearing late and swallowing an Enter pressed right after",
+          "category": "fix",
+          "importance": 3,
+          "summary": "粘贴图片路径延迟出现并吞掉回车",
+          "summary_en": "Pasted image-like paths appear late and swallow Enter",
+          "why_matters": "输入内容意外出现会打乱用户输入并造成误操作。",
+          "why_matters_en": "Unexpected late input disrupts typing and can cause mistakes.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed `/mcp reconnect all` and `/mcp disable all` counting a built-in server that isn't turned on for the account",
+          "category": "fix",
+          "importance": 2,
+          "summary": "MCP 全部重连/禁用误计未启用内置服务器",
+          "summary_en": "MCP reconnect/disable all miscounts disabled built-in server",
+          "why_matters": "批量操作结果不准确会误导用户对 MCP 状态的判断。",
+          "why_matters_en": "Inaccurate bulk-operation results mislead users about MCP status.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed interrupting a turn while a mod's `turn.step` hook was waiting showing \"user-cancel\" as an error instead of \"Interrupted\"",
+          "category": "fix",
+          "importance": 2,
+          "summary": "中断 turn.step 钩子等待时误报 user-cancel",
+          "summary_en": "Interrupt during turn.step hook misreported as user-cancel",
+          "why_matters": "错误分类会混淆中断原因并影响调试。",
+          "why_matters_en": "Misclassification obscures why an interrupt occurred and complicates debugging.",
+          "capability_ids": [
+            "automation_autonomy",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Fixed `~/.claude.json` being reported as corrupted when another session was in the middle of saving it",
+          "category": "fix",
+          "importance": 3,
+          "summary": "并发保存时误报 ~/.claude.json 损坏",
+          "summary_en": "Concurrent save falsely reports ~/.claude.json corrupted",
+          "why_matters": "误报配置损坏可能导致用户不必要地重置设置。",
+          "why_matters_en": "False corruption warnings may lead users to unnecessarily reset settings.",
+          "capability_ids": [
+            "memory_context",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Fixed web searches failing with an API error when Claude's list of allowed or blocked domains was empty or had duplicates",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复空或重复域名导致网页搜索 API 报错",
+          "summary_en": "Fixed web search API errors from empty or duplicate domains",
+          "why_matters": "避免域名过滤配置异常时网页搜索完全不可用。",
+          "why_matters_en": "Prevents web search from breaking when domain filters are misconfigured.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Fixed resuming a paused workflow in Code Mode waiting for minutes while other background work was running",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复后台任务运行时恢复工作流长时间等待",
+          "summary_en": "Fixed workflow resume waiting minutes with background work",
+          "why_matters": "避免恢复暂停工作流时出现看似卡死的等待。",
+          "why_matters_en": "Avoids apparently hung waits when resuming paused workflows.",
+          "capability_ids": [
+            "execution_workspace",
+            "automation_autonomy",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Fixed subagents in Code Mode failing with \"Agent stalled\" and losing their command when a script ran for more than 10 minutes",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复长脚本导致子代理停滞并丢失命令",
+          "summary_en": "Fixed long scripts stalling subagents and losing commands",
+          "why_matters": "防止长时间运行的任务让子代理失效并丢失用户指令。",
+          "why_matters_en": "Prevents long-running tasks from disabling subagents and losing instructions.",
+          "capability_ids": [
+            "delegation_collaboration",
+            "execution_workspace",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Improved `claude plugin marketplace add` on Windows to wait and try again in some cases when another program, such as a virus scanner, briefly holds the downloaded files",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "改进 Windows 插件市场下载遇占用时自动重试",
+          "summary_en": "Improved Windows plugin marketplace retry for locked files",
+          "why_matters": "减少杀毒软件短暂占用文件导致的插件安装失败。",
+          "why_matters_en": "Reduces plugin install failures when antivirus briefly locks downloaded files.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Windows: Improved stability on some company PCs, where Claude Code could exit with no output shortly after start",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复 Windows 企业电脑启动后无输出退出的问题",
+          "summary_en": "Fixed Windows company PCs exiting silently at startup",
+          "why_matters": "提升受管设备上的启动稳定性，避免无提示退出。",
+          "why_matters_en": "Improves startup stability on managed PCs by preventing silent exits.",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Improved computer use setup: the Screen Recording permission prompt can now restart Claude Code and resume the chat",
+          "category": "improvement",
+          "importance": 4,
+          "summary": "改进电脑使用设置：录屏权限可重启并恢复对话",
+          "summary_en": "Improved computer use permission prompt restart and resume",
+          "why_matters": "减少授予屏幕录制权限后重新开始对话的摩擦。",
+          "why_matters_en": "Reduces friction after granting screen recording permission for computer use.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "automation_autonomy",
+            "execution_workspace",
+            "memory_context",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Improved computer use to take less context until Claude uses it",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "改进电脑使用：未启用前减少上下文占用",
+          "summary_en": "Improved computer use context use until activated",
+          "why_matters": "让电脑使用功能在不操作时更少挤占对话上下文。",
+          "why_matters_en": "Keeps computer use from consuming chat context when idle.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Improved the error when a proxy or gateway cuts or damages a compressed response: a turn now ends in plain words instead of raw \"ZlibError fetching\" text",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "改进代理压缩响应损坏时的错误提示为通俗语言",
+          "summary_en": "Improved plain errors for damaged compressed proxy responses",
+          "why_matters": "让用户更容易理解网关或代理导致的响应损坏问题。",
+          "why_matters_en": "Helps users understand response corruption caused by proxies or gateways.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Improved `/context`: shorter output in fullscreen, so the total is less likely to scroll off in a short window, and the legend names its unit once",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "改进 /context：全屏输出更短并统一单位说明",
+          "summary_en": "Improved /context shorter fullscreen output and unit legend",
+          "why_matters": "减少短窗口中上下文用量信息被滚动截断的情况。",
+          "why_matters_en": "Reduces context usage info scrolling off in short terminal windows.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Improved peak memory use and speed of `/usage` on machines with many recent sessions",
+          "category": "perf",
+          "importance": 3,
+          "summary": "优化 /usage 在多会话下的峰值内存和速度",
+          "summary_en": "Improved /usage peak memory and speed with many sessions",
+          "why_matters": "让历史会话很多时查看用量更快、更省内存。",
+          "why_matters_en": "Makes usage checks faster and lighter when many sessions exist.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Improved `/permissions` to refuse a rule that would be skipped at the next start, such as `rm -rf` with no tool name, and to show the reason",
+          "category": "improvement",
+          "importance": 4,
+          "summary": "改进 /permissions：拒绝启动时会被跳过的规则并说明",
+          "summary_en": "Improved /permissions rejecting skipped rules with reason",
+          "why_matters": "防止用户配置看似有效但下次启动被静默跳过的权限规则。",
+          "why_matters_en": "Prevents permission rules that look valid but are silently skipped later.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Improved resuming a session in Code Mode: Claude is now told up front that its earlier script variables are gone",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "改进 Code Mode 会话恢复：提前告知脚本变量已丢失",
+          "summary_en": "Improved Code Mode resume warning for lost script variables",
+          "why_matters": "避免恢复会话后 Claude 误以为旧脚本变量仍然存在。",
+          "why_matters_en": "Avoids Claude assuming old script variables still exist after resume.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Improved Claude in Code Mode to confirm before discarding worktree changes, to read artifact files before publishing them, and to update an existing artifact instead of creating a second one",
+          "category": "improvement",
+          "importance": 4,
+          "summary": "改进 Code Mode 的工作树、制品发布和更新保护",
+          "summary_en": "Improved Code Mode worktree and artifact safety checks",
+          "why_matters": "减少误丢工作树改动或重复发布制品的风险。",
+          "why_matters_en": "Reduces risk of losing worktree changes or duplicating artifacts.",
+          "capability_ids": [
+            "execution_workspace",
+            "governance_security",
+            "automation_autonomy",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "Improved Code Mode's tool search to show long MCP tool descriptions whole where they fit, as a cut description could lead to wrong calls",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "改进 Code Mode 工具搜索完整显示较长的 MCP 描述",
+          "summary_en": "Improved Code Mode tool search to show long MCP descriptions",
+          "why_matters": "避免因描述被截断而误选或误用 MCP 工具。",
+          "why_matters_en": "Prevents truncated descriptions from causing wrong MCP tool calls.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Linux: Improved the Ctrl+V message to name the package to install (`wl-clipboard` or `xclip`) when images can't be read from the clipboard",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "改进 Linux 剪贴板图片读取失败时的安装提示",
+          "summary_en": "Improved Linux clipboard image error with package hints",
+          "why_matters": "让 Linux 用户知道安装 wl-clipboard 或 xclip 即可修复图片粘贴。",
+          "why_matters_en": "Tells Linux users to install wl-clipboard or xclip to fix image paste.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Improved recovery for long conversations behind a proxy or gateway with a request size limit, where every message and `/compact` failed with a 413",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复代理请求上限导致长对话及压缩失败",
+          "summary_en": "Fix 413 failures for long chats and /compact behind proxies",
+          "why_matters": "避免受网关请求大小限制的用户无法进行长对话或压缩上下文。",
+          "why_matters_en": "Prevents users behind gateway size limits from being unable to chat or compact.",
+          "capability_ids": [
+            "memory_context",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Improved Glob speed in large local folders on Windows machines with 6 or more CPUs: folders are walked in parallel, and a search stopped at its time limit now lists what it found",
+          "category": "perf",
+          "importance": 3,
+          "summary": "提升 Windows 大目录 Glob 并行搜索速度",
+          "summary_en": "Speed up Glob in large Windows folders via parallel walking",
+          "why_matters": "大型项目在 Windows 上搜索文件更快，超时也能看到部分结果。",
+          "why_matters_en": "Large Windows projects search files faster and return partial results on timeout.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Improved memory use when resuming a long conversation",
+          "category": "perf",
+          "importance": 3,
+          "summary": "降低恢复长对话时的内存占用",
+          "summary_en": "Reduce memory usage when resuming long conversations",
+          "why_matters": "恢复长会话时占用更少内存，降低卡顿或崩溃风险。",
+          "why_matters_en": "Lower memory use when resuming long chats reduces lag or crash risk.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Improved memory use at startup with MCP servers that list many tools",
+          "category": "perf",
+          "importance": 3,
+          "summary": "降低多工具 MCP 启动时的内存占用",
+          "summary_en": "Reduce startup memory with MCP servers exposing many tools",
+          "why_matters": "MCP 工具很多时启动更省内存，减少资源压力。",
+          "why_matters_en": "Startup uses less memory when MCP servers expose many tools.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Improved memory use of `claude -p` and SDK-hosted sessions at the start of a conversation",
+          "category": "perf",
+          "importance": 3,
+          "summary": "降低 claude -p 和 SDK 会话初始内存",
+          "summary_en": "Reduce initial memory for claude -p and SDK sessions",
+          "why_matters": "脚本和 SDK 会话启动更轻量，降低初始内存开销。",
+          "why_matters_en": "Script and SDK sessions start lighter with lower initial memory.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "Updated computer use on macOS to newer safety rules, so some actions are refused and typing can be slower",
+          "category": "security",
+          "importance": 3,
+          "summary": "macOS 电脑使用更新安全规则，部分操作被拒",
+          "summary_en": "Update macOS computer-use safety rules; some actions refused",
+          "why_matters": "安全规则更严格，部分电脑操作可能被拒绝或变慢。",
+          "why_matters_en": "Stricter safety rules may refuse some actions or slow typing.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Changed terminal and VS Code sessions moved to Sonnet 5 or 5.5 on Bedrock Mantle, Agent Platform and Foundry to start in auto mode if no mode is set; set `disableAutoMode` to `\"disable\"` to stop it",
+          "category": "breaking",
+          "importance": 4,
+          "summary": "云上终端/VS Code 无模式时默认自动模式",
+          "summary_en": "Cloud terminal/VS Code sessions default to auto mode",
+          "why_matters": "默认行为改变，用户需显式关闭自动模式才能保持原状。",
+          "why_matters_en": "Default behavior changes, so users must explicitly disable auto mode.",
+          "capability_ids": [
+            "automation_autonomy",
+            "integrations_ecosystem",
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Changed the `sonnet` model alias on Google Cloud's Agent Platform and Microsoft Foundry to Sonnet 5.5, and Foundry's `opus` alias to Opus 5.5; `sonnet` on Amazon Bedrock stays at Sonnet 4.5",
+          "category": "breaking",
+          "importance": 4,
+          "summary": "调整 GCP/Foundry 的 sonnet/opus 别名版本",
+          "summary_en": "Update Sonnet/Opus aliases on GCP and Foundry",
+          "why_matters": "模型别名指向新版本，可能改变输出质量、成本和兼容性。",
+          "why_matters_en": "Model aliases now point to newer versions, changing output and cost.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Changed the default model on Microsoft Foundry to Sonnet 5.5: deploy `claude-sonnet-5-5`, or set `ANTHROPIC_DEFAULT_SONNET_MODEL` to a model you have deployed",
+          "category": "breaking",
+          "importance": 4,
+          "summary": "Foundry 默认模型改为 Sonnet 5.5",
+          "summary_en": "Foundry default model changes to Sonnet 5.5",
+          "why_matters": "未部署新模型或配置环境变量时，Foundry 默认调用会失败。",
+          "why_matters_en": "Foundry calls fail if the new model is not deployed or configured.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Changed `sonnet` and background requests on Google Cloud's Agent Platform to read `VERTEX_REGION_CLAUDE_5_5_SONNET`; with only the `4_5` variable set they go to `CLOUD_ML_REGION` or `us-east5`",
+          "category": "breaking",
+          "importance": 3,
+          "summary": "Agent Platform 模型区域改用 5.5 环境变量",
+          "summary_en": "Agent Platform models use 5.5 region env var",
+          "why_matters": "区域变量变化会影响模型路由，旧配置可能不再生效。",
+          "why_matters_en": "Region variable changes affect model routing; old config may not work.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Changed `--model default` and a Default pick to move to an older model when that model isn't available, instead of stopping with an error; in auto mode, only to a model auto mode accepts",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "模型不可用时自动降级到旧模型",
+          "summary_en": "Fall back to older model when requested model unavailable",
+          "why_matters": "请求模型不可用时仍可继续工作，减少中断。",
+          "why_matters_en": "Work continues when the requested model is unavailable, reducing interruptions.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "automation_autonomy"
+          ]
+        },
+        {
+          "raw": "Changed Microsoft Foundry: Claude Sonnet 4, Opus 4 and Opus 4.1 now count as retired, so step-downs stop above them and a pin to one warns that it was retired",
+          "category": "breaking",
+          "importance": 4,
+          "summary": "Foundry 旧模型标记退役并影响降级",
+          "summary_en": "Foundry marks older models retired, affecting step-downs",
+          "why_matters": "旧模型退役会影响自动降级和固定模型配置。",
+          "why_matters_en": "Retired models affect automatic step-downs and pinned model configs.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Changed the Claude apps gateway's built-in model list: Sonnet 5.5 replaces Sonnet 4.5 as its second model, and Claude Desktop starts on it where a policy allows no Opus 4.6",
+          "category": "breaking",
+          "importance": 3,
+          "summary": "Claude 网关内置模型列表更新为 5.5",
+          "summary_en": "Claude gateway model list updates to Sonnet 5.5",
+          "why_matters": "网关用户默认模型变化，策略限制下桌面端也会跟着变。",
+          "why_matters_en": "Gateway default model changes, and Desktop follows under policy limits.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Changed SDK and `claude -p` mid-turn messages to count as the user's where feature flags aren't fetched, as on clouds or with telemetry off, from Opus 4.8 on; mark relayed text `isSynthetic: true`",
+          "category": "breaking",
+          "importance": 3,
+          "summary": "SDK 中转消息按用户消息计并标记合成",
+          "summary_en": "SDK relayed messages count as user, mark isSynthetic",
+          "why_matters": "消息归属更符合实际场景，但 SDK 需适配合成消息标记。",
+          "why_matters_en": "Message attribution is more accurate, but SDK users must handle synthetic markers.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Changed `computer-use` to a reserved skill name on Macs with computer use on: your own skill or command of that name stops loading, and a start-up notice says to rename it",
+          "category": "breaking",
+          "importance": 3,
+          "summary": "computer-use 成 macOS 保留技能名",
+          "summary_en": "computer-use becomes reserved skill name on macOS",
+          "why_matters": "同名自定义技能将无法加载，需要改名避免冲突。",
+          "why_matters_en": "Same-named custom skills stop loading, so users must rename them.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "Changed the default OpenTelemetry `service.name` of desktop Code tab sessions to `claude-code-desktop`; update filters keyed on `claude-code`, or set `OTEL_SERVICE_NAME` to keep the old name",
+          "category": "breaking",
+          "importance": 3,
+          "summary": "桌面 Code 会话 OTel 服务名默认变更",
+          "summary_en": "Desktop Code OTel service.name default changed",
+          "why_matters": "按旧服务名过滤的监控和告警需要同步更新，或设置 OTEL_SERVICE_NAME 保留旧名。",
+          "why_matters_en": "Monitoring and alerts filtered by the old service name must be updated, or OTEL_SERVICE_NAME set to keep it.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Changed OpenTelemetry `tool_input` to show only the length of text sent through SendUserMessage or Cowork's message tool, unless response logging is on (`OTEL_LOG_ASSISTANT_RESPONSES=1`)",
+          "category": "security",
+          "importance": 3,
+          "summary": "OTel 工具输入默认仅记录文本长度",
+          "summary_en": "OTel tool_input logs only text length by default",
+          "why_matters": "避免在遥测中泄露 SendUserMessage 等工具发送的正文内容。",
+          "why_matters_en": "Prevents telemetry from leaking message content sent through tools like SendUserMessage.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Self-hosted runner: Changed `CLAUDE_CODE_OAUTH_TOKEN`: its prefix can now end in `oat02-` as well as `oat01-`. Update proxy rules and log scrubbers that match `oat01-`, and mask the whole value",
+          "category": "breaking",
+          "importance": 4,
+          "summary": "自托管 OAuth 令牌新增 oat02- 前缀",
+          "summary_en": "Self-hosted OAuth token now supports oat02- prefix",
+          "why_matters": "代理规则和日志脱敏需覆盖新前缀，并确保掩码完整令牌值。",
+          "why_matters_en": "Proxy rules and log scrubbers must cover the new prefix and mask the full token value.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Changed `claude self-hosted-runner setup` with no arguments on macOS and Linux to ask for the environment key in the terminal before Claude starts, and to hide it as you paste",
+          "category": "security",
+          "importance": 3,
+          "summary": "安装时在终端隐藏输入环境密钥",
+          "summary_en": "Setup hides environment key input in terminal",
+          "why_matters": "自托管安装无参数运行时，密钥不会在终端中以明文显示。",
+          "why_matters_en": "When running self-hosted setup without arguments, the key is not shown in plain text.",
+          "capability_ids": [
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Changed Claude Desktop's Code tab on Anthropic's API to ignore default, side-request, alias and subagent model ids not starting with `claude` in your own settings beside a gateway address",
+          "category": "fix",
+          "importance": 3,
+          "summary": "网关旁忽略非 claude 开头的模型 ID",
+          "summary_en": "Ignore non-claude model IDs beside gateway settings",
+          "why_matters": "避免自定义设置中的无效模型 ID 与网关地址混用导致异常。",
+          "why_matters_en": "Prevents invalid model IDs in custom settings from conflicting with a gateway address.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Changed Claude Desktop's Code tab on Anthropic's API to ignore a `CLAUDE_CODE_AUTO_COMPACT_WINDOW` under 200K in your own settings beside a gateway address; use `/autocompact` instead",
+          "category": "fix",
+          "importance": 3,
+          "summary": "网关旁忽略低于 200K 的自动压缩窗口",
+          "summary_en": "Ignore sub-200K auto-compact window beside gateway",
+          "why_matters": "防止过小的自动压缩窗口在网关场景下破坏上下文管理。",
+          "why_matters_en": "Prevents an overly small auto-compact window from breaking context management with gateways.",
+          "capability_ids": [
+            "memory_context",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Changed plan mode in the desktop app's Code tab and VS Code to ask for approval instead of refusing when no auto mode safety check can judge a command, for plans entered from Manual or Accept edits",
+          "category": "improvement",
+          "importance": 4,
+          "summary": "计划模式无法判定安全时改为请求批准",
+          "summary_en": "Plan mode asks approval when safety can't judge",
+          "why_matters": "在无法自动判断命令安全性时，仍可安全推进 Manual 或 Accept edits 计划。",
+          "why_matters_en": "Lets Manual or Accept edits plans proceed safely when command safety cannot be automatically judged.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "governance_security",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Changed PgUp and Home to go to No on destructive questions, such as `/clear` from an agent's view",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "破坏性确认中 PgUp/Home 默认选 No",
+          "summary_en": "PgUp/Home choose No on destructive prompts",
+          "why_matters": "降低误确认 /clear 等破坏性操作的风险。",
+          "why_matters_en": "Reduces the risk of accidentally confirming destructive actions like /clear.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Changed `/feedback` drafts in the terminal to open on Not now, above separate rows to send the report alone or with the transcript",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "/feedback 草稿默认停在 Not now",
+          "summary_en": "/feedback drafts open on Not now by default",
+          "why_matters": "避免用户误发送反馈，并分别提供仅报告或附带记录发送选项。",
+          "why_matters_en": "Prevents accidental feedback submission and separates report-only from transcript-included sending.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Changed tap-mode voice dictation to keep the microphone on until 60 seconds without new words or 10 minutes, up from 15 seconds and 2 minutes, then keep the text unsent; the next tap adds to it",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "点按语音听写延长麦克风保持时间",
+          "summary_en": "Tap voice dictation keeps mic on longer",
+          "why_matters": "给用户更多时间组织语音内容，超时后下一击可继续追加文本。",
+          "why_matters_en": "Gives users more time to compose speech, with the next tap appending to unsent text.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Changed tap-mode voice dictation to stop when you send the prompt, and to stop and say why when you edit it, a panel covers it, or the connection or a separate recorder program is lost",
+          "category": "fix",
+          "importance": 3,
+          "summary": "语音听写随发送、编辑或遮挡自动停止",
+          "summary_en": "Voice dictation stops on send, edit, or overlay",
+          "why_matters": "避免在用户操作后继续录音，并在连接或录制器丢失时说明原因。",
+          "why_matters_en": "Prevents recording from continuing after user actions and explains when connection or recorder is lost.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "Changed `/schedule`, permission prompts and `/loop`'s cloud offer to say \"cloud scheduled task\" instead of \"routine\" or \"cloud schedule\"; `/routines` still works",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "统一称为“云计划任务”并保留旧命令",
+          "summary_en": "Use 'cloud scheduled task' wording; /routines still works",
+          "why_matters": "让调度功能的命名更清晰一致，同时不破坏现有 /routines 用法。",
+          "why_matters_en": "Makes scheduling terminology clearer and consistent while keeping /routines working.",
+          "capability_ids": [
+            "automation_autonomy",
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "Changed model switches from the Claude mobile app or claude.ai to keep the effort level you saved for the previous model when none is saved for the new one",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "跨端切换模型时沿用已保存的 effort",
+          "summary_en": "Keep previous model's effort level on model switch",
+          "why_matters": "从移动端或 claude.ai 切换模型时，不会意外丢失原有的推理强度偏好。",
+          "why_matters_en": "Switching models from mobile or claude.ai no longer unexpectedly loses the saved reasoning effort preference.",
+          "capability_ids": [
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "Changed the `hint` a mod's `PromptHint` hook receives to leave out the hint for selected text when the fullscreen footer has a label on its right",
+          "category": "fix",
+          "importance": 1,
+          "summary": "全屏页脚有右侧标签时省略选区提示",
+          "summary_en": "Omit selected-text hint when footer has right label",
+          "why_matters": "避免 PromptHint 钩子提示与全屏页脚右侧标签重叠冲突。",
+          "why_matters_en": "Prevents PromptHint hook text from conflicting with the fullscreen footer's right-side label.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "Changed `awsCredentialExport` to time out after 10 minutes instead of waiting forever",
+          "category": "fix",
+          "importance": 3,
+          "summary": "awsCredentialExport 超过 10 分钟即超时",
+          "summary_en": "awsCredentialExport times out after 10 minutes",
+          "why_matters": "避免凭据导出在异常时无限等待并卡住后续流程。",
+          "why_matters_en": "Prevents credential export from hanging indefinitely and blocking subsequent workflows.",
+          "capability_ids": [
+            "governance_security",
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "[VSCode] Added a notification in more cases when closing a proposed diff leaves the edit unapplied, and stopped the diff notifications on a split copy of an answered diff",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "关闭未应用差异时增加提醒",
+          "summary_en": "Notify when closing unapplied diff; stop extra alerts",
+          "why_matters": "避免用户误关差异而丢失尚未应用的编辑。",
+          "why_matters_en": "Prevents losing edits when a proposed diff is closed without applying.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Added a warning when restoring a conversation with `/rewind` in the side bar stops a self-paced `/loop`",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "回退会话停止循环时给出警告",
+          "summary_en": "Warn when /rewind stops a self-paced /loop",
+          "why_matters": "防止恢复对话时意外中断正在运行的自动化循环。",
+          "why_matters_en": "Prevents accidentally stopping an active automation loop when restoring a conversation.",
+          "capability_ids": [
+            "memory_context",
+            "automation_autonomy",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Added the installed version to the rows of Manage plugins",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "插件管理显示已安装版本",
+          "summary_en": "Show installed version in Manage plugins",
+          "why_matters": "便于用户确认插件版本并排查兼容性问题。",
+          "why_matters_en": "Helps users verify plugin versions and troubleshoot compatibility.",
+          "capability_ids": [
+            "integrations_ecosystem"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed Rewind staying on \"Checking code changes…\" while Claude's process hung at its start",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复 Rewind 检查卡住",
+          "summary_en": "Fix Rewind stuck on checking code changes",
+          "why_matters": "避免进程启动异常时 Rewind 无限等待。",
+          "why_matters_en": "Avoids indefinite waiting in Rewind when the underlying process hangs at startup.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed the model picker's arrow keys starting from the wrong row right after it opens, and screen readers not announcing its highlighted model when opened with `/model` or the command menu",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复模型选择器键盘与读屏",
+          "summary_en": "Fix model picker keyboard and screen reader",
+          "why_matters": "让键盘用户和读屏用户能正确选择模型。",
+          "why_matters_en": "Enables keyboard and screen-reader users to select models correctly.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed the diff view's \"Copy deleted line\" and \"Copy changed line\" copying a different line than they name, and a double-click near the bottom copying unasked",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复差异视图复制错行",
+          "summary_en": "Fix diff view copying wrong lines",
+          "why_matters": "防止用户复制到错误代码行造成误导。",
+          "why_matters_en": "Prevents users from copying incorrect code lines from diff views.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed the blocked microphone's tooltip being cut off, long addresses running out of Web Fetch rows, usage bars looking full in High Contrast, and a Thinking row jumping away when clicked",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复多处界面显示与高对比问题",
+          "summary_en": "Fix several UI display and high contrast issues",
+          "why_matters": "提升界面可读性和无障碍使用体验。",
+          "why_matters_en": "Improves readability and accessibility across several UI elements.",
+          "capability_ids": [
+            "multimodal_interfaces",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed a second Logout in the same window reporting success while the first was still running, and added a Show logs button to the error when logout fails",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复重复登出误报成功",
+          "summary_en": "Fix duplicate logout false success",
+          "why_matters": "确保登录状态反馈准确，并在失败时提供日志入口。",
+          "why_matters_en": "Ensures accurate auth-state feedback and adds logs when logout fails.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed the chat showing no notice when a background command, agent, workflow or monitor finished while Claude was idle",
+          "category": "fix",
+          "importance": 3,
+          "summary": "后台任务完成时给出通知",
+          "summary_en": "Notify when background tasks finish",
+          "why_matters": "让用户及时知道命令、代理或工作流已完成。",
+          "why_matters_en": "Lets users know promptly when commands, agents, or workflows complete.",
+          "capability_ids": [
+            "automation_autonomy",
+            "delegation_collaboration"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed forking a conversation, opening and saving memories, and creating project output styles failing on NTFS drives in VS Code 1.101 and 1.102 on Windows 11 24H2 and later",
+          "category": "fix",
+          "importance": 4,
+          "summary": "修复 Windows NTFS 上核心操作失败",
+          "summary_en": "Fix core operations failing on Windows NTFS",
+          "why_matters": "恢复受影响 Windows 用户的分叉、记忆和输出样式功能。",
+          "why_matters_en": "Restores forking, memories, and output styles for affected Windows users.",
+          "capability_ids": [
+            "memory_context",
+            "execution_workspace",
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed Web Fetch showing \"Fetched from\" with a success dot when the site returned an error or a redirect that wasn't followed",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复网页抓取错误误报成功",
+          "summary_en": "Fix Web Fetch false success indicator",
+          "why_matters": "避免用户误信失败或未跟随重定向的抓取结果。",
+          "why_matters_en": "Prevents trusting fetch results that actually failed or were not followed.",
+          "capability_ids": [
+            "integrations_ecosystem",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed the compaction summary showing as your own prompt, and in Rewind and prompt history, after reloading, resuming or forking a compacted conversation",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复压缩摘要误显示为用户提示",
+          "summary_en": "Fix compaction summary shown as user prompt",
+          "why_matters": "保持重载、恢复或分叉后的对话历史准确。",
+          "why_matters_en": "Keeps conversation history accurate after reloading, resuming, or forking.",
+          "capability_ids": [
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed `spinnerVerbs` from Claude Code user and managed settings being ignored",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复 spinnerVerbs 设置被忽略",
+          "summary_en": "Fix spinnerVerbs settings being ignored",
+          "why_matters": "恢复用户和托管设置中的自定义加载文案。",
+          "why_matters_en": "Restores custom loading text from user and managed settings.",
+          "capability_ids": [
+            "governance_security"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed right-to-left text from mods showing its punctuation on the wrong side, and a mod's band or pane filling only part of its width when the panel font has no box-drawing characters",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复 RTL 文本与模组布局问题",
+          "summary_en": "Fix RTL text and mod pane layout",
+          "why_matters": "改善从右到左语言用户的显示正确性。",
+          "why_matters_en": "Improves display correctness for right-to-left language users.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed an empty, locked editor pane staying beside the next file or Claude tab after the last Claude tab was closed",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复关闭标签后残留空白窗格",
+          "summary_en": "Fix empty locked pane after closing tabs",
+          "why_matters": "保持编辑器布局整洁，避免无用的锁定窗格。",
+          "why_matters_en": "Keeps the editor layout clean by removing useless locked panes.",
+          "capability_ids": [
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed a session rename that cannot be saved reverting silently, and screen readers not hearing a session's status, which session is open or which groups are collapsed",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复会话重命名未保存及屏幕阅读器状态提示",
+          "summary_en": "Fixed session rename loss and screen reader status gaps",
+          "why_matters": "确保会话操作可靠保存，并让屏幕阅读器用户获知状态。",
+          "why_matters_en": "Ensures reliable session saves and accessible status for screen reader users.",
+          "capability_ids": [
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed a hidden panel's notice not naming the waiting session, Hebrew and Arabic questions reading out of order, and a question cut off when Claude's process ended showing only a red dot",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复隐藏面板提示、RTL问题顺序及被截断问题",
+          "summary_en": "Fixed hidden-panel notices, RTL question order, and cut-off prompts",
+          "why_matters": "提升通知准确性与希伯来语、阿拉伯语等 RTL 语言体验。",
+          "why_matters_en": "Improves notice accuracy and right-to-left language experience.",
+          "capability_ids": [
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed a sign-in that failed with no error message returning to the sign-in screen with nothing shown, and an authentication error still looking current after you signed in again in that tab",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复登录失败无提示及重新登录后旧错误残留",
+          "summary_en": "Fixed silent sign-in failures and stale auth errors after re-login",
+          "why_matters": "让认证失败可见且状态准确，减少登录困惑。",
+          "why_matters_en": "Makes authentication failures visible and status accurate, reducing login confusion.",
+          "capability_ids": [
+            "governance_security",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed the chat moving when a menu opened over some banners, and an agent's tool call count shrinking in long sessions; it now shows how many of the calls are listed",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复菜单导致聊天跳动及工具调用计数缩短",
+          "summary_en": "Fixed chat jumps from menus and shrinking tool-call counts",
+          "why_matters": "保持界面稳定并准确显示长会话中的工具调用数量。",
+          "why_matters_en": "Keeps the UI stable and accurately shows tool-call counts in long sessions.",
+          "capability_ids": [
+            "execution_workspace",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed most links to files without an extension, to folders, and with a line and column doing nothing",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复无扩展名文件、文件夹及行列链接无响应",
+          "summary_en": "Fixed dead links to extensionless files, folders, and line/column refs",
+          "why_matters": "提升代码导航可靠性，减少无效点击。",
+          "why_matters_en": "Improves code navigation reliability and reduces dead clicks.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed queued messages and attached files showing in reverse order after a conversation was reopened",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复重开会话后排队消息和附件顺序颠倒",
+          "summary_en": "Fixed reversed queued messages and attachments after reopening",
+          "why_matters": "确保恢复会话时消息顺序正确，避免误解上下文。",
+          "why_matters_en": "Ensures correct message order when reopening sessions, avoiding context confusion.",
+          "capability_ids": [
+            "execution_workspace",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed a question that ended in an error showing \"Something went wrong\" when its stored result had no text",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复错误问题因无文本而显示通用错误",
+          "summary_en": "Fixed errored questions showing generic error when result text is empty",
+          "why_matters": "提供更准确的错误信息，减少误导。",
+          "why_matters_en": "Provides more accurate error information and reduces misleading messages.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed redacted thinking showing as \"Unsupported content type\"",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复脱敏思考内容显示为不支持类型",
+          "summary_en": "Fixed redacted thinking showing as unsupported content type",
+          "why_matters": "让推理内容状态正确呈现，避免界面报错。",
+          "why_matters_en": "Correctly presents reasoning-content state and avoids UI errors.",
+          "capability_ids": [
+            "reasoning_workflows",
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed the message box not underlining the word that an input method (IME) is composing",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复输入法组合词未在消息框加下划线",
+          "summary_en": "Fixed IME composing text not underlined in message box",
+          "why_matters": "改善中文等输入法用户的输入可见性。",
+          "why_matters_en": "Improves input visibility for IME users, including Chinese typists.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed a held Up key replacing an unsent message with an earlier prompt, and Down not bringing the message back after the recalled prompt got a new line or was cleared",
+          "category": "fix",
+          "importance": 3,
+          "summary": "修复按住上键覆盖未发送消息及下键无法恢复",
+          "summary_en": "Fixed held Up overwriting drafts and Down failing to restore them",
+          "why_matters": "防止输入丢失，让历史提示调用更可靠。",
+          "why_matters_en": "Prevents draft loss and makes prompt-history recall more reliable.",
+          "capability_ids": [
+            "execution_workspace"
+          ]
+        },
+        {
+          "raw": "[VSCode] Fixed `/model` completed with Tab sometimes switching the model, and closing the model picker right away when nothing is running",
+          "category": "fix",
+          "importance": 2,
+          "summary": "修复 /model Tab 补全误切换及模型选择器异常关闭",
+          "summary_en": "Fixed /model Tab completion switching models and picker closing early",
+          "why_matters": "减少模型选择误操作，提升命令体验。",
+          "why_matters_en": "Reduces accidental model switches and improves command usability.",
+          "capability_ids": [
+            "execution_workspace",
+            "reasoning_workflows"
+          ]
+        },
+        {
+          "raw": "[VSCode] Improved the time it takes to open the Claude panel and long sessions, performance while long replies stream, and the speed of reading diagnostics in very large workspaces",
+          "category": "perf",
+          "importance": 4,
+          "summary": "提升面板、长会话、流式回复及大工作区诊断性能",
+          "summary_en": "Improved panel, long-session, streaming, and large-workspace diagnostics speed",
+          "why_matters": "显著减少等待，让长时间使用和大型项目更流畅。",
+          "why_matters_en": "Significantly reduces waiting and makes long use and large projects smoother.",
+          "capability_ids": [
+            "execution_workspace",
+            "memory_context"
+          ]
+        },
+        {
+          "raw": "[VSCode] Improved commands and one-line output opened in a plain text tab: they now wrap",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "改进纯文本标签页中命令和单行输出的自动换行",
+          "summary_en": "Improved wrapping for commands and one-line output in plain text tabs",
+          "why_matters": "提升长命令和输出的可读性。",
+          "why_matters_en": "Improves readability of long commands and output.",
+          "capability_ids": [
+            "execution_workspace",
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Changed voice dictation to stop by itself after 60 seconds without recognized speech or 10 minutes, up from 15 seconds and 2 minutes, so the microphone can stay on longer",
+          "category": "improvement",
+          "importance": 3,
+          "summary": "延长语音听写自动停止时间至60秒无语音或10分钟",
+          "summary_en": "Extended voice dictation auto-stop to 60s silence or 10 minutes",
+          "why_matters": "减少频繁中断，让麦克风可连续使用更久。",
+          "why_matters_en": "Reduces frequent interruptions and lets the microphone stay active longer.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        },
+        {
+          "raw": "[VSCode] Changed voice dictation to stop, and say why, when the microphone stops sending audio or the panel stays hidden",
+          "category": "improvement",
+          "importance": 2,
+          "summary": "语音听写遇音频中断或面板隐藏时停止并说明原因",
+          "summary_en": "Voice dictation now stops with an explanation on audio loss or hidden panel",
+          "why_matters": "让听写停止原因透明，减少用户困惑。",
+          "why_matters_en": "Makes dictation stops transparent and reduces user confusion.",
+          "capability_ids": [
+            "multimodal_interfaces"
+          ]
+        }
+      ],
+      "signals": [
+        {
+          "title": "How the Claude Code team thinks about verification",
+          "points": 300,
+          "url": "https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/"
+        },
+        {
+          "title": "Show HN: Mastra Factory, the open-source software factory we use to build Mastra",
+          "points": 159,
+          "url": "https://news.ycombinator.com/item?id=50548660"
+        },
+        {
+          "title": "Launch HN: Onlook (YC W25) – An open-source developer tool for designers",
+          "points": 125,
+          "url": "https://github.com/onlook-dev/onlook/"
+        },
+        {
+          "title": "Launch HN: Versine (YC F26) – MCP to send and receive money",
+          "points": 86,
+          "url": "https://news.ycombinator.com/item?id=50634426"
+        }
+      ],
+      "highlight_score": 85
+    },
     {
       "version": "2.1.331",
       "date": "2026-11-23",
@@ -1808,7 +3749,7 @@
       "signals": [
         {
           "title": "How the Claude Code team thinks about verification",
-          "points": 299,
+          "points": 300,
           "url": "https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/"
         },
         {
@@ -1820,6 +3761,11 @@
           "title": "Launch HN: Onlook (YC W25) – An open-source developer tool for designers",
           "points": 125,
           "url": "https://github.com/onlook-dev/onlook/"
+        },
+        {
+          "title": "Launch HN: Versine (YC F26) – MCP to send and receive money",
+          "points": 86,
+          "url": "https://news.ycombinator.com/item?id=50634426"
         },
         {
           "title": "Show HN: Fakemetrics.com – \"build in public\" like a superstar",
@@ -3668,12 +5614,12 @@
         },
         {
           "title": "How the Claude Code team thinks about verification",
-          "points": 299,
+          "points": 300,
           "url": "https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/"
         },
         {
           "title": "Show HN: A terminal-native idle factory game, written in Rust with ratatui",
-          "points": 174,
+          "points": 175,
           "url": "https://gitlab.com/snipedbywifi/terminactory"
         },
         {
@@ -5366,17 +7312,17 @@
         },
         {
           "title": "Claude Code and Codex reverse engineered my 1994 Jeep's ECU over a $3 Arduino [video]",
-          "points": 457,
+          "points": 458,
           "url": "https://www.youtube.com/watch?v=WPj3aQ-xxpI"
         },
         {
           "title": "How the Claude Code team thinks about verification",
-          "points": 299,
+          "points": 300,
           "url": "https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/"
         },
         {
           "title": "Show HN: A terminal-native idle factory game, written in Rust with ratatui",
-          "points": 174,
+          "points": 175,
           "url": "https://gitlab.com/snipedbywifi/terminactory"
         },
         {
@@ -7245,17 +9191,17 @@
         },
         {
           "title": "Claude Code and Codex reverse engineered my 1994 Jeep's ECU over a $3 Arduino [video]",
-          "points": 457,
+          "points": 458,
           "url": "https://www.youtube.com/watch?v=WPj3aQ-xxpI"
         },
         {
           "title": "How the Claude Code team thinks about verification",
-          "points": 299,
+          "points": 300,
           "url": "https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/"
         },
         {
           "title": "Show HN: A terminal-native idle factory game, written in Rust with ratatui",
-          "points": 174,
+          "points": 175,
           "url": "https://gitlab.com/snipedbywifi/terminactory"
         },
         {
@@ -9501,7 +11447,7 @@
         },
         {
           "title": "Claude Code and Codex reverse engineered my 1994 Jeep's ECU over a $3 Arduino [video]",
-          "points": 457,
+          "points": 458,
           "url": "https://www.youtube.com/watch?v=WPj3aQ-xxpI"
         },
         {
@@ -9511,12 +11457,12 @@
         },
         {
           "title": "How the Claude Code team thinks about verification",
-          "points": 299,
+          "points": 300,
           "url": "https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/"
         },
         {
           "title": "Show HN: A terminal-native idle factory game, written in Rust with ratatui",
-          "points": 174,
+          "points": 175,
           "url": "https://gitlab.com/snipedbywifi/terminactory"
         }
       ],
@@ -14161,7 +16107,7 @@
         },
         {
           "title": "Claude Code and Codex reverse engineered my 1994 Jeep's ECU over a $3 Arduino [video]",
-          "points": 457,
+          "points": 458,
           "url": "https://www.youtube.com/watch?v=WPj3aQ-xxpI"
         },
         {
@@ -14171,12 +16117,12 @@
         },
         {
           "title": "How the Claude Code team thinks about verification",
-          "points": 299,
+          "points": 300,
           "url": "https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/"
         },
         {
           "title": "Show HN: A terminal-native idle factory game, written in Rust with ratatui",
-          "points": 174,
+          "points": 175,
           "url": "https://gitlab.com/snipedbywifi/terminactory"
         }
       ],
@@ -16002,7 +17948,7 @@
         },
         {
           "title": "Claude Code and Codex reverse engineered my 1994 Jeep's ECU over a $3 Arduino [video]",
-          "points": 457,
+          "points": 458,
           "url": "https://www.youtube.com/watch?v=WPj3aQ-xxpI"
         },
         {
@@ -19760,7 +21706,7 @@
         },
         {
           "title": "Claude Code and Codex reverse engineered my 1994 Jeep's ECU over a $3 Arduino [video]",
-          "points": 457,
+          "points": 458,
           "url": "https://www.youtube.com/watch?v=WPj3aQ-xxpI"
         }
       ],
@@ -30487,14 +32433,14 @@
           "url": "https://github.com/dsmurrell/onkey"
         },
         {
+          "title": "Show HN: The Zelda timeline to catch up before the Ocarina of Time remake",
+          "points": 231,
+          "url": "https://legendofhyrule.com/"
+        },
+        {
           "title": "Show HN: Hob - Open-source, on device alternative to Claude Cowork and ChatGPT",
           "points": 180,
           "url": "https://github.com/FrigadeHQ/hob"
-        },
-        {
-          "title": "Tmux and Claude Code: Sessions, Send-Keys, and the Ceiling",
-          "points": 174,
-          "url": "https://crystl.dev/guides/tmux-for-ai-agents/"
         }
       ],
       "highlight_score": 55
@@ -30535,14 +32481,14 @@
           "url": "https://github.com/dsmurrell/onkey"
         },
         {
+          "title": "Show HN: The Zelda timeline to catch up before the Ocarina of Time remake",
+          "points": 231,
+          "url": "https://legendofhyrule.com/"
+        },
+        {
           "title": "Show HN: Hob - Open-source, on device alternative to Claude Cowork and ChatGPT",
           "points": 180,
           "url": "https://github.com/FrigadeHQ/hob"
-        },
-        {
-          "title": "Tmux and Claude Code: Sessions, Send-Keys, and the Ceiling",
-          "points": 174,
-          "url": "https://crystl.dev/guides/tmux-for-ai-agents/"
         }
       ],
       "highlight_score": 30
@@ -30593,6 +32539,11 @@
           "url": "https://github.com/dsmurrell/onkey"
         },
         {
+          "title": "Show HN: The Zelda timeline to catch up before the Ocarina of Time remake",
+          "points": 231,
+          "url": "https://legendofhyrule.com/"
+        },
+        {
           "title": "Show HN: Hob - Open-source, on device alternative to Claude Cowork and ChatGPT",
           "points": 180,
           "url": "https://github.com/FrigadeHQ/hob"
@@ -30601,11 +32552,6 @@
           "title": "Tmux and Claude Code: Sessions, Send-Keys, and the Ceiling",
           "points": 174,
           "url": "https://crystl.dev/guides/tmux-for-ai-agents/"
-        },
-        {
-          "title": "Show HN: Corgi, a helpful {agent, terminal} multiplexer",
-          "points": 142,
-          "url": "https://corgi.computer/"
         }
       ],
       "highlight_score": 15
@@ -31110,6 +33056,11 @@
           "url": "https://github.com/dsmurrell/onkey"
         },
         {
+          "title": "Show HN: The Zelda timeline to catch up before the Ocarina of Time remake",
+          "points": 231,
+          "url": "https://legendofhyrule.com/"
+        },
+        {
           "title": "Show HN: Hob - Open-source, on device alternative to Claude Cowork and ChatGPT",
           "points": 180,
           "url": "https://github.com/FrigadeHQ/hob"
@@ -31118,11 +33069,6 @@
           "title": "How to engineer an AI harness for game development",
           "points": 177,
           "url": "https://kylekukshtel.com/ai-harness-engineering-game-development-claude-code"
-        },
-        {
-          "title": "Tmux and Claude Code: Sessions, Send-Keys, and the Ceiling",
-          "points": 174,
-          "url": "https://crystl.dev/guides/tmux-for-ai-agents/"
         }
       ],
       "highlight_score": 50
@@ -32119,6 +34065,11 @@
           "url": "https://github.com/dsmurrell/onkey"
         },
         {
+          "title": "Show HN: The Zelda timeline to catch up before the Ocarina of Time remake",
+          "points": 231,
+          "url": "https://legendofhyrule.com/"
+        },
+        {
           "title": "Show HN: Hob - Open-source, on device alternative to Claude Cowork and ChatGPT",
           "points": 180,
           "url": "https://github.com/FrigadeHQ/hob"
@@ -32127,11 +34078,6 @@
           "title": "How to engineer an AI harness for game development",
           "points": 177,
           "url": "https://kylekukshtel.com/ai-harness-engineering-game-development-claude-code"
-        },
-        {
-          "title": "Tmux and Claude Code: Sessions, Send-Keys, and the Ceiling",
-          "points": 174,
-          "url": "https://crystl.dev/guides/tmux-for-ai-agents/"
         }
       ],
       "highlight_score": 40
@@ -32165,6 +34111,11 @@
           "url": "https://github.com/dsmurrell/onkey"
         },
         {
+          "title": "Show HN: The Zelda timeline to catch up before the Ocarina of Time remake",
+          "points": 231,
+          "url": "https://legendofhyrule.com/"
+        },
+        {
           "title": "How to engineer an AI harness for game development",
           "points": 177,
           "url": "https://kylekukshtel.com/ai-harness-engineering-game-development-claude-code"
@@ -32173,11 +34124,6 @@
           "title": "Tmux and Claude Code: Sessions, Send-Keys, and the Ceiling",
           "points": 174,
           "url": "https://crystl.dev/guides/tmux-for-ai-agents/"
-        },
-        {
-          "title": "Launch HN: Agent37 (YC F26) – Low-cost agent sandboxes for running agents",
-          "points": 163,
-          "url": "https://news.ycombinator.com/item?id=50059096"
         }
       ],
       "highlight_score": 15
@@ -32845,14 +34791,14 @@
           "url": "https://github.com/dsmurrell/onkey"
         },
         {
+          "title": "Show HN: The Zelda timeline to catch up before the Ocarina of Time remake",
+          "points": 231,
+          "url": "https://legendofhyrule.com/"
+        },
+        {
           "title": "How to engineer an AI harness for game development",
           "points": 177,
           "url": "https://kylekukshtel.com/ai-harness-engineering-game-development-claude-code"
-        },
-        {
-          "title": "Tmux and Claude Code: Sessions, Send-Keys, and the Ceiling",
-          "points": 174,
-          "url": "https://crystl.dev/guides/tmux-for-ai-agents/"
         }
       ],
       "highlight_score": 35
@@ -33996,6 +35942,11 @@
           "url": "https://www.reddit.com/r/ClaudeAI/s/mbe5IY2LF9"
         },
         {
+          "title": "Show HN: The Zelda timeline to catch up before the Ocarina of Time remake",
+          "points": 231,
+          "url": "https://legendofhyrule.com/"
+        },
+        {
           "title": "How to engineer an AI harness for game development",
           "points": 177,
           "url": "https://kylekukshtel.com/ai-harness-engineering-game-development-claude-code"
@@ -34004,11 +35955,6 @@
           "title": "Tmux and Claude Code: Sessions, Send-Keys, and the Ceiling",
           "points": 174,
           "url": "https://crystl.dev/guides/tmux-for-ai-agents/"
-        },
-        {
-          "title": "Launch HN: Agent37 (YC F26) – Low-cost agent sandboxes for running agents",
-          "points": 163,
-          "url": "https://news.ycombinator.com/item?id=50059096"
         }
       ],
       "highlight_score": 40
@@ -137912,6 +139858,11 @@
           "url": "https://github.com/dsmurrell/onkey"
         },
         {
+          "title": "Show HN: The Zelda timeline to catch up before the Ocarina of Time remake",
+          "points": 231,
+          "url": "https://legendofhyrule.com/"
+        },
+        {
           "title": "How to engineer an AI harness for game development",
           "points": 177,
           "url": "https://kylekukshtel.com/ai-harness-engineering-game-development-claude-code"
@@ -137920,11 +139871,6 @@
           "title": "Tmux and Claude Code: Sessions, Send-Keys, and the Ceiling",
           "points": 174,
           "url": "https://crystl.dev/guides/tmux-for-ai-agents/"
-        },
-        {
-          "title": "Launch HN: Agent37 (YC F26) – Low-cost agent sandboxes for running agents",
-          "points": 163,
-          "url": "https://news.ycombinator.com/item?id=50059096"
         }
       ],
       "highlight_score": 50
@@ -140386,6 +142332,11 @@
           "url": "https://www.reddit.com/r/ClaudeAI/s/mbe5IY2LF9"
         },
         {
+          "title": "Show HN: The Zelda timeline to catch up before the Ocarina of Time remake",
+          "points": 231,
+          "url": "https://legendofhyrule.com/"
+        },
+        {
           "title": "How to engineer an AI harness for game development",
           "points": 177,
           "url": "https://kylekukshtel.com/ai-harness-engineering-game-development-claude-code"
@@ -140394,11 +142345,6 @@
           "title": "Tmux and Claude Code: Sessions, Send-Keys, and the Ceiling",
           "points": 174,
           "url": "https://crystl.dev/guides/tmux-for-ai-agents/"
-        },
-        {
-          "title": "Launch HN: Agent37 (YC F26) – Low-cost agent sandboxes for running agents",
-          "points": 163,
-          "url": "https://news.ycombinator.com/item?id=50059096"
         }
       ],
       "highlight_score": 40
@@ -147654,6 +149600,11 @@
           "url": "https://github.com/dsmurrell/onkey"
         },
         {
+          "title": "Show HN: The Zelda timeline to catch up before the Ocarina of Time remake",
+          "points": 231,
+          "url": "https://legendofhyrule.com/"
+        },
+        {
           "title": "Show HN: Hob - Open-source, on device alternative to Claude Cowork and ChatGPT",
           "points": 180,
           "url": "https://github.com/FrigadeHQ/hob"
@@ -147662,11 +149613,6 @@
           "title": "Tmux and Claude Code: Sessions, Send-Keys, and the Ceiling",
           "points": 174,
           "url": "https://crystl.dev/guides/tmux-for-ai-agents/"
-        },
-        {
-          "title": "Show HN: Corgi, a helpful {agent, terminal} multiplexer",
-          "points": 142,
-          "url": "https://corgi.computer/"
         }
       ],
       "highlight_score": 35
@@ -152423,6 +154369,69 @@
           }
         ]
       }
+    },
+    {
+      "version": "2.1.332",
+      "date": "2026-11-24",
+      "epoch_id": "epoch5",
+      "highlight_score": 85,
+      "highlight_title": "在失控处设下护栏",
+      "highlight_title_en": "Guardrails at the Point of Failure",
+      "highlight_summary": "卡住不再是终点。加载技能时多了一道能拦下指令的闸门，读取无人回应的管道会在二十秒后主动放手。上下文压缩一次次失败之后，系统仍为自己留最后一次机会，而不是让长会话止于一句「提示过长」。",
+      "highlight_summary_en": "Getting stuck no longer means the end. Skills can be stopped as they load, a read into a silent pipe lets go after twenty seconds, and context compaction keeps one more attempt in reserve instead of letting a long session die on \"prompt is too long.\"",
+      "highlight_why": "长会话的信任来自边界——知道哪里会停，才敢一直往前。",
+      "highlight_why_en": "Trust in long sessions comes from edges: knowing exactly where things stop is what makes it safe to keep going.",
+      "capability_ids": [
+        "integrations_ecosystem",
+        "governance_security",
+        "delegation_collaboration",
+        "memory_context",
+        "multimodal_interfaces",
+        "execution_workspace",
+        "automation_autonomy",
+        "reasoning_workflows"
+      ],
+      "evidence": {
+        "hn_signals": [
+          {
+            "title": "How the Claude Code team thinks about verification",
+            "points": 300,
+            "url": "https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/"
+          },
+          {
+            "title": "Show HN: Mastra Factory, the open-source software factory we use to build Mastra",
+            "points": 159,
+            "url": "https://news.ycombinator.com/item?id=50548660"
+          },
+          {
+            "title": "Launch HN: Onlook (YC W25) – An open-source developer tool for designers",
+            "points": 125,
+            "url": "https://github.com/onlook-dev/onlook/"
+          },
+          {
+            "title": "Launch HN: Versine (YC F26) – MCP to send and receive money",
+            "points": 86,
+            "url": "https://news.ycombinator.com/item?id=50634426"
+          }
+        ],
+        "top_changes": [
+          {
+            "raw": "Added a `PreSkillShellCommand` hook event that can refuse a skill or command's inline shell commands as it loads; on 2.1.331 and older, a settings file naming it opens a dialog at start",
+            "summary": "新增技能内联命令拦截钩子",
+            "importance": 4
+          },
+          {
+            "raw": "Fixed Read, @-mentions and compaction hanging on a named pipe that nothing writes to, such as a `.env` mounted by a locked secrets manager; the read now fails after 20 seconds",
+            "summary": "修复读取无写入命名管道卡死",
+            "importance": 4
+          },
+          {
+            "raw": "Fixed turns ending in \"Prompt is too long\" after repeated auto-compaction failures when one more compaction at the context limit could have kept them going",
+            "summary": "修复上下文极限时过早结束回合",
+            "importance": 4
+          }
+        ]
+      }
     }
   ],
   "capabilities": [
@@ -152442,9 +154451,9 @@
         "more precise plans",
         "search the web"
       ],
-      "change_count": 981,
-      "release_count": 257,
-      "avg_importance": 3,
+      "change_count": 996,
+      "release_count": 258,
+      "avg_importance": 2.99,
       "maturity": {
         "score": 92,
         "level": "成熟"
@@ -152454,14 +154463,14 @@
         "version": "0.2.44"
       },
       "latest_seen": {
-        "date": "2026-11-23",
-        "version": "2.1.331"
+        "date": "2026-11-24",
+        "version": "2.1.332"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 822
+          "change_count": 837
         },
         {
           "epoch_id": "epoch4",
@@ -152537,9 +154546,9 @@
         "search tool",
         "bash command"
       ],
-      "change_count": 2725,
-      "release_count": 318,
-      "avg_importance": 3.1,
+      "change_count": 2778,
+      "release_count": 319,
+      "avg_importance": 3.09,
       "maturity": {
         "score": 92,
         "level": "成熟"
@@ -152549,14 +154558,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-11-23",
-        "version": "2.1.331"
+        "date": "2026-11-24",
+        "version": "2.1.332"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 2447
+          "change_count": 2500
         },
         {
           "epoch_id": "epoch1",
@@ -152632,8 +154641,8 @@
         "tool search auto mode",
         "long sessions"
       ],
-      "change_count": 1565,
-      "release_count": 270,
+      "change_count": 1600,
+      "release_count": 271,
       "avg_importance": 3.1,
       "maturity": {
         "score": 92,
@@ -152644,14 +154653,14 @@
         "version": "0.2.47"
       },
       "latest_seen": {
-        "date": "2026-11-23",
-        "version": "2.1.331"
+        "date": "2026-11-24",
+        "version": "2.1.332"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 1394
+          "change_count": 1429
         },
         {
           "epoch_id": "epoch1",
@@ -152727,8 +154736,8 @@
         "schedule",
         "queued commands"
       ],
-      "change_count": 1821,
-      "release_count": 309,
+      "change_count": 1842,
+      "release_count": 310,
       "avg_importance": 3.15,
       "maturity": {
         "score": 93,
@@ -152739,14 +154748,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-11-23",
-        "version": "2.1.331"
+        "date": "2026-11-24",
+        "version": "2.1.332"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 1575
+          "change_count": 1596
         },
         {
           "epoch_id": "epoch4",
@@ -152822,8 +154831,8 @@
         "resume subagents",
         "remote control"
       ],
-      "change_count": 1397,
-      "release_count": 226,
+      "change_count": 1408,
+      "release_count": 227,
       "avg_importance": 3.03,
       "maturity": {
         "score": 92,
@@ -152834,14 +154843,14 @@
         "version": "0.2.50"
       },
       "latest_seen": {
-        "date": "2026-11-23",
-        "version": "2.1.331"
+        "date": "2026-11-24",
+        "version": "2.1.332"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 1317
+          "change_count": 1328
         },
         {
           "epoch_id": "epoch1",
@@ -152917,8 +154926,8 @@
         "custom tools",
         "OAuth"
       ],
-      "change_count": 3448,
-      "release_count": 341,
+      "change_count": 3497,
+      "release_count": 342,
       "avg_importance": 2.91,
       "maturity": {
         "score": 92,
@@ -152929,14 +154938,14 @@
         "version": "0.2.32"
       },
       "latest_seen": {
-        "date": "2026-11-23",
-        "version": "2.1.331"
+        "date": "2026-11-24",
+        "version": "2.1.332"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 3093
+          "change_count": 3142
         },
         {
           "epoch_id": "epoch1",
@@ -153012,9 +155021,9 @@
         "Emacs",
         "web"
       ],
-      "change_count": 2821,
-      "release_count": 286,
-      "avg_importance": 2.68,
+      "change_count": 2865,
+      "release_count": 287,
+      "avg_importance": 2.69,
       "maturity": {
         "score": 91,
         "level": "成熟"
@@ -153024,14 +155033,14 @@
         "version": "0.2.34"
       },
       "latest_seen": {
-        "date": "2026-11-23",
-        "version": "2.1.331"
+        "date": "2026-11-24",
+        "version": "2.1.332"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 2631
+          "change_count": 2675
         },
         {
           "epoch_id": "epoch4",
@@ -153107,8 +155116,8 @@
         "policy",
         "auditing"
       ],
-      "change_count": 2946,
-      "release_count": 311,
+      "change_count": 2981,
+      "release_count": 312,
       "avg_importance": 3.18,
       "maturity": {
         "score": 93,
@@ -153119,14 +155128,14 @@
         "version": "0.2.30"
       },
       "latest_seen": {
-        "date": "2026-11-23",
-        "version": "2.1.331"
+        "date": "2026-11-24",
+        "version": "2.1.332"
       },
       "epochs": [
         {
           "epoch_id": "epoch5",
           "name": "自主化",
-          "change_count": 2725
+          "change_count": 2760
         },
         {
           "epoch_id": "epoch4",
